@@ -1,0 +1,128 @@
+const getType = require('./getType');
+const convertArgs = require('./convertArgs');
+const {
+    formatArg,
+    formatObjectArgs
+} = require('./formatArg');
+const fixBadJsonFormat = require('./fixBadJsonFormat');
+const {
+    retry,
+    openai,
+    isValidJSON,
+    parseJson
+} = require('./utils');
+
+const chalk = require('chalk');
+
+
+async function aiFunction(options) {
+    let {
+        functionName = "custom_function",
+            args,
+            description,
+            showDebug = false,
+            funcArgs = null,
+            funcReturn = "dict",
+            temperature = 0.8,
+            model = 'gpt-3.5-turbo',
+            convertToJson = false
+    } = options;
+    let funcReturnString = funcReturn;
+    let argsString = '';
+    if (getType(args) === 'dict') {
+        argsString = formatObjectArgs(args);
+    } else if (Array.isArray(args)) {
+        argsString = args.map(arg => formatArg(arg)).join(', ');
+    } else {
+        argsString = formatArg(args);
+    }
+
+    if (getType(argsString) === 'str') {
+        argsString = argsString.replace(/true/g, 'True').replace(/false/g, 'False');
+    }
+
+    if (!funcArgs) {
+        funcArgs = convertArgs(args);
+    }
+
+    let isJson = '';
+    let extraSynthx = '';
+    if (convertToJson === true) {
+        isJson = ' converted into a valid JSON string with UTF-8 encoding';
+    }
+    if (funcReturn.startsWith('list') || funcReturn.startsWith('dict')) {
+        extraSynthx = ' (use the correct synthax for lists and dictionaries specially for the " and \' character)';
+    }
+
+    const messages = [{
+            role: 'user',
+            content: `
+            Current time: ${new Date().toISOString()}
+            You are now the following python function: 
+            \`\`\`
+            def ${functionName}(${funcArgs}) -> ${funcReturnString}:
+            """
+            ${description}
+            """
+            \`\`\`
+            Only respond with your \`return\` value${isJson}. Do not include any other explanatory text in your response.`.split('\n').map(line => line.trim()).join('\n'),
+        },
+        {
+            role: 'user',
+            content: `${functionName}(${argsString})`,
+        },
+    ];
+    if (showDebug) {
+        console.log(chalk.yellow('####################'));
+        console.log(chalk.blue.bold('Using bot function: '));
+        console.log(chalk.yellow('####################'));
+        console.log(chalk.green(messages[0]['content']));
+        console.log(chalk.yellow('####################'));
+        console.log(chalk.magenta('With arguments: ') + chalk.green(messages[1]['content'].trim()));
+        console.log(chalk.yellow('####################'));
+    }
+    const gptResponse = await retry(() => openai.createChatCompletion({
+        model: model,
+        messages: messages,
+        temperature: temperature
+    }));
+
+    let answer = gptResponse.data.choices[0]['message']['content'];
+
+    if (answer.startsWith('"') && answer.endsWith('"')) {
+        answer = answer.substring(1, answer.length - 1);
+    } else if (answer.startsWith("'") && answer.endsWith("'")) {
+        answer = answer.substring(1, answer.length - 1);
+    } else if (answer.startsWith("```json") && answer.endsWith("```")) {
+        answer = answer.substring(7, answer.length - 3);
+    } else if (answer.startsWith("```") && answer.endsWith("```")) {
+        answer = answer.substring(3, answer.length - 3);
+    } else if (answer.startsWith("``") && answer.endsWith("``")) {
+        answer = answer.substring(2, answer.length - 2);
+    } else if (answer.startsWith("`") && answer.endsWith("`")) {
+        answer = answer.substring(1, answer.length - 1);
+    }
+
+    if (convertToJson === true) {
+        if (isValidJSON(answer)) {
+            answer = parseJson(answer);
+        } else {
+            if (showDebug) {
+                console.log(chalk.yellow('####################'));
+                console.log(chalk.red('Invalid JSON, trying to fix it: ' + answer));
+            }
+            let fixedAnswer = await fixBadJsonFormat(answer.trim(), showDebug);
+            if (fixedAnswer !== "") {
+                answer = parseJson(fixedAnswer);
+            } else {
+                if (showDebug) {
+                    console.log(chalk.red('Could not fix JSON'));
+                    console.log(chalk.yellow('####################'));
+                }
+            }
+        }
+    }
+    return answer;
+}
+
+module.exports = aiFunction;
