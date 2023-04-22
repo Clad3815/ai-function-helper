@@ -1,6 +1,6 @@
 const aiFunction = require('../src/aiFunction');
 (async() => {
-
+    /*
     // await aiFunction({
     //     args: {
     //         category: "Quake (Jeu vidéo)"
@@ -15,7 +15,7 @@ const aiFunction = require('../src/aiFunction');
     //     console.log(result);
     // });
 
-    // aiFunction({
+    // await aiFunction({
     //     args: {
     //         hobbies: ["peinture", "lecture"],
     //         interests: ["histoire", "art contemporain"]
@@ -30,38 +30,38 @@ const aiFunction = require('../src/aiFunction');
     //     console.log(result); // Expected output: ["Set de peinture acrylique", "Abonnement à une revue d'art", "Livre sur l'histoire de l'art", "Billets pour une exposition d'art", "Marque-pages personnalisés
     // });
 
-    // aiFunction({
-    //     args: {
-    //         messages: [
-    //             "Hey, how's it going?",
-    //             "I'm stuck on this programming problem, can anyone help?",
-    //             "You're an idiot! Why can't you figure it out yourself?",
-    //             "Calm down, let's try to help each other out."
-    //         ]
-    //     },
-    //     description: "Analyze the list of messages and provide moderation actions (warn, mute, ban) for any message that violates community guidelines.",
-    //     funcReturn: "dict",
-    //     temperature: 0,
-    //     autoConvertReturn: true
-    // }).then((result) => {
-    //     console.log(result); // Expected output: [{"index": 2, "action": "warn", "reason": "Insulting language is not allowed"}]
-    // });
+    await aiFunction({
+        args: {
+            hobbies: ["peinture", "lecture"],
+            interests: ["histoire", "art contemporain"]
+        },
+        functionName: "idees_cadeaux",
+        description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
+        funcReturn: "list",
+        temperature: 1,
+        showDebug: true,
+        autoConvertReturn: true
+    }).then((result) => {
+        console.log(result); // Expected output: ["Set de peinture acrylique", "Abonnement à une revue d'art", "Livre sur l'histoire de l'art", "Billets pour une exposition d'art", "Marque-pages personnalisés
+    });
 
-    // aiFunction({
-    //     args: {
-    //         country: "France"
-    //     },
-    //     functionName: "return_capital",
-    //     description: "Return the capital of a given country based on your knowledge or answer 'Unknow' if not found.",
-    //     funcReturn: "str",
-    //     temperature: 0,
-    //     showDebug: true,
-    //     autoConvertReturn: true
-    // }).then((result) => {
-    //     console.log(result);
-    // });
+    await aiFunction({
+        args: {
+            hobbies: ["peinture", "lecture"],
+            interests: ["histoire", "art contemporain"]
+        },
+        functionName: "idees_cadeaux",
+        description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
+        funcReturn: "list",
+        temperature: 1,
+        showDebug: true,
+        autoConvertReturn: false
+    }).then((result) => {
+        console.log(result); // Expected output: ["Set de peinture acrylique", "Abonnement à une revue d'art", "Livre sur l'histoire de l'art", "Billets pour une exposition d'art", "Marque-pages personnalisés
+    });
+    */
 
-    aiFunction({
+    await aiFunction({
         args: {
             country: "France"
         },
@@ -74,6 +74,23 @@ const aiFunction = require('../src/aiFunction');
     }).then((result) => {
         console.log(result);
     });
+
+
+    await aiFunction({
+        args: {
+            country: "France"
+        },
+        functionName: "return_capital",
+        description: "Return the capital of a given country based on your knowledge or answer 'Unknow' if not found.",
+        funcReturn: "str",
+        funcArgs: "country: str",
+        temperature: 0,
+        showDebug: true,
+        autoConvertReturn: false
+    }).then((result) => {
+        console.log(result);
+    });
+
 
 
 })();

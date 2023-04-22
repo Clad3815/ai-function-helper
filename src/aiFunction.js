@@ -74,7 +74,7 @@ async function aiFunction(options) {
     ];
     if (showDebug) {
         console.log(chalk.yellow('####################'));
-        console.log(chalk.blue.bold('Using bot function: '));
+        console.log(chalk.blue.bold('Using AI function: '));
         console.log(chalk.yellow('####################'));
         console.log(chalk.green(messages[0]['content']));
         console.log(chalk.yellow('####################'));
@@ -89,24 +89,21 @@ async function aiFunction(options) {
 
     let answer = gptResponse.data.choices[0]['message']['content'];
 
-    // if (answer.startsWith('"') && answer.endsWith('"')) {
-    // answer = answer.substring(1, answer.length - 1);
-    // } else if (answer.startsWith("'") && answer.endsWith("'")) {
-    // answer = answer.substring(1, answer.length - 1);
-    // } else if (answer.startsWith("```json") && answer.endsWith("```")) {
-    if (answer.startsWith("```json") && answer.endsWith("```")) {
-        answer = answer.substring(7, answer.length - 3);
-    } else if (answer.startsWith("```") && answer.endsWith("```")) {
-        answer = answer.substring(3, answer.length - 3);
-    } else if (answer.startsWith("``") && answer.endsWith("``")) {
-        answer = answer.substring(2, answer.length - 2);
-    } else if (answer.startsWith("`") && answer.endsWith("`")) {
-        answer = answer.substring(1, answer.length - 1);
-    }
-
     if (autoConvertReturn === true) {
+        if (answer.startsWith("```json") && answer.endsWith("```")) {
+            answer = answer.substring(7, answer.length - 3);
+        } else if (answer.startsWith("```") && answer.endsWith("```")) {
+            answer = answer.substring(3, answer.length - 3);
+        } else if (answer.startsWith("``") && answer.endsWith("``")) {
+            answer = answer.substring(2, answer.length - 2);
+        } else if (answer.startsWith("`") && answer.endsWith("`")) {
+            answer = answer.substring(1, answer.length - 1);
+        }
         if (isValidJSON(answer)) {
-            answer = parseJson(answer);
+            console.log(chalk.green('####################'));
+            console.log(chalk.green('Valid JSON, returning it: ' + answer));
+            console.log(chalk.green('####################'));
+            return parseJson(answer);
         } else {
             if (showDebug) {
                 console.log(chalk.yellow('####################'));
@@ -114,13 +111,19 @@ async function aiFunction(options) {
             }
             let fixedAnswer = await fixBadJsonFormat(answer.trim(), showDebug);
             if (fixedAnswer !== "") {
-                answer = parseJson(fixedAnswer);
+                return parseJson(fixedAnswer);
             } else {
                 if (showDebug) {
                     console.log(chalk.red('Could not fix JSON'));
                     console.log(chalk.yellow('####################'));
                 }
             }
+        }
+    } else {
+        if (showDebug) {
+            console.log(chalk.yellow('####################'));
+            console.log(chalk.blue('Returning brut answer: ' + answer));
+            console.log(chalk.yellow('####################'));
         }
     }
     return answer;
