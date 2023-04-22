@@ -46,12 +46,8 @@ async function aiFunction(options) {
     }
 
     let isJson = '';
-    let extraSynthx = '';
     if (autoConvertReturn === true) {
         isJson = ' converted into a valid JSON string with UTF-8 encoding';
-    }
-    if (funcReturn.startsWith('list') || funcReturn.startsWith('dict')) {
-        extraSynthx = ' (use the correct synthax for lists and dictionaries specially for the " and \' character)';
     }
 
     const messages = [{
