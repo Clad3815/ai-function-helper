@@ -24,6 +24,8 @@ async function aiFunction(options) {
             funcArgs = null,
             funcReturn = "dict",
             temperature = 0.8,
+            frequency_penalty = 0,
+            presence_penalty = 0,
             model = 'gpt-3.5-turbo',
             autoConvertReturn = true
     } = options;
@@ -85,8 +87,8 @@ async function aiFunction(options) {
         model: model,
         messages: messages,
         temperature: temperature,
-        frequency_penalty: 0,
-        presence_penalty: 0,
+        frequency_penalty: frequency_penalty,
+        presence_penalty: presence_penalty,
         top_p: 1,
     }));
 
