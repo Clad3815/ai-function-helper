@@ -9,15 +9,15 @@ This project is heavily inspired by Ask Marvin and https://github.com/Torantulin
 The main function that takes a set of options as an input and returns the output from the AI model.
 
 - options: An object containing the following keys:
-  - functionName: The name of the custom Python function to use.
-  - args: The arguments to be passed to the custom function.
-  - description: A description of the function's purpose.
-  - showDebug (optional): If set to true, debug information will be printed to the console. Default is false.
-  - funcArgs (optional): The function arguments formatted as a string. If not provided, the module will attempt to convert the arguments automatically.
-  - funcReturn: The expected return type of the custom function.
-  - temperature (optional): The sampling temperature for the AI model. Default is 0.8.
-  - model (optional): The AI model to use. Default is 'gpt-3.5-turbo'.
-  - convertToJson (optional): If set to true, the AI response will be converted to a JSON object. Default is false.
+  - `functionName`: The name of the custom Python function to use.
+  - `args`: The arguments to be passed to the custom function.
+  - `description`: A description of the function's purpose.
+  - `funcReturn`: The expected return type of the custom function.
+  - `showDebug` (optional): If set to true, debug information will be printed to the console. Default is false.
+  - `funcArgs` (optional): The function arguments formatted as a string. If not provided, the module will attempt to convert the arguments automatically.
+  - `temperature` (optional): The sampling temperature for the AI model. Default is 0.8.
+  - `model` (optional): The AI model to use. Default is 'gpt-3.5-turbo'.
+  - `convertToJson` (optional): If set to true, the AI response will be converted to a JSON object. Default is false.
 
 ## Examples
 
