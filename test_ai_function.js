@@ -1,7 +1,7 @@
 const aiFunction = require('./src/aiFunction.js');
 
 const showDebug = false;
-const numTestToRun = 3;
+const numTestToRun = 10;
 
 
 // Initialize the OpenAI API client
@@ -84,7 +84,7 @@ async function test2(model) {
         // functionName: 'random_password_generator',
         description: 'Generates a random password of given length with or without special characters. The default length is 12 and the default is to include special characters. The password is returned as a string.',
         funcReturn: 'str',
-        temperature: 0.8,
+        temperature: 1,
         model,
         showDebug: showDebug,
     });
