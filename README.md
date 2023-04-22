@@ -1,7 +1,7 @@
 # AI Function Module
 
-This module provides a convenient way to utilize the power of OpenAI's GPT-4 to perform various tasks using custom Python functions. It comes with a series of examples and tests, demonstrating different use cases.
-
+This module provides a convenient way to utilize the power of OpenAI's GPT-4 and GPT-3.5-turbo to perform various tasks using custom Python functions. It comes with a series of examples and tests, demonstrating different use cases.
+This project is heavily inspired by Ask Marvin and https://github.com/Torantulino/AI-Functions.
 ## Functions
 
 ### aiFunction(options)
@@ -51,3 +51,7 @@ I currently do not have access to the GPT-4 API. Once I have access, I will upda
 It's important to note that AI functions are not well-suited for certain tasks, particularly those involving mathematical calculations and precision. As observed in the case of calculating the area of a triangle and generating random passwords, GPT models can struggle with providing accurate results. The limitations of GPT models in such cases are mainly due to their inherent inability to perform precise arithmetic and the ambiguity in understanding user inputs. Although the models may work sometimes, the accuracy is too low because it depends on calculations, and GPT models are better suited for text completion tasks.
 
 In conclusion, while AI functions can be helpful in various scenarios, they may not be the optimal choice for tasks requiring mathematical accuracy or specific domain knowledge. For such use-cases, utilizing traditional algorithms and libraries would yield better results.
+
+# Contributing
+
+Contributions are welcome! If you would like to add more test cases or improve the existing code, please feel free to submit a pull request.
