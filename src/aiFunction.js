@@ -80,7 +80,10 @@ async function aiFunction(options) {
     const gptResponse = await retry(() => openai.createChatCompletion({
         model: model,
         messages: messages,
-        temperature: temperature
+        temperature: temperature,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        top_p: 1,
     }));
 
     let answer = gptResponse.data.choices[0]['message']['content'];
@@ -96,9 +99,11 @@ async function aiFunction(options) {
             answer = answer.substring(1, answer.length - 1);
         }
         if (isValidJSON(answer)) {
-            console.log(chalk.green('####################'));
-            console.log(chalk.green('Valid JSON, returning it: ' + answer));
-            console.log(chalk.green('####################'));
+            if (showDebug) {
+                console.log(chalk.green('####################'));
+                console.log(chalk.green('Valid JSON, returning it: ' + answer));
+                console.log(chalk.green('####################'));
+            }
             return parseJson(answer);
         } else {
             if (showDebug) {

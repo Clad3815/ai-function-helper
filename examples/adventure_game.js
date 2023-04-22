@@ -54,11 +54,17 @@ async function initializePlayerAttributes(gameState, playerClass) {
             playerClass: playerClass,
         },
         functionName: "generate_player_attribut",
-        description: "Generate random attributes (hp, max_hp, mana, max_mana, gold, attribute_list) for the player based on the game settings and the player class. The specials attribute must match the playerClass and gameSettings, like \"smart\" or stuff like that (up to 5). Use the gameSettings to modify game aspects like difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings.",
+        description: `Generate random attributes (hp, max_hp, mana, max_mana, gold, attributes_list) for the player based on the game settings and the player class. 
+        
+        Use the gameSettings to modify game aspects like language (The output text must match the language selected), difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings.
+        The specials attribute (attributes_list) must match the player class and game settings (up to 5).
+        Example: {"hp": 100, "max_hp": 100, "mana": 50, "max_mana": 50, "gold": 10, "attributes_list": ["smart", "night vision", "very strong", "good speaker", "charming"]}
+        `,
         funcReturn: "dict[hp, max_hp, mana, max_mana, gold, attributes_list]",
         showDebug: enableDebug,
+        // showDebug: true,
         autoConvertReturn: true,
-        temperature: 0.3,
+        temperature: 0.7,
     });
     if (aiData == null) {
         console.log(chalk.red(`####################`));
@@ -77,6 +83,7 @@ async function initializePlayerAttributes(gameState, playerClass) {
 }
 
 async function generateValidClass(gameState, playerDescription, playerSex) {
+    console.log(chalk.green(`Generating player classes...`));
     aiData = await aiFunction({
         args: {
             gameSettings: gameState.gameSettings,
@@ -84,11 +91,14 @@ async function generateValidClass(gameState, playerDescription, playerSex) {
             playerSex: playerSex,
         },
         functionName: "generate_player_class",
-        description: "Generate 4 possible classes for the player to choose from based on the game settings and the player description of his character and the character sex. Use the gameSettings to modify game aspects like language (The output text must match the language selected+), difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings.",
+        description: `Generate 4 possible classes for the player to choose from based on the game settings and the player description of his character and the character sex. 
+        Use the gameSettings to modify game aspects like language (The output text must match the language selected), difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings. 
+        The class name must match the sex of the player and the environment of the game (cyberpunk, medieval, fantasy, etc.). `,
         funcReturn: "list[str]",
         showDebug: enableDebug,
+        // showDebug: true,
         autoConvertReturn: true,
-        temperature: 0.4,
+        temperature: 0.7,
     });
     // console.log(chalk.green(`AI: ${aiData}`));
     if (aiData == null) {
@@ -100,28 +110,79 @@ async function generateValidClass(gameState, playerDescription, playerSex) {
     return aiData;
 }
 
-async function generateStartInventory(gameState, playerDescription, playerSex) {
+async function generateStartInventory(gameState, playerDescription, playerSex, playerClass) {
+    console.log(chalk.green(`Generating player inventory...`));
     aiData = await aiFunction({
         args: {
             gameSettings: gameState.gameSettings,
+            playerClass: playerClass,
             playerDescription: playerDescription,
             playerSex: playerSex,
         },
         functionName: "generate_player_inventory",
-        description: "Generate starter player inventory based on the game settings and the player description of his character and the character sex. Use the gameSettings to modify game aspects like language (The output text must match the language selected+), difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings. ",
-        funcReturn: "list[str]",
+        description: `
+        Generate an example of starter player inventory based on the game settings and the player description of his character and the character sex (if provided) for a text based game.
+        Use the gameSettings to modify game aspects like language (The output text must match the language selected but variable name must always be in english), difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings.
+        The inventory items must fit the world environment and the player class and description, you can generate any items you want as it's text based game and it's not need to fit any special format.
+        Generate 5 items up to 15 possible items, depend on the game settings (difficulty, environment, etc.) and the player description. You are free to generate what you feel nice for a game starter pack
+        Example of inventory items:
+        {
+            "items": [{
+                "name": "Pistolet laser",
+                "count": 1,
+                "description": "Un pistolet laser de base",
+                "type": "weapon",
+                "value": 10
+            }, {
+                "name": "Combinaison de cuir",
+                "count": 1,
+                "description": "Une combinaison de cuir renforcé pour se protéger des ennemis",
+                "type": "armor",
+                "value": 20
+            }, {
+                "name": "Pilule de soin",
+                "count": 3,
+                "description": "Un médicament qui permet de récupérer de la santé",
+                "type": "consumable",
+                "value": 5
+            }], ...
+        }
+
+        `,
+        funcReturn: "dict",
         showDebug: enableDebug,
+        // showDebug: true,
         autoConvertReturn: true,
-        temperature: 0.2,
+        temperature: 0.7,
     });
     // console.log(chalk.green(`AI: ${aiData}`));
-    console.log(chalk.red(`####################`));
+    console.log(chalk.red(`############################################`));
     console.log(chalk.yellow(`Inventory:`));
-    aiData.forEach((item) => {
-        console.log(chalk.green(`- ${item}`));
-    });
-    console.log(chalk.red(`####################`));
-    return aiData;
+    // Example: {"items": [{"name": "Puce de piratage", "count": 3, "description": "Une puce de piratage", "type": "outil", "value": 25}, {"name": "Pistolet à impulsion", "count": 1, "description": "Un pistolet à impulsion", "type": "arme", "value": 150}, {"name": "Combinaison de corps en kevlar", "count": 1, "description": "Une combinaison de corps en kevlar", "type": "armure", "value": 500}]}
+    if (aiData && aiData.items) {
+        aiData.items.forEach((item) => {
+            console.log(chalk.red(`--------------------------------------------`));
+            console.log(chalk.yellow(`Name: ${item.name}`));
+            console.log(chalk.yellow(`Count: ${item.count}`));
+            console.log(chalk.yellow(`Description: ${item.description}`));
+            console.log(chalk.yellow(`Type: ${item.type}`));
+            console.log(chalk.yellow(`Value: ${item.value}`));
+        });
+        console.log(chalk.red(`############################################`));
+        return aiData.items;
+    } else {
+        aiData.forEach((item) => {
+            console.log(chalk.red(`####################`));
+            console.log(chalk.yellow(`Name: ${item.name}`));
+            console.log(chalk.yellow(`Count: ${item.count}`));
+            console.log(chalk.yellow(`Description: ${item.description}`));
+            console.log(chalk.yellow(`Type: ${item.type}`));
+            console.log(chalk.yellow(`Value: ${item.value}`));
+            console.log(chalk.red(`####################`));
+        });
+        console.log(chalk.red(`############################################`));
+        return aiData;
+    }
 }
 
 async function getValidClass(validClasses) {
@@ -154,7 +215,7 @@ async function main() {
     let gameState = {
         // previous_choices: [],
         current_choice: 'Start the Game',
-        last_text: '',
+        last_text: `Generating scenario for ${player.username}...`,
         playerInventory: [],
         exp: 0,
         level: 1,
@@ -179,7 +240,7 @@ async function main() {
     gameState = {
         // previous_choices: [],
         current_choice: 'Start the Game',
-        last_text: await TranslateText(`You wake up in a dark room. You don't remember anything.`),
+        last_text: `Generating scenario for ${player.username}...`,
         hp: player.hp,
         max_hp: player.max_hp,
         gold: player.gold,
@@ -200,7 +261,7 @@ async function main() {
             gameLanguage: gameLanguage
         },
     };
-    gameState.playerInventory = await generateStartInventory(gameState, description, playerSex);
+    gameState.playerInventory = await generateStartInventory(gameState, description, playerSex, playerClass);
     while (true) {
         let aiData;
         try {
