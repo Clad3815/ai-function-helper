@@ -57,7 +57,7 @@ async function initializePlayerAttributes(gameState, playerClass) {
         description: "Generate random attributes (hp, max_hp, mana, max_mana, gold, attribute_list) for the player based on the game settings and the player class. The specials attribute must match the playerClass and gameSettings, like \"smart\" or stuff like that (up to 5). Use the gameSettings to modify game aspects like difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings.",
         funcReturn: "dict[hp, max_hp, mana, max_mana, gold, attributes_list]",
         showDebug: enableDebug,
-        convertToJson: true,
+        autoConvertReturn: true,
         temperature: 0.3,
     });
     if (aiData == null) {
@@ -87,7 +87,7 @@ async function generateValidClass(gameState, playerDescription, playerSex) {
         description: "Generate 4 possible classes for the player to choose from based on the game settings and the player description of his character and the character sex. Use the gameSettings to modify game aspects like language (The output text must match the language selected+), difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings.",
         funcReturn: "list[str]",
         showDebug: enableDebug,
-        convertToJson: true,
+        autoConvertReturn: true,
         temperature: 0.4,
     });
     // console.log(chalk.green(`AI: ${aiData}`));
@@ -111,7 +111,7 @@ async function generateStartInventory(gameState, playerDescription, playerSex) {
         description: "Generate starter player inventory based on the game settings and the player description of his character and the character sex. Use the gameSettings to modify game aspects like language (The output text must match the language selected+), difficulty, game environment (cyberpunk, medieval, fantasy, etc.), and other settings. ",
         funcReturn: "list[str]",
         showDebug: enableDebug,
-        convertToJson: true,
+        autoConvertReturn: true,
         temperature: 0.2,
     });
     // console.log(chalk.green(`AI: ${aiData}`));
@@ -222,7 +222,7 @@ async function main() {
                 funcReturn: "dict",
                 showDebug: enableDebug,
                 // showDebug: true,
-                convertToJson: true,
+                autoConvertReturn: true,
                 temperature: 1,
             });
             if (enableDebug) console.log(aiData);

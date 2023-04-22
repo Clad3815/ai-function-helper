@@ -17,7 +17,7 @@ The main function that takes a set of options as an input and returns the output
   - `funcArgs` (optional): The function arguments formatted as a string. If not provided, the module will attempt to convert the arguments automatically.
   - `temperature` (optional): The sampling temperature for the AI model. Default is 0.8.
   - `model` (optional): The AI model to use. Default is 'gpt-3.5-turbo'.
-  - `convertToJson` (optional): If set to true, the AI response will be converted to a JSON object. Default is false.
+  - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brut result. Default is true.
 
 ## Examples
 

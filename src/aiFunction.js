@@ -25,7 +25,7 @@ async function aiFunction(options) {
             funcReturn = "dict",
             temperature = 0.8,
             model = 'gpt-3.5-turbo',
-            convertToJson = false
+            autoConvertReturn = false
     } = options;
     let funcReturnString = funcReturn;
     let argsString = '';
@@ -47,7 +47,7 @@ async function aiFunction(options) {
 
     let isJson = '';
     let extraSynthx = '';
-    if (convertToJson === true) {
+    if (autoConvertReturn === true) {
         isJson = ' converted into a valid JSON string with UTF-8 encoding';
     }
     if (funcReturn.startsWith('list') || funcReturn.startsWith('dict')) {
@@ -89,11 +89,12 @@ async function aiFunction(options) {
 
     let answer = gptResponse.data.choices[0]['message']['content'];
 
-    if (answer.startsWith('"') && answer.endsWith('"')) {
-        answer = answer.substring(1, answer.length - 1);
-    } else if (answer.startsWith("'") && answer.endsWith("'")) {
-        answer = answer.substring(1, answer.length - 1);
-    } else if (answer.startsWith("```json") && answer.endsWith("```")) {
+    // if (answer.startsWith('"') && answer.endsWith('"')) {
+    // answer = answer.substring(1, answer.length - 1);
+    // } else if (answer.startsWith("'") && answer.endsWith("'")) {
+    // answer = answer.substring(1, answer.length - 1);
+    // } else if (answer.startsWith("```json") && answer.endsWith("```")) {
+    if (answer.startsWith("```json") && answer.endsWith("```")) {
         answer = answer.substring(7, answer.length - 3);
     } else if (answer.startsWith("```") && answer.endsWith("```")) {
         answer = answer.substring(3, answer.length - 3);
@@ -103,7 +104,7 @@ async function aiFunction(options) {
         answer = answer.substring(1, answer.length - 1);
     }
 
-    if (convertToJson === true) {
+    if (autoConvertReturn === true) {
         if (isValidJSON(answer)) {
             answer = parseJson(answer);
         } else {

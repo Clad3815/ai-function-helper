@@ -61,7 +61,7 @@ async function test1(model) {
         temperature: 1,
         model,
         showDebug: showDebug,
-        convertToJson: true,
+        autoConvertReturn: true,
     });
 
     console.log(`Output: ${JSON.stringify(result)}`);
@@ -190,7 +190,7 @@ async function test6(model) {
         temperature: 0,
         model,
         showDebug: showDebug,
-        convertToJson: true,
+        autoConvertReturn: true,
     });
 
     console.log(`Output: ${result}`);
