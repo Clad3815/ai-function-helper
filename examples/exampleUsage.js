@@ -5,7 +5,7 @@ const aiFunction = require('../src/aiFunction');
     //     args: {
     //         category: "Quake (Jeu vidéo)"
     //     },
-    //     functionName: "generate_quiz",
+    //     functionName: "generate_quiz",  // Optional but increase the understanding of the function to the AI
     //     description: "Génère un quiz à partir d'une catégorie donnée, propose 4 choix de réponses et indique quel réponse est la bonne. Utilise toute ta connaissance ou wikipedia !",
     //     funcReturn: "dict",
     //     showDebug: true,
@@ -20,7 +20,7 @@ const aiFunction = require('../src/aiFunction');
     //         hobbies: ["peinture", "lecture"],
     //         interests: ["histoire", "art contemporain"]
     //     },
-    //     functionName: "idees_cadeaux",
+    //     functionName: "idees_cadeaux",  // Optional but increase the understanding of the function to the AI
     //     description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
     //     funcReturn: "dict",
     //     temperature: 1,
@@ -35,7 +35,7 @@ const aiFunction = require('../src/aiFunction');
             hobbies: ["peinture", "lecture"],
             interests: ["histoire", "art contemporain"]
         },
-        functionName: "idees_cadeaux",
+        functionName: "idees_cadeaux", // Optional but increase the understanding of the function to the AI
         description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
         funcReturn: "list",
         temperature: 1,
@@ -50,7 +50,7 @@ const aiFunction = require('../src/aiFunction');
             hobbies: ["peinture", "lecture"],
             interests: ["histoire", "art contemporain"]
         },
-        functionName: "idees_cadeaux",
+        functionName: "idees_cadeaux", // Optional but increase the understanding of the function to the AI
         description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
         funcReturn: "list",
         temperature: 1,
@@ -65,7 +65,7 @@ const aiFunction = require('../src/aiFunction');
         args: {
             country: "France"
         },
-        functionName: "return_capital",
+        functionName: "return_capital", // Optional but increase the understanding of the function to the AI
         description: "Return the capital of a given country based on your knowledge or answer 'Unknow' if not found.",
         funcReturn: "str",
         temperature: 0,
@@ -80,10 +80,10 @@ const aiFunction = require('../src/aiFunction');
         args: {
             country: "France"
         },
-        functionName: "return_capital",
+        functionName: "return_capital", // Optional but increase the understanding of the function to the AI
         description: "Return the capital of a given country based on your knowledge or answer 'Unknow' if not found.",
         funcReturn: "str",
-        funcArgs: "country: str",
+        funcArgs: "country: str", // Optional it's normally automatically generated but you can override it for some specific cases
         temperature: 0,
         showDebug: true,
         autoConvertReturn: false

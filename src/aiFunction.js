@@ -25,7 +25,7 @@ async function aiFunction(options) {
             funcReturn = "dict",
             temperature = 0.8,
             model = 'gpt-3.5-turbo',
-            autoConvertReturn = false
+            autoConvertReturn = true
     } = options;
     let funcReturnString = funcReturn;
     let argsString = '';
