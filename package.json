@@ -1,0 +1,24 @@
+{
+    "name": "ai-function-helper",
+    "version": "1.0.0",
+    "description": "A NodeJS utility to simplify interaction with OpenAI GPT models.",
+    "main": "src/aiFunction.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/clad3815/ai-function-helper.git"
+    },
+    "author": "Clad3815",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/clad3815/ai-function-helper/issues"
+    },
+    "homepage": "https://github.com/clad3815/ai-function-helper#readme",
+    "dependencies": {
+        "chalk": "^4.1.2",
+        "dotenv": "^16.0.3",
+        "openai": "^3.1.0"
+    }
+}
