@@ -50,6 +50,10 @@ async function aiFunction(options) {
         isJson = ' converted into a valid JSON string with UTF-8 encoding';
     }
 
+    if (funcReturnString === 'str') {
+        isJson = ' without surrounding quotes';
+    }
+
     const messages = [{
             role: 'user',
             content: `
@@ -97,6 +101,18 @@ async function aiFunction(options) {
             answer = answer.substring(2, answer.length - 2);
         } else if (answer.startsWith("`") && answer.endsWith("`")) {
             answer = answer.substring(1, answer.length - 1);
+        } else if (answer.startsWith('"') && answer.endsWith('"')) {
+            answer = answer.substring(1, answer.length - 1);
+        } else if (answer.startsWith("'") && answer.endsWith("'")) {
+            answer = answer.substring(1, answer.length - 1);
+        }
+        if (funcReturnString === 'str') {
+            if (showDebug) {
+                console.log(chalk.yellow('####################'));
+                console.log(chalk.blue('Returning brut answer: ' + answer));
+                console.log(chalk.yellow('####################'));
+            }
+            return answer;
         }
         if (isValidJSON(answer)) {
             if (showDebug) {

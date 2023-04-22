@@ -28,7 +28,7 @@ function isValidJSON(jsonString) {
     try {
         JSON.parse(jsonString);
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         return false;
     }
     return true;

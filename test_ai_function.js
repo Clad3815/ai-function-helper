@@ -1,7 +1,7 @@
 const aiFunction = require('./src/aiFunction.js');
 
 const showDebug = false;
-const numTestToRun = 10;
+const numTestToRun = 3;
 
 
 // Initialize the OpenAI API client
@@ -57,8 +57,8 @@ async function test1(model) {
         args: 4,
         functionName: 'fake_people',
         description: 'Generates n examples of fake data representing people, each with a name and an age.',
-        funcReturn: 'list[dict]',
-        temperature: 1,
+        funcReturn: 'list',
+        temperature: 0.8,
         model,
         showDebug: showDebug,
         autoConvertReturn: true,
@@ -84,7 +84,7 @@ async function test2(model) {
         // functionName: 'random_password_generator',
         description: 'Generates a random password of given length with or without special characters. The default length is 12 and the default is to include special characters. The password is returned as a string.',
         funcReturn: 'str',
-        temperature: 1,
+        temperature: 0.8,
         model,
         showDebug: showDebug,
     });
@@ -114,7 +114,7 @@ async function test3(model) {
         functionName: 'calculate_area_of_triangle',
         description: 'Calculates the area of a triangle given its base and height.',
         funcReturn: 'float',
-        temperature: 0,
+        temperature: 0.1,
         model,
         showDebug: showDebug,
     });
@@ -165,7 +165,7 @@ async function test5(model) {
         functionName: 'encrypt_text',
         description: 'Encrypts the given text using a simple character substitution based on the provided key.',
         funcReturn: 'str',
-        temperature: 0,
+        temperature: 0.2,
         model,
         showDebug: showDebug,
     });
@@ -186,8 +186,8 @@ async function test6(model) {
         ],
         functionName: 'find_missing_numbers_in_list',
         description: 'Finds and returns a list of missing numbers in a given sorted list.',
-        funcReturn: 'list[int]',
-        temperature: 0,
+        funcReturn: 'list',
+        temperature: 0.2,
         model,
         showDebug: showDebug,
         autoConvertReturn: true,

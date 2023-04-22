@@ -7,6 +7,9 @@ const {
 const chalk = require('chalk');
 
 async function fixJsonString(pythonString) {
+    // Trim the string
+    pythonString = pythonString.trim();
+
     // Replace single quotes that are not preceded or followed by word characters with double quotes
     let jsonString = pythonString.replace(/(^|[^\\w])'($|[^\\w])/g, '$1"$2');
 
@@ -21,6 +24,12 @@ async function fixJsonString(pythonString) {
 
     // Replace all None with null
     jsonString = jsonString.replace(/None/g, 'null');
+
+    // Delete all ` from the start and the end of the string (1 or more)
+    jsonString = jsonString.replace(/^`+|`+$/g, '');
+
+    // Delete all ' from the start and the end of the string (1 or more)
+    jsonString = jsonString.replace(/^'+|'+$/g, '');
 
     return jsonString;
 }

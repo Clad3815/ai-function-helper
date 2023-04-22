@@ -4,6 +4,7 @@ const chalk = require('chalk'); // Import chalk
 
 
 const enableDebug = false; // Set to true to enable debug mode
+const enableAIDebug = true; // Set to true to enable debug mode for AI request/answer
 
 let choosenLanguage = '';
 
@@ -150,10 +151,9 @@ async function generateStartInventory(gameState, playerDescription, playerSex, p
 
         `,
         funcReturn: "dict",
-        showDebug: enableDebug,
-        // showDebug: true,
-        autoConvertReturn: true,
-        temperature: 0.7,
+        // showDebug: enableDebug,
+        showDebug: true,
+        temperature: 1,
     });
     // console.log(chalk.green(`AI: ${aiData}`));
     console.log(chalk.red(`############################################`));
@@ -209,7 +209,7 @@ async function main() {
         username,
         playerDescription: description,
     };
-    let Welcome = await TranslateText(`Welcome, ${username} ! The game is about to start. Enjoy! `);
+    let Welcome = await TranslateText(`Welcome, ${username} ! The game is about to start. Have fun! `);
     console.log(chalk.green(Welcome));
 
     let gameState = {
@@ -272,7 +272,7 @@ async function main() {
 
         Your task is to generate a coherent response that aligns with the given context and provides a series of related options (possible_choices) for the user to choose from. You need to add as many choices as possible to make the game more dynamic. Ensure that the choices you provide match the context and content of the response. If the user selects a choice, make sure the following response corresponds to that choice and offers appropriate options for the user's next decision.
         `;
-
+            console.log('[DEBUG] Sending request to AI: ' + JSON.stringify(gameState));
             aiData = await aiFunction({
                 args: {
                     ...gameState,
@@ -287,6 +287,7 @@ async function main() {
                 temperature: 1,
             });
             if (enableDebug) console.log(aiData);
+            console.log('[DEBUG] Data got from AI: ' + JSON.stringify(aiData));
             // console.log(aiData);
         } catch (error) {
             console.log(error);
