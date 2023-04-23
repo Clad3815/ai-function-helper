@@ -1,7 +1,7 @@
 # AI Function Module
 
 This module provides a convenient way to utilize the power of OpenAI's GPT-4 and GPT-3.5-turbo to perform various tasks using custom Python functions. It comes with a series of examples and tests, demonstrating different use cases.
-This project is heavily inspired by Ask Marvin and https://github.com/Torantulino/AI-Functions.
+This project is heavily inspired by Ask Marvin and [AI Functions from Torantulino](https://github.com/Torantulino/AI-Functions)
 
 ## Why using this script instead of the normal OpenAI API?
 
