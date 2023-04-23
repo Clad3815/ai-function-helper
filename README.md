@@ -39,8 +39,7 @@ const options = {
   functionName: 'generate_quiz',
   args: { topic: 'history', difficulty: 'medium', num_questions: 5 },
   description: 'Generate a medium difficulty history quiz with 5 questions.',
-  funcReturn: 'List[Dict]',
-  convertToJson: true,
+  funcReturn: 'list[Dict]',
 };
 
 const quiz = aiFunction(options);
@@ -54,8 +53,7 @@ const options = {
   functionName: 'suggest_gifts',
   args: { hobbies: 'photography, cooking', interests: 'travel, fashion' },
   description: 'Suggest gift ideas for someone who loves photography, cooking, travel, and fashion.',
-  funcReturn: 'List[str]',
-  convertToJson: true,
+  funcReturn: 'list[str]',
 };
 
 const giftIdeas = aiFunction(options);
@@ -75,8 +73,7 @@ const options = {
   functionName: 'moderate_messages',
   args: { messages },
   description: 'Analyze and moderate a list of messages.',
-  funcReturn: 'List[Dict]',
-  convertToJson: true,
+  funcReturn: 'list',
 };
 
 const moderatedMessages = aiFunction(options);
