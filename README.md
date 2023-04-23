@@ -47,6 +47,7 @@ The `exampleUsage.js` file contains example usage of the `aiFunction` for variou
 ## Example Usage
 
 Here are some examples of how to use the `aiFunction`:
+All examples was made using the `gpt-3.5-turbo` model, the `gpt-4` must return better results.
 
 ### 1. Generate a quiz
 
