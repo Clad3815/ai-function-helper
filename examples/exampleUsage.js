@@ -1,96 +1,69 @@
 const aiFunction = require('../src/aiFunction');
 (async() => {
-    /*
-    // await aiFunction({
-    //     args: {
-    //         category: "Quake (Jeu vidéo)"
-    //     },
-    //     functionName: "generate_quiz",  // Optional but increase the understanding of the function to the AI
-    //     description: "Génère un quiz à partir d'une catégorie donnée, propose 4 choix de réponses et indique quel réponse est la bonne. Utilise toute ta connaissance ou wikipedia !",
-    //     funcReturn: "dict",
-    //     showDebug: true,
-    //     autoConvertReturn: true,
-    //     temperature: 0.8
-    // }).then((result) => {
-    //     console.log(result);
-    // });
-
-    // await aiFunction({
-    //     args: {
-    //         hobbies: ["peinture", "lecture"],
-    //         interests: ["histoire", "art contemporain"]
-    //     },
-    //     functionName: "idees_cadeaux",  // Optional but increase the understanding of the function to the AI
-    //     description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
-    //     funcReturn: "dict",
-    //     temperature: 1,
-    //     showDebug: true,
-    //     autoConvertReturn: true
-    // }).then((result) => {
-    //     console.log(result); // Expected output: ["Set de peinture acrylique", "Abonnement à une revue d'art", "Livre sur l'histoire de l'art", "Billets pour une exposition d'art", "Marque-pages personnalisés
-    // });
-
-    await aiFunction({
+    let options;
+    options = {
+        functionName: 'generate_quiz',
         args: {
-            hobbies: ["peinture", "lecture"],
-            interests: ["histoire", "art contemporain"]
+            topic: 'history',
+            difficulty: 'medium',
+            num_questions: 5
         },
-        functionName: "idees_cadeaux", // Optional but increase the understanding of the function to the AI
-        description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
-        funcReturn: "list",
-        temperature: 1,
-        showDebug: true,
-        autoConvertReturn: true
-    }).then((result) => {
-        console.log(result); // Expected output: ["Set de peinture acrylique", "Abonnement à une revue d'art", "Livre sur l'histoire de l'art", "Billets pour une exposition d'art", "Marque-pages personnalisés
+        description: 'Generate a medium difficulty history quiz with N questions. Return a list of questions and 4 possible answers + the correct answer.',
+        funcReturn: 'list',
+    };
+
+    const quiz = await aiFunction(options);
+    console.log(quiz);
+    options = {
+        functionName: 'suggest_gifts',
+        args: { hobbies: 'photography, cooking', interests: 'travel, fashion' },
+        description: 'Suggest gift ideas for someone who loves photography, cooking, travel, and fashion.',
+        funcReturn: 'list[str]',
+    };
+
+    const giftIdeas = await aiFunction(options);
+    console.log(giftIdeas);
+    const messages = [
+        { id: 1, content: 'Hello, world!' },
+        { id: 2, content: 'Offensive message here...' },
+        { id: 3, content: 'Another friendly message.' },
+    ];
+
+    options = {
+        functionName: 'moderate_messages',
+        args: messages,
+        description: 'Analyze and moderate a list of messages.',
+        funcReturn: 'list',
+    };
+
+    aiFunction(options).then(moderatedMessages => {
+        console.log(moderatedMessages);
     });
 
-    await aiFunction({
-        args: {
-            hobbies: ["peinture", "lecture"],
-            interests: ["histoire", "art contemporain"]
-        },
-        functionName: "idees_cadeaux", // Optional but increase the understanding of the function to the AI
-        description: "Proposez une liste d'idées de cadeaux pour un ami en fonction de ses hobbies et centres d'intérêt.",
-        funcReturn: "list",
-        temperature: 1,
-        showDebug: true,
-        autoConvertReturn: false
-    }).then((result) => {
-        console.log(result); // Expected output: ["Set de peinture acrylique", "Abonnement à une revue d'art", "Livre sur l'histoire de l'art", "Billets pour une exposition d'art", "Marque-pages personnalisés
-    });
-    */
+    let aiData;
 
-    await aiFunction({
+    aiData = await aiFunction({
         args: {
-            country: "France"
+            text: "Hello world !",
+            to: "de",
         },
-        functionName: "return_capital", // Optional but increase the understanding of the function to the AI
-        description: "Return the capital of a given country based on your knowledge or answer 'Unknow' if not found.",
+        functionName: "translate_text",
+        description: "Translate text from one language to another. Use the to arguments to specify destination language. The text is from a game user interface. Return a string with the translated text",
         funcReturn: "str",
-        temperature: 0,
-        showDebug: true,
-        autoConvertReturn: true
-    }).then((result) => {
-        console.log(result);
+        showDebug: false,
+        temperature: 0.7,
     });
+    console.log(aiData);
 
-
-    await aiFunction({
+    aiData = await aiFunction({
         args: {
-            country: "France"
+            sentence: "I am a sentence that is too long and I need to be shorten. This is extra information that is not needed, and I want to remove it. Just keep the important information.",
         },
-        functionName: "return_capital", // Optional but increase the understanding of the function to the AI
-        description: "Return the capital of a given country based on your knowledge or answer 'Unknow' if not found.",
+        functionName: "shorten_sentence",
+        description: "Rewrite the sentence to a minimum of words without breaking the context or important data. If the sentence can't be shorten, it will return the same sentence.",
         funcReturn: "str",
-        funcArgs: "country: str", // Optional it's normally automatically generated but you can override it for some specific cases
-        temperature: 0,
-        showDebug: true,
-        autoConvertReturn: false
-    }).then((result) => {
-        console.log(result);
+        temperature: 1,
     });
-
-
+    console.log(aiData);
 
 })();

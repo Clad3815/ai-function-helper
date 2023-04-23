@@ -54,12 +54,42 @@ Here are some examples of how to use the `aiFunction`:
 const options = {
   functionName: 'generate_quiz',
   args: { topic: 'history', difficulty: 'medium', num_questions: 5 },
-  description: 'Generate a medium difficulty history quiz with N questions.',
+  description: 'Generate a medium difficulty history quiz with N questions. Return a list of questions and 4 possible answers + the correct answer.',
   funcReturn: 'list',
 };
 
 const quiz = await aiFunction(options);
 console.log(quiz);
+/*
+Output:
+[
+  'What year did World War I start?',
+  [ '1914', '1915', '1916', '1917' ],
+  '1914',
+  "What was the name of Napoleon Bonaparte's first wife?",
+  [
+    'Marie Antoinette',
+    'Josephine de Beauharnais',
+    'Catherine the Great',
+    'Queen Victoria'
+  ],
+  'Josephine de Beauharnais',
+  "What is the name of the document that declared America's independence from Great Britain?",
+  [
+    'The Emancipation Proclamation',
+    'The Bill of Rights',
+    'The Magna Carta',
+    'The Declaration of Independence'
+  ],
+  'The Declaration of Independence',
+  'Which Egyptian pharaoh is famous for building a great pyramid?',
+  [ 'Khufu', 'Ramses II', 'Hatshepsut', 'Akhenaten' ],
+  'Khufu',
+  'What was the name of the first satellite launched into space?',
+  [ 'Sputnik 1', 'Explorer 1', 'Vanguard 1', 'Telstar 1' ],
+  'Sputnik 1'
+]
+*/
 ```
 
 ### 2. Suggest gift ideas based on hobbies and interests
@@ -73,7 +103,7 @@ const options = {
 };
 
 const giftIdeas = await aiFunction(options);
-console.log(giftIdeas);
+console.log(giftIdeas); // Output: [ 'Camera',  'Cookbook',  'Travel guidebook',  'Fashion magazine subscription' ]
 ```
 
 ### 3. Analyze and moderate a list of messages
@@ -87,13 +117,13 @@ const messages = [
 
 const options = {
   functionName: 'moderate_messages',
-  args: { messages },
-  description: 'Analyze and moderate a list of messages.',
+  args: messages,
+  description: 'Analyze and moderate a list of messages. Return a list of messages with the content field updated to indicate whether the message was flagged for moderation.',
   funcReturn: 'list',
 };
 
 aiFunction(options).then(moderatedMessages => {
-  console.log(moderatedMessages);
+  console.log(moderatedMessages); // Output: [ { id: 2, content: 'Message flagged for moderation.' } ]
 });
 ```
 
@@ -102,8 +132,8 @@ aiFunction(options).then(moderatedMessages => {
 ```javascript
 let aiData = await aiFunction({
     args: {
-        text: text,
-        to: choosenLanguage,
+        text: "Hello world !",
+        to: "de",
     },
     functionName: "translate_text",
     description: "Translate text from one language to another. Use the to arguments to specify destination language. The text is from a game user interface. Return a string with the translated text",
@@ -111,7 +141,7 @@ let aiData = await aiFunction({
     showDebug: false,
     temperature: 0.7,
 });
-return aiData;
+console.log(aiData); // Output: "Hallo Welt!"
 ```
 
 ### 5. Shorten a text
@@ -119,14 +149,14 @@ return aiData;
 ```javascript
 let aiData = await aiFunction({
     args: {
-        sentence: sentence,
+        sentence: "I am a sentence that is too long and I need to be shorten. This is extra information that is not needed, and I want to remove it. Just keep the important information.",
     },
     functionName: "shorten_sentence",
     description: "Rewrite the sentence to a minimum of words without breaking the context or important data. If the sentence can't be shorten, it will return the same sentence.",
     funcReturn: "str",
     temperature: 1,
 });
-return aiData;
+console.log(aiData); // Output: "I am a sentence that is too long and I need to be shortened. Just keep the important information."
 ```
 
 
