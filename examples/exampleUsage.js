@@ -8,7 +8,7 @@ const aiFunction = require('../src/aiFunction');
             difficulty: 'medium',
             num_questions: 3
         },
-        description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
+        description: 'Generate N quiz questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
         funcReturn: 'list',
     };
 
@@ -17,7 +17,7 @@ const aiFunction = require('../src/aiFunction');
     options = {
         functionName: 'suggest_gifts',
         args: { hobbies: 'photography, cooking', interests: 'travel, fashion' },
-        description: 'Suggest gift ideas for someone who loves photography, cooking, travel, and fashion.',
+        description: 'Suggest gift ideas for someone who loves the given hobbies and interests.',
         funcReturn: 'list[str]',
     };
 
@@ -32,7 +32,7 @@ const aiFunction = require('../src/aiFunction');
     options = {
         functionName: 'moderate_messages',
         args: messages,
-        description: 'Analyze and moderate a list of messages.',
+        description: 'Analyze and moderate a list of messages. Return a list of messages with the content field updated to indicate whether the message was flagged for moderation.',
         funcReturn: 'list',
     };
 

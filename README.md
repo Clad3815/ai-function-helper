@@ -94,12 +94,12 @@ Output:
 const options = {
   functionName: 'suggest_gifts',
   args: { hobbies: 'photography, cooking', interests: 'travel, fashion' },
-  description: 'Suggest gift ideas for someone who loves photography, cooking, travel, and fashion.',
+  description: 'Suggest gift ideas for someone who loves the given hobbies and interests.',
   funcReturn: 'list[str]',
 };
 
 const giftIdeas = await aiFunction(options);
-console.log(giftIdeas); // Output: [ 'Camera',  'Cookbook',  'Travel guidebook',  'Fashion magazine subscription' ]
+console.log(giftIdeas); // Output: [ 'camera', 'cookbook', 'travel guidebook', 'fashion magazine' ]
 ```
 
 ### 3. Analyze and moderate a list of messages
