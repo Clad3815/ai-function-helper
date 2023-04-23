@@ -25,24 +25,21 @@ In summary, the `aiFunction` script offers a more efficient and convenient way o
 The main function that takes a set of options as an input and returns the output from the AI model.
 
 - options: An object containing the following keys:
-  - `functionName`: The name of the custom Python function to use.
-  - `args`: The arguments to be passed to the custom function.
+  - `args`: The arguments to be passed to the custom function. Can be a string, number, list, dictionary, or a combination of these, the function will auto manage them.
   - `description`: A description of the function's purpose.
   - `funcReturn`: The expected return type of the custom function.
-  - `showDebug` (optional): If set to true, debug information will be printed to the console. Default is false.
-  - `funcArgs` (optional): The function arguments formatted as a string. If not provided, the module will attempt to convert the arguments automatically.
-  - `temperature` (optional): The sampling temperature for the AI model. Default is 0.8.
-  - `model` (optional): The AI model to use. Default is 'gpt-3.5-turbo'.
-  - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brut result. Default is true.
+  - `functionName`: (optional): The name of the custom Python function to use. It's help to give context to the AI model. Default is `custom_function`.
+  - `showDebug` (optional): If set to true, debug information will be printed to the console. Default is `false`.
+  - `funcArgs` (optional): The function arguments formatted as a string based on `args`. If not provided, the module will attempt to convert the arguments automatically. Example: `s:str, n:int, l:list, d:dict`
+  - `temperature` (optional): The sampling temperature for the AI model. Default is `0.8`
+  - `frequency_penalty` (optional): The frequency penalty for the AI model. Default is `0`
+  - `presence_penalty` (optional): The presence penalty for the AI model. Default is `0`
+  - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo`.
+  - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brut result. Default is `true`.
 
 ## Examples
 
-The `exampleUsage.js` file contains example usage of the `aiFunction` for various tasks:
-
-- Generate a quiz
-- Suggest gift ideas based on hobbies and interests
-- Analyze and moderate a list of messages
-
+The `exampleUsage.js` file contains example usage of the `aiFunction` for various tasks
 
 ## Example Usage
 
