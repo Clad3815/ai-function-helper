@@ -2,6 +2,22 @@
 
 This module provides a convenient way to utilize the power of OpenAI's GPT-4 and GPT-3.5-turbo to perform various tasks using custom Python functions. It comes with a series of examples and tests, demonstrating different use cases.
 This project is heavily inspired by Ask Marvin and https://github.com/Torantulino/AI-Functions.
+
+## Why using this script instead of the normal OpenAI API?
+
+While the OpenAI API is powerful and versatile, it can sometimes be challenging to get the desired response format, especially when integrating the output directly into other functions within your application. Crafting the perfect prompt might require multiple iterations, and even then, the returned response may need additional processing.
+
+The `aiFunction` script is designed to simplify this process and provide a more streamlined experience for developers. By using this script, you can:
+
+1. **Get precise response formats**: `aiFunction` allows you to specify the exact format of the response, such as lists, dictionaries, or strings, which can be used directly by other functions within your application without the need for additional processing.
+
+2. **Avoid complex prompt crafting**: With `aiFunction`, you don't need to spend time crafting complex prompts or over-explaining the desired output to the API. The script takes care of constructing the prompt based on the provided function name, arguments, and description.
+
+3. **Simplify integration**: By leveraging `aiFunction`, you can seamlessly integrate AI-generated content into your application, reducing the amount of code needed to parse and process the API's response.
+
+In summary, the `aiFunction` script offers a more efficient and convenient way of interacting with the OpenAI API, enabling you to focus on integrating AI-generated content into your application without worrying about prompt crafting and response formatting.
+
+
 ## Functions
 
 ### aiFunction(options)
