@@ -8,7 +8,7 @@ const aiFunction = require('../src/aiFunction');
             difficulty: 'medium',
             num_questions: 3
         },
-        description: 'Generate N quiz questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
+        description: 'Generate N quiz questions with the topic and the difficulty given based on all your knowledge. Return a list of questions and 4 possible answers + the correct answer.',
         funcReturn: 'list',
     };
 
@@ -25,15 +25,15 @@ const aiFunction = require('../src/aiFunction');
     console.log(giftIdeas);
     const messages = [
         { id: 1, content: 'Hello, world!' },
-        { id: 2, content: 'Offensive message here...' },
+        { id: 2, content: 'Offensive message here... I will kill you mf' },
         { id: 3, content: 'Another friendly message.' },
     ];
 
     options = {
         functionName: 'moderate_messages',
         args: messages,
-        description: 'Analyze and moderate a list of messages. Return a list of messages with the content field updated to indicate whether the message was flagged for moderation.',
-        funcReturn: 'list',
+        description: 'Analyze and moderate a list of messages. Return a list of messages with the "content" field updated with bad words changed with "*" to indicate whether the message was flagged for moderation.',
+        funcReturn: 'list[dict[id:int, content:str, flagged:bool]]]]',
     };
 
     aiFunction(options).then(moderatedMessages => {

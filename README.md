@@ -112,14 +112,25 @@ const messages = [
 ];
 
 const options = {
-  functionName: 'moderate_messages',
-  args: messages,
-  description: 'Analyze and moderate a list of messages. Return a list of messages with the content field updated to indicate whether the message was flagged for moderation.',
-  funcReturn: 'list',
-};
+        functionName: 'moderate_messages',
+        args: messages,
+        description: 'Analyze and moderate a list of messages. Return a list of messages with the "content" field updated with bad words changed with "*" to indicate whether the message was flagged for moderation.',
+        funcReturn: 'list[dict[id:int, content:str, flagged:bool]]]]',
+    };
 
 aiFunction(options).then(moderatedMessages => {
-  console.log(moderatedMessages); // Output: [ { id: 2, content: 'Message flagged for moderation.' } ]
+  console.log(moderatedMessages); /*
+   Output:
+    [
+      { id: 1, content: 'Hello, world!', flagged: false },
+      {
+        id: 2,
+        content: 'Offensive message here... I will **** you **',
+        flagged: true
+      },
+      { id: 3, content: 'Another friendly message.', flagged: false }
+    ]
+   */
 });
 ```
 
