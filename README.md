@@ -27,6 +27,64 @@ The `exampleUsage.js` file contains example usage of the `aiFunction` for variou
 - Suggest gift ideas based on hobbies and interests
 - Analyze and moderate a list of messages
 
+
+## Example Usage
+
+Here are some examples of how to use the `aiFunction`:
+
+### 1. Generate a quiz
+
+```javascript
+const options = {
+  functionName: 'generate_quiz',
+  args: { topic: 'history', difficulty: 'medium', num_questions: 5 },
+  description: 'Generate a medium difficulty history quiz with 5 questions.',
+  funcReturn: 'List[Dict]',
+  convertToJson: true,
+};
+
+const quiz = aiFunction(options);
+console.log(quiz);
+```
+
+### 2. Suggest gift ideas based on hobbies and interests
+
+```javascript
+const options = {
+  functionName: 'suggest_gifts',
+  args: { hobbies: 'photography, cooking', interests: 'travel, fashion' },
+  description: 'Suggest gift ideas for someone who loves photography, cooking, travel, and fashion.',
+  funcReturn: 'List[str]',
+  convertToJson: true,
+};
+
+const giftIdeas = aiFunction(options);
+console.log(giftIdeas);
+```
+
+### 3. Analyze and moderate a list of messages
+
+```javascript
+const messages = [
+  { id: 1, content: 'Hello, world!' },
+  { id: 2, content: 'Offensive message here...' },
+  { id: 3, content: 'Another friendly message.' },
+];
+
+const options = {
+  functionName: 'moderate_messages',
+  args: { messages },
+  description: 'Analyze and moderate a list of messages.',
+  funcReturn: 'List[Dict]',
+  convertToJson: true,
+};
+
+const moderatedMessages = aiFunction(options);
+console.log(moderatedMessages);
+```
+
+
+
 ## Tests
 
 The `test_ai_function.js` file contains a series of tests for the `aiFunction`. These tests cover various use cases and can be run using the `runTests` function with the desired AI model as an argument.
