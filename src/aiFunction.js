@@ -103,6 +103,8 @@ async function aiFunction(options) {
             answer = answer.substring(2, answer.length - 2);
         } else if (answer.startsWith("`") && answer.endsWith("`")) {
             answer = answer.substring(1, answer.length - 1);
+        } else if (answer.startsWith('""') && answer.endsWith('""')) {
+            answer = answer.substring(2, answer.length - 2);
         } else if (answer.startsWith('"') && answer.endsWith('"')) {
             answer = answer.substring(1, answer.length - 1);
         } else if (answer.startsWith("'") && answer.endsWith("'")) {
