@@ -6,9 +6,9 @@ const aiFunction = require('../src/aiFunction');
         args: {
             topic: 'history',
             difficulty: 'medium',
-            num_questions: 5
+            num_questions: 3
         },
-        description: 'Generate a medium difficulty history quiz with N questions. Return a list of questions and 4 possible answers + the correct answer.',
+        description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
         funcReturn: 'list',
     };
 

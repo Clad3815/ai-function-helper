@@ -53,8 +53,8 @@ Here are some examples of how to use the `aiFunction`:
 ```javascript
 const options = {
   functionName: 'generate_quiz',
-  args: { topic: 'history', difficulty: 'medium', num_questions: 5 },
-  description: 'Generate a medium difficulty history quiz with N questions. Return a list of questions and 4 possible answers + the correct answer.',
+  args: { topic: 'history', difficulty: 'medium', num_questions: 3 },
+  description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
   funcReturn: 'list',
 };
 
@@ -63,31 +63,25 @@ console.log(quiz);
 /*
 Output:
 [
-  'What year did World War I start?',
+  'In what year did World War I begin?',
   [ '1914', '1915', '1916', '1917' ],
   '1914',
-  "What was the name of Napoleon Bonaparte's first wife?",
+  'What was the name of the U.S. President during World War II?',
   [
-    'Marie Antoinette',
-    'Josephine de Beauharnais',
-    'Catherine the Great',
-    'Queen Victoria'
+    'Franklin D. Roosevelt',
+    'Harry S. Truman',
+    'Dwight D. Eisenhower',
+    'John F. Kennedy'
   ],
-  'Josephine de Beauharnais',
-  "What is the name of the document that declared America's independence from Great Britain?",
+  'Franklin D. Roosevelt',
+  'What was the main cause of the French Revolution?',
   [
-    'The Emancipation Proclamation',
-    'The Bill of Rights',
-    'The Magna Carta',
-    'The Declaration of Independence'
+    'Rise of bourgeoisie',
+    'Absolutism',
+    'Feudalism',
+    'Divine right of kings'
   ],
-  'The Declaration of Independence',
-  'Which Egyptian pharaoh is famous for building a great pyramid?',
-  [ 'Khufu', 'Ramses II', 'Hatshepsut', 'Akhenaten' ],
-  'Khufu',
-  'What was the name of the first satellite launched into space?',
-  [ 'Sputnik 1', 'Explorer 1', 'Vanguard 1', 'Telstar 1' ],
-  'Sputnik 1'
+  'Rise of bourgeoisie'
 ]
 */
 ```
