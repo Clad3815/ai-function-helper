@@ -38,11 +38,11 @@ Here are some examples of how to use the `aiFunction`:
 const options = {
   functionName: 'generate_quiz',
   args: { topic: 'history', difficulty: 'medium', num_questions: 5 },
-  description: 'Generate a medium difficulty history quiz with 5 questions.',
-  funcReturn: 'list[Dict]',
+  description: 'Generate a medium difficulty history quiz with N questions.',
+  funcReturn: 'list',
 };
 
-const quiz = aiFunction(options);
+const quiz = await aiFunction(options);
 console.log(quiz);
 ```
 
@@ -56,7 +56,7 @@ const options = {
   funcReturn: 'list[str]',
 };
 
-const giftIdeas = aiFunction(options);
+const giftIdeas = await aiFunction(options);
 console.log(giftIdeas);
 ```
 
@@ -76,8 +76,9 @@ const options = {
   funcReturn: 'list',
 };
 
-const moderatedMessages = aiFunction(options);
-console.log(moderatedMessages);
+aiFunction(options).then(moderatedMessages => {
+  console.log(moderatedMessages);
+});
 ```
 
 
