@@ -97,6 +97,38 @@ aiFunction(options).then(moderatedMessages => {
 });
 ```
 
+### 4. Translate a text
+
+```javascript
+let aiData = await aiFunction({
+    args: {
+        text: text,
+        to: choosenLanguage,
+    },
+    functionName: "translate_text",
+    description: "Translate text from one language to another. Use the to arguments to specify destination language. The text is from a game user interface. Return a string with the translated text",
+    funcReturn: "str",
+    showDebug: false,
+    temperature: 0.7,
+});
+return aiData;
+```
+
+### 5. Shorten a text
+
+```javascript
+let aiData = await aiFunction({
+    args: {
+        sentence: sentence,
+    },
+    functionName: "shorten_sentence",
+    description: "Rewrite the sentence to a minimum of words without breaking the context or important data. If the sentence can't be shorten, it will return the same sentence.",
+    funcReturn: "str",
+    temperature: 1,
+});
+return aiData;
+```
+
 
 
 ## Tests
