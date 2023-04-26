@@ -18,7 +18,19 @@ The `aiFunction` script is designed to simplify this process and provide a more 
 In summary, the `aiFunction` script offers a more efficient and convenient way of interacting with the OpenAI API, enabling you to focus on integrating AI-generated content into your application without worrying about prompt crafting and response formatting.
 
 
-## Functions
+
+## Usage
+
+First, create an instance of the `aiFunction` with your OpenAI API key:
+
+```javascript
+const createAiFunctionInstance = require('./path/to/your/module');
+const aiFunction = createAiFunctionInstance('your_api_key_here');
+```
+
+Now you can use the `aiFunction` without passing the API key every time.
+
+
 
 ### aiFunction(options)
 

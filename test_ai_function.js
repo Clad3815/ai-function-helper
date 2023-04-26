@@ -1,4 +1,7 @@
-const aiFunction = require('./src/aiFunction.js');
+const createAiFunctionInstance = require('./src/aiFunction.js');
+const path = require('path')
+require('dotenv').config();
+const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
 
 const showDebug = false;
 const numTestToRun = 3;

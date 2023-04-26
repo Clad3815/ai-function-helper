@@ -1,19 +1,3 @@
-const {
-    Configuration,
-    OpenAIApi
-} = require('openai');
-
-const path = require('path')
-require('dotenv').config({
-    path: path.resolve(__dirname, '../.env')
-})
-
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY
-});
-
-const openai = new OpenAIApi(configuration);
-
 async function retry(fn, retries = 3, delay = 1000) {
     try {
         return await fn();
@@ -47,7 +31,6 @@ function unicodeEscape(str) {
 
 module.exports = {
     retry,
-    openai,
     isValidJSON,
     parseJson
 };
