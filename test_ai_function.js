@@ -1,4 +1,4 @@
-const createAiFunctionInstance = require('./src/aiFunction.js');
+const { createAiFunctionInstance } = require('./src/aiFunction.js');
 const path = require('path')
 require('dotenv').config();
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
@@ -60,7 +60,7 @@ async function test1(model) {
         args: 4,
         functionName: 'fake_people',
         description: 'Generates n examples of fake data representing people, each with a name and an age.',
-        funcReturn: 'list',
+        funcReturn: 'list[dict[name:str, age:int]]',
         temperature: 0.8,
         model,
         showDebug: showDebug,
@@ -189,7 +189,7 @@ async function test6(model) {
         ],
         functionName: 'find_missing_numbers_in_list',
         description: 'Finds and returns a list of missing numbers in a given sorted list.',
-        funcReturn: 'list',
+        funcReturn: 'list[int]',
         temperature: 0.2,
         model,
         showDebug: showDebug,
