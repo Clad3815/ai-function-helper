@@ -24,7 +24,7 @@ In summary, the `aiFunction` script offers a more efficient and convenient way o
 First, create an instance of the `aiFunction` with your OpenAI API key:
 
 ```javascript
-const createAiFunctionInstance = require('./path/to/your/module');
+const createAiFunctionInstance = require('./src/aiFunction');
 const aiFunction = createAiFunctionInstance('your_api_key_here');
 ```
 
