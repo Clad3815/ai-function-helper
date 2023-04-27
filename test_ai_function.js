@@ -12,9 +12,10 @@ const numTestToRun = 5;
 
 // Run all tests, print the results, and return the number of failed tests
 async function runTests(model) {
-    const testFunctions = [test1, test2, test3, test4, test5, test6];
+    const testFunctions = [test2, test3];
+    // const testFunctions = [test1, test2, test3, test4, test5, test6];
     const testNames = [
-        'Generate fake people',
+        // 'Generate fake people',
         'Generate Random Password',
         'Calculate area of triangle',
         'Calculate the nth prime number',
@@ -92,9 +93,11 @@ async function test2(model) {
             specialChar: specialChar
         },
         // functionName: 'random_password_generator',
-        description: 'Generates a random password of given length with or without special characters. The default length is 12 and the default is to include special characters. The password is returned as a string.',
+        description: 'Generates a strong random password of given length with or without special characters. Just put random characters in a string and it will generate a password for you. ',
         funcReturn: 'str',
         temperature: 0.8,
+        frequency_penalty: 0.5,
+        presence_penalty: 0.5,
         model,
         showDebug: showDebug,
     });

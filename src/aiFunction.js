@@ -56,7 +56,11 @@ function createAiFunctionInstance(apiKey) {
 
         if (getType(argsString) === 'str') {
             argsString = argsString.replace(/true/g, 'True').replace(/false/g, 'False');
+            // Replace all line break by \n
+            argsString = argsString.replace(/(\r\n|\n|\r)/gm, "\\n");
         }
+
+
 
         if (!funcArgs) {
             funcArgs = convertArgs(args);
@@ -186,6 +190,10 @@ async function fixJsonString(pythonString) {
 
     // Replace all None with null
     jsonString = jsonString.replace(/None/g, 'null');
+
+    // Replace all "True" with true and "False" with false
+    jsonString = jsonString.replace(/"True"/g, 'true');
+    jsonString = jsonString.replace(/"False"/g, 'false');
 
     // Delete all ` from the start and the end of the string (1 or more)
     jsonString = jsonString.replace(/^`+|`+$/g, '');
