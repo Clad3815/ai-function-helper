@@ -4,7 +4,7 @@ require('dotenv').config();
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
 
 const showDebug = false;
-const numTestToRun = 3;
+const numTestToRun = 5;
 
 
 // Initialize the OpenAI API client
@@ -57,7 +57,9 @@ async function runTests(model) {
 // Ai function test 1
 async function test1(model) {
     const result = await aiFunction({
-        args: 4,
+        args: {
+            count_people: 4
+        },
         functionName: 'fake_people',
         description: 'Generates n examples of fake data representing people, each with a name and an age.',
         funcReturn: 'list[dict[name:str, age:int]]',
@@ -82,8 +84,13 @@ async function test1(model) {
 
 // Ai function test 2
 async function test2(model) {
+    const randomLength = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+    const specialChar = (Math.random() > 0.5) ? true : false;
     const result = await aiFunction({
-        args: [12, false],
+        args: {
+            length: randomLength,
+            specialChar: specialChar
+        },
         // functionName: 'random_password_generator',
         description: 'Generates a random password of given length with or without special characters. The default length is 12 and the default is to include special characters. The password is returned as a string.',
         funcReturn: 'str',
@@ -92,10 +99,10 @@ async function test2(model) {
         showDebug: showDebug,
     });
 
-    console.log(`Output: ${result}`);
+    console.log(`Output: ${result} | Expected length: ${randomLength} | Special characters: ${specialChar}`);
 
     // Assert the length of the result is equal to the length requested
-    if (result.length !== 12) {
+    if (result.length !== randomLength) {
         throw new Error('Result length is not equal to the length requested');
     }
 }
@@ -122,7 +129,7 @@ async function test3(model) {
         showDebug: showDebug,
     });
 
-    console.log(`Output: ${result}`);
+    console.log(`Output: ${result} | Expected: ${area}`);
 
     // Assert the result is a float
     if (isNaN(parseFloat(result))) {
