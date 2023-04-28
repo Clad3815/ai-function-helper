@@ -66,7 +66,7 @@ const options = {
   functionName: 'generate_quiz',
   args: { topic: 'history', difficulty: 'medium', num_questions: 3 },
   description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
-  funcReturn: 'list',
+  funcReturn: 'dict[question:str, answers:list[str], correct_answer:str]',
   model: 'gpt-4',
 };
 
@@ -74,27 +74,28 @@ const quiz = await aiFunction(options);
 console.log(quiz);
 /*
 Output:
-[
-  'In what year did World War I begin?',
-  [ '1914', '1915', '1916', '1917' ],
-  '1914',
-  'What was the name of the U.S. President during World War II?',
-  [
-    'Franklin D. Roosevelt',
-    'Harry S. Truman',
-    'Dwight D. Eisenhower',
-    'John F. Kennedy'
-  ],
-  'Franklin D. Roosevelt',
-  'What was the main cause of the French Revolution?',
-  [
-    'Rise of bourgeoisie',
-    'Absolutism',
-    'Feudalism',
-    'Divine right of kings'
-  ],
-  'Rise of bourgeoisie'
-]
+{
+  question1: {
+    question: 'What year did World War II end?',
+    answers: [ '1945', '1939', '1941', '1943' ],
+    correct_answer: '1945'
+  },
+  question2: {
+    question: 'Who invented the telephone?',
+    answers: [
+      'Thomas Edison',
+      'Alexander Graham Bell',
+      'Nikola Tesla',
+      'Guglielmo Marconi'
+    ],
+    correct_answer: 'Alexander Graham Bell'
+  },
+  question3: {
+    question: 'What was the first country to send a man to space?',
+    answers: [ 'USA', 'China', 'Russia', 'France' ],
+    correct_answer: 'Russia'
+  }
+}
 */
 ```
 

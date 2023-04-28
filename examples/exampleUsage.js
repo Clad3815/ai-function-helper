@@ -13,7 +13,7 @@ const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
             num_questions: 3
         },
         description: 'Generate N quiz questions with the topic and the difficulty given based on all your knowledge. Return a list of questions and 4 possible answers + the correct answer.',
-        funcReturn: 'list',
+        funcReturn: 'dict[question:str, answers:list[str], correct_answer:str]',
     };
 
     const quiz = await aiFunction(options);
