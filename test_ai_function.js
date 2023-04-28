@@ -92,8 +92,8 @@ async function test2(model) {
             length: randomLength,
             specialChar: specialChar
         },
-        // functionName: 'random_password_generator',
-        description: 'Generates a strong random password of given length with or without special characters. Just put random characters in a string and it will generate a password for you. ',
+        functionName: 'random_string_generator',
+        description: 'Generates a strong random string of given length with or without special characters. Just put random characters in a string and it will generate the desired output. ',
         funcReturn: 'str',
         temperature: 0.8,
         frequency_penalty: 0.5,
