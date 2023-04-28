@@ -138,6 +138,9 @@ Your task is to distinguish between queries that require real-time data, detaile
     result = await detectTaskListFromInput("What is the weather in Paris ?", "fr");
     console.log(result);
 
+    result = await detectCommandFromInput(result, "fr");
+    console.log(JSON.stringify(result, null, 2));
+
 
 
 

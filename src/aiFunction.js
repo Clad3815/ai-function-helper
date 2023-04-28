@@ -68,7 +68,7 @@ function createAiFunctionInstance(apiKey) {
 
         let isJson = '';
         if (autoConvertReturn === true) {
-            isJson = ' converted into a valid JSON string with UTF-8 encoding';
+            isJson = ' converted into a valid JSON string with UTF-8 encoding using the python json.dumps() function';
         }
 
         if (funcReturnString === 'str') {
