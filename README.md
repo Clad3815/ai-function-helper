@@ -184,7 +184,7 @@ The `test_ai_function.js` file contains a series of tests for the `aiFunction`. 
 
 ### Test Results
 
-A total of 60 tests were performed using the GPT-3.5-turbo model. The table below shows the success rate for each function:
+A total of 60 tests for each function were performed using the GPT-3.5-turbo model. The table below shows the success rate for each function:
 
 | Function                    | GPT-3.5-turbo | GPT-4 |
 |-----------------------------|---------------|-------|
@@ -199,6 +199,7 @@ A total of 60 tests were performed using the GPT-3.5-turbo model. The table belo
 | Encrypt text                | 80-100%    | N/A   |
 | Calculate area of triangle  | 0%-50%     | N/A   |
 
+`Some results can be improved by optimising the prompt, temperature, and other parameters.`
 I currently do not have access to the GPT-4 API. Once I have access, I will update the table with the test results.
 
 ### Disclaimer
