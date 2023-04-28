@@ -66,7 +66,7 @@ const options = {
   functionName: 'generate_quiz',
   args: { topic: 'history', difficulty: 'medium', num_questions: 3 },
   description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
-  funcReturn: 'dict[question:str, answers:list[str], correct_answer:str]',
+  funcReturn: 'list[question:str, answers:list[str], correct_answer:str]',
   model: 'gpt-4',
 };
 
@@ -74,28 +74,33 @@ const quiz = await aiFunction(options);
 console.log(quiz);
 /*
 Output:
-{
-  question1: {
-    question: 'What year did World War II end?',
-    answers: [ '1945', '1939', '1941', '1943' ],
-    correct_answer: '1945'
-  },
-  question2: {
-    question: 'Who invented the telephone?',
+[
+  {
+    question: 'What event triggered the start of World War I?',
     answers: [
-      'Thomas Edison',
-      'Alexander Graham Bell',
-      'Nikola Tesla',
-      'Guglielmo Marconi'
+      'Assassination of Archduke Franz Ferdinand',
+      'Invasion of Poland',
+      'Bombing of Pearl Harbor',
+      'Fall of the Berlin Wall'
     ],
-    correct_answer: 'Alexander Graham Bell'
+    correct_answer: 'Assassination of Archduke Franz Ferdinand'
   },
-  question3: {
-    question: 'What was the first country to send a man to space?',
-    answers: [ 'USA', 'China', 'Russia', 'France' ],
-    correct_answer: 'Russia'
+  {
+    question: 'Who was the first president of the United States?',
+    answers: [
+      'George Washington',
+      'Thomas Jefferson',
+      'John Adams',
+      'Benjamin Franklin'
+    ],
+    correct_answer: 'George Washington'
+  },
+  {
+    question: 'What year did the United States declare independence?',
+    answers: [ '1776', '1783', '1791', '1800' ],
+    correct_answer: '1776'
   }
-}
+]
 */
 ```
 
