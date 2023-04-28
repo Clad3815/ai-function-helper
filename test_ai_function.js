@@ -4,7 +4,7 @@ require('dotenv').config();
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
 
 const showDebug = false;
-const numTestToRun = 5;
+const numTestToRun = 20;
 
 
 // Initialize the OpenAI API client
@@ -12,10 +12,10 @@ const numTestToRun = 5;
 
 // Run all tests, print the results, and return the number of failed tests
 async function runTests(model) {
-    const testFunctions = [test2, test3];
-    // const testFunctions = [test1, test2, test3, test4, test5, test6];
+    // const testFunctions = [test2, test3];
+    const testFunctions = [test1, test2, test3, test4, test5, test6];
     const testNames = [
-        // 'Generate fake people',
+        'Generate fake people',
         'Generate Random Password',
         'Calculate area of triangle',
         'Calculate the nth prime number',

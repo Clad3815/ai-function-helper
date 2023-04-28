@@ -68,7 +68,7 @@ function createAiFunctionInstance(apiKey) {
 
         let isJson = '';
         if (autoConvertReturn === true) {
-            isJson = ' converted into a valid JSON string with UTF-8 encoding using the python json.dumps() function';
+            isJson = ' converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function';
         }
 
         if (funcReturnString === 'str') {
@@ -79,7 +79,7 @@ function createAiFunctionInstance(apiKey) {
                 role: 'user',
                 content: `
             Current time: ${new Date().toISOString()}
-            You are now the following python function: 
+            You are to assume the role of the following Python function:
             \`\`\`
             def ${functionName}(${funcArgs}) -> ${funcReturnString}:
             """
@@ -115,8 +115,14 @@ function createAiFunctionInstance(apiKey) {
         let answer = gptResponse.data.choices[0]['message']['content'];
 
         if (autoConvertReturn === true) {
-            if (answer.startsWith("```json") && answer.endsWith("```")) {
+            if (answer.startsWith("```python") && answer.endsWith("```")) {
+                answer = answer.substring(9, answer.length - 3);
+            } else if (answer.startsWith("```json") && answer.endsWith("```")) {
                 answer = answer.substring(7, answer.length - 3);
+            } else if (answer.startsWith("`'") && answer.endsWith("'`")) {
+                answer = answer.substring(2, answer.length - 2);
+            } else if (answer.startsWith("`\"") && answer.endsWith("\"`")) {
+                answer = answer.substring(2, answer.length - 2);
             } else if (answer.startsWith("```") && answer.endsWith("```")) {
                 answer = answer.substring(3, answer.length - 3);
             } else if (answer.startsWith("``") && answer.endsWith("``")) {
@@ -130,6 +136,11 @@ function createAiFunctionInstance(apiKey) {
             } else if (answer.startsWith("'") && answer.endsWith("'")) {
                 answer = answer.substring(1, answer.length - 1);
             }
+
+            if (answer.startsWith("return json.dumps(") && answer.endsWith(")")) {
+                answer = answer.substring(18, answer.length - 1);
+            }
+
             if (funcReturnString === 'str') {
                 if (showDebug) {
                     console.log(chalk.yellow('####################'));
