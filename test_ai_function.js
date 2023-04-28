@@ -13,14 +13,18 @@ const numTestToRun = 6;
 // Run all tests, print the results, and return the number of failed tests
 async function runTests(model) {
     // const testFunctions = [test2, test3];
-    const testFunctions = [test1, test2, test3, test4, test5, test6];
+    // const testFunctions = [test1, test2, test3, test4, test5, test6, test7, test8];
+    const testFunctions = [test2, test3, test4, test5, test6, test7, test8, test9];
     const testNames = [
-        'Generate fake people',
+        // 'Generate fake people',
         'Generate Random Password',
         'Calculate area of triangle',
         'Calculate the nth prime number',
         'Encrypt text',
         'Find missing numbers',
+        'Find capital cities',
+        'Grammar Correction',
+        'Detect language in a text',
     ];
     const numberOfTests = numTestToRun;
     const successRates = [];
@@ -219,6 +223,90 @@ async function test6(model) {
         throw new Error(`Result array does not contain the expected missing numbers`);
     }
 }
+
+async function test7(model) {
+    const country = 'Italy';
+    const result = await aiFunction({
+        args: {
+            country: country
+        },
+        functionName: 'get_capital_city',
+        description: 'This function should return the capital city of the given country.',
+        funcReturn: 'str',
+        temperature: 0.2,
+        model: model,
+        showDebug: showDebug,
+    });
+
+    console.log(`Output: ${result}`);
+
+    // Assert the result is a string
+    if (typeof result !== 'string') {
+        throw new Error('Result is not a string');
+    }
+
+    // Assert the result is the correct capital city for the given country
+    if (result !== 'Rome') {
+        throw new Error('Result is not the correct capital city for the given country');
+    }
+}
+
+async function test8(model) {
+    const sentence = 'He are a good person';
+    const result = await aiFunction({
+        args: {
+            sentence: sentence
+        },
+        functionName: 'correct_grammar',
+        description: 'This function should correct the grammar of the given sentence.',
+        funcReturn: 'str',
+        temperature: 0.2,
+        model: model,
+        showDebug: showDebug,
+    });
+
+    console.log(`Output: ${result}`);
+
+    // Assert the result is a string
+    if (typeof result !== 'string') {
+        throw new Error('Result is not a string');
+    }
+
+    // Assert the result is the grammatically correct version of the input sentence
+    if (result !== 'He is a good person') {
+        throw new Error('Result is not the grammatically correct version of the input sentence');
+    }
+}
+
+async function test9(model) {
+    const text = 'Hola, ¿cómo estás?';
+    const result = await aiFunction({
+        args: {
+            text: text
+        },
+        functionName: 'detect_language',
+        description: 'This function should detect the language of the provided text and return the language code.',
+        funcReturn: 'str',
+        temperature: 0.2,
+        model: model,
+        showDebug: showDebug,
+    });
+
+    console.log(`Output: ${result}`);
+
+    // Assert the result is a string
+    if (typeof result !== 'string') {
+        throw new Error('Result is not a string');
+    }
+
+    // Assert the result is the correct language code for the input
+    if (result !== 'es') {
+        throw new Error('Result is not the correct language code for the input');
+    }
+}
+
+
+
 // Helper function to check if two arrays are equal
 function arraysEqual(a, b) {
     if (a === b) return true;

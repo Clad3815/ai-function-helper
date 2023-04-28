@@ -188,12 +188,16 @@ A total of 60 tests were performed using the GPT-3.5-turbo model. The table belo
 
 | Function                    | GPT-3.5-turbo | GPT-4 |
 |-----------------------------|---------------|-------|
-| Generate fake people        | 100.00%       | N/A   |
-| Generate Random Password    | 40.00%        | N/A   |
-| Calculate area of triangle  | 50.00%        | N/A   |
-| Calculate the nth prime number | 100.00%    | N/A   |
-| Encrypt text                | 100.00%       | N/A   |
-| Find missing numbers        | 100.00%       | N/A   |
+| Generate fake people        | 100%       | N/A   |
+| Calculate the nth prime number | 100%    | N/A   |
+| Find missing numbers        | 100%       | N/A   |
+| Generate a quiz             | 100%       | N/A   |
+| Find capital of cities      | 100%       | N/A   |
+| Grammar correction          | 100%       | N/A   |
+| Detect language in text     | 100%       | N/A   |
+| Generate Random Password    | 60%-100%   | N/A   |
+| Encrypt text                | 80-100%    | N/A   |
+| Calculate area of triangle  | 0%-50%     | N/A   |
 
 I currently do not have access to the GPT-4 API. Once I have access, I will update the table with the test results.
 
