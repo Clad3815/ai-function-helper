@@ -67,6 +67,7 @@ const options = {
   args: { topic: 'history', difficulty: 'medium', num_questions: 3 },
   description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
   funcReturn: 'list',
+  model: 'gpt-4',
 };
 
 const quiz = await aiFunction(options);

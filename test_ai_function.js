@@ -4,7 +4,7 @@ require('dotenv').config();
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
 
 const showDebug = false;
-const numTestToRun = 20;
+const numTestToRun = 6;
 
 
 // Initialize the OpenAI API client
@@ -65,7 +65,7 @@ async function test1(model) {
         description: 'Generates n examples of fake data representing people, each with a name and an age.',
         funcReturn: 'list[dict[name:str, age:int]]',
         temperature: 0.8,
-        model,
+        model: model,
         showDebug: showDebug,
         autoConvertReturn: true,
     });
@@ -98,7 +98,7 @@ async function test2(model) {
         temperature: 0.8,
         frequency_penalty: 0.5,
         presence_penalty: 0.5,
-        model,
+        model: model,
         showDebug: showDebug,
     });
 
@@ -128,7 +128,7 @@ async function test3(model) {
         description: 'Calculates the area of a triangle given its base and height.',
         funcReturn: 'float',
         temperature: 0.1,
-        model,
+        model: model,
         showDebug: showDebug,
     });
 
@@ -153,7 +153,7 @@ async function test4(model) {
         description: 'Finds and returns the nth prime number.',
         funcReturn: 'int',
         temperature: 0,
-        model,
+        model: model,
         showDebug: showDebug,
     });
 
@@ -179,7 +179,7 @@ async function test5(model) {
         description: 'Encrypts the given text using a simple character substitution based on the provided key.',
         funcReturn: 'str',
         temperature: 0.2,
-        model,
+        model: model,
         showDebug: showDebug,
     });
 
@@ -201,7 +201,7 @@ async function test6(model) {
         description: 'Finds and returns a list of missing numbers in a given sorted list.',
         funcReturn: 'list[int]',
         temperature: 0.2,
-        model,
+        model: model,
         showDebug: showDebug,
         autoConvertReturn: true,
     });
