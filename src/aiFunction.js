@@ -46,13 +46,18 @@ function createAiFunctionInstance(apiKey) {
         let funcReturnString = funcReturn;
         let argsString = '';
 
-        if (getType(args) === 'dict') {
-            argsString = formatObjectArgs(args);
-        } else if (Array.isArray(args)) {
-            argsString = args.map(arg => formatArg(arg)).join(', ');
-        } else {
-            argsString = formatArg(args);
+        if (Array.isArray(args)) {
+            let objectArgs = {};
+            for (let i = 0; i < args.length; i++) {
+                objectArgs[String.fromCharCode(97 + i)] = args[i];
+            }
+            args = objectArgs;
+        } else if (getType(args) !== 'dict') {
+            args = {
+                s: args
+            };
         }
+        argsString = formatObjectArgs(args);
 
         if (getType(argsString) === 'str') {
             argsString = argsString.replace(/true/g, 'True').replace(/false/g, 'False');
@@ -86,11 +91,13 @@ function createAiFunctionInstance(apiKey) {
             ${description}
             """
             \`\`\`
-            Only respond with your \`return\` value${isJson}. Do not include any other explanatory text in your response.`.split('\n').map(line => line.trim()).join('\n'),
+            Only respond with your \`return\` value${isJson}. Do not include any other explanatory text in your response.
+            
+            `.split('\n').map(line => line.trim()).join('\n'),
             },
             {
                 role: 'user',
-                content: `${functionName}(${argsString})`,
+                content: `${argsString}`,
             },
         ];
         if (showDebug) {
@@ -109,7 +116,7 @@ function createAiFunctionInstance(apiKey) {
             frequency_penalty: frequency_penalty,
             presence_penalty: presence_penalty,
             max_tokens: max_tokens,
-            top_p: 1,
+            // top_p: 1,
         }));
 
         let answer = gptResponse.data.choices[0]['message']['content'];
@@ -190,6 +197,11 @@ async function fixJsonString(pythonString) {
     // Replace single quotes that are not preceded or followed by word characters with double quotes
     let jsonString = pythonString.replace(/(^|[^\\w])'($|[^\\w])/g, '$1"$2');
 
+    // Check if the string start with "{" and end with "}," if yes delete the "," at the end
+    if (jsonString.startsWith("{") && jsonString.endsWith("},")) {
+        jsonString = jsonString.substring(0, jsonString.length - 1);
+    }
+
     // Replace escaped single quotes with single quotes
     jsonString = jsonString.replace(/\\"/g, "'");
 
@@ -203,8 +215,8 @@ async function fixJsonString(pythonString) {
     jsonString = jsonString.replace(/None/g, 'null');
 
     // Replace all "True" with true and "False" with false
-    jsonString = jsonString.replace(/"True"/g, 'true');
-    jsonString = jsonString.replace(/"False"/g, 'false');
+    jsonString = jsonString.replace(/True/g, 'true');
+    jsonString = jsonString.replace(/False/g, 'false');
 
     // Delete all ` from the start and the end of the string (1 or more)
     jsonString = jsonString.replace(/^`+|`+$/g, '');

@@ -3,10 +3,8 @@ const getType = require('./getType');
 function formatArg(arg) {
     const type = getType(arg);
 
-    if (type === 'str') {
+    if (type === 'str' || type === 'int' || type === 'bool' || type === 'float') {
         return `"${arg}"`;
-    } else if (type === 'int' || type === 'bool' || type === 'float') {
-        return arg;
     } else if (type === 'list' || type === 'dict') {
         return JSON.stringify(arg);
     } else if (type === 'undefined' || type === 'null' || type === 'unknown') {
@@ -20,7 +18,8 @@ function formatArg(arg) {
 
 function formatObjectArgs(obj) {
     const keys = Object.keys(obj);
-    return keys.map(key => formatArg(obj[key])).join(', ');
+    return keys.map(key => `${key}=${formatArg(obj[key])}`).join(', ');
 }
+
 
 module.exports = { formatArg, formatObjectArgs };

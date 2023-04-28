@@ -10,7 +10,7 @@ const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
         args: {
             topic: 'history',
             difficulty: 'medium',
-            num_questions: 3
+            num_questions: 1
         },
         description: 'Generate N quiz questions with the topic and the difficulty given based on all your knowledge. Return a list of questions and 4 possible answers + the correct answer.',
         funcReturn: 'list[question:str, answers:list[str], correct_answer:str]',
