@@ -199,7 +199,7 @@ A total of 60 tests for each function were performed using the GPT-3.5-turbo mod
 | Encrypt text                | 80-100%    | N/A   |
 | Calculate area of triangle  | 0%-50%     | N/A   |
 
-`Some results can be improved by optimising the prompt, temperature, and other parameters.`
+`Some results can be improved by optimising the prompt, temperature, and other parameters according to the function and the use case.`
 
 I currently do not have access to the GPT-4 API. Once I have access, I will update the table with the test results.
 
