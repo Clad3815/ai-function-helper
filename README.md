@@ -1,7 +1,21 @@
 # AI Function Module
 
-This module provides a convenient way to utilize the power of OpenAI's GPT-4 and GPT-3.5-turbo to perform various tasks using custom Python functions. It comes with a series of examples and tests, demonstrating different use cases.
-This project is heavily inspired by Ask Marvin and [AI Functions from Torantulino](https://github.com/Torantulino/AI-Functions)
+Welcome to the AI Function Module, a powerful tool for integrating the capabilities of OpenAI's GPT-4 and GPT-3.5-turbo directly into your Python functions! With this module, you can simplify the process of getting precisely formatted responses from the OpenAI API, saving time and reducing complexity in your application development. This project is heavily inspired by Ask Marvin and [AI Functions from Torantulino](https://github.com/Torantulino/AI-Functions).
+
+## Table of Contents
+
+1. [Why Use This Script?](#why-use-this-script)
+2. [Usage](#usage)
+3. [aiFunction Options](#aifunction-options)
+   - [funcReturn](#funcreturn)
+   - [Using Dictionaries in funcReturn](#using-dictionaries-in-funcreturn)
+4. [Examples](#examples)
+5. [Tests](#tests)
+6. [Installation](#installation)
+7. [Contributing](#contributing)
+8. [License](#license)
+9. [Contact](#contact)
+
 
 ## Why using this script instead of the normal OpenAI API?
 
@@ -52,7 +66,7 @@ The main function that takes a set of options as an input and returns the output
   - `top_p` (optional): The top p value for the AI model.
 
 
-### `funcReturn`
+### funcReturn
 
 The `funcReturn` option is used to define the expected return type of the custom function. It is expressed in a Python-like format, and it can be used to specify complex data structures like lists and dictionaries.
 
