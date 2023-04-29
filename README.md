@@ -113,6 +113,79 @@ In this case, the output is a dictionary with:
 
 The `funcReturn` option is a powerful tool that allows you to customize the structure of the output you get from the `aiFunction`. By using Python-like syntax, you can define complex data structures to fit your specific needs.
 
+You can also build complex output very easily by combining lists and dictionaries.
+
+```javascript
+funcReturn: "list[dict[category:str, items:list[dict[name:str, attributes:dict[color:str, size:int, tags:list[str]]]]]]"
+```
+
+This `funcReturn` specification translates into the following output format:
+
+```javascript
+[
+  {
+    "category": "Electronics",
+    "items": [
+      {
+        "name": "Smartphone",
+        "attributes": {
+          "color": "Black",
+          "size": 6,
+          "tags": ["mobile", "gadget", "touchscreen"]
+        }
+      },
+      {
+        "name": "Laptop",
+        "attributes": {
+          "color": "Silver",
+          "size": 15,
+          "tags": ["computer", "portable", "keyboard"]
+        }
+      }
+    ]
+  },
+  {
+    "category": "Furniture",
+    "items": [
+      {
+        "name": "Sofa",
+        "attributes": {
+          "color": "Blue",
+          "size": 3,
+          "tags": ["seating", "couch", "living room"]
+        }
+      },
+      {
+        "name": "Dining Table",
+        "attributes": {
+          "color": "Brown",
+          "size": 4,
+          "tags": ["eating", "furniture", "kitchen"]
+        }
+      }
+    ]
+  },
+  // Additional entries...
+]
+
+```
+
+In this example, the output is a list of dictionaries, where each dictionary represents a category and contains:
+
+- `category`: a string representing the category name.
+- `items`: a list of dictionaries where each dictionary represents an item in the category and contains:
+  - `name`: a string representing the item's name.
+  - `attributes`: a dictionary containing the item's attributes, such as:
+    - `color`: a string representing the item's color.
+    - `size`: an integer representing the item's size.
+    - `tags`: a list of strings where each string represents a tag associated with the item.
+
+
+This complex example demonstrates how you can use `funcReturn` to define deeply nested structures that can accommodate a wide variety of data types and relationships.
+
+
+
+
 ## Examples
 
 The `exampleUsage.js` file contains example usage of the `aiFunction` for various tasks
