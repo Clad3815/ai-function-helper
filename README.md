@@ -4,17 +4,16 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
 
 ## Table of Contents
 
-1. [Why Use This Script?](#why-use-this-script)
-2. [Usage](#usage)
-3. [aiFunction Options](#aifunction-options)
-   - [funcReturn](#funcreturn)
-   - [Using Dictionaries in funcReturn](#using-dictionaries-in-funcreturn)
-4. [Examples](#examples)
-5. [Tests](#tests)
-6. [Installation](#installation)
-7. [Contributing](#contributing)
-8. [License](#license)
-9. [Contact](#contact)
+- [Why using this script instead of the normal OpenAI API?](#why-using-this-script-instead-of-the-normal-openai-api)
+- [Usage](#usage)
+- [aiFunction(options)](#aifunctionoptions)
+  - [funcReturn](#funcreturn)
+  - [Using Dictionaries (dict) in funcReturn](#using-dictionaries-dict-in-funcreturn)
+- [Examples](#examples)
+- [Example Usage](#example-usage)
+- [Tests](#tests)
+  - [Test Results](#test-results)
+- [Disclaimer](#disclaimer)
 
 
 ## Why using this script instead of the normal OpenAI API?
@@ -96,7 +95,7 @@ In this case, the output is a list of dictionaries, where each dictionary repres
 - `correct_answer`: a string representing the correct answer to the question.
 
 
-### Using Dictionaries (dict) in `funcReturn`
+### Using Dictionaries (dict) in funcReturn
 
 The `dict` keyword can also be used in `funcReturn` to specify that the function should return a dictionary. A dictionary is a collection of key-value pairs, where each key must be unique.
 
