@@ -48,6 +48,70 @@ The main function that takes a set of options as an input and returns the output
   - `presence_penalty` (optional): The presence penalty for the AI model. Default is `0`
   - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo`.
   - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brut result. Default is `true`.
+  - `max_tokens` (optional): The maximum number of tokens to generate.
+  - `top_p` (optional): The top p value for the AI model.
+
+
+## `funcReturn`
+
+The `funcReturn` option is used to define the expected return type of the custom function. It is expressed in a Python-like format, and it can be used to specify complex data structures like lists and dictionaries.
+
+For instance:
+
+```javascript
+funcReturn: "list[question:str, answers:list[str], correct_answer:str]"
+```
+
+This `funcReturn` specification translates into the following output format:
+
+```javascript
+[
+  {
+    "question": "sample question",
+    "answers": ["answer 1", "answer 2", "answer 3"],
+    "correct_answer": "correct answer"
+  },
+  // Additional entries...
+]
+```
+
+In this case, the output is a list of dictionaries, where each dictionary represents a question and its associated answers. Each dictionary contains:
+
+- `question`: a string representing the question.
+- `answers`: a list of strings where each string represents a potential answer to the question.
+- `correct_answer`: a string representing the correct answer to the question.
+
+
+# Using Dictionaries (dict) in `funcReturn`
+
+The `dict` keyword can also be used in `funcReturn` to specify that the function should return a dictionary. A dictionary is a collection of key-value pairs, where each key must be unique.
+
+Here is an example:
+
+
+```javascript
+funcReturn: "dict[name:str, age:int, skills:list[str]]"
+```
+
+This `funcReturn` specification translates into the following output format:
+
+
+```javascript
+{
+  "name": "sample name",
+  "age": 25,
+  "skills": ["skill1", "skill2", "skill3"]
+}
+```
+
+In this case, the output is a dictionary with:
+
+- `name`: a string representing the person's name.
+- `age`: an integer representing the person's age.
+- `skills`: a list of strings where each string represents a skill that the person has.
+
+
+The `funcReturn` option is a powerful tool that allows you to customize the structure of the output you get from the `aiFunction`. By using Python-like syntax, you can define complex data structures to fit your specific needs.
 
 ## Examples
 

@@ -41,6 +41,7 @@ function createAiFunctionInstance(apiKey) {
                 presence_penalty = 0,
                 model = 'gpt-3.5-turbo',
                 autoConvertReturn = true,
+                top_p = null,
                 max_tokens = null,
         } = options;
         let funcReturnString = funcReturn;
@@ -116,7 +117,7 @@ function createAiFunctionInstance(apiKey) {
             frequency_penalty: frequency_penalty,
             presence_penalty: presence_penalty,
             max_tokens: max_tokens,
-            // top_p: 1,
+            top_p: top_p,
         }));
 
         let answer = gptResponse.data.choices[0]['message']['content'];
@@ -204,6 +205,18 @@ async function fixJsonString(pythonString) {
 
     // Replace escaped single quotes with single quotes
     jsonString = jsonString.replace(/\\"/g, "'");
+
+    // Replace all ” with "
+    jsonString = jsonString.replace(/”/g, '"');
+
+    // Replace all “ with "
+    jsonString = jsonString.replace(/“/g, '"');
+
+    // Replace all ‘ with '
+    jsonString = jsonString.replace(/‘/g, "'");
+
+    // Replace all ’ with '
+    jsonString = jsonString.replace(/’/g, "'");
 
     // Fix unescaped double quotes within strings
     jsonString = jsonString.replace(/(\w)"(\w)/g, '$1\\"$2');
