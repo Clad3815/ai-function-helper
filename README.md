@@ -32,7 +32,7 @@ Now you can use the `aiFunction` without passing the API key every time.
 
 
 
-### aiFunction(options)
+## aiFunction(options)
 
 The main function that takes a set of options as an input and returns the output from the AI model.
 
@@ -52,7 +52,7 @@ The main function that takes a set of options as an input and returns the output
   - `top_p` (optional): The top p value for the AI model.
 
 
-## `funcReturn`
+### `funcReturn`
 
 The `funcReturn` option is used to define the expected return type of the custom function. It is expressed in a Python-like format, and it can be used to specify complex data structures like lists and dictionaries.
 
@@ -82,7 +82,7 @@ In this case, the output is a list of dictionaries, where each dictionary repres
 - `correct_answer`: a string representing the correct answer to the question.
 
 
-# Using Dictionaries (dict) in `funcReturn`
+### Using Dictionaries (dict) in `funcReturn`
 
 The `dict` keyword can also be used in `funcReturn` to specify that the function should return a dictionary. A dictionary is a collection of key-value pairs, where each key must be unique.
 
