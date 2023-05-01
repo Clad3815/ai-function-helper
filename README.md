@@ -5,6 +5,7 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
 ## Table of Contents
 
 - [Why using this script instead of the normal OpenAI API?](#why-using-this-script-instead-of-the-normal-openai-api)
+- [Installation](#installation)
 - [Usage](#usage)
 - [aiFunction(options)](#aifunctionoptions)
   - [funcReturn](#funcreturn)
@@ -31,13 +32,20 @@ The `aiFunction` script is designed to simplify this process and provide a more 
 In summary, the `aiFunction` script offers a more efficient and convenient way of interacting with the OpenAI API, enabling you to focus on integrating AI-generated content into your application without worrying about prompt crafting and response formatting.
 
 
+## Installation
+
+To install the `aiFunction` module, simply run the following command:
+
+```bash
+npm install ai-function-helper
+```
 
 ## Usage
 
 First, create an instance of the `aiFunction` with your OpenAI API key:
 
 ```javascript
-const { createAiFunctionInstance } = require('./src/aiFunction');
+const { createAiFunctionInstance } = require('ai-function-helper');
 const aiFunction = createAiFunctionInstance('your_api_key_here');
 ```
 
@@ -46,7 +54,7 @@ Now you can use the `aiFunction` without passing the API key every time.
 You can also retreive the OpenAI instance (Useful to use the OpenAI API directly without setting up the API Key again in your script):
 
 ```javascript
-const { createAiFunctionInstance, getOpenAI } = require('./src/aiFunction');
+const { createAiFunctionInstance, getOpenAI } = require('ai-function-helper');
 const aiFunction = createAiFunctionInstance('your_api_key_here');
 const openai = getOpenAI();
 

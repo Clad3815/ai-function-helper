@@ -7,8 +7,8 @@ node_modules
 # Ignorer tous les fichiers texte
 *.txt
 
-# Ignorer les fichiers liés aux clés d'API
-.env
+.npmignore
+
 
 # Ignorer les fichiers de configuration SASS
 .sass-cache
