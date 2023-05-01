@@ -43,6 +43,35 @@ const aiFunction = createAiFunctionInstance('your_api_key_here');
 
 Now you can use the `aiFunction` without passing the API key every time.
 
+You can also retreive the OpenAI instance (Useful to use the OpenAI API directly without setting up the API Key again in your script):
+
+```javascript
+const { createAiFunctionInstance, getOpenAI } = require('./src/aiFunction');
+const aiFunction = createAiFunctionInstance('your_api_key_here');
+const openai = getOpenAI();
+
+// Use the OpenAI API directly
+const embedText = await openai.createEmbedding({
+    model: "text-embedding-ada-002",
+    input: "Text to embed"
+});
+
+const moderateText = await openai.createModeration({
+    input: "Text to moderate",
+});
+
+const chat = openai.createChatCompletion({
+    model: 'gpt-3.5-turbo',
+    messages: gptMessages,
+    temperature: 0.7,
+    top_p: 0.9,
+    presence_penalty: 0.6,
+    frequency_penalty: 0.6,
+});
+
+
+```
+
 
 
 ## aiFunction(options)
