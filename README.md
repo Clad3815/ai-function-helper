@@ -92,7 +92,7 @@ The main function that takes a set of options as an input and returns the output
   - `funcReturn`: The expected return type of the custom function.
   - `functionName`: (optional): The name of the custom Python function to use. It's help to give context to the AI model. Default is `custom_function`.
   - `showDebug` (optional): If set to true, debug information will be printed to the console. Default is `false`.
-  - `funcArgs` (optional): The function arguments formatted as a string based on `args`. If not provided, the module will attempt to convert the arguments automatically. Example: `s:str, n:int, l:list, d:dict`
+  - `current_date_time` (optional): The current date and time. Default is `new Date().toISOString()`. This is used to let's the AI model know the current date and time.
   - `temperature` (optional): The sampling temperature for the AI model. Default is `0.8`
   - `frequency_penalty` (optional): The frequency penalty for the AI model. Default is `0`
   - `presence_penalty` (optional): The presence penalty for the AI model. Default is `0`

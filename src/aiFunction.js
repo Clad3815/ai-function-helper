@@ -34,6 +34,7 @@ function createAiFunctionInstance(apiKey) {
                 autoConvertReturn = true,
                 top_p = null,
                 max_tokens = null,
+                current_date_time = new Date().toISOString(),
         } = options;
         let funcReturnString = funcReturn;
         let argsString = '';
@@ -75,7 +76,7 @@ function createAiFunctionInstance(apiKey) {
         const messages = [{
                 role: 'user',
                 content: `
-            Current time: ${new Date().toISOString()}
+            Current time: ${current_date_time}
             You are to assume the role of the following Python function:
             \`\`\`
             def ${functionName}(${funcArgs}) -> ${funcReturnString}:
