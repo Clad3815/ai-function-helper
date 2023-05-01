@@ -19,6 +19,10 @@ const chalk = require('chalk');
 
 let openai;
 
+function getOpenAI() {
+    return openai;
+}
+
 function createAiFunctionInstance(apiKey) {
     if (!apiKey) {
         throw new Error('You must provide an OpenAI API key');
@@ -281,5 +285,6 @@ async function fixBadJsonFormat(jsonString, showDebug = false) {
 
 module.exports = {
     createAiFunctionInstance,
+    getOpenAI,
     fixBadJsonFormat
 };
