@@ -2,19 +2,6 @@ const {
     Configuration,
     OpenAIApi
 } = require('openai');
-
-const getType = require('./getType');
-const convertArgs = require('./convertArgs');
-const {
-    formatArg,
-    formatObjectArgs
-} = require('./formatArg');
-const {
-    retry,
-    isValidJSON,
-    parseJson
-} = require('./utils');
-
 const chalk = require('chalk');
 
 let openai;
@@ -283,8 +270,120 @@ async function fixBadJsonFormat(jsonString, showDebug = false) {
     }
 }
 
+function convertArgs(args) {
+    let funcArgs = '';
+
+    const type = getType(args);
+
+    if (type === 'list') {
+        for (let i = 0; i < args.length; i++) {
+            const argType = getType(args[i]);
+            funcArgs += `${String.fromCharCode(97 + i)}: ${argType}`;
+            if (i < args.length - 1) {
+                funcArgs += ', ';
+            }
+        }
+    } else if (type === 'dict') {
+        const keys = Object.keys(args);
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            const argType = getType(args[key]);
+            funcArgs += `${key}: ${argType}`;
+            if (i < keys.length - 1) {
+                funcArgs += ', ';
+            }
+        }
+        // Else if type is float or the string contain a valid float number
+    } else if (type === 'float' || (type === 'str' && !isNaN(parseFloat(args)))) {
+        funcArgs = 'f: float';
+    } else if (type === 'str') {
+        funcArgs = 's: str';
+    } else if (type === 'int') {
+        funcArgs = 'i: int';
+    } else if (type === 'bool') {
+        funcArgs = 'b: bool';
+
+    } else {
+        funcArgs = 'a: Anything';
+    }
+
+    return funcArgs;
+}
+
+function formatArg(arg) {
+    const type = getType(arg);
+
+    if (type === 'str' || type === 'int' || type === 'bool' || type === 'float') {
+        return `"${arg}"`;
+    } else if (type === 'list' || type === 'dict') {
+        return JSON.stringify(arg);
+    } else if (type === 'undefined' || type === 'null' || type === 'unknown') {
+        return 'None';
+
+    } else {
+        console.log(`Warning: Unknown type ${type} for argument ${arg}`);
+        return arg;
+    }
+}
+
+function formatObjectArgs(obj) {
+    const keys = Object.keys(obj);
+    return keys.map(key => `${key}=${formatArg(obj[key])}`).join(', ');
+}
+
+function getType(value) {
+    const type = Object.prototype.toString.call(value);
+
+    if (type === '[object Array]') {
+        return 'list';
+    } else if (type === '[object Object]') {
+        return 'dict';
+    } else if (type === '[object String]') {
+        return 'str';
+    } else if (type === '[object Number]' && value % 1 !== 0) {
+        return 'float';
+    } else if (type === '[object Number]') {
+        return 'int';
+    } else if (type === '[object Boolean]') {
+        return 'bool';
+    } else {
+        return 'unknown';
+    }
+}
+
+async function retry(fn, retries = 3, delay = 1000) {
+    try {
+        return await fn();
+    } catch (err) {
+        if (retries === 0) throw err;
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return retry(fn, retries - 1, delay);
+    }
+}
+
+function isValidJSON(jsonString) {
+    try {
+        JSON.parse(jsonString);
+    } catch (e) {
+        // console.log(e);
+        return false;
+    }
+    return true;
+}
+
+function parseJson(jsonString) {
+    // Use unicode escape to avoid invalid character errors
+    return JSON.parse(unicodeEscape(jsonString));
+}
+
+function unicodeEscape(str) {
+    return str.replace(/[\u00A0-\u9999<>\&]/g, function(i) {
+        return '\\u' + ('000' + i.charCodeAt(0).toString(16)).slice(-4);
+    });
+}
+
+
 module.exports = {
     createAiFunctionInstance,
-    getOpenAI,
-    fixBadJsonFormat
+    getOpenAI
 };
