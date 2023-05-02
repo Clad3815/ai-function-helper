@@ -91,6 +91,7 @@ The main function that takes a set of options as an input and returns the output
   - `description`: A description of the function's purpose.
   - `funcReturn`: The expected return type of the custom function.
   - `functionName`: (optional): The name of the custom Python function to use. It's help to give context to the AI model. Default is `custom_function`.
+  - `promptVars` : (optional): A dictionary of variables to be used in the prompt. It's will replace the variable name by the variable value in the prompt. Format: `${variableName}`. Default is `{}`.
   - `showDebug` (optional): If set to true, debug information will be printed to the console. Default is `false`.
   - `current_date_time` (optional): The current date and time. Default is `new Date().toISOString()`. This is used to let's the AI model know the current date and time.
   - `temperature` (optional): The sampling temperature for the AI model. Default is `0.8`

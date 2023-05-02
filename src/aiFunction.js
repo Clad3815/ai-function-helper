@@ -34,6 +34,7 @@ function createAiFunctionInstance(apiKey) {
                 autoConvertReturn = true,
                 top_p = null,
                 max_tokens = null,
+                promptVars = {},
                 current_date_time = new Date().toISOString(),
         } = options;
         let funcReturnString = funcReturn;
@@ -71,6 +72,10 @@ function createAiFunctionInstance(apiKey) {
 
         if (funcReturnString === 'str') {
             isJson = ' without surrounding quotes';
+        }
+
+        for (const [key, value] of Object.entries(promptVars)) {
+            description = description.replace('${' + key + '}', value);
         }
 
         const messages = [{
