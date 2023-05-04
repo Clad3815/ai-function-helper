@@ -12,12 +12,19 @@ function getOpenAI() {
 
 function createAiFunctionInstance(apiKey) {
     if (!apiKey) {
-        throw new Error('You must provide an OpenAI API key');
+        throw new Error('You must provide an OpenAI API key or an OpenAI instance');
     }
-    const configuration = new Configuration({
-        apiKey: apiKey
-    });
-    openai = new OpenAIApi(configuration);
+    if (typeof apiKey !== 'string') {
+        if (apiKey instanceof OpenAIApi)
+            openai = apiKey;
+        else
+            throw new Error('You must provide an OpenAI API key or a valid OpenAI instance');
+    } else {
+        const configuration = new Configuration({
+            apiKey: apiKey
+        });
+        openai = new OpenAIApi(configuration);
+    }
 
     async function aiFunction(options) {
         let {

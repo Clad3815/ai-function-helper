@@ -103,6 +103,27 @@ The main function that takes a set of options as an input and returns the output
   - `top_p` (optional): The top p value for the AI model.
 
 
+### promptVars
+
+The `promptVars` option is used to define the variables to be used in the prompt. It's will replace the variable name by the variable value in the prompt. Format: `${variableName}`.
+
+For instance:
+
+`This is a custom function that does something. Use {variable1} and {variable2} to do it.`
+
+```javascript
+promptVars: {
+    "variable1": "value1",
+    "variable2": "value2",
+}
+```
+
+This `promptVars` specification translates into the following prompt:
+
+`This is a custom function that does something. Use value1 and value2 to do it.`
+
+
+
 ### funcReturn
 
 The `funcReturn` option is used to define the expected return type of the custom function. It is expressed in a Python-like format, and it can be used to specify complex data structures like lists and dictionaries.
