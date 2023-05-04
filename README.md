@@ -119,7 +119,7 @@ The `promptVars` option is used to define the variables to be used in the prompt
 
 For instance:
 
-`This is a custom function that does something. Use {variable1} and {variable2} to do it.`
+`This is a custom function that does something. Use ${variable1} and ${variable2} to do it.`
 
 ```javascript
 promptVars: {
