@@ -76,8 +76,18 @@ const chat = openai.createChatCompletion({
     presence_penalty: 0.6,
     frequency_penalty: 0.6,
 });
+```
 
+Or you can also use an OpenAI instance directly:
 
+```javascript
+const configuration = new Configuration({
+    apiKey: apiKey
+});
+const openai = new OpenAIApi(configuration);
+
+const { createAiFunctionInstance } = require('ai-function-helper');
+const aiFunction = createAiFunctionInstance(openai);
 ```
 
 
