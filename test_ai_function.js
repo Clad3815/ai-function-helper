@@ -3,8 +3,10 @@ const path = require('path')
 require('dotenv').config();
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
 
+const math = require('mathjs');
+
 const showDebug = false;
-const numTestToRun = 6;
+const numTestToRun = 3;
 
 
 // Initialize the OpenAI API client
@@ -13,12 +15,15 @@ const numTestToRun = 6;
 // Run all tests, print the results, and return the number of failed tests
 async function runTests(model) {
     // const testFunctions = [test2, test3];
-    // const testFunctions = [test1, test2, test3, test4, test5, test6, test7, test8];
-    const testFunctions = [test2, test3, test4, test5, test6, test7, test8, test9];
+    const testFunctions = [test1, test2, test3, test10, test11, test12, test4, test5, test6, test7, test8];
+    // const testFunctions = [test2, test3, test10, test11, test12, test4, test5, test6, test7, test8, test9];
     const testNames = [
-        // 'Generate fake people',
+        'Generate fake people',
         'Generate Random Password',
         'Calculate area of triangle',
+        'Calculate area of triangle (with mathjs help)',
+        'Complex calculation',
+        'Complex calculation (with mathjs help)',
         'Calculate the nth prime number',
         'Encrypt text',
         'Find missing numbers',
@@ -61,9 +66,10 @@ async function runTests(model) {
 
 // Ai function test 1
 async function test1(model) {
+    const randomCount = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
     const result = await aiFunction({
         args: {
-            count_people: 4
+            count_people: randomCount
         },
         functionName: 'fake_people',
         description: 'Generates n examples of fake data representing people, each with a name and an age.',
@@ -82,7 +88,7 @@ async function test1(model) {
     }
 
     // Assert the length of the result is equal to the number of people requested
-    if (result.length !== 4) {
+    if (result.length !== randomCount) {
         throw new Error('Result length is not equal to the number of people requested');
     }
 }
@@ -98,25 +104,24 @@ async function test2(model) {
         },
         functionName: 'random_string_generator',
         description: 'Generates a strong random string of given length with or without special characters. Just put random characters in a string and it will generate the desired output. ',
-        funcReturn: 'str',
-        temperature: 0.8,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.5,
+        funcReturn: 'dict[string:str, length:int]]',
+        temperature: 1,
+        frequency_penalty: 0.9,
+        presence_penalty: 0.9,
         model: model,
         showDebug: showDebug,
     });
 
-    console.log(`Output: ${result} | Expected length: ${randomLength} | Special characters: ${specialChar}`);
+    console.log(`Output: ${result.string} (${result.string.length}) (AI: ${result.length}) | Expected length: ${randomLength} | Special characters: ${specialChar}`);
 
     // Assert the length of the result is equal to the length requested
-    if (result.length !== randomLength) {
+    if (result.string.length !== randomLength) {
         throw new Error('Result length is not equal to the length requested');
     }
 }
 
 // Ai function test 3
 async function test3(model) {
-
     // Create random base and height values and store the true area of the triangle to check against the result
     let base = Math.floor(Math.random() * 100) / 4;
     let height = Math.floor(Math.random() * 100) / 4;
@@ -182,7 +187,7 @@ async function test5(model) {
         functionName: 'encrypt_text',
         description: 'Encrypts the given text using a simple character substitution based on the provided key.',
         funcReturn: 'str',
-        temperature: 0.2,
+        temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
@@ -305,7 +310,115 @@ async function test9(model) {
     }
 }
 
+// Ai function test 10
+async function test10(model) {
 
+    // Create random base and height values and store the true area of the triangle to check against the result
+    let base = Math.floor(Math.random() * 100) / 4;
+    let height = Math.floor(Math.random() * 100) / 4;
+    let area = (base * height) / 2;
+
+
+    const result = await aiFunction({
+        args: {
+            operation: "Calculate the area of a triangle given its base and height.",
+            base: base,
+            height: height
+        },
+        functionName: 'generate_math_formula',
+        description: 'Return only the math formula for the given operation using all available parameters. The formula format must be valid to be evaluated by mathjs with all necessary numbers and operators',
+        funcReturn: 'dict[formula:str]',
+        temperature: 0.1,
+        model: model,
+        showDebug: showDebug,
+    });
+
+    let areaGpt = math.evaluate(result.formula);
+
+    console.log(`Output: ${areaGpt} | Expected: ${area} | Math expression: ${result.formula}`);
+
+    // Assert the result is a float
+    if (isNaN(parseFloat(areaGpt))) {
+        throw new Error('Result is not a float');
+    }
+
+    // Assert the result is equal to the expected area of the triangle
+    if (parseFloat(areaGpt) !== area) {
+        throw new Error(`Result is not equal to the expected area of the triangle, which is: ${area}`);
+    }
+}
+// Ai function test 11
+async function test11(model) {
+    // Complex calculation without mathjs help: Calculate the volume of a torus
+
+    const majorRadius = Math.floor(Math.random() * 100) / 4;
+    const minorRadius = Math.floor(Math.random() * 100) / 4;
+
+    const volume = 2 * Math.PI * Math.PI * majorRadius * minorRadius * minorRadius;
+
+    const result = await aiFunction({
+        args: {
+            majorRadius: majorRadius,
+            minorRadius: minorRadius
+        },
+        functionName: 'calculate_torus_volume',
+        description: 'Calculates the volume of a torus given its major and minor radii.',
+        funcReturn: 'float',
+        temperature: 0.1,
+        model: model,
+        showDebug: showDebug,
+    });
+
+    console.log(`Output: ${result} | Expected: ${volume}`);
+
+    // Assert the result is a float
+    if (isNaN(parseFloat(result))) {
+        throw new Error('Result is not a float');
+    }
+
+    // Assert the result is equal to the expected volume of the torus
+    if (Math.abs(parseFloat(result) - volume) > 0.01) {
+        throw new Error(`Result is not equal to the expected volume of the torus, which is: ${volume}`);
+    }
+}
+
+// Ai function test 12
+async function test12(model) {
+    // Complex calculation with mathjs help: Calculate the surface area of a torus
+
+    const majorRadius = Math.floor(Math.random() * 100) / 4;
+    const minorRadius = Math.floor(Math.random() * 100) / 4;
+
+    const surfaceArea = 4 * Math.PI * Math.PI * majorRadius * minorRadius;
+
+    const result = await aiFunction({
+        args: {
+            operation: "Calculate the surface area of a torus given its major and minor radii.",
+            majorRadius: majorRadius,
+            minorRadius: minorRadius
+        },
+        functionName: 'generate_math_formula',
+        description: 'Return only the math formula for the given operation using all available parameters. The formula format must be valid to be evaluated by mathjs with all necessary numbers and operators',
+        funcReturn: 'dict[formula:str]',
+        temperature: 0.1,
+        model: model,
+        showDebug: showDebug,
+    });
+
+    let surfaceAreaGpt = math.evaluate(result.formula);
+
+    console.log(`Output: ${surfaceAreaGpt} | Expected: ${surfaceArea} | Math expression: ${result.formula}`);
+
+    // Assert the result is a float
+    if (isNaN(parseFloat(surfaceAreaGpt))) {
+        throw new Error('Result is not a float');
+    }
+
+    // Assert the result is equal to the expected surface area of the torus
+    if (Math.abs(parseFloat(surfaceAreaGpt) - surfaceArea) > 0.01) {
+        throw new Error(`Result is not equal to the expected surface area of the torus, which is: ${surfaceArea}`);
+    }
+}
 
 // Helper function to check if two arrays are equal
 function arraysEqual(a, b) {
