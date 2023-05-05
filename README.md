@@ -443,8 +443,8 @@ A total of 60 tests for each function were performed using the GPT-3.5-turbo mod
 | Encrypt text                | 80-100%    | N/A   |
 | Calculate area of triangle  | 0%-50%     | N/A   |
 | Calculate area of triangle (Using mathjs evaluated)  | 100%     | N/A   |
-| Calculate volume of a torus  | 0%     | N/A   |
-| Calculate volume of a torus (Using mathjs evaluated)  | 100%     | N/A   |
+| Calculate the approximate surface area of an ellipsoid  | 0%     | N/A   |
+| Calculate the approximate surface area of an ellipsoid (Using mathjs evaluated)  | 100%     | N/A   |
 
 
 `Some results can be improved by optimising the prompt, temperature, and other parameters according to the function and the use case.`
@@ -457,7 +457,7 @@ It's important to note that AI functions are not well-suited for certain tasks, 
 
 In conclusion, while AI functions can be helpful in various scenarios, they may not be the optimal choice for tasks requiring mathematical accuracy or specific domain knowledge. For such use-cases, utilizing traditional algorithms and libraries would yield better results.
 
-But the prompt can be used in addition of some libraries to improve the results. For example, the `calculate area of triangle` or `calculate volume of torus` function can be improved by using the `mathjs` library to evaluate the operation. The prompt is used to convert text to a mathjs expression, and the result is evaluated by mathjs. 
+But the prompt can be used in addition of some libraries to improve the results. For example, the `calculate area of triangle` or `calculate the approximate surface area of an ellipsoid` function can be improved by using the `mathjs` library to evaluate the operation. The prompt is used to convert text to a mathjs expression, and the result is evaluated by mathjs. 
 
 
 # Contributing

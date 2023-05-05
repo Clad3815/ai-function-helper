@@ -1,4 +1,6 @@
-const { createAiFunctionInstance } = require('./src/aiFunction.js');
+const {
+    createAiFunctionInstance
+} = require('./src/aiFunction.js');
 const path = require('path')
 require('dotenv').config();
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
@@ -15,10 +17,10 @@ const numTestToRun = 3;
 // Run all tests, print the results, and return the number of failed tests
 async function runTests(model) {
     // const testFunctions = [test2, test3];
-    const testFunctions = [test1, test2, test3, test10, test11, test12, test4, test5, test6, test7, test8];
-    // const testFunctions = [test2, test3, test10, test11, test12, test4, test5, test6, test7, test8, test9];
+    // const testFunctions = [test1, test2, test3, test4, test5, test6, test7, test8];
+    const testFunctions = [test2, test3, test10, test11, test12, test4, test5, test6, test7, test8, test9];
     const testNames = [
-        'Generate fake people',
+        // 'Generate fake people',
         'Generate Random Password',
         'Calculate area of triangle',
         'Calculate area of triangle (with mathjs help)',
@@ -349,76 +351,83 @@ async function test10(model) {
 }
 // Ai function test 11
 async function test11(model) {
-    // Complex calculation without mathjs help: Calculate the volume of a torus
+    // Complex calculation without mathjs help: Calculate the approximate surface area of an ellipsoid
 
-    const majorRadius = Math.floor(Math.random() * 100) / 4;
-    const minorRadius = Math.floor(Math.random() * 100) / 4;
+    const a = Math.floor(Math.random() * 100) / 4;
+    const b = Math.floor(Math.random() * 100) / 4;
+    const c = Math.floor(Math.random() * 100) / 4;
 
-    const volume = 2 * Math.PI * Math.PI * majorRadius * minorRadius * minorRadius;
+    const p = 1.6; // A common value used for the approximation
+    const surfaceArea = 4 * Math.PI * Math.pow((Math.pow(a * b, p) + Math.pow(a * c, p) + Math.pow(b * c, p)) / 3, 1 / p);
 
     const result = await aiFunction({
         args: {
-            majorRadius: majorRadius,
-            minorRadius: minorRadius
+            a: a,
+            b: b,
+            c: c
         },
-        functionName: 'calculate_torus_volume',
-        description: 'Calculates the volume of a torus given its major and minor radii.',
+        functionName: 'calculate_ellipsoid_surface_area',
+        description: 'Calculates the approximate surface area of an ellipsoid given its semi-major axes a, b, and c.',
         funcReturn: 'float',
         temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
 
-    console.log(`Output: ${result} | Expected: ${volume}`);
+    console.log(`Output: ${result} | Expected: ${surfaceArea}`);
 
     // Assert the result is a float
     if (isNaN(parseFloat(result))) {
         throw new Error('Result is not a float');
     }
 
-    // Assert the result is equal to the expected volume of the torus
-    if (Math.abs(parseFloat(result) - volume) > 0.01) {
-        throw new Error(`Result is not equal to the expected volume of the torus, which is: ${volume}`);
+    // Assert the result is equal to the expected surface area of the ellipsoid
+    if (Math.abs(parseFloat(result) - surfaceArea) > 0.01) {
+        throw new Error(`Result is not equal to the expected surface area of the ellipsoid, which is: ${surfaceArea}`);
     }
 }
 
 // Ai function test 12
 async function test12(model) {
-    // Complex calculation with mathjs help: Calculate the surface area of a torus
+    // Complex calculation with mathjs help: Calculate the approximate surface area of an ellipsoid
 
-    const majorRadius = Math.floor(Math.random() * 100) / 4;
-    const minorRadius = Math.floor(Math.random() * 100) / 4;
+    const a = Math.floor(Math.random() * 100) / 4;
+    const b = Math.floor(Math.random() * 100) / 4;
+    const c = Math.floor(Math.random() * 100) / 4;
 
-    const surfaceArea = 4 * Math.PI * Math.PI * majorRadius * minorRadius;
+    const p = 1.6; // A common value used for the approximation
+    const surfaceArea = 4 * Math.PI * Math.pow((Math.pow(a * b, p) + Math.pow(a * c, p) + Math.pow(b * c, p)) / 3, 1 / p);
 
     const result = await aiFunction({
         args: {
-            operation: "Calculate the surface area of a torus given its major and minor radii.",
-            majorRadius: majorRadius,
-            minorRadius: minorRadius
+            operation: "Calculate the approximate surface area of an ellipsoid given its semi-major axes a, b, and c.",
+            a: a,
+            b: b,
+            c: c
         },
         functionName: 'generate_math_formula',
-        description: 'Return only the math formula for the given operation using all available parameters. The formula format must be valid to be evaluated by mathjs with all necessary numbers and operators',
-        funcReturn: 'dict[formula:str]',
+        description: `Return the full math formula for the given operation. The formula must be valid to be evaluated by mathjs. Don't use "**" operator, use "pow" function instead.`,
+        funcReturn: 'dict[formula:str, scope:dict]',
         temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
 
-    let surfaceAreaGpt = math.evaluate(result.formula);
+    const surfaceAreaGpt = math.evaluate(result.formula, result.scope);
 
-    console.log(`Output: ${surfaceAreaGpt} | Expected: ${surfaceArea} | Math expression: ${result.formula}`);
+    console.log(`Output: ${surfaceAreaGpt} | Expected: ${surfaceArea} | Math expression: ${result.formula} | Scope: ${JSON.stringify(result.scope)}`);
 
     // Assert the result is a float
     if (isNaN(parseFloat(surfaceAreaGpt))) {
         throw new Error('Result is not a float');
     }
 
-    // Assert the result is equal to the expected surface area of the torus
-    if (Math.abs(parseFloat(surfaceAreaGpt) - surfaceArea) > 0.01) {
-        throw new Error(`Result is not equal to the expected surface area of the torus, which is: ${surfaceArea}`);
+    // Assert the result is equal to the expected surface area of the ellipsoid
+    if (Math.abs(parseFloat(result) - surfaceAreaGpt) > 0.01) {
+        throw new Error(`Result is not equal to the expected surface area of the ellipsoid, which is: ${surfaceAreaGpt}`);
     }
 }
+
 
 // Helper function to check if two arrays are equal
 function arraysEqual(a, b) {
