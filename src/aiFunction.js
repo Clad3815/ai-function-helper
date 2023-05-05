@@ -198,6 +198,8 @@ function createAiFunctionInstance(apiKey) {
 
 function fixJsonString(pythonString) {
     return pythonString.trim()
+        .replace(/(^|[^\\])\\\\"/g, '$1\\\\"') // Double backslashes before escaped quotes in values
+        .replace(/(^|[^\\])\\"/g, '$1"') // Fix incorrect escaped quotes around key names
         .replace(/(^|[^\\w])'($|[^\\w])/g, '$1"$2')
         .replace(/\\"/g, "'")
         .replace(/[”“]/g, '"').replace(/[‘’]/g, "'")
@@ -207,8 +209,12 @@ function fixJsonString(pythonString) {
         .replace(/True/g, 'true').replace(/False/g, 'false')
         .replace(/^`+|`+$/g, '')
         .replace(/^'+|'+$/g, '')
-        .replace(/(^\{.*),\}$/g, '$1}');
+        .replace(/(^\{.*),\}$/g, '$1}')
+        .replace(/(?:\r\n|\r|\n)/g, '\\n')
+        .replace(/\.\}$/g, '}');
 }
+
+
 
 
 async function fixBadJsonFormat(jsonString, showDebug = false) {
