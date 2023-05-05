@@ -18,9 +18,9 @@ const numTestToRun = 3;
 async function runTests(model) {
     // const testFunctions = [test2, test3];
     // const testFunctions = [test1, test2, test3, test4, test5, test6, test7, test8];
-    const testFunctions = [test2, test3, test10, test11, test12, test4, test5, test6, test7, test8, test9];
+    const testFunctions = [test1, test2, test3, test10, test11, test12, test4, test5, test6, test7, test8, test9];
     const testNames = [
-        // 'Generate fake people',
+        'Generate fake people',
         'Generate Random Password',
         'Calculate area of triangle',
         'Calculate area of triangle (with mathjs help)',
@@ -386,7 +386,6 @@ async function test11(model) {
         throw new Error(`Result is not equal to the expected surface area of the ellipsoid, which is: ${surfaceArea}`);
     }
 }
-
 // Ai function test 12
 async function test12(model) {
     // Complex calculation with mathjs help: Calculate the approximate surface area of an ellipsoid
@@ -406,16 +405,19 @@ async function test12(model) {
             c: c
         },
         functionName: 'generate_math_formula',
-        description: `Return the full math formula for the given operation. The formula must be valid to be evaluated by mathjs. Don't use "**" operator, use "pow" function instead.`,
-        funcReturn: 'dict[formula:str, scope:dict]',
+        description: `Return the full math formula for the given operation. The formula must be valid to be evaluated by mathjs. Don't use "**" operator, use "pow" function instead. And give a full explanation of how you calculate the result.`,
+        funcReturn: 'dict[formula:str, scope:dict, explanation:str]',
         temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
+    // console.log(result);
+
+    // We ask explanation to the AI to help him to find the correct formula even if we don't use it to calculate the result
 
     const surfaceAreaGpt = math.evaluate(result.formula, result.scope);
 
-    console.log(`Output: ${surfaceAreaGpt} | Expected: ${surfaceArea} | Math expression: ${result.formula} | Scope: ${JSON.stringify(result.scope)}`);
+    console.log(`Output: ${surfaceAreaGpt} | Expected: ${surfaceArea} | Math expression: ${result.formula} | Scope: ${JSON.stringify(result.scope)} | Explanation: ${result.explanation}`);
 
     // Assert the result is a float
     if (isNaN(parseFloat(surfaceAreaGpt))) {
@@ -423,7 +425,7 @@ async function test12(model) {
     }
 
     // Assert the result is equal to the expected surface area of the ellipsoid
-    if (Math.abs(parseFloat(result) - surfaceAreaGpt) > 0.01) {
+    if (Math.abs(parseFloat(surfaceAreaGpt) - surfaceArea) > 0.01) {
         throw new Error(`Result is not equal to the expected surface area of the ellipsoid, which is: ${surfaceAreaGpt}`);
     }
 }
