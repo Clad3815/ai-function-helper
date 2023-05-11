@@ -144,6 +144,14 @@ function createAiFunctionInstance(apiKey) {
 
         let answer = gptResponse.data.choices[0]['message']['content'];
 
+        if (showDebug) {
+            console.log(chalk.yellow('####################'));
+            console.log(chalk.magenta('Tokens from prompt: ') + chalk.green(gptResponse.data.usage.prompt_tokens.toString()));
+            console.log(chalk.magenta('Tokens from completion: ') + chalk.green(gptResponse.data.usage.completion_tokens.toString()));
+            console.log(chalk.yellow('Total tokens: ') + chalk.green(gptResponse.data.usage.total_tokens.toString()));
+            console.log(chalk.yellow('####################'));
+        }
+
         if (autoConvertReturn === true) {
             answer = answer.replace(/^(```(?:python|json)?|`['"]?|['"]?)|(```|['"`]?)$/g, '');
 
