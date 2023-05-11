@@ -10,6 +10,7 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
   - [Installation](#installation)
   - [Usage](#usage)
   - [aiFunction(options)](#aifunctionoptions)
+    - [stream](#stream)
     - [blockHijack](#blockhijack)
     - [promptVars](#promptvars)
     - [funcReturn](#funcreturn)
@@ -133,7 +134,27 @@ The main function that takes a set of options as an input and returns the output
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If set to true, the AI model will not follow any hijack attempts in the user message and will strictly adhere to the function's instructions. If a user message contains instructions to break the rules, the AI will treat it as an error and return an error message. The user message must only contain parameters for the function. Default is `false`.
+  - `stream` (optional): If set to true, the AI model will stream the response instead of returning it all at once. Work only with `str`, `int`, `float` and `bool` return type. Default is `false`.
 
+
+
+### stream
+
+The `stream` option is used to stream the response instead of returning it all at once. This is useful when you want to get the response as soon as possible and don't want to wait for the AI model to finish processing the entire prompt. Here is an example of how to use the `stream` option:
+
+```javascript
+let aiFunc = await aiFunction({
+  ...
+  stream: true,
+  ...
+})
+let fullResponse = '';
+for await (let message of aiFunc) {
+  fullResponse += message;
+  console.log("Partial message:" + message);
+}
+console.log("Full response: " + fullResponse);
+```
 
 
 ### blockHijack
