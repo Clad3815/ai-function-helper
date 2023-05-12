@@ -157,6 +157,10 @@ console.log("Full response: " + fullResponse);
 ```
 
 
+`stream` can be only used with `str`, `int`, `float` and `bool` return type `funcReturn`. If you use `stream` with another return type, the script will throw an error.
+
+
+
 ### blockHijack
 
 The `blockHijack` option is used to prevent the AI model from following instructions in user messages that attempt to break the function's rules. When set to true, the AI model will not obey any hijack attempts in the user message and will only focus on the parameters provided for the function.

@@ -46,7 +46,6 @@ function createAiFunctionInstance(apiKey) {
             promptVars = {},
             current_date_time = new Date().toISOString(),
         } = options;
-        let funcReturnString = funcReturn;
         let argsString = '';
 
         if (Array.isArray(args)) {
@@ -68,31 +67,18 @@ function createAiFunctionInstance(apiKey) {
             funcArgs = convertArgs(args);
         }
 
-        let isJson = '';
-        let dictAdded = false;
-        if (stream === true) {
-            isJson = ' without surrounding quotes (\'"`)';
-            if (funcReturn != 'str' && funcReturn != 'int' && funcReturn != 'float' && funcReturn != 'bool') {
-                throw new Error('You must specify a valid return type for a streaming function (str, int, float or bool)');
-            }
-        } else {
-            if (autoConvertReturn === true) {
-                isJson = ' converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function';
-                if (funcReturn === 'str') {
-                    funcReturnString = 'dict[return:str]';
-                    dictAdded = true;
-                } else if (funcReturn == 'int') {
-                    funcReturnString = 'dict[return:int]';
-                    dictAdded = true;
-                } else if (funcReturn == 'float') {
-                    funcReturnString = 'dict[return:float]';
-                    dictAdded = true;
-                } else if (funcReturn == 'bool') {
-                    funcReturnString = 'dict[return:bool]';
-                    dictAdded = true;
-                }
-            }
+        const returnTypes = ['str', 'int', 'float', 'bool'];
+
+        const isReturnTypeValid = (returnType) => returnTypes.includes(returnType);
+
+        const funcReturnString = autoConvertReturn && isReturnTypeValid(funcReturn) ? `dict[return:${funcReturn}]` : funcReturn;
+        const isJson = stream ? ' without surrounding quotes (\'"\`)' : (autoConvertReturn ? ' converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function' : '');
+        const dictAdded = autoConvertReturn && isReturnTypeValid(funcReturn);
+
+        if (stream && !isReturnTypeValid(funcReturn)) {
+            throw new Error('You must specify a valid return type for a streaming function (str, int, float or bool)');
         }
+
 
         for (const [key, value] of Object.entries(promptVars)) {
             description = description.replace('${' + key + '}', value);
