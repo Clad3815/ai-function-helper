@@ -134,13 +134,13 @@ The main function that takes a set of options as an input and returns the output
   - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brut result. Default is `true`.
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
-  - `blockHijack` (optional): If set to true, the AI model will not follow any hijack attempts in the user message and will strictly adhere to the function's instructions. If a user message contains instructions to break the rules, the AI will treat it as an error and return an error message. The user message must only contain parameters for the function. Default is `false`.
-  - `stream` (optional): If set to true, the AI model will stream the response instead of returning it all at once. Work only with `str`, `int`, `float` and `bool` return type. Default is `false`.
-  - `useInternalStream` (optional): Don't work with `stream` option. If set to true, the AI model will stream the response internally to optimize the response time. This will not change the output format, and it's highly recommanded to activate it to improve the response time. Default is `true`.
+  - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
+  - `stream` (optional):  If true, the AI model will send the response in streams instead of all at once. This is only compatible with `str`, `int`, `float` and `bool` return type. Default is `false`.
+  - `useInternalStream` (optional):  If true, the AI model will internally stream the response to optimize response time. This does not alter the output format and is recommended for improving response times. Default is `false`.
 
 ### stream
 
-The `stream` option is used to stream the response instead of returning it all at once. This is useful when you want to get the response as soon as possible and don't want to wait for the AI model to finish processing the entire prompt. Here is an example of how to use the `stream` option:
+The `stream` option allows for the AI model's response to be sent in a stream, rather than waiting for the entire prompt to be processed. This can be particularly useful when immediate response is required. Here's an example of how to use it:
 
 ```javascript
 let aiFunc = await aiFunction({
@@ -157,16 +157,15 @@ console.log("Full response: " + fullResponse);
 ```
 
 
-`stream` can be only used with `str`, `int`, `float` and `bool` return type `funcReturn`. If you use `stream` with another return type, the script will throw an error.
+Please note that stream can only be used with `str`, `int`, `float` and `bool` as `funcReturn` types. Using it with any other return types will result in an error.
+
 
 
 ### useInternalStream
 
-The `useInternalStream` option is used to stream the response internally to optimize the response time. This option is different than the `stream` option. The `stream` option is used to stream the response to the user, and the `useInternalStream` option is used to stream the response internally to optimize the response time. This option is highly recommended to activate it to improve the response time. This will not change the output format or anything else, but it's disabled by default to act as the normal OpenAI API.
+The `useInternalStream` option enables the AI model to stream the response internally, optimizing the time it takes to receive a response. This is different from the `stream` option, which streams the response to the user.
 
-In short, always activate `useInternalStream` unless you want to use the `stream` option to stream the response to the user or if you encounter a bug with the `useInternalStream` option.
-
-This option will never throw an error if you use it with `stream` enable, but only the `stream` option will be used.
+Enabling `useInternalStream` improves response time without changing the output format or any other behavior, making it a highly recommended option
 
 
 ### blockHijack
