@@ -36,7 +36,8 @@ function createAiFunctionInstance(apiKey) {
             funcReturn = "dict",
             autoConvertReturn = true,
             blockHijack = false,
-            stream = false,
+            stream = false, 
+            useInternalStream = false, 
             temperature = 0.8,
             frequency_penalty = 0,
             presence_penalty = 0,
@@ -46,7 +47,9 @@ function createAiFunctionInstance(apiKey) {
             promptVars = {},
             current_date_time = new Date().toISOString(),
         } = options;
+        let funcReturnString = funcReturn;
         let argsString = '';
+        
 
         if (Array.isArray(args)) {
             let objectArgs = {};
@@ -67,18 +70,31 @@ function createAiFunctionInstance(apiKey) {
             funcArgs = convertArgs(args);
         }
 
-        const returnTypes = ['str', 'int', 'float', 'bool'];
-
-        const isReturnTypeValid = (returnType) => returnTypes.includes(returnType);
-
-        const funcReturnString = autoConvertReturn && isReturnTypeValid(funcReturn) ? `dict[return:${funcReturn}]` : funcReturn;
-        const isJson = stream ? ' without surrounding quotes (\'"\`)' : (autoConvertReturn ? ' converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function' : '');
-        const dictAdded = autoConvertReturn && isReturnTypeValid(funcReturn);
-
-        if (stream && !isReturnTypeValid(funcReturn)) {
-            throw new Error('You must specify a valid return type for a streaming function (str, int, float or bool)');
+        let isJson = '';
+        let dictAdded = false;
+        if (stream === true) {
+            isJson = ' without surrounding quotes (\'"`)';
+            if (funcReturn != 'str' && funcReturn != 'int' && funcReturn != 'float' && funcReturn != 'bool') {
+                throw new Error('You must specify a valid return type for a streaming function (str, int, float or bool)');
+            }
+        } else {
+            if (autoConvertReturn === true) {
+                isJson = ' converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function';
+                if (funcReturn === 'str') {
+                    funcReturnString = 'dict[return:str]';
+                    dictAdded = true;
+                } else if (funcReturn == 'int') {
+                    funcReturnString = 'dict[return:int]';
+                    dictAdded = true;
+                } else if (funcReturn == 'float') {
+                    funcReturnString = 'dict[return:float]';
+                    dictAdded = true;
+                } else if (funcReturn == 'bool') {
+                    funcReturnString = 'dict[return:bool]';
+                    dictAdded = true;
+                }
+            }
         }
-
 
         for (const [key, value] of Object.entries(promptVars)) {
             description = description.replace('${' + key + '}', value);
@@ -124,10 +140,106 @@ function createAiFunctionInstance(apiKey) {
         if (stream === true) {
             return returnStreamingData(options, messages);
         } else {
-            return await getDataFromAPI(options, messages, dictAdded);
+            if (useInternalStream)
+                return await getDataFromAPIStream(options, messages, dictAdded);
+            else
+                return await getDataFromAPI(options, messages, dictAdded);
         }
 
 
+    }
+
+
+    async function getDataFromAPIStream(options, messages, dictAdded) {
+        let {
+            showDebug = false,
+            temperature = 0.8,
+            frequency_penalty = 0,
+            presence_penalty = 0,
+            model = 'gpt-3.5-turbo',
+            autoConvertReturn = true,
+            top_p = null,
+            max_tokens = null,
+        } = options;
+
+        const res = await openai.createChatCompletion({
+            model: model,
+            messages: messages,
+            temperature: temperature,
+            frequency_penalty: frequency_penalty,
+            presence_penalty: presence_penalty,
+            max_tokens: max_tokens,
+            top_p: top_p,
+            stream: true,
+        }, {
+            responseType: 'stream'
+        });
+
+        let tempData = '';
+        let answer = '';
+
+        for await (const data of res.data) {
+            const lines = data
+                .toString()
+                .split('\n')
+                .filter((line) => line.trim() !== '');
+
+            for (const line of lines) {
+                const lineData = tempData + line;
+                const message = lineData.replace(/^data: /, '');
+
+                if (message === '[DONE]') {
+                    break; // Stream finished
+                }
+
+                try {
+                    const parsed = JSON.parse(message);
+                    const chunk_message = parsed.choices[0].delta.content;
+                    const finish_reason = parsed.choices[0].finish_reason;
+
+                    if (finish_reason === 'stop') {
+                        break; // Stream finished
+                    }
+
+                    if (typeof chunk_message === 'undefined') {
+                        continue;
+                    }
+
+                    if (showDebug) {
+                        console.log(`[STREAM] Message received: ${chunk_message}`);
+                    }
+                    answer += chunk_message;
+                    tempData = '';
+                } catch (error) {
+                    tempData += line;
+                    if (showDebug) {
+                        console.error(
+                            '[STREAM] Could not JSON parse stream message, adding to buffer:',
+                            message
+                        );
+                    }
+                }
+            }
+        }
+        console.log('answer', answer);
+        // if (showDebug) {
+        //     console.log(chalk.yellow('####################'));
+        //     console.log(chalk.magenta('Tokens from prompt: ') + chalk.green(gptResponse.data.usage.prompt_tokens.toString()));
+        //     console.log(chalk.magenta('Tokens from completion: ') + chalk.green(gptResponse.data.usage.completion_tokens.toString()));
+        //     console.log(chalk.yellow('Total tokens: ') + chalk.green(gptResponse.data.usage.total_tokens.toString()));
+        //     console.log(chalk.yellow('####################'));
+        // }
+
+        if (autoConvertReturn === true) {
+            return await parseAndFixData(answer, showDebug, dictAdded);
+        } else {
+            if (showDebug) {
+                console.log(chalk.yellow('####################'));
+                console.log(chalk.blue('Returning brut answer: ' + answer));
+                console.log(chalk.yellow('####################'));
+            }
+        }
+        return answer;
     }
 
 
