@@ -81,16 +81,16 @@ function createAiFunctionInstance(apiKey) {
             if (autoConvertReturn === true) {
                 isJson = ' converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function';
                 if (funcReturn === 'str') {
-                    funcReturnString = 'dict[return:str]';
+                    funcReturnString = 'dict[returnData:str]';
                     dictAdded = true;
                 } else if (funcReturn == 'int') {
-                    funcReturnString = 'dict[return:int]';
+                    funcReturnString = 'dict[returnData:int]';
                     dictAdded = true;
                 } else if (funcReturn == 'float') {
-                    funcReturnString = 'dict[return:float]';
+                    funcReturnString = 'dict[returnData:float]';
                     dictAdded = true;
                 } else if (funcReturn == 'bool') {
-                    funcReturnString = 'dict[return:bool]';
+                    funcReturnString = 'dict[returnData:bool]';
                     dictAdded = true;
                 }
             }
@@ -383,7 +383,7 @@ function createAiFunctionInstance(apiKey) {
             }
             if (dictAdded) {
                 let parsedAnswer = parseJson(answer);
-                return parsedAnswer.return;
+                return parsedAnswer.returnData;
             } else {
                 return parseJson(answer);
             }
@@ -396,7 +396,7 @@ function createAiFunctionInstance(apiKey) {
             if (fixedAnswer !== "") {
                 if (dictAdded) {
                     let parsedAnswer = parseJson(fixedAnswer);
-                    return parsedAnswer.return;
+                    return parsedAnswer.returnData;
                 } else {
                     return parseJson(fixedAnswer);
                 }
