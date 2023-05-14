@@ -1,15 +1,12 @@
-import {
+const readline = require('readline');
+const {
     createAiFunctionInstance
-} from '../src/aiFunction.js';
-
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
+} = require('../src/aiFunction');
+const path = require('path')
+require('dotenv').config();
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
 
-import readline from 'readline';
-import chalk from 'chalk';
+const chalk = require('chalk'); // Import chalk
 
 
 const enableDebug = false; // Set to true to enable debug mode

@@ -1,43 +1,29 @@
+const {
+    Configuration,
+    OpenAIApi
+} = require('openai');
+const chalk = require('chalk');
 
-import chalk from 'chalk';
-import {
-    ChatOpenAI
-} from "langchain/chat_models/openai";
-import {
-    HumanChatMessage,
-    AIChatMessage,
-    SystemChatMessage
-} from "langchain/schema";
+let openai;
 
-import {
-    WebBrowser
-} from "langchain/tools/webbrowser";
-
-import {
-    initializeAgentExecutorWithOptions
-} from "langchain/agents";
-import {
-    OpenAIEmbeddings
-} from "langchain/embeddings/openai";
-
-
-let openaiApiKey;
-
-let lastLangchainModel = null;
-
-
-export function getLastModel() {
-    return lastLangchainModel;
+function getOpenAI() {
+    return openai;
 }
 
-export function createAiFunctionInstance(apiKey) {
+function createAiFunctionInstance(apiKey) {
     if (!apiKey) {
-        throw new Error('You must provide an OpenAI API key');
+        throw new Error('You must provide an OpenAI API key or an OpenAI instance');
     }
     if (typeof apiKey !== 'string') {
-        throw new Error('You must provide an OpenAI API key as a string');
+        if (apiKey instanceof OpenAIApi)
+            openai = apiKey;
+        else
+            throw new Error('You must provide an OpenAI API key or a valid OpenAI instance');
     } else {
-        openaiApiKey = apiKey;
+        const configuration = new Configuration({
+            apiKey: apiKey
+        });
+        openai = new OpenAIApi(configuration);
     }
 
     async function aiFunction(options) {
@@ -50,19 +36,20 @@ export function createAiFunctionInstance(apiKey) {
             funcReturn = "dict",
             autoConvertReturn = true,
             blockHijack = false,
-            stream = false,
-            useInternalStream = false,
+            stream = false, 
+            useInternalStream = false, 
+            temperature = 0.8,
+            frequency_penalty = 0,
+            presence_penalty = 0,
+            model = 'gpt-3.5-turbo',
+            top_p = null,
+            max_tokens = null,
             promptVars = {},
             current_date_time = new Date().toISOString(),
-            agentArgs = {
-                agentType: "chat-zero-shot-react-description",
-                agentTools: [],
-                agentTask: ""
-            },
         } = options;
         let funcReturnString = funcReturn;
         let argsString = '';
-
+        
 
         if (Array.isArray(args)) {
             let objectArgs = {};
@@ -71,24 +58,10 @@ export function createAiFunctionInstance(apiKey) {
             }
             args = objectArgs;
         } else if (getType(args) !== 'dict') {
-            if (!args) {
-                args = {};
-            } else {
-                args = {
-                    s: args
-                };
-            }
-        }
-
-        if (agentArgs.agentTask) {
-            args.agentData = await getDataFromAgent(options, agentArgs);
-        }
-        if (!args) {
             args = {
-                start: true,
-            }
+                s: args
+            };
         }
-
         argsString = formatObjectArgs(args);
         argsString = argsString.replace(/true/g, 'True').replace(/false/g, 'False').replace(/(\r\n|\n|\r)/gm, "\\n");
 
@@ -108,16 +81,16 @@ export function createAiFunctionInstance(apiKey) {
             if (autoConvertReturn === true) {
                 isJson = ' converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function';
                 if (funcReturn === 'str') {
-                    funcReturnString = 'dict[returnData:str]';
+                    funcReturnString = 'dict[return:str]';
                     dictAdded = true;
                 } else if (funcReturn == 'int') {
-                    funcReturnString = 'dict[returnData:int]';
+                    funcReturnString = 'dict[return:int]';
                     dictAdded = true;
                 } else if (funcReturn == 'float') {
-                    funcReturnString = 'dict[returnData:float]';
+                    funcReturnString = 'dict[return:float]';
                     dictAdded = true;
                 } else if (funcReturn == 'bool') {
-                    funcReturnString = 'dict[returnData:bool]';
+                    funcReturnString = 'dict[return:bool]';
                     dictAdded = true;
                 }
             }
@@ -133,8 +106,8 @@ export function createAiFunctionInstance(apiKey) {
         }
 
 
-
         const messages = [{
+            role: 'user',
             content: `
             Current time: ${current_date_time}
             You are to assume the role of the following Python function:
@@ -150,6 +123,7 @@ export function createAiFunctionInstance(apiKey) {
             `.split('\n').map(line => line.trim()).join('\n').trim(),
         },
         {
+            role: 'user',
             content: `${argsString}`,
         },
         ];
@@ -175,101 +149,86 @@ export function createAiFunctionInstance(apiKey) {
 
     }
 
-    async function getDataFromAgent(options, agentData) {
-        let {
-            showDebug = false,
-            langchainVerbose = false,
-        } = options;
-
-        if (showDebug) {
-            console.log(chalk.yellow('####################'));
-            console.log(chalk.blue('Using agent: ' + agentData.agentType));
-            console.log(chalk.blue('With task: ' + agentData.agentTask));
-        }
-
-        const model = new ChatOpenAI({
-            apiKey: openaiApiKey,
-            temperature: 0,
-            verbose: langchainVerbose,
-        });
-
-        // Check if WebBrowser is in agentTools
-        if (agentData.agentTools) {
-            for (let i = 0; i < agentData.agentTools.length; i++) {
-                if (agentData.agentTools[i] == WebBrowserTool()) {
-                   
-                    const embeddings = new OpenAIEmbeddings({
-                        apiKey: openaiApiKey,
-                        verbose: langchainVerbose,
-                    });
-                    agentData.agentTools[i] = new WebBrowser({
-                        model: model,
-                        embeddings: embeddings,
-                        verbose: langchainVerbose,
-                    });
-                }
-            }
-        }
-
-        const executor = await initializeAgentExecutorWithOptions(agentData.agentTools, model, {
-            agentType: agentData.agentType,
-            verbose: langchainVerbose,
-        });
-        if (showDebug) {
-            console.log(chalk.blue('Agent initialized: ' + agentData.agentType));
-        }
-        const result = await executor.call({
-            input: agentData.agentTask,
-        });
-
-        if (showDebug) {
-            console.log(chalk.blue('Returning agent result: ' + result));
-            console.log(chalk.yellow('####################'));
-        }
-
-        return result;
-    }
 
     async function getDataFromAPIStream(options, messages, dictAdded) {
         let {
             showDebug = false,
             temperature = 0.8,
             frequency_penalty = 0,
-            langchainVerbose = false,
             presence_penalty = 0,
             model = 'gpt-3.5-turbo',
             autoConvertReturn = true,
             top_p = null,
             max_tokens = null,
         } = options;
-        let answer = '';
-        const apiCall = new ChatOpenAI({
-            apiKey: openaiApiKey,
-            modelName: model,
-            frequencyPenalty: frequency_penalty,
-            presencePenalty: presence_penalty,
-            topP: top_p,
-            maxTokens: max_tokens,
-            verbose: langchainVerbose,
+
+        const res = await openai.createChatCompletion({
+            model: model,
+            messages: messages,
             temperature: temperature,
-            streaming: true,
-            callbacks: [{
-                handleLLMNewToken(token) {
-                    answer += token;
-                },
-            },],
+            frequency_penalty: frequency_penalty,
+            presence_penalty: presence_penalty,
+            max_tokens: max_tokens,
+            top_p: top_p,
+            stream: true,
+        }, {
+            responseType: 'stream'
         });
-        lastLangchainModel = apiCall;
 
-        await apiCall.call([
-            new HumanChatMessage(
-                messages[0]['content']
-            ),
-            new HumanChatMessage(
-                messages[1]['content']
-            ),
-        ]);
+        let tempData = '';
+        let answer = '';
 
+        for await (const data of res.data) {
+            const lines = data
+                .toString()
+                .split('\n')
+                .filter((line) => line.trim() !== '');
+
+            for (const line of lines) {
+                const lineData = tempData + line;
+                const message = lineData.replace(/^data: /, '');
+
+                if (message === '[DONE]') {
+                    break; // Stream finished
+                }
+
+                try {
+                    const parsed = JSON.parse(message);
+                    const chunk_message = parsed.choices[0].delta.content;
+                    const finish_reason = parsed.choices[0].finish_reason;
+
+                    if (finish_reason === 'stop') {
+                        break; // Stream finished
+                    }
+
+                    if (typeof chunk_message === 'undefined') {
+                        continue;
+                    }
+
+                    if (showDebug) {
+                        console.log(`[STREAM] Message received: ${chunk_message}`);
+                    }
+                    answer += chunk_message;
+                    tempData = '';
+                } catch (error) {
+                    tempData += line;
+                    if (showDebug) {
+                        console.error(
+                            '[STREAM] Could not JSON parse stream message, adding to buffer:',
+                            message
+                        );
+                    }
+                }
+            }
+        }
+        console.log('answer', answer);
+        // if (showDebug) {
+        //     console.log(chalk.yellow('####################'));
+        //     console.log(chalk.magenta('Tokens from prompt: ') + chalk.green(gptResponse.data.usage.prompt_tokens.toString()));
+        //     console.log(chalk.magenta('Tokens from completion: ') + chalk.green(gptResponse.data.usage.completion_tokens.toString()));
+        //     console.log(chalk.yellow('Total tokens: ') + chalk.green(gptResponse.data.usage.total_tokens.toString()));
+        //     console.log(chalk.yellow('####################'));
+        // }
 
         if (autoConvertReturn === true) {
             return await parseAndFixData(answer, showDebug, dictAdded);
@@ -293,36 +252,36 @@ export function createAiFunctionInstance(apiKey) {
             presence_penalty = 0,
             model = 'gpt-3.5-turbo',
             autoConvertReturn = true,
-            langchainVerbose = false,
             top_p = null,
             max_tokens = null,
+            stream = false,
+            autoRetry = false,
         } = options;
 
-
-        const apiCall = new ChatOpenAI({
-            apiKey: openaiApiKey,
-            modelName: model,
-            frequencyPenalty: frequency_penalty,
-            presencePenalty: presence_penalty,
-            topP: top_p,
-            maxTokens: max_tokens,
-            verbose: langchainVerbose,
-            temperature: temperature
+        const apiCall = () => openai.createChatCompletion({
+            model: model,
+            messages: messages,
+            temperature: temperature,
+            frequency_penalty: frequency_penalty,
+            presence_penalty: presence_penalty,
+            max_tokens: max_tokens,
+            top_p: top_p,
         });
-        lastLangchainModel = apiCall;
+
+        let gptResponse = await (autoRetry ? retry(apiCall) : apiCall());
 
 
-        const gptResponse = await apiCall.call([
-            new HumanChatMessage(
-                messages[0]['content']
-            ),
-            new HumanChatMessage(
-                messages[1]['content']
-            ),
-        ]);
+        let answer = gptResponse.data.choices[0]['message']['content'];
 
-        let answer = gptResponse.text;
-        if (autoConvertReturn === true) {
+        if (showDebug) {
+            console.log(chalk.yellow('####################'));
+            console.log(chalk.magenta('Tokens from prompt: ') + chalk.green(gptResponse.data.usage.prompt_tokens.toString()));
+            console.log(chalk.magenta('Tokens from completion: ') + chalk.green(gptResponse.data.usage.completion_tokens.toString()));
+            console.log(chalk.yellow('Total tokens: ') + chalk.green(gptResponse.data.usage.total_tokens.toString()));
+            console.log(chalk.yellow('####################'));
+        }
+
+        if (autoConvertReturn === true && !stream) {
             return await parseAndFixData(answer, showDebug, dictAdded);
         } else {
             if (showDebug) {
@@ -334,67 +293,79 @@ export function createAiFunctionInstance(apiKey) {
         return answer;
     }
 
+    async function* returnStreamingData(options, messages) {
 
-
-
-    async function returnStreamingData(options, messages) {
         let {
+            showDebug = false,
             temperature = 0.8,
             frequency_penalty = 0,
-            langchainVerbose = false,
             presence_penalty = 0,
             model = 'gpt-3.5-turbo',
             top_p = null,
             max_tokens = null,
-            callbackStreamFunction = null,
-            callbackEndFunction = null,
-            returnAsynchronousStream = false,
         } = options;
 
-        let resolveStream;
-        const streamPromise = !returnAsynchronousStream ? new Promise(resolve => {
-            resolveStream = resolve;
-        }) : null;
-
-        const apiCall = new ChatOpenAI({
-            apiKey: openaiApiKey,
-            modelName: model,
-            frequencyPenalty: frequency_penalty,
-            presencePenalty: presence_penalty,
-            topP: top_p,
-            maxTokens: max_tokens,
-            verbose: langchainVerbose,
+        const res = await openai.createChatCompletion({
+            model: model,
+            messages: messages,
             temperature: temperature,
-            streaming: true,
-            callbacks: [{
-                handleLLMNewToken(token) {
-                    if (callbackStreamFunction && token !== '') {
-                        callbackStreamFunction(token);
-                    }
-                },
-                handleLLMEnd() {
-                    if (callbackEndFunction) {
-                        callbackEndFunction();
-                    }
-                    if (!returnAsynchronousStream)
-                        resolveStream();
-                }
-            },],
+            frequency_penalty: frequency_penalty,
+            presence_penalty: presence_penalty,
+            max_tokens: max_tokens,
+            top_p: top_p,
+            stream: true,
+        }, {
+            responseType: 'stream'
         });
-        lastLangchainModel = apiCall;
 
-        apiCall.call([
-            new HumanChatMessage(
-                messages[0]['content']
-            ),
-            new HumanChatMessage(
-                messages[1]['content']
-            ),
-        ]);
-        if (!returnAsynchronousStream)
-            await streamPromise;
+        let tempData = '';
+
+        for await (const data of res.data) {
+            const lines = data
+                .toString()
+                .split('\n')
+                .filter((line) => line.trim() !== '');
+
+            for (const line of lines) {
+                const lineData = tempData + line;
+                const message = lineData.replace(/^data: /, '');
+
+                if (message === '[DONE]') {
+                    return; // Stream finished
+                }
+
+                try {
+                    const parsed = JSON.parse(message);
+                    const chunk_message = parsed.choices[0].delta.content;
+                    const finish_reason = parsed.choices[0].finish_reason;
+
+                    if (finish_reason === 'stop') {
+                        return; // Stream finished
+                    }
+
+                    if (typeof chunk_message === 'undefined') {
+                        continue;
+                    }
+
+                    if (showDebug) {
+                        console.log(`[STREAM] Message received: ${chunk_message}`);
+                    }
+
+                    // Yield the chunk_message
+                    yield chunk_message;
+                    tempData = '';
+                } catch (error) {
+                    tempData += line;
+                    if (showDebug) {
+                        console.error(
+                            '[STREAM] Could not JSON parse stream message, adding to buffer:',
+                            message
+                        );
+                    }
+                }
+            }
+        }
     }
-
 
 
     async function parseAndFixData(answer, showDebug, dictAdded) {
@@ -412,7 +383,7 @@ export function createAiFunctionInstance(apiKey) {
             }
             if (dictAdded) {
                 let parsedAnswer = parseJson(answer);
-                return parsedAnswer.returnData;
+                return parsedAnswer.return;
             } else {
                 return parseJson(answer);
             }
@@ -425,7 +396,7 @@ export function createAiFunctionInstance(apiKey) {
             if (fixedAnswer !== "") {
                 if (dictAdded) {
                     let parsedAnswer = parseJson(fixedAnswer);
-                    return parsedAnswer.returnData;
+                    return parsedAnswer.return;
                 } else {
                     return parseJson(fixedAnswer);
                 }
@@ -439,10 +410,6 @@ export function createAiFunctionInstance(apiKey) {
     }
 
     return aiFunction;
-}
-
-export function WebBrowserTool() {
-    return "webbrowser";
 }
 
 function fixJsonString(pythonString) {
@@ -478,24 +445,21 @@ async function fixBadJsonFormat(jsonString, showDebug = false) {
             return tryFixJsonString;
         }
     }
-    const apiCall = new ChatOpenAI({
-        apiKey: openaiApiKey,
-        modelName: 'gpt-3.5-turbo',
-        temperature: 0
+    let gptMessages = [];
+    gptMessages.push({
+        role: "system",
+        content: "Your task is to fix a JSON string, answer just with the fixed string or the same string if it's already valid. In JSON, all keys and strings must be enclosed in double quotes. Additionally, boolean values must be in lowercase. You must fix also any escaped characters badly formatted."
     });
-
-    const gptResponse = apiCall.call([
-        new HumanChatMessage(
-            "Your task is to fix a JSON string, answer just with the fixed string or the same string if it's already valid. In JSON, all keys and strings must be enclosed in double quotes. Additionally, boolean values must be in lowercase. You must fix also any escaped characters badly formatted."
-        ),
-        new HumanChatMessage(
-            jsonString
-        ),
-    ]);
-
-    let answer = gptResponse.text;
-
-
+    gptMessages.push({
+        role: "user",
+        content: jsonString
+    });
+    const gptResponse = await retry(() => openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: gptMessages,
+        temperature: 0,
+    }));
+    let answer = gptResponse.data.choices[0]['message']['content'];
     if (isValidJSON(answer)) {
         if (showDebug) {
             console.log(chalk.green('Fixed JSON (by AI): ' + answer));
@@ -571,6 +535,16 @@ function getType(value) {
 }
 
 
+async function retry(fn, retries = 3, delay = 1000) {
+    try {
+        return await fn();
+    } catch (err) {
+        if (retries === 0) throw err;
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return retry(fn, retries - 1, delay);
+    }
+}
+
 function isValidJSON(jsonString) {
     try {
         JSON.parse(jsonString);
@@ -592,3 +566,8 @@ function unicodeEscape(str) {
     });
 }
 
+
+module.exports = {
+    createAiFunctionInstance,
+    getOpenAI
+};
