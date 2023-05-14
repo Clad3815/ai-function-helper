@@ -1,23 +1,23 @@
 {
-    "name": "ai-function-helper",
-    "version": "1.1.1",
-    "description": "A NodeJS utility to simplify interaction with OpenAI GPT models.",
+    "name": "ai-function-helper-langchain",
+    "version": "0.0.1",
+    "description": "A NodeJS utility to simplify interaction with OpenAI GPT models (langchain ready)",
     "main": "src/aiFunction.js",
+    "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Clad3815/ai-function-helper.git"
+        "url": "git+https://github.com/Clad3815/ai-function-helper-langchain.git"
     },
     "author": "clad3815",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Clad3815/ai-function-helper/issues"
+        "url": "https://github.com/Clad3815/ai-function-helper-langchain/issues"
     },
-    "homepage": "https://github.com/Clad3815/ai-function-helper#readme",
+    "homepage": "https://github.com/Clad3815/ai-function-helper-langchain#readme",
     "dependencies": {
-        "chalk": "^4.1.2",
-        "openai": "latest"
+        "chalk": "^5.2.0"
     }
 }

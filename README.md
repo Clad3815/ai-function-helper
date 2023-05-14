@@ -1,10 +1,10 @@
-# AI Function Module
+# AI Function Module (Langchain Ready)
 
 Welcome to the AI Function Module, a powerful tool for integrating the capabilities of OpenAI's GPT-4 and GPT-3.5-turbo directly into your Python functions! With this module, you can simplify the process of getting precisely formatted responses from the OpenAI API, saving time and reducing complexity in your application development. This project is heavily inspired by [Ask Marvin](https://github.com/prefecthq/marvin) and [AI Functions from Torantulino](https://github.com/Torantulino/AI-Functions).
 
 ## Table of Contents
 
-- [AI Function Module](#ai-function-module)
+- [AI Function Module (Langchain Ready)](#ai-function-module-langchain-ready)
   - [Table of Contents](#table-of-contents)
   - [Why using this script instead of the normal OpenAI API?](#why-using-this-script-instead-of-the-normal-openai-api)
   - [Installation](#installation)
@@ -16,6 +16,7 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
     - [promptVars](#promptvars)
     - [funcReturn](#funcreturn)
     - [Using Dictionaries (dict) in funcReturn](#using-dictionaries-dict-in-funcreturn)
+  - [Agent](#agent)
   - [Examples](#examples)
   - [Example Usage](#example-usage)
     - [1. Generate a quiz](#1-generate-a-quiz)
@@ -68,52 +69,13 @@ npm install ai-function-helper
 First, create an instance of the `aiFunction` with your OpenAI API key:
 
 ```javascript
-const { createAiFunctionInstance } = require('ai-function-helper');
+import {
+	createAiFunctionInstance
+} from '../src/aiFunction.js';
 const aiFunction = createAiFunctionInstance('your_api_key_here');
 ```
 
 Now you can use the `aiFunction` without passing the API key every time.
-
-You can also retreive the OpenAI instance (Useful to use the OpenAI API directly without setting up the API Key again in your script):
-
-```javascript
-const { createAiFunctionInstance, getOpenAI } = require('ai-function-helper');
-const aiFunction = createAiFunctionInstance('your_api_key_here');
-const openai = getOpenAI();
-
-// Use the OpenAI API directly
-const embedText = await openai.createEmbedding({
-    model: "text-embedding-ada-002",
-    input: "Text to embed"
-});
-
-const moderateText = await openai.createModeration({
-    input: "Text to moderate",
-});
-
-const chat = openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
-    messages: gptMessages,
-    temperature: 0.7,
-    top_p: 0.9,
-    presence_penalty: 0.6,
-    frequency_penalty: 0.6,
-});
-```
-
-Or you can also use an OpenAI instance directly:
-
-```javascript
-const configuration = new Configuration({
-    apiKey: apiKey
-});
-const openai = new OpenAIApi(configuration);
-
-const { createAiFunctionInstance } = require('ai-function-helper');
-const aiFunction = createAiFunctionInstance(openai);
-```
-
-
 
 ## aiFunction(options)
 
@@ -135,24 +97,32 @@ The main function that takes a set of options as an input and returns the output
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
-  - `stream` (optional):  If true, the AI model will send the response in streams instead of all at once. This is only compatible with `str`, `int`, `float` and `bool` return type. Default is `false`.
   - `useInternalStream` (optional):  If true, the AI model will internally stream the response to optimize response time. This does not alter the output format and is recommended for improving response times. Default is `false`.
-
+  - `stream` (optional):  If true, the AI model will send the response in streams instead of all at once. This is only compatible with `str`, `int`, `float` and `bool` return type. Default is `false`.
+  - `callbackStreamFunction` (optional): A callback function that will be called when the AI model send a new token in stream mode. Default is `null`.
+  - `callbackEndFunction` (optional): A callback function that will be called when the AI model send the last token in stream mode. Default is `null`.
+  - `returnAsynchronousStream` (optional): If true, the `aiFunction` will not wait for the AI model to finish and will return nothing. `callbackStreamFunction` and `callbackEndFunction` will be called when the AI model send a new token or the last token anyway. Default is `false`.
+  - `agentArgs` (optional): If set, the arguments to be passed to the agent. The agent will be executed before the custom function and include the result in the custom function arguments. More information about the agent in the [agent section](#agent). Default is `null`.
 ### stream
 
 The `stream` option allows for the AI model's response to be sent in a stream, rather than waiting for the entire prompt to be processed. This can be particularly useful when immediate response is required. Here's an example of how to use it:
 
 ```javascript
+let fullResponse = '';
 let aiFunc = await aiFunction({
   ...
   stream: true,
+  callbackStreamFunction: (message) => {
+    fullResponse += message;
+    console.log(
+      `Token received: ${message}.`
+    );
+  },
+  callbackEndFunction: () => {
+    console.log('Stream finished, final result:', streamResponse);
+  },
   ...
 })
-let fullResponse = '';
-for await (let message of aiFunc) {
-  fullResponse += message;
-  console.log("Partial message:" + message);
-}
 console.log("Full response: " + fullResponse);
 ```
 
@@ -339,6 +309,9 @@ This complex example demonstrates how you can use `funcReturn` to define deeply 
 
 
 
+## Agent
+
+Todo.
 
 ## Examples
 

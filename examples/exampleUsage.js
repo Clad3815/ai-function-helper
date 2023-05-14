@@ -1,7 +1,13 @@
-const { createAiFunctionInstance } = require('../src/aiFunction');
-const path = require('path')
-require('dotenv').config();
+import {
+    createAiFunctionInstance
+} from '../src/aiFunction.js';
+
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
+
 
 (async() => {
     let options;
