@@ -2,6 +2,10 @@
 
 Welcome to the AI Function Module, a powerful tool for integrating the capabilities of OpenAI's GPT-4 and GPT-3.5-turbo directly into your Node.js functions! With this module, you can simplify the process of getting precisely formatted responses from the OpenAI API, saving time and reducing complexity in your application development. This project is heavily inspired by [Ask Marvin](https://github.com/prefecthq/marvin) and [AI Functions from Torantulino](https://github.com/Torantulino/AI-Functions).
 
+
+I'm also working on a `langchain` version which add agent capabilities to the `aiFunction` module. The `langchain` version is in beta and can be found [here](https://github.com/Clad3815/ai-function-helper-langchain).
+
+
 ## Table of Contents
 
 - [AI Function Module](#ai-function-module)
