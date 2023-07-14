@@ -77,6 +77,13 @@ const { createAiFunctionInstance } = require('ai-function-helper');
 const aiFunction = createAiFunctionInstance('your_api_key_here');
 ```
 
+You can also use a custom endpoint URL (optional):
+
+```javascript
+const { createAiFunctionInstance } = require('ai-function-helper-langchain');
+const aiFunction = createAiFunctionInstance('your_api_key_here', 'https://api.openai.com/v1');
+```
+
 Now you can use the `aiFunction` without passing the API key every time.
 
 You can also retreive the OpenAI instance (Useful to use the OpenAI API directly without setting up the API Key again in your script):
@@ -152,33 +159,33 @@ For instance:
 
 ```javascript
 const schemaObject = {
-	name: { type: "string", description: "Human name" },
-	surname: { type: "string", description: "Human surname" },
-	age: { type: "number", description: "Human age" },
-	birthplace: { type: "string", description: "Where the human was born" },
-	appearance: { type: "string", description: "Human appearance description" },
-	shortBio: { type: "string", description: "Short bio description" },
-	university: { type: "string", optional: true, description: "University name if attended" },
-	gender: { type: "string", description: "Gender of the human" },
-	interests: { type: "string[]", description: "Interests of the human" },
-	favoritesPlaces: {
-		type: "object",
-		array: true,
-		description: "Favorite places of the human",
-		schema: {
-			name: { type: "string" },
-			country: { type: "string" },
-			bestTimes: { type: "string", array: true, description: "The best time of the day to travel around, example '9am'" }
-		}
-	},
-	nameAndAge: {
-		type: "object",
-		schema: {
-			name: { type: "string" },
-			age: { type: "number" }
-		}
-	},
-	birthDate: { type: ["date", "string"], description: "Birth date of the human" },
+  name: { type: "string", description: "Human name" },
+  surname: { type: "string", description: "Human surname" },
+  age: { type: "number", description: "Human age" },
+  birthplace: { type: "string", description: "Where the human was born" },
+  appearance: { type: "string", description: "Human appearance description" },
+  shortBio: { type: "string", description: "Short bio description" },
+  university: { type: "string", optional: true, description: "University name if attended" },
+  gender: { type: "string", description: "Gender of the human" },
+  interests: { type: "string[]", description: "Interests of the human" },
+  favoritesPlaces: {
+    type: "object",
+    array: true,
+    description: "Favorite places of the human",
+    schema: {
+      name: { type: "string" },
+      country: { type: "string" },
+      bestTimes: { type: "string", array: true, description: "The best time of the day to travel around, example '9am'" }
+    }
+  },
+  nameAndAge: {
+    type: "object",
+    schema: {
+      name: { type: "string" },
+      age: { type: "number" }
+    }
+  },
+  birthDate: { type: ["date", "string"], description: "Birth date of the human" },
 };
 ```
 
@@ -186,18 +193,18 @@ Or using Zod:
 
 ```javascript
 const zodSchema = z.object({
-	name: z.string().describe("Human name"),
-	surname: z.string().describe("Human surname"),
-	age: z.number().describe("Human age"),
-	birthplace: z.string().describe("Where the human was born"),
-	appearance: z.string().describe("Human appearance description"),
-	shortBio: z.string().describe("Short bio secription"),
-	university: z.string().optional().describe("University name if attended"),
-	gender: z.string().describe("Gender of the human"),
-	interests: z.string().array().describe("Interests of the human"),
-	favoritesPlaces: z.array(z.object({ name: z.string(), country: z.string(), bestTimes: z.array(z.string()).describe("The best time of the day to travel around, example '9am')") })).describe("Favorite places of the human"),
-	nameAndAge: z.object({ name: z.string() }).and(z.object({ age: z.number() })),
-	birthDate: z.date().or(z.string()).describe("Birth date of the human"),
+  name: z.string().describe("Human name"),
+  surname: z.string().describe("Human surname"),
+  age: z.number().describe("Human age"),
+  birthplace: z.string().describe("Where the human was born"),
+  appearance: z.string().describe("Human appearance description"),
+  shortBio: z.string().describe("Short bio secription"),
+  university: z.string().optional().describe("University name if attended"),
+  gender: z.string().describe("Gender of the human"),
+  interests: z.string().array().describe("Interests of the human"),
+  favoritesPlaces: z.array(z.object({ name: z.string(), country: z.string(), bestTimes: z.array(z.string()).describe("The best time of the day to travel around, example '9am')") })).describe("Favorite places of the human"),
+  nameAndAge: z.object({ name: z.string() }).and(z.object({ age: z.number() })),
+  birthDate: z.date().or(z.string()).describe("Birth date of the human"),
 });
 ```
 
@@ -260,44 +267,44 @@ function generateRandomWord({ length = 5, passwordCount = 1}) {
   
 }
 const options = {
-	functionName: 'generate_quiz',
-	args: {
-		topic: 'history', 
-		difficulty: 'medium', 
-		num_questions: 3 
-	},
-	description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer. Also generate a password for each question to join to room. ',
-	funcReturn: {
-		quizList: {
-			type: "object[]",
-			schema: {
-				question: { type: "string" },
-				answers: { type: "string[]" },
-				correct_answer: { type: "string" },
-				password: { type: "string" },
-			},
-		}
-	},
-	tools: [
-		{
-			name: "generate_password",
-			function_call: generateRandomWord,
-			description: "Generate a random password, always use this function to generate 1 or multiple passwords. Never generate a password by yourself.",
-			parameters: {
-				"type": "object",
-				"properties": {
-					"length": {
-						"type": "number",
-					},
-					"passwordCount": {
-						"type": "number",
-					}
-				},
-				"required": ["length"],
-			
-			}
-		}
-	],
+  functionName: 'generate_quiz',
+  args: {
+    topic: 'history', 
+    difficulty: 'medium', 
+    num_questions: 3 
+  },
+  description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer. Also generate a password for each question to join to room. ',
+  funcReturn: {
+    quizList: {
+      type: "object[]",
+      schema: {
+        question: { type: "string" },
+        answers: { type: "string[]" },
+        correct_answer: { type: "string" },
+        password: { type: "string" },
+      },
+    }
+  },
+  tools: [
+    {
+      name: "generate_password",
+      function_call: generateRandomWord,
+      description: "Generate a random password, always use this function to generate 1 or multiple passwords. Never generate a password by yourself.",
+      parameters: {
+        "type": "object",
+        "properties": {
+          "length": {
+            "type": "number",
+          },
+          "passwordCount": {
+            "type": "number",
+          }
+        },
+        "required": ["length"],
+      
+      }
+    }
+  ],
 };
 ```
 
@@ -489,10 +496,10 @@ let aiData = await aiFunction({
     functionName: "translate_text",
     description: "Translate text from one language to another. Use the to arguments to specify destination language. The text is from a game user interface. Return a string with the translated text",
     funcReturn: {
-			translatedText: {
-				type: "string",
-			},
-		},
+      translatedText: {
+        type: "string",
+      },
+    },
     showDebug: false,
     temperature: 0,
 });
@@ -509,10 +516,10 @@ let aiData = await aiFunction({
     functionName: "shorten_sentence",
     description: "Rewrite the sentence to a minimum of words without breaking the context or important data. If the sentence can't be shorten, it will return the same sentence.",
     funcReturn: {
-			shortenSentence: {
-				type: "string",
-			},
-		},
+      shortenSentence: {
+        type: "string",
+      },
+    },
     temperature: 0,
 });
 console.log(aiData.shortenSentence); // Output: "I am a sentence that is too long and I need to be shortened. Just keep the important information."
@@ -589,11 +596,11 @@ let gptMessages = [];
 gptMessages.push({
     role: "system",
     content: `Find the perfect answer to the following email, you need to be polite and professional. 
-	Email:
-	\`\`\`
-	${testHijackEmail}
-	\`\`\`
-	Sign the email with "Clad3815" as name.`
+  Email:
+  \`\`\`
+  ${testHijackEmail}
+  \`\`\`
+  Sign the email with "Clad3815" as name.`
 });
 
 
