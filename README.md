@@ -14,12 +14,11 @@ I'm also working on a `langchain` version which add agent capabilities to the `a
   - [Installation](#installation)
   - [Usage](#usage)
   - [aiFunction(options)](#aifunctionoptions)
+    - [funcReturn](#funcreturn)
+    - [tools](#tools)
     - [stream](#stream)
-    - [useInternalStream](#useinternalstream)
     - [blockHijack](#blockhijack)
     - [promptVars](#promptvars)
-    - [funcReturn](#funcreturn)
-    - [Using Dictionaries (dict) in funcReturn](#using-dictionaries-dict-in-funcreturn)
   - [Examples](#examples)
   - [Example Usage](#example-usage)
     - [1. Generate a quiz](#1-generate-a-quiz)
@@ -40,6 +39,8 @@ I'm also working on a `langchain` version which add agent capabilities to the `a
 
 
 ## Why using this script instead of the normal OpenAI API?
+
+This module utilizes OpenAI Functions to yield outputs that match a specified format for any provided prompt. It transforms an input schema into an OpenAI function, which is then invoked by OpenAI to return a response in the correct format.
 
 While the OpenAI API is powerful and versatile, it can sometimes be challenging to get the desired response format, especially when integrating the output directly into other functions within your application. Crafting the perfect prompt might require multiple iterations, and even then, the returned response may need additional processing.
 
@@ -128,6 +129,7 @@ The main function that takes a set of options as an input and returns the output
   - `description`: A description of the function's purpose.
   - `funcReturn`: The expected return type of the custom function.
   - `functionName`: (optional): The name of the custom Python function to use. It's help to give context to the AI model. Default is `custom_function`.
+  - `tools`: (optional): An array of helper functions to be used within the main function.
   - `promptVars` : (optional): A dictionary of variables to be used in the prompt. It's will replace the variable name by the variable value in the prompt. Format: `${variableName}`. Default is `{}`.
   - `showDebug` (optional): If set to true, debug information will be printed to the console. Default is `false`.
   - `current_date_time` (optional): The current date and time. Default is `new Date().toISOString()`. This is used to let's the AI model know the current date and time.
@@ -135,12 +137,171 @@ The main function that takes a set of options as an input and returns the output
   - `frequency_penalty` (optional): The frequency penalty for the AI model. Default is `0`
   - `presence_penalty` (optional): The presence penalty for the AI model. Default is `0`
   - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo`.
-  - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brut result. Default is `true`.
+  - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brute result. Default is `true`.
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
-  - `stream` (optional):  If true, the AI model will send the response in streams instead of all at once. This is only compatible with `str`, `int`, `float` and `bool` return type. Default is `false`.
-  - `useInternalStream` (optional):  If true, the AI model will internally stream the response to optimize response time. This does not alter the output format and is recommended for improving response times. Default is `false`.
+  - `stream` (optional):  If true, the AI model will send the response in streams instead of all at once. This is only compatible if `funcReturn` is not defined. Default is `false`.
+
+
+### funcReturn
+
+The `funcReturn` option is used to define the expected return type of the custom function. Since the version `2.0.0` it is expressed in a custom format or using Zod library, and it can be used to specify complex data structures like lists and dictionaries.
+
+For instance:
+
+```javascript
+const schemaObject = {
+	name: { type: "string", description: "Human name" },
+	surname: { type: "string", description: "Human surname" },
+	age: { type: "number", description: "Human age" },
+	birthplace: { type: "string", description: "Where the human was born" },
+	appearance: { type: "string", description: "Human appearance description" },
+	shortBio: { type: "string", description: "Short bio description" },
+	university: { type: "string", optional: true, description: "University name if attended" },
+	gender: { type: "string", description: "Gender of the human" },
+	interests: { type: "string[]", description: "Interests of the human" },
+	favoritesPlaces: {
+		type: "object",
+		array: true,
+		description: "Favorite places of the human",
+		schema: {
+			name: { type: "string" },
+			country: { type: "string" },
+			bestTimes: { type: "string", array: true, description: "The best time of the day to travel around, example '9am'" }
+		}
+	},
+	nameAndAge: {
+		type: "object",
+		schema: {
+			name: { type: "string" },
+			age: { type: "number" }
+		}
+	},
+	birthDate: { type: ["date", "string"], description: "Birth date of the human" },
+};
+```
+
+Or using Zod:
+
+```javascript
+const zodSchema = z.object({
+	name: z.string().describe("Human name"),
+	surname: z.string().describe("Human surname"),
+	age: z.number().describe("Human age"),
+	birthplace: z.string().describe("Where the human was born"),
+	appearance: z.string().describe("Human appearance description"),
+	shortBio: z.string().describe("Short bio secription"),
+	university: z.string().optional().describe("University name if attended"),
+	gender: z.string().describe("Gender of the human"),
+	interests: z.string().array().describe("Interests of the human"),
+	favoritesPlaces: z.array(z.object({ name: z.string(), country: z.string(), bestTimes: z.array(z.string()).describe("The best time of the day to travel around, example '9am')") })).describe("Favorite places of the human"),
+	nameAndAge: z.object({ name: z.string() }).and(z.object({ age: z.number() })),
+	birthDate: z.date().or(z.string()).describe("Birth date of the human"),
+});
+```
+
+This `funcReturn` specification translates into the following output format:
+
+```javascript
+{
+  "name": "John",
+  "surname": "Doe",
+  "age": 30,
+  "birthplace": "City",
+  "appearance": "Tall and slim",
+  "shortBio": "A short bio",
+  "university": "University Name",
+  "gender": "Male",
+  "interests": ["Reading", "Traveling"],
+  "favoritesPlaces": [
+    {
+      "name": "Place",
+      "country": "Country",
+      "bestTimes": ["9am"]
+    }
+  ],
+  "nameAndAge": {
+    "name": "John",
+    "age": 30
+  },
+  "birthDate": "2000-01-01"
+}
+```
+
+### tools
+
+The `tools` option allows you to define an array of helper functions that can be used within the main function. Each tool is an object with the following keys:
+
+- `name`: The name of the tool.
+- `function_call`: The function to be called.
+- `description`: A description of what the tool does.
+- `parameters`: The parameters that the tool expects.
+
+Here is an example:
+
+```javascript
+function generateRandomWord({ length = 5, passwordCount = 1}) {
+  const consonants = 'bcdfghjklmnpqrstvwxyz';
+  const vowels = 'aeiou';
+  let randomWord = '';
+  let randomWords = [];
+  for (let i = 0; i < passwordCount; i++) {
+    for (let j = 0; j < length / 2; j++) {
+      const randomConsonant = consonants[Math.floor(Math.random() * consonants.length)];
+      const randomVowel = vowels[Math.floor(Math.random() * vowels.length)];
+      randomWord += (j === 0) ? randomConsonant.toUpperCase() : randomConsonant;
+      randomWord += randomVowel;
+    }
+    randomWords.push(randomWord);
+    randomWord = '';
+  }
+  return randomWords;
+  
+}
+const options = {
+	functionName: 'generate_quiz',
+	args: {
+		topic: 'history', 
+		difficulty: 'medium', 
+		num_questions: 3 
+	},
+	description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer. Also generate a password for each question to join to room. ',
+	funcReturn: {
+		quizList: {
+			type: "object[]",
+			schema: {
+				question: { type: "string" },
+				answers: { type: "string[]" },
+				correct_answer: { type: "string" },
+				password: { type: "string" },
+			},
+		}
+	},
+	tools: [
+		{
+			name: "generate_password",
+			function_call: generateRandomWord,
+			description: "Generate a random password, always use this function to generate 1 or multiple passwords. Never generate a password by yourself.",
+			parameters: {
+				"type": "object",
+				"properties": {
+					"length": {
+						"type": "number",
+					},
+					"passwordCount": {
+						"type": "number",
+					}
+				},
+				"required": ["length"],
+			
+			}
+		}
+	],
+};
+```
+
+In this case, the `generate_password` tool is a helper function that generates a random password. The tool's `parameters` key specifies that it expects an object with `length` and `passwordCount` properties.
 
 ### stream
 
@@ -162,14 +323,6 @@ console.log("Full response: " + fullResponse);
 
 
 Please note that stream can only be used with `str`, `int`, `float` and `bool` as `funcReturn` types. Using it with any other return types will result in an error.
-
-
-
-### useInternalStream
-
-The `useInternalStream` option enables the AI model to stream the response internally, optimizing the time it takes to receive a response. This is different from the `stream` option, which streams the response to the user.
-
-Enabling `useInternalStream` improves response time without changing the output format or any other behavior, making it a highly recommended option
 
 
 ### blockHijack
@@ -208,142 +361,6 @@ This `promptVars` specification translates into the following prompt:
 
 `This is a custom function that does something. Use value1 and value2 to do it.`
 
-
-
-### funcReturn
-
-The `funcReturn` option is used to define the expected return type of the custom function. It is expressed in a Python-like format, and it can be used to specify complex data structures like lists and dictionaries.
-
-For instance:
-
-```javascript
-funcReturn: "list[question:str, answers:list[str], correct_answer:str]"
-```
-
-This `funcReturn` specification translates into the following output format:
-
-```javascript
-[
-  {
-    "question": "sample question",
-    "answers": ["answer 1", "answer 2", "answer 3"],
-    "correct_answer": "correct answer"
-  },
-  // Additional entries...
-]
-```
-
-In this case, the output is a list of dictionaries, where each dictionary represents a question and its associated answers. Each dictionary contains:
-
-- `question`: a string representing the question.
-- `answers`: a list of strings where each string represents a potential answer to the question.
-- `correct_answer`: a string representing the correct answer to the question.
-
-
-### Using Dictionaries (dict) in funcReturn
-
-The `dict` keyword can also be used in `funcReturn` to specify that the function should return a dictionary. A dictionary is a collection of key-value pairs, where each key must be unique.
-
-Here is an example:
-
-
-```javascript
-funcReturn: "dict[name:str, age:int, skills:list[str]]"
-```
-
-This `funcReturn` specification translates into the following output format:
-
-
-```javascript
-{
-  "name": "sample name",
-  "age": 25,
-  "skills": ["skill1", "skill2", "skill3"]
-}
-```
-
-In this case, the output is a dictionary with:
-
-- `name`: a string representing the person's name.
-- `age`: an integer representing the person's age.
-- `skills`: a list of strings where each string represents a skill that the person has.
-
-
-The `funcReturn` option is a powerful tool that allows you to customize the structure of the output you get from the `aiFunction`. By using Python-like syntax, you can define complex data structures to fit your specific needs.
-
-You can also build complex output very easily by combining lists and dictionaries.
-
-```javascript
-funcReturn: "list[dict[category:str, items:list[dict[name:str, attributes:dict[color:str, size:int, tags:list[str]]]]]]"
-```
-
-This `funcReturn` specification translates into the following output format:
-
-```javascript
-[
-  {
-    "category": "Electronics",
-    "items": [
-      {
-        "name": "Smartphone",
-        "attributes": {
-          "color": "Black",
-          "size": 6,
-          "tags": ["mobile", "gadget", "touchscreen"]
-        }
-      },
-      {
-        "name": "Laptop",
-        "attributes": {
-          "color": "Silver",
-          "size": 15,
-          "tags": ["computer", "portable", "keyboard"]
-        }
-      }
-    ]
-  },
-  {
-    "category": "Furniture",
-    "items": [
-      {
-        "name": "Sofa",
-        "attributes": {
-          "color": "Blue",
-          "size": 3,
-          "tags": ["seating", "couch", "living room"]
-        }
-      },
-      {
-        "name": "Dining Table",
-        "attributes": {
-          "color": "Brown",
-          "size": 4,
-          "tags": ["eating", "furniture", "kitchen"]
-        }
-      }
-    ]
-  },
-  // Additional entries...
-]
-
-```
-
-In this example, the output is a list of dictionaries, where each dictionary represents a category and contains:
-
-- `category`: a string representing the category name.
-- `items`: a list of dictionaries where each dictionary represents an item in the category and contains:
-  - `name`: a string representing the item's name.
-  - `attributes`: a dictionary containing the item's attributes, such as:
-    - `color`: a string representing the item's color.
-    - `size`: an integer representing the item's size.
-    - `tags`: a list of strings where each string represents a tag associated with the item.
-
-
-This complex example demonstrates how you can use `funcReturn` to define deeply nested structures that can accommodate a wide variety of data types and relationships.
-
-
-
-
 ## Examples
 
 The `exampleUsage.js` file contains example usage of the `aiFunction` for various tasks
@@ -361,7 +378,14 @@ const options = {
   functionName: 'generate_quiz',
   args: { topic: 'history', difficulty: 'medium', num_questions: 3 },
   description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
-  funcReturn: 'list[question:str, answers:list[str], correct_answer:str]',
+  funcReturn: {
+    type: "object[]",
+    schema: {
+      question: { type: "string" },
+      answers: { type: "string[]"},
+      correct_answer: { type: "string" }
+    }
+  },
   model: 'gpt-4',
 };
 
@@ -406,7 +430,9 @@ const options = {
   functionName: 'suggest_gifts',
   args: { hobbies: 'photography, cooking', interests: 'travel, fashion' },
   description: 'Suggest gift ideas for someone who loves the given hobbies and interests.',
-  funcReturn: 'list[str]',
+  funcReturn: {
+    type: "string[]"
+  }
 };
 
 const giftIdeas = await aiFunction(options);
@@ -423,11 +449,18 @@ const messages = [
 ];
 
 const options = {
-        functionName: 'moderate_messages',
-        args: messages,
-        description: 'Analyze and moderate a list of messages. Return a list of messages with the "content" field updated with bad words changed with "*" to indicate whether the message was flagged for moderation.',
-        funcReturn: 'list[dict[id:int, content:str, flagged:bool]]]]',
-    };
+  functionName: 'moderate_messages',
+  args: messages,
+  description: 'Analyze and moderate a list of messages. Return a list of messages with the "content" field updated with bad words changed with "*" to indicate whether the message was flagged for moderation.',
+  funcReturn: {
+    type: "object[]",
+    schema: {
+      id: { type: "number" },
+      content: { type: "string" },
+      flagged: { type: "boolean" }
+    }
+  }
+};
 
 aiFunction(options).then(moderatedMessages => {
   console.log(moderatedMessages); /*
@@ -455,11 +488,15 @@ let aiData = await aiFunction({
     },
     functionName: "translate_text",
     description: "Translate text from one language to another. Use the to arguments to specify destination language. The text is from a game user interface. Return a string with the translated text",
-    funcReturn: "str",
+    funcReturn: {
+			translatedText: {
+				type: "string",
+			},
+		},
     showDebug: false,
-    temperature: 0.7,
+    temperature: 0,
 });
-console.log(aiData); // Output: "Hallo Welt!"
+console.log(aiData.translatedText); // Output: "Hallo Welt!"
 ```
 
 ### 5. Shorten a text
@@ -471,10 +508,14 @@ let aiData = await aiFunction({
     },
     functionName: "shorten_sentence",
     description: "Rewrite the sentence to a minimum of words without breaking the context or important data. If the sentence can't be shorten, it will return the same sentence.",
-    funcReturn: "str",
-    temperature: 1,
+    funcReturn: {
+			shortenSentence: {
+				type: "string",
+			},
+		},
+    temperature: 0,
 });
-console.log(aiData); // Output: "I am a sentence that is too long and I need to be shortened. Just keep the important information."
+console.log(aiData.shortenSentence); // Output: "I am a sentence that is too long and I need to be shortened. Just keep the important information."
 ```
 
 
