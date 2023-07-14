@@ -160,6 +160,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
       max_tokens = null,
       stream = false,
       autoRetry = false,
+      strictReturn = false,
       tools = [],
     } = options;
 
@@ -268,7 +269,19 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
           console.log(chalk.yellow("####################"));
         }
         
-        return JSON.parse(answer.function_call.arguments);
+        let returnData = JSON.parse(answer.function_call.arguments);
+
+        // If strictReturn is true, validate the return data
+        if (strictReturn) {
+          try {
+            // Parse and validate the return data with the Zod schema
+            returnData = zodSchema.parse(returnData);
+          } catch (error) {
+            throw new Error(`Return data validation error: ${error.message}`);
+          }
+        }
+
+        return returnData;
       } else {
         const functionMessage = {
           role: "function",

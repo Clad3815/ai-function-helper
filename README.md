@@ -15,6 +15,7 @@ I'm also working on a `langchain` version which add agent capabilities to the `a
   - [Usage](#usage)
   - [aiFunction(options)](#aifunctionoptions)
     - [funcReturn](#funcreturn)
+    - [strictReturn](#strictreturn)
     - [tools](#tools)
     - [stream](#stream)
     - [blockHijack](#blockhijack)
@@ -135,6 +136,7 @@ The main function that takes a set of options as an input and returns the output
   - `args`: The arguments to be passed to the custom function. Can be a string, number, list, dictionary, or a combination of these, the function will auto manage them.
   - `description`: A description of the function's purpose.
   - `funcReturn`: The expected return type of the custom function.
+  - `strictReturn` (optional): If set to true, the structure of the returned data will be strictly validated against the `funcReturn` schema. If the returned data does not match the schema, an error will be thrown. Default is `false`.
   - `functionName`: (optional): The name of the custom Python function to use. It's help to give context to the AI model. Default is `custom_function`.
   - `tools`: (optional): An array of helper functions to be used within the main function.
   - `promptVars` : (optional): A dictionary of variables to be used in the prompt. It's will replace the variable name by the variable value in the prompt. Format: `${variableName}`. Default is `{}`.
@@ -144,7 +146,6 @@ The main function that takes a set of options as an input and returns the output
   - `frequency_penalty` (optional): The frequency penalty for the AI model. Default is `0`
   - `presence_penalty` (optional): The presence penalty for the AI model. Default is `0`
   - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo`.
-  - `autoConvertReturn` (optional): If set to true, the AI response will be converted to a Javascript Object or String instead of brute result. Default is `true`.
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
@@ -235,6 +236,25 @@ This `funcReturn` specification translates into the following output format:
   "birthDate": "2000-01-01"
 }
 ```
+
+
+### strictReturn
+
+The `strictReturn` option is used to enforce the structure of the return data. If `strictReturn` is set to `true`, the returned data must match the `funcReturn` schema, otherwise an error will be thrown. This can be useful when you want to ensure that the data returned from the AI model has a specific structure.
+
+For example, if `funcReturn` is set to:
+
+```javascript
+const schemaObject = {
+  name: { type: "string", description: "Human name" },
+  surname: { type: "string", description: "Human surname" },
+  age: { type: "number", description: "Human age" },
+};
+```
+
+And `strictReturn` is set to `true`, the returned data must be an object with a `name` property of type `string`, a `surname` property of type `string`, and an `age` property of type `number`. If the returned data does not match this structure, an error will be thrown.
+
+Please note that `strictReturn` only works when `funcReturn` is defined
 
 ### tools
 
