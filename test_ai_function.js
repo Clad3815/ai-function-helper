@@ -46,6 +46,7 @@ async function runTests(model) {
                 await test(model);
                 successfulTests++;
             } catch (error) {
+                console.log(`Test failed: ${error.message}`);
                 // Ignore the error as we are counting successful tests
             }
         }
@@ -74,23 +75,30 @@ async function test1(model) {
             count_people: randomCount
         },
         functionName: 'fake_people',
-        description: 'Generates n examples of fake data representing people, each with a name and an age.',
-        funcReturn: 'list[dict[name:str, age:int]]',
+        description: 'Generates n examples of fake data representing people, each with a name and an age. Each data must look realistic.',
+        funcReturn: {
+            peoples: {
+                type: "object[]",
+                schema: {
+                    name: { type: "string" },
+                    age: { type: "number" }
+                }
+            }
+        },
         temperature: 0.8,
         model: model,
         showDebug: showDebug,
-        autoConvertReturn: true,
     });
 
-    console.log(`Output: ${JSON.stringify(result)}`);
+    console.log(`Output: ${JSON.stringify(result.peoples)}`);
 
     // Assert the result is a list of dictionaries
-    if (!Array.isArray(result)) {
+    if (!Array.isArray(result.peoples)) {
         throw new Error('Result is not an array');
     }
 
     // Assert the length of the result is equal to the number of people requested
-    if (result.length !== randomCount) {
+    if (result.peoples.length !== randomCount) {
         throw new Error('Result length is not equal to the number of people requested');
     }
 }
@@ -99,20 +107,30 @@ async function test1(model) {
 async function test2(model) {
     const randomLength = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
     const specialChar = (Math.random() > 0.5) ? true : false;
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
             length: randomLength,
             specialChar: specialChar
         },
         functionName: 'random_string_generator',
         description: 'Generates a strong random string of given length with or without special characters. Just put random characters in a string and it will generate the desired output. ',
-        funcReturn: 'dict[string:str, length:int]]',
+        funcReturn: {
+            generatedString: {
+                type: "object",
+                schema: {
+                    string: { type: "string" },
+                    length: { type: "number" }
+                }
+            }
+        },
         temperature: 1,
         frequency_penalty: 0.9,
         presence_penalty: 0.9,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.generatedString;
 
     console.log(`Output: ${result.string} (${result.string.length}) (AI: ${result.length}) | Expected length: ${randomLength} | Special characters: ${specialChar}`);
 
@@ -130,18 +148,24 @@ async function test3(model) {
     let area = (base * height) / 2;
 
 
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
             base: base,
             height: height
         },
         functionName: 'calculate_area_of_triangle',
-        description: 'Calculates the area of a triangle given its base and height.',
-        funcReturn: 'float',
+        description: 'Calculates the area of a triangle given its base and height and return the calculated result',
+        funcReturn: {
+            calculateResult: {
+                type: "number"
+            },
+        },
         temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.calculateResult;
 
     console.log(`Output: ${result} | Expected: ${area}`);
 
@@ -158,15 +182,21 @@ async function test3(model) {
 
 // Ai function test 4
 async function test4(model) {
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: 10,
         functionName: 'get_nth_prime_number',
         description: 'Finds and returns the nth prime number.',
-        funcReturn: 'int',
+        funcReturn: {
+            primeNumber: {
+                type: "number"
+            },
+        },
         temperature: 0,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.primeNumber;
 
     console.log(`Output: ${result}`);
 
@@ -184,15 +214,21 @@ async function test4(model) {
 
 // Ai function test 5
 async function test5(model) {
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: ['Hello, World!', 'abc123'],
         functionName: 'encrypt_text',
         description: 'Encrypts the given text using a simple character substitution based on the provided key.',
-        funcReturn: 'str',
+        funcReturn: {
+            encryptedText: {
+                type: "string"
+            },
+        },
         temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.encryptedText;
 
     console.log(`Output: ${result}`);
 
@@ -204,18 +240,23 @@ async function test5(model) {
 
 // Ai function test 6
 async function test6(model) {
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: [
             [3, 5, 8, 15, 16]
         ],
         functionName: 'find_missing_numbers_in_list',
         description: 'Finds and returns a list of missing numbers in a given sorted list.',
-        funcReturn: 'list[int]',
+        funcReturn: {
+            missingNumbers: {
+                type: "number[]"
+            },
+        },
         temperature: 0.2,
         model: model,
         showDebug: showDebug,
-        autoConvertReturn: true,
     });
+
+    const result = aiData.missingNumbers;
 
     console.log(`Output: ${result}`);
 
@@ -233,17 +274,23 @@ async function test6(model) {
 
 async function test7(model) {
     const country = 'Italy';
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
             country: country
         },
         functionName: 'get_capital_city',
         description: 'This function should return the capital city of the given country.',
-        funcReturn: 'str',
+        funcReturn: {
+            result: {
+                type: "string"
+            },
+        },
         temperature: 0.2,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.result;
 
     console.log(`Output: ${result}`);
 
@@ -260,17 +307,23 @@ async function test7(model) {
 
 async function test8(model) {
     const sentence = 'He are a good person';
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
             sentence: sentence
         },
         functionName: 'correct_grammar',
         description: 'This function should correct the grammar of the given sentence.',
-        funcReturn: 'str',
+        funcReturn: {
+            result: {
+                type: "string"
+            },
+        },
         temperature: 0.2,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.result;
 
     console.log(`Output: ${result}`);
 
@@ -287,17 +340,23 @@ async function test8(model) {
 
 async function test9(model) {
     const text = 'Hola, ¿cómo estás?';
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
             text: text
         },
         functionName: 'detect_language',
         description: 'This function should detect the language of the provided text and return the language code.',
-        funcReturn: 'str',
+        funcReturn: {
+            result: {
+                type: "string"
+            },
+        },
         temperature: 0.2,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.result;
 
     console.log(`Output: ${result}`);
 
@@ -312,6 +371,15 @@ async function test9(model) {
     }
 }
 
+function calculate({ expression, scope }) {
+    const formattedExpression = expression.replace(/\*\*/g, '^');
+    const scopeObject = scope.reduce((obj, item) => {
+        obj[item.variable] = item.value;
+        return obj;
+    }, {});
+    return "The result is : " + math.evaluate(formattedExpression, scopeObject);
+}
+
 // Ai function test 10
 async function test10(model) {
 
@@ -321,23 +389,62 @@ async function test10(model) {
     let area = (base * height) / 2;
 
 
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
-            operation: "Calculate the area of a triangle given its base and height.",
             base: base,
             height: height
         },
-        functionName: 'generate_math_formula',
-        description: 'Return only the math formula for the given operation using all available parameters. The formula format must be valid to be evaluated by mathjs with all necessary numbers and operators',
-        funcReturn: 'dict[formula:str]',
-        temperature: 0.1,
+        functionName: 'calculate_area_of_triangle',
+        description: 'Calculates the area of a triangle given its base and height.',
+        funcReturn: {
+            result: {
+                type: "number"
+            },
+        },
+        tools: [
+            {
+                name: "calculate",
+                function_call: calculate,
+                "description": "This function evaluates mathematical expressions. It accepts an expression as a string and an array of variable objects. Each variable object consists of a 'variable' (the variable's name) and a 'value' (the variable's value).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "expression": {
+                            "type": "string",
+                            "description": "A valid mathematical expression as a string. For example, '2+2*3' or 'x*3' where 'x' is a variable defined in the 'scope'."
+                        },
+                        "scope": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "variable": {
+                                        "type": "string",
+                                        "description": "The name of a variable used in the 'expression'. This should be a string."
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "description": "The numerical value of the 'variable' used in the 'expression'."
+                                    }
+                                },
+                                "required": ["variable", "value"]
+                            }
+                        }
+                    },
+                    "required": ["expression", "scope"]
+                }
+            }
+        ],
+        temperature: 0,
         model: model,
         showDebug: showDebug,
     });
 
-    let areaGpt = math.evaluate(result.formula);
+    const result = aiData.result;
+    const areaGpt = result;
 
-    console.log(`Output: ${areaGpt} | Expected: ${area} | Math expression: ${result.formula}`);
+
+    console.log(`Output: ${areaGpt} | Expected: ${area}`);
 
     // Assert the result is a float
     if (isNaN(parseFloat(areaGpt))) {
@@ -360,7 +467,7 @@ async function test11(model) {
     const p = 1.6; // A common value used for the approximation
     const surfaceArea = 4 * Math.PI * Math.pow((Math.pow(a * b, p) + Math.pow(a * c, p) + Math.pow(b * c, p)) / 3, 1 / p);
 
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
             a: a,
             b: b,
@@ -368,11 +475,17 @@ async function test11(model) {
         },
         functionName: 'calculate_ellipsoid_surface_area',
         description: 'Calculates the approximate surface area of an ellipsoid given its semi-major axes a, b, and c.',
-        funcReturn: 'float',
+        funcReturn: {
+            result: {
+                type: "number"
+            },
+        },
         temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.result;
 
     console.log(`Output: ${result} | Expected: ${surfaceArea}`);
 
@@ -397,27 +510,67 @@ async function test12(model) {
     const p = 1.6; // A common value used for the approximation
     const surfaceArea = 4 * Math.PI * Math.pow((Math.pow(a * b, p) + Math.pow(a * c, p) + Math.pow(b * c, p)) / 3, 1 / p);
 
-    const result = await aiFunction({
+    const aiData = await aiFunction({
         args: {
-            operation: "Calculate the approximate surface area of an ellipsoid given its semi-major axes a, b, and c.",
             a: a,
             b: b,
             c: c
         },
-        functionName: 'generate_math_formula',
-        description: `Return the full math formula for the given operation. The formula must be valid to be evaluated by mathjs. Don't use "**" operator, use "pow" function instead. And give a full explanation of how you calculate the result.`,
-        funcReturn: 'dict[formula:str, scope:dict, explanation:str]',
+        functionName: 'calculate_ellipsoid_surface_area',
+        description: 'Calculates the approximate surface area of an ellipsoid given its semi-major axes a, b, and c.',
+        funcReturn: {
+            result: {
+                type: "number"
+            },
+        },
+        tools: [
+            {
+                name: "calculate",
+                function_call: calculate,
+                "description": "This function evaluates mathematical expressions. It accepts an expression as a string and an array of variable objects. Each variable object consists of a 'variable' (the variable's name) and a 'value' (the variable's value).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "expression": {
+                            "type": "string",
+                            "description": "A valid mathematical expression as a string. For example, '2+2*3' or 'x*3' where 'x' is a variable defined in the 'scope'."
+                        },
+                        "scope": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "variable": {
+                                        "type": "string",
+                                        "description": "The name of a variable used in the 'expression'. This should be a string."
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "description": "The numerical value of the 'variable' used in the 'expression'."
+                                    }
+                                },
+                                "required": ["variable", "value"]
+                            }
+                        }
+                    },
+                    "required": ["expression", "scope"]
+                }
+            }
+        ],
         temperature: 0.1,
         model: model,
         showDebug: showDebug,
     });
+
+    const result = aiData.result;
     // console.log(result);
 
     // We ask explanation to the AI to help him to find the correct formula even if we don't use it to calculate the result
 
-    const surfaceAreaGpt = math.evaluate(result.formula, result.scope);
+    // const surfaceAreaGpt = math.evaluate(result.formula, result.scope);
+    const surfaceAreaGpt = result;
 
-    console.log(`Output: ${surfaceAreaGpt} | Expected: ${surfaceArea} | Math expression: ${result.formula} | Scope: ${JSON.stringify(result.scope)} | Explanation: ${result.explanation}`);
+    console.log(`Output: ${surfaceAreaGpt} | Expected: ${surfaceArea}`);
 
     // Assert the result is a float
     if (isNaN(parseFloat(surfaceAreaGpt))) {

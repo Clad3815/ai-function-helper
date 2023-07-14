@@ -24,7 +24,11 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
     const configuration = new Configuration({
       apiKey: apiKey,
     });
-    openai = new OpenAIApi(configuration, basePath);
+    if (basePath) {
+      openai = new OpenAIApi(configuration, basePath);
+    } else {
+      openai = new OpenAIApi(configuration);
+    }
   }
 
   async function aiFunction(options) {
@@ -37,12 +41,6 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
       funcReturn = null,
       blockHijack = false,
       stream = false,
-      temperature = 0.6,
-      frequency_penalty = 0,
-      presence_penalty = 0,
-      model = "gpt-3.5-turbo",
-      top_p = null,
-      max_tokens = null,
       promptVars = {},
       current_date_time = new Date().toISOString(),
       tools = [],
@@ -106,9 +104,10 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         role: "user",
         content: `
             Current time: ${current_date_time}
+            You are in a Typescript environment.
             You are to assume the role of the following function:
             \`\`\`
-            def ${functionName}(${funcArgs}):
+            function ${functionName}(${funcArgs})
             """
             ${description}
             """
@@ -171,10 +170,15 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
     }));
 
     const outputSchema = zodToJsonSchema(zodSchema);
+    const ToolOutputFunctionName = "format_" + functionName + "_output";
 
+    let ToolDescription = `Output formatter. Use this function to return the result of "${functionName}" function in the correct format. You are forbidden to answer without using this function.`;
+    // if (toolsList?.length > 0) {
+    //   ToolDescription += ` This function must not be called first but only after other functions if needed.`;
+    // }
     const functionsList = [...(toolsList || []), {
-      name: functionName + "_output",
-      description: `Output formatter. Always use this function to return the result of "${functionName}" function.` + toolsList ?? `This function must not be called first but only after other functions if needed. `,
+      name: ToolOutputFunctionName,
+      description:  ToolDescription,
       parameters: outputSchema,
     }];
 
@@ -262,7 +266,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         return getDataFromAPI(options, messages, zodSchema);
       }
 
-      if (answer.function_call.name === functionName + "_output") {
+      if (answer.function_call.name === ToolOutputFunctionName) {
         if (showDebug) {
           console.log(chalk.yellow("####################"));
           console.log(chalk.blue("Returning brut answer: " + answer.function_call.arguments));
@@ -286,14 +290,15 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         const functionMessage = {
           role: "function",
           name: answer.function_call.name,
-          content: "Error, function not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + functionName + "_output",
+          content: "Error, function not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + ToolOutputFunctionName,
         };
 
         // Add function message and result to messages array
         messages.push(answer, functionMessage);
         if (showDebug) {
           console.log(chalk.yellow("####################"));
-          console.log(chalk.red("Error, function " + answer.function_call.name + " not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + functionName + "_output"));
+          console.log(chalk.red("Error, function " + answer.function_call.name + " not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + ToolOutputFunctionName));
+          console.log(chalk.red(JSON.stringify(answer.function_call.arguments)));
           console.log(chalk.yellow("####################"));
         }
         // Recall getDataFromAPI with updated messages array
@@ -391,42 +396,38 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
 
   return aiFunction;
 }
-
 function convertArgs(args) {
   const type = getType(args);
 
   switch (type) {
-    case "list":
+    case "array":
       return args
         .map((arg, i) => `${String.fromCharCode(97 + i)}: ${getType(arg)}`)
         .join(", ");
-    case "dict":
+    case "object":
       return Object.keys(args)
         .map((key) => `${key}: ${getType(args[key])}`)
         .join(", ");
-    case "float":
-    case "str":
-      return !isNaN(parseFloat(args)) ? "f: float" : "s: str";
-    case "int":
-      return "i: int";
-    case "bool":
-      return "b: bool";
+    case "number":
+      return !isNaN(parseFloat(args)) ? "f: number" : "s: string";
+    case "boolean":
+      return "b: boolean";
     default:
-      return "a: Anything";
+      return "a: any";
   }
 }
 
 function formatArg(arg) {
   const type = getType(arg);
 
-  if (type === "str") {
+  if (type === "string") {
     return `"${arg}"`;
-  } else if (type === "int" || type === "bool" || type === "float") {
+  } else if (type === "number" || type === "boolean") {
     return arg;
-  } else if (type === "list" || type === "dict") {
+  } else if (type === "array" || type === "object") {
     return JSON.stringify(arg);
   } else if (type === "undefined" || type === "null" || type === "unknown") {
-    return "None";
+    return "null";
   } else {
     console.log(`Warning: Unknown type ${type} for argument ${arg}`);
     return arg;
@@ -443,20 +444,19 @@ function getType(value) {
 
   switch (type) {
     case "[object Array]":
-      return "list";
+      return "array";
     case "[object Object]":
-      return "dict";
+      return "object";
     case "[object String]":
-      return "str";
+      return "string";
     case "[object Number]":
-      return value % 1 !== 0 ? "float" : "int";
+      return "number";
     case "[object Boolean]":
-      return "bool";
+      return "boolean";
     default:
       return "unknown";
   }
 }
-
 async function retry(fn, retries = 3, delay = 1000) {
   try {
     return await fn();
