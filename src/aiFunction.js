@@ -1,5 +1,8 @@
 const { Configuration, OpenAIApi } = require("openai");
 const chalk = require("chalk");
+const { z } = require("zod");
+const { zodToJsonSchema } = require("zod-to-json-schema");
+
 
 let openai;
 
@@ -7,7 +10,7 @@ function getOpenAI() {
   return openai;
 }
 
-function createAiFunctionInstance(apiKey) {
+function createAiFunctionInstance(apiKey, basePath = null ) {
   if (!apiKey) {
     throw new Error("You must provide an OpenAI API key or an OpenAI instance");
   }
@@ -21,7 +24,7 @@ function createAiFunctionInstance(apiKey) {
     const configuration = new Configuration({
       apiKey: apiKey,
     });
-    openai = new OpenAIApi(configuration);
+    openai = new OpenAIApi(configuration, basePath);
   }
 
   async function aiFunction(options) {
@@ -31,12 +34,10 @@ function createAiFunctionInstance(apiKey) {
       description,
       showDebug = false,
       funcArgs = null,
-      funcReturn = "dict",
-      autoConvertReturn = true,
+      funcReturn = null,
       blockHijack = false,
       stream = false,
-      useInternalStream = false,
-      temperature = 0.8,
+      temperature = 0.6,
       frequency_penalty = 0,
       presence_penalty = 0,
       model = "gpt-3.5-turbo",
@@ -44,8 +45,8 @@ function createAiFunctionInstance(apiKey) {
       max_tokens = null,
       promptVars = {},
       current_date_time = new Date().toISOString(),
+      tools = [],
     } = options;
-    let funcReturnString = funcReturn;
     let argsString = "";
 
     if (Array.isArray(args)) {
@@ -70,38 +71,25 @@ function createAiFunctionInstance(apiKey) {
     }
 
     let isJson = "";
-    let dictAdded = false;
     if (stream === true) {
       isJson = " without surrounding quotes ('\"`)";
-      if (
-        funcReturn != "str" &&
-        funcReturn != "int" &&
-        funcReturn != "float" &&
-        funcReturn != "bool"
-      ) {
+      if (funcReturn) {
         throw new Error(
-          "You must specify a valid return type for a streaming function (str, int, float or bool)"
+          "You cannot use the funcReturn argument when using stream mode"
+        );
+      }
+      if (tools) {
+        throw new Error(
+          "You cannot use the tools argument when using stream mode"
         );
       }
     } else {
-      if (autoConvertReturn === true) {
-        isJson =
-          " converted into a valid JSON string adhering to UTF-8 encoding using the python json.dumps() function";
-        if (funcReturn === "str") {
-          funcReturnString = "dict[returnData:str]";
-          dictAdded = true;
-        } else if (funcReturn == "int") {
-          funcReturnString = "dict[returnData:int]";
-          dictAdded = true;
-        } else if (funcReturn == "float") {
-          funcReturnString = "dict[returnData:float]";
-          dictAdded = true;
-        } else if (funcReturn == "bool") {
-          funcReturnString = "dict[returnData:bool]";
-          dictAdded = true;
-        }
-      }
+      validateFuncReturn(funcReturn);
     }
+
+
+    // Generate Zod schema
+    const zodSchema = generateZodSchema(funcReturn);
 
     for (const [key, value] of Object.entries(promptVars)) {
       description = description.replace("${" + key + "}", value);
@@ -118,14 +106,14 @@ function createAiFunctionInstance(apiKey) {
         role: "user",
         content: `
             Current time: ${current_date_time}
-            You are to assume the role of the following Python function:
+            You are to assume the role of the following function:
             \`\`\`
-            def ${functionName}(${funcArgs}) -> ${funcReturnString}:
+            def ${functionName}(${funcArgs}):
             """
             ${description}
             """
             \`\`\`
-            Only respond with your \`return\` value${isJson}. Do not include any other explanatory text in your response.
+            
             ${blockHijackString}
             
             `
@@ -155,120 +143,57 @@ function createAiFunctionInstance(apiKey) {
     if (stream === true) {
       return returnStreamingData(options, messages);
     } else {
-      if (useInternalStream)
-        return await getDataFromAPIStream(options, messages, dictAdded);
-      else return await getDataFromAPI(options, messages, dictAdded);
+      return await getDataFromAPI(options, messages, zodSchema);
     }
   }
 
-  async function getDataFromAPIStream(options, messages, dictAdded) {
+
+  async function getDataFromAPI(options, messages, zodSchema) {
     let {
+      functionName = "custom_function",
       showDebug = false,
-      temperature = 0.8,
+      temperature = 0.6,
       frequency_penalty = 0,
       presence_penalty = 0,
       model = "gpt-3.5-turbo",
-      autoConvertReturn = true,
-      top_p = null,
-      max_tokens = null,
-    } = options;
-
-    const res = await openai.createChatCompletion(
-      {
-        model: model,
-        messages: messages,
-        temperature: temperature,
-        frequency_penalty: frequency_penalty,
-        presence_penalty: presence_penalty,
-        max_tokens: max_tokens,
-        top_p: top_p,
-        stream: true,
-      },
-      {
-        responseType: "stream",
-      }
-    );
-
-    let tempData = "";
-    let answer = "";
-
-    for await (const data of res.data) {
-      const lines = data
-        .toString()
-        .split("\n")
-        .filter((line) => line.trim() !== "");
-
-      for (const line of lines) {
-        const lineData = tempData + line;
-        const message = lineData.replace(/^data: /, "");
-
-        if (message === "[DONE]") {
-          break; // Stream finished
-        }
-
-        try {
-          const parsed = JSON.parse(message);
-          const chunk_message = parsed.choices[0].delta.content;
-          const finish_reason = parsed.choices[0].finish_reason;
-
-          if (finish_reason === "stop") {
-            break; // Stream finished
-          }
-
-          if (typeof chunk_message === "undefined") {
-            continue;
-          }
-
-          if (showDebug) {
-            console.log(`[STREAM] Message received: ${chunk_message}`);
-          }
-          answer += chunk_message;
-          tempData = "";
-        } catch (error) {
-          tempData += line;
-          if (showDebug) {
-            console.error(
-              "[STREAM] Could not JSON parse stream message, adding to buffer:",
-              message
-            );
-          }
-        }
-      }
-    }
-    console.log("answer", answer);
-    // if (showDebug) {
-    //     console.log(chalk.yellow('####################'));
-    //     console.log(chalk.magenta('Tokens from prompt: ') + chalk.green(gptResponse.data.usage.prompt_tokens.toString()));
-    //     console.log(chalk.magenta('Tokens from completion: ') + chalk.green(gptResponse.data.usage.completion_tokens.toString()));
-    //     console.log(chalk.yellow('Total tokens: ') + chalk.green(gptResponse.data.usage.total_tokens.toString()));
-    //     console.log(chalk.yellow('####################'));
-    // }
-
-    if (autoConvertReturn === true) {
-      return await parseAndFixData(answer, showDebug, dictAdded);
-    } else {
-      if (showDebug) {
-        console.log(chalk.yellow("####################"));
-        console.log(chalk.blue("Returning brut answer: " + answer));
-        console.log(chalk.yellow("####################"));
-      }
-    }
-    return answer;
-  }
-
-  async function getDataFromAPI(options, messages, dictAdded) {
-    let {
-      showDebug = false,
-      temperature = 0.8,
-      frequency_penalty = 0,
-      presence_penalty = 0,
-      model = "gpt-3.5-turbo",
-      autoConvertReturn = true,
       top_p = null,
       max_tokens = null,
       stream = false,
       autoRetry = false,
+      tools = [],
     } = options;
+
+    const toolsList = tools?.map(tool => ({
+      name: tool.name,
+      description: tool.description,
+      parameters: tool.parameters,
+    }));
+
+    const outputSchema = zodToJsonSchema(zodSchema);
+
+    const functionsList = [...(toolsList || []), {
+      name: functionName + "_output",
+      description: `Output formatter. Always use this function to return the result of "${functionName}" function.` + toolsList ?? `This function must not be called first but only after other functions if needed. `,
+      parameters: outputSchema,
+    }];
+
+    if (showDebug ) {
+      console.log(chalk.yellow("####################"));
+      console.log(chalk.blue.bold("List of functions: "));
+      functionsList.forEach((func) => {
+        console.log(chalk.magenta("Function name: ") + chalk.green(func.name));
+        console.log(
+          chalk.magenta("Function description: ") + chalk.green(func.description)
+        );
+        console.log(
+          chalk.magenta("Function parameters: ") +
+            chalk.green(JSON.stringify(func.parameters))
+        );
+        console.log(chalk.yellow("####################"));
+      });
+    }
+
+
 
     const apiCall = () =>
       openai.createChatCompletion({
@@ -279,11 +204,13 @@ function createAiFunctionInstance(apiKey) {
         presence_penalty: presence_penalty,
         max_tokens: max_tokens,
         top_p: top_p,
+        functions: functionsList,
+        function_call: "auto",
       });
 
     let gptResponse = await (autoRetry ? retry(apiCall) : apiCall());
 
-    let answer = gptResponse.data.choices[0]["message"]["content"];
+    let answer = gptResponse.data.choices[0].message;
 
     if (showDebug) {
       console.log(chalk.yellow("####################"));
@@ -302,16 +229,68 @@ function createAiFunctionInstance(apiKey) {
       console.log(chalk.yellow("####################"));
     }
 
-    if (autoConvertReturn === true && !stream) {
-      return await parseAndFixData(answer, showDebug, dictAdded);
-    } else {
-      if (showDebug) {
-        console.log(chalk.yellow("####################"));
-        console.log(chalk.blue("Returning brut answer: " + answer));
-        console.log(chalk.yellow("####################"));
+    if (answer.function_call) {
+
+      if (tools?.some(tool => tool.name === answer.function_call.name)) {
+        const tool = tools.find(tool => tool.name === answer.function_call.name);
+
+        if (showDebug) {
+          console.log(chalk.yellow("####################"));
+          console.log(chalk.blue("Calling tool: " + tool.name + " with arguments: " + JSON.stringify(answer.function_call.arguments)));
+          console.log(chalk.yellow("####################"));
+        }
+        const result = tool.function_call(JSON.parse(answer.function_call.arguments));
+
+        if (showDebug) {
+          console.log(chalk.yellow("####################"));
+          console.log(chalk.blue("Returned result: " + JSON.stringify(result)));
+          console.log(chalk.yellow("####################"));
+        }
+
+        const functionMessage = {
+          role: "function",
+          name: tool.name,
+          content: JSON.stringify(result),
+        };
+
+        // Add function message and result to messages array
+        messages.push(answer, functionMessage);
+
+
+        // Recall getDataFromAPI with updated messages array
+        return getDataFromAPI(options, messages, zodSchema);
+      }
+
+      if (answer.function_call.name === functionName + "_output") {
+        if (showDebug) {
+          console.log(chalk.yellow("####################"));
+          console.log(chalk.blue("Returning brut answer: " + answer.function_call.arguments));
+          console.log(chalk.yellow("####################"));
+        }
+        
+        return JSON.parse(answer.function_call.arguments);
+      } else {
+        const functionMessage = {
+          role: "function",
+          name: answer.function_call.name,
+          content: "Error, function not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + functionName + "_output",
+        };
+
+        // Add function message and result to messages array
+        messages.push(answer, functionMessage);
+        if (showDebug) {
+          console.log(chalk.yellow("####################"));
+          console.log(chalk.red("Error, function " + answer.function_call.name + " not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + functionName + "_output"));
+          console.log(chalk.yellow("####################"));
+        }
+        // Recall getDataFromAPI with updated messages array
+        return getDataFromAPI(options, messages, zodSchema);
+        // throw new Error(
+        //   "The function_call returned by the AI is not supported. Please contact the developer. " + JSON.stringify(answer.function_call)
+        // );
       }
     }
-    return answer;
+
   }
 
   async function* returnStreamingData(options, messages) {
@@ -390,113 +369,14 @@ function createAiFunctionInstance(apiKey) {
     }
   }
 
-  async function parseAndFixData(answer, showDebug, dictAdded) {
-    answer = answer.replace(
-      /^(```(?:python|json)?|`['"]?|['"]?)|(```|['"`]?)$/g,
-      ""
-    );
-
-    if (answer.startsWith("return json.dumps(") && answer.endsWith(")")) {
-      answer = answer.substring(18, answer.length - 1);
-    }
-    if (isValidJSON(answer)) {
-      if (showDebug) {
-        console.log(chalk.green("####################"));
-        console.log(chalk.green("Valid JSON, returning it: " + answer));
-        console.log(chalk.green("####################"));
-      }
-      if (dictAdded) {
-        let parsedAnswer = parseJson(answer);
-        return parsedAnswer.returnData;
-      } else {
-        return parseJson(answer);
-      }
-    } else {
-      if (showDebug) {
-        console.log(chalk.yellow("####################"));
-        console.log(chalk.red("Invalid JSON, trying to fix it: " + answer));
-      }
-      let fixedAnswer = await fixBadJsonFormat(answer.trim(), showDebug);
-      if (fixedAnswer !== "") {
-        if (dictAdded) {
-          let parsedAnswer = parseJson(fixedAnswer);
-          return parsedAnswer.returnData;
-        } else {
-          return parseJson(fixedAnswer);
-        }
-      } else {
-        if (showDebug) {
-          console.log(chalk.red("Could not fix JSON"));
-          console.log(chalk.yellow("####################"));
-        }
-      }
+  function validateFuncReturn(funcReturn) {
+    if (!funcReturn || typeof funcReturn === "string") {
+      throw new Error("funcReturn must be a valid Zod schema");
     }
   }
+
 
   return aiFunction;
-}
-
-function fixJsonString(pythonString) {
-  return pythonString
-    .trim()
-    .replace(/(^|[^\\])\\\\"/g, '$1\\\\"') // Double backslashes before escaped quotes in values
-    .replace(/(^|[^\\])\\"/g, '$1"') // Fix incorrect escaped quotes around key names
-    .replace(/(^|[^\\w])'($|[^\\w])/g, '$1"$2')
-    .replace(/\\"/g, "'")
-    .replace(/[”“]/g, '"')
-    .replace(/[‘’]/g, "'")
-    .replace(/(\w)"(\w)/g, '$1\\"$2')
-    .replace(/\\'/g, "'")
-    .replace(/None/g, "null")
-    .replace(/True/g, "true")
-    .replace(/False/g, "false")
-    .replace(/^`+|`+$/g, "")
-    .replace(/^'+|'+$/g, "")
-    .replace(/(^\{.*),\}$/g, "$1}")
-    .replace(/(?:\r\n|\r|\n)/g, "\\n")
-    .replace(/\.\}$/g, "}");
-}
-
-async function fixBadJsonFormat(jsonString, showDebug = false) {
-  const tryFixJsonString = fixJsonString(jsonString);
-  if (tryFixJsonString !== jsonString) {
-    if (isValidJSON(tryFixJsonString)) {
-      if (showDebug) {
-        console.log(
-          chalk.green("Fixed JSON (by function): " + tryFixJsonString)
-        );
-        console.log(chalk.yellow("####################"));
-      }
-      return tryFixJsonString;
-    }
-  }
-  let gptMessages = [];
-  gptMessages.push({
-    role: "system",
-    content:
-      "Your task is to fix a JSON string, answer just with the fixed string or the same string if it's already valid. In JSON, all keys and strings must be enclosed in double quotes. Additionally, boolean values must be in lowercase. You must fix also any escaped characters badly formatted.",
-  });
-  gptMessages.push({
-    role: "user",
-    content: jsonString,
-  });
-  const gptResponse = await retry(() =>
-    openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: gptMessages,
-      temperature: 0,
-    })
-  );
-  let answer = gptResponse.data.choices[0]["message"]["content"];
-  if (isValidJSON(answer)) {
-    if (showDebug) {
-      console.log(chalk.green("Fixed JSON (by AI): " + answer));
-      console.log(chalk.yellow("####################"));
-    }
-    return answer;
-  } else {
-    return "";
-  }
 }
 
 function convertArgs(args) {
@@ -574,26 +454,75 @@ async function retry(fn, retries = 3, delay = 1000) {
   }
 }
 
-function isValidJSON(jsonString) {
-  try {
-    JSON.parse(jsonString);
-  } catch (e) {
-    // console.log(e);
-    return false;
+
+const isZodSchema = (schemaObject) => schemaObject && schemaObject._def;
+
+
+function generateZodSchema(customSchema) {
+
+  if (isZodSchema(customSchema)) return customSchema;
+
+  let zodSchema = {};
+
+  for (let key in customSchema) {
+    let field = customSchema[key];
+    let isArray = field.array || (typeof field.type === "string" && field.type.endsWith("[]"));
+    let fieldType = isArray ? field.type.replace("[]", "") : field.type;
+
+    if (Array.isArray(fieldType)) {
+      let multiTypeSchema = fieldType.map((type) => {
+        let isArrayType = type.endsWith("[]");
+        type = isArrayType ? type.replace("[]", "") : type;
+        switch (type) {
+          case "string":
+            return isArrayType ? z.array(z.string()) : z.string();
+          case "number":
+            return isArrayType ? z.array(z.number()) : z.number();
+          case "date":
+            return isArrayType ? z.array(z.date()) : z.date();
+          case "boolean":
+            return isArrayType ? z.array(z.boolean()) : z.boolean();
+          default:
+            return z.string();
+        }
+      });
+      zodSchema[key] = z.union(multiTypeSchema);
+    } else {
+      switch (fieldType) {
+        case "string":
+          zodSchema[key] = isArray ? z.array(z.string()) : z.string();
+          break;
+        case "number":
+          zodSchema[key] = isArray ? z.array(z.number()) : z.number();
+          break;
+        case "date":
+          zodSchema[key] = isArray ? z.array(z.date()) : z.date();
+          break;
+        case "boolean":
+          zodSchema[key] = isArray ? z.array(z.boolean()) : z.boolean();
+          break;
+        case "object":
+          if (isArray) {
+            zodSchema[key] = z.array(generateZodSchema(field.schema));
+          } else {
+            zodSchema[key] = generateZodSchema(field.schema);
+          }
+          break;
+      }
+    }
+
+    if (field.description || field.describe) {
+      zodSchema[key] = zodSchema[key].describe(field.description || field.describe);
+    }
+
+    if (field.optional) {
+      zodSchema[key] = zodSchema[key].optional();
+    }
   }
-  return true;
+
+  return z.object(zodSchema);
 }
 
-function parseJson(jsonString) {
-  // Use unicode escape to avoid invalid character errors
-  return JSON.parse(unicodeEscape(jsonString));
-}
-
-function unicodeEscape(str) {
-  return str.replace(/[\u00A0-\u9999<>\&]/g, function (i) {
-    return "\\u" + ("000" + i.charCodeAt(0).toString(16)).slice(-4);
-  });
-}
 
 module.exports = {
   createAiFunctionInstance,

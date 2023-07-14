@@ -8,6 +8,7 @@ node_modules
 *.txt
 
 .npmignore
+.env
 
 
 # Ignorer les fichiers de configuration SASS
@@ -15,3 +16,4 @@ node_modules
 
 package-lock.json
 examples/adventure_game.js
+examples/testAgent.js
