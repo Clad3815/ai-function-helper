@@ -469,18 +469,24 @@ async function retry(fn, retries = 3, delay = 1000) {
 }
 
 function checkAndFixJson(json) {
-  try {
-    JSON.parse(json);
+  let parsedJson = tryParse(json);
+  if (parsedJson !== null) {
     return json;
+  }
+
+  const repairedJson = jsonrepair(json);
+  parsedJson = tryParse(repairedJson);
+  return parsedJson !== null ? repairedJson : json;
+}
+
+function tryParse(json) {
+  try {
+    return JSON.parse(json);
   } catch (e) {
-    try {
-      JSON.parse(jsonrepair(args));
-      return jsonrepair(args);
-    } catch (e) {
-      return json;
-    }
+    return null;
   }
 }
+
 
 const isZodSchema = (schemaObject) => schemaObject && schemaObject._def;
 
