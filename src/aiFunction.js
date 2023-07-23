@@ -2,6 +2,7 @@ const { Configuration, OpenAIApi } = require("openai");
 const chalk = require("chalk");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
+const { jsonrepair } = require('jsonrepair');
 
 
 let openai;
@@ -210,7 +211,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         max_tokens: max_tokens,
         top_p: top_p,
         functions: functionsList,
-        function_call: "auto",
+        function_call: toolsList ? "auto" : ToolOutputFunctionName,
       });
 
     let gptResponse = await (autoRetry ? retry(apiCall) : apiCall());
@@ -238,13 +239,13 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
 
       if (tools?.some(tool => tool.name === answer.function_call.name)) {
         const tool = tools.find(tool => tool.name === answer.function_call.name);
-
+        const argumentsFixed = checkAndFixJson(answer.function_call.arguments);
         if (showDebug) {
           console.log(chalk.yellow("####################"));
-          console.log(chalk.blue("Calling tool: " + tool.name + " with arguments: " + JSON.stringify(answer.function_call.arguments)));
+          console.log(chalk.blue("Calling tool: " + tool.name + " with arguments: " + argumentsFixed));
           console.log(chalk.yellow("####################"));
         }
-        const result = tool.function_call(JSON.parse(answer.function_call.arguments));
+        const result = tool.function_call(JSON.parse(argumentsFixed));
 
         if (showDebug) {
           console.log(chalk.yellow("####################"));
@@ -267,13 +268,13 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
       }
 
       if (answer.function_call.name === ToolOutputFunctionName) {
+        const argumentsFixed = checkAndFixJson(answer.function_call.arguments);
         if (showDebug) {
           console.log(chalk.yellow("####################"));
-          console.log(chalk.blue("Returning brut answer: " + answer.function_call.arguments));
+          console.log(chalk.blue("Returning brut answer: " + argumentsFixed));
           console.log(chalk.yellow("####################"));
         }
-        
-        let returnData = JSON.parse(answer.function_call.arguments);
+        let returnData = JSON.parse(argumentsFixed);
 
         // If strictReturn is true, validate the return data
         if (strictReturn) {
@@ -467,6 +468,19 @@ async function retry(fn, retries = 3, delay = 1000) {
   }
 }
 
+function checkAndFixJson(json) {
+  try {
+    JSON.parse(json);
+    return json;
+  } catch (e) {
+    try {
+      JSON.parse(jsonrepair(args));
+      return jsonrepair(args);
+    } catch (e) {
+      return json;
+    }
+  }
+}
 
 const isZodSchema = (schemaObject) => schemaObject && schemaObject._def;
 
