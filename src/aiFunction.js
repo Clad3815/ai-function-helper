@@ -25,7 +25,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
     if (basePath) {
       openai = new OpenAI({
         apiKey: apiKey,
-        basePath: basePath,
+        baseURL: basePath,
       });
     } else {
       openai = new OpenAI({
