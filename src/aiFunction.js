@@ -1,4 +1,4 @@
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require("openai");
 const chalk = require("chalk");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
@@ -22,13 +22,15 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         "You must provide an OpenAI API key or a valid OpenAI instance"
       );
   } else {
-    const configuration = new Configuration({
-      apiKey: apiKey,
-    });
     if (basePath) {
-      openai = new OpenAIApi(configuration, basePath);
+      openai = new OpenAI({
+        apiKey: apiKey,
+        basePath: basePath,
+      });
     } else {
-      openai = new OpenAIApi(configuration);
+      openai = new OpenAI({
+        apiKey: apiKey,
+      });
     }
   }
 
@@ -202,7 +204,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
 
 
     const apiCall = () =>
-      openai.createChatCompletion({
+      openai.chat.completions.create({
         model: model,
         messages: messages,
         temperature: temperature,
@@ -323,7 +325,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
       max_tokens = null,
     } = options;
 
-    const res = await openai.createChatCompletion(
+    const res = await openai.chat.completions.create(
       {
         model: model,
         messages: messages,
@@ -333,9 +335,6 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         max_tokens: max_tokens,
         top_p: top_p,
         stream: true,
-      },
-      {
-        responseType: "stream",
       }
     );
 
