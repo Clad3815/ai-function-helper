@@ -218,21 +218,21 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
 
     let gptResponse = await (autoRetry ? retry(apiCall) : apiCall());
 
-    let answer = gptResponse.data.choices[0].message;
+    let answer = gptResponse.choices[0].message;
 
     if (showDebug) {
       console.log(chalk.yellow("####################"));
       console.log(
         chalk.magenta("Tokens from prompt: ") +
-          chalk.green(gptResponse.data.usage.prompt_tokens.toString())
+          chalk.green(gptResponse.usage.prompt_tokens.toString())
       );
       console.log(
         chalk.magenta("Tokens from completion: ") +
-          chalk.green(gptResponse.data.usage.completion_tokens.toString())
+          chalk.green(gptResponse.usage.completion_tokens.toString())
       );
       console.log(
         chalk.yellow("Total tokens: ") +
-          chalk.green(gptResponse.data.usage.total_tokens.toString())
+          chalk.green(gptResponse.usage.total_tokens.toString())
       );
       console.log(chalk.yellow("####################"));
     }
@@ -340,7 +340,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
 
     let tempData = "";
 
-    for await (const data of res.data) {
+    for await (const data of res) {
       const lines = data
         .toString()
         .split("\n")
