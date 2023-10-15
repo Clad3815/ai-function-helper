@@ -56,7 +56,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         objectArgs[String.fromCharCode(97 + i)] = args[i];
       }
       args = objectArgs;
-    } else if (getType(args) !== "dict") {
+    } else if (getType(args) !== "object") {
       args = {
         s: args,
       };
@@ -107,14 +107,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         role: "user",
         content: `
             Current time: ${current_date_time}
-            You are to assume the role of the following function:
-            \`\`\`
-            function ${functionName}(${funcArgs})
-            """
             ${description}
-            """
-            \`\`\`
-            
+
             ${blockHijackString}
             
             `
@@ -173,9 +167,9 @@ function createAiFunctionInstance(apiKey, basePath = null) {
     }));
 
     const outputSchema = zodToJsonSchema(zodSchema);
-    const ToolOutputFunctionName = "format_" + functionName + "_output";
+    const ToolOutputFunctionName = functionName + "_output";
 
-    let ToolDescription = `Output formatter. Use this function to return the result of "${functionName}" function in the correct format. You are forbidden to answer without using this function.`;
+    let ToolDescription = `Output formatter`;
     // if (toolsList?.length > 0) {
     //   ToolDescription += ` This function must not be called first but only after other functions if needed.`;
     // }
