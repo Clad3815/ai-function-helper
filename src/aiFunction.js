@@ -11,7 +11,7 @@ function getOpenAI() {
   return openai;
 }
 
-function createAiFunctionInstance(apiKey, basePath = null ) {
+function createAiFunctionInstance(apiKey, basePath = null) {
   if (!apiKey) {
     throw new Error("You must provide an OpenAI API key or an OpenAI instance");
   }
@@ -107,7 +107,6 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         role: "user",
         content: `
             Current time: ${current_date_time}
-            You are in a Typescript environment.
             You are to assume the role of the following function:
             \`\`\`
             function ${functionName}(${funcArgs})
@@ -137,7 +136,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
       console.log(chalk.yellow("####################"));
       console.log(
         chalk.magenta("With arguments: ") +
-          chalk.green(messages[1]["content"].trim())
+        chalk.green(messages[1]["content"].trim())
       );
       console.log(chalk.yellow("####################"));
     }
@@ -158,6 +157,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
       frequency_penalty = 0,
       presence_penalty = 0,
       model = "gpt-3.5-turbo",
+      largeModel = "gpt-3.5-turbo-16k",
       top_p = null,
       max_tokens = null,
       stream = false,
@@ -181,11 +181,11 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
     // }
     const functionsList = [...(toolsList || []), {
       name: ToolOutputFunctionName,
-      description:  ToolDescription,
+      description: ToolDescription,
       parameters: outputSchema,
     }];
 
-    if (showDebug ) {
+    if (showDebug) {
       console.log(chalk.yellow("####################"));
       console.log(chalk.blue.bold("List of functions: "));
       functionsList.forEach((func) => {
@@ -195,7 +195,7 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         );
         console.log(
           chalk.magenta("Function parameters: ") +
-            chalk.green(JSON.stringify(func.parameters))
+          chalk.green(JSON.stringify(func.parameters))
         );
         console.log(chalk.yellow("####################"));
       });
@@ -203,9 +203,9 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
 
 
 
-    const apiCall = () =>
+    const apiCall = (modelToUse) =>
       openai.chat.completions.create({
-        model: model,
+        model: modelToUse,
         messages: messages,
         temperature: temperature,
         frequency_penalty: frequency_penalty,
@@ -216,7 +216,21 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
         function_call: toolsList ? "auto" : ToolOutputFunctionName,
       });
 
-    let gptResponse = await (autoRetry ? retry(apiCall) : apiCall());
+    let gptResponse;
+    try {
+      gptResponse = await (autoRetry ? retry(apiCall(model)) : apiCall(model));
+    } catch (error) {
+      // Check if the error is a 'context_length_exceeded' error
+      if (error.code === 'context_length_exceeded') {
+        if (showDebug) {
+          console.log("Context length exceeded, switching to the larger model");
+        }
+        gptResponse = await (autoRetry ? retry(apiCall(largeModel)) : apiCall(largeModel));
+      } else {
+        // If it's a different error, throw it
+        throw error;
+      }
+    }
 
     let answer = gptResponse.choices[0].message;
 
@@ -224,15 +238,15 @@ function createAiFunctionInstance(apiKey, basePath = null ) {
       console.log(chalk.yellow("####################"));
       console.log(
         chalk.magenta("Tokens from prompt: ") +
-          chalk.green(gptResponse.usage.prompt_tokens.toString())
+        chalk.green(gptResponse.usage.prompt_tokens.toString())
       );
       console.log(
         chalk.magenta("Tokens from completion: ") +
-          chalk.green(gptResponse.usage.completion_tokens.toString())
+        chalk.green(gptResponse.usage.completion_tokens.toString())
       );
       console.log(
         chalk.yellow("Total tokens: ") +
-          chalk.green(gptResponse.usage.total_tokens.toString())
+        chalk.green(gptResponse.usage.total_tokens.toString())
       );
       console.log(chalk.yellow("####################"));
     }
