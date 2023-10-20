@@ -72,20 +72,22 @@ function createAiFunctionInstance(apiKey, basePath = null) {
     }
 
     let isJson = "";
-    if (stream === true) {
-      isJson = " without surrounding quotes ('\"`)";
-      if (funcReturn) {
-        throw new Error(
-          "You cannot use the funcReturn argument when using stream mode"
-        );
+    if (funcReturn) {
+      if (stream === true) {
+        isJson = " without surrounding quotes ('\"`)";
+        if (funcReturn) {
+          throw new Error(
+            "You cannot use the funcReturn argument when using stream mode"
+          );
+        }
+        if (tools) {
+          throw new Error(
+            "You cannot use the tools argument when using stream mode"
+          );
+        }
+      } else {
+        validateFuncReturn(funcReturn);
       }
-      if (tools) {
-        throw new Error(
-          "You cannot use the tools argument when using stream mode"
-        );
-      }
-    } else {
-      validateFuncReturn(funcReturn);
     }
 
 
@@ -157,6 +159,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       stream = false,
       autoRetry = false,
       strictReturn = false,
+      funcReturn = null,
       tools = [],
     } = options;
 
@@ -179,7 +182,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       parameters: outputSchema,
     }];
 
-    if (showDebug) {
+    if (showDebug && funcReturn) {
       console.log(chalk.yellow("####################"));
       console.log(chalk.blue.bold("List of functions: "));
       functionsList.forEach((func) => {
@@ -206,8 +209,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         presence_penalty: presence_penalty,
         max_tokens: max_tokens,
         top_p: top_p,
-        functions: functionsList,
-        function_call: toolsList ? "auto" : ToolOutputFunctionName,
+        functions: !funcReturn ? undefined : functionsList,
+        function_call: !funcReturn ? undefined : (toolsList ? "auto" : ToolOutputFunctionName),
       });
 
     let gptResponse;
@@ -243,6 +246,10 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         chalk.green(gptResponse.usage.total_tokens.toString())
       );
       console.log(chalk.yellow("####################"));
+    }
+
+    if (!funcReturn) {
+      return answer.content;
     }
 
     if (answer.function_call) {
