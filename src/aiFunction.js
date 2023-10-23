@@ -210,7 +210,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         max_tokens: max_tokens,
         top_p: top_p,
         functions: !funcReturn ? undefined : functionsList,
-        function_call: !funcReturn ? undefined : (toolsList ? "auto" : ToolOutputFunctionName),
+        function_call: !funcReturn ? undefined : ((toolsList?.length > 0) ? "auto" : { "name": ToolOutputFunctionName }),
       });
 
     let gptResponse;
@@ -232,6 +232,11 @@ function createAiFunctionInstance(apiKey, basePath = null) {
     let answer = gptResponse.choices[0].message;
 
     if (showDebug) {
+
+      console.log(chalk.yellow("####################"));
+      console.log(JSON.stringify(gptResponse, null, 2));
+      console.log(chalk.yellow("####################"));
+
       console.log(chalk.yellow("####################"));
       console.log(
         chalk.magenta("Tokens from prompt: ") +
