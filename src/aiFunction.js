@@ -6,17 +6,12 @@ const { jsonrepair } = require('jsonrepair');
 
 
 let openai;
-
-function getOpenAI() {
-  return openai;
-}
-
 function createAiFunctionInstance(apiKey, basePath = null) {
   if (!apiKey) {
     throw new Error("You must provide an OpenAI API key or an OpenAI instance");
   }
   if (typeof apiKey !== "string") {
-    if (apiKey instanceof OpenAIApi) openai = apiKey;
+    if (apiKey instanceof OpenAI) openai = apiKey;
     else
       throw new Error(
         "You must provide an OpenAI API key or a valid OpenAI instance"
@@ -40,10 +35,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       args,
       description,
       showDebug = false,
-      funcArgs = null,
       funcReturn = null,
       blockHijack = false,
-      stream = false,
       promptVars = {},
       imagePrompt = null,
       current_date_time = new Date().toISOString(),
@@ -51,44 +44,15 @@ function createAiFunctionInstance(apiKey, basePath = null) {
     } = options;
     let argsString = "";
 
-    if (Array.isArray(args)) {
-      let objectArgs = {};
-      for (let i = 0; i < args.length; i++) {
-        objectArgs[String.fromCharCode(97 + i)] = args[i];
-      }
-      args = objectArgs;
-    } else if (getType(args) !== "object") {
-      args = {
-        s: args,
-      };
-    }
-    argsString = formatObjectArgs(args);
-    argsString = argsString
-      .replace(/true/g, "True")
-      .replace(/false/g, "False")
-      .replace(/(\r\n|\n|\r)/gm, "\\n");
-
-    if (!funcArgs) {
-      funcArgs = convertArgs(args);
+    // If arg is a string, parse it as JSON
+    if (typeof args !== "string") {
+      argsString = JSON.stringify(args, null, 2);
+    } else {
+      argsString = args;
     }
 
-    let isJson = "";
     if (funcReturn) {
-      if (stream === true) {
-        isJson = " without surrounding quotes ('\"`)";
-        if (funcReturn) {
-          throw new Error(
-            "You cannot use the funcReturn argument when using stream mode"
-          );
-        }
-        if (tools) {
-          throw new Error(
-            "You cannot use the tools argument when using stream mode"
-          );
-        }
-      } else {
-        validateFuncReturn(funcReturn);
-      }
+      validateFuncReturn(funcReturn);
     }
 
 
@@ -111,6 +75,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         role: "system",
         content: `
             Current time: ${current_date_time}
+            You must assume the role of a function called \`${functionName}\` with this description:
             ${description}
 
             ${blockHijackString}
@@ -161,11 +126,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       console.log(chalk.yellow("####################"));
     }
 
-    if (stream === true) {
-      return returnStreamingData(options, messages);
-    } else {
-      return await getDataFromAPI(options, messages, zodSchema);
-    }
+    return await getDataFromAPI(options, messages, zodSchema);
+
   }
 
 
@@ -180,7 +142,6 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       largeModel = "gpt-4-1106-preview",
       top_p = null,
       max_tokens = 1000,
-      stream = false,
       autoRetry = false,
       strictReturn = false,
       funcReturn = null,
@@ -347,78 +308,6 @@ function createAiFunctionInstance(apiKey, basePath = null) {
   }
 
 
-  async function* returnStreamingData(options, messages) {
-    let {
-      showDebug = false,
-      temperature = 0.8,
-      frequency_penalty = 0,
-      presence_penalty = 0,
-      model = "gpt-3.5-turbo-1106",
-      top_p = null,
-      max_tokens = 1000,
-    } = options;
-
-    const res = await openai.chat.completions.create(
-      {
-        model: model,
-        messages: messages,
-        temperature: temperature,
-        frequency_penalty: frequency_penalty,
-        presence_penalty: presence_penalty,
-        max_tokens: max_tokens,
-        top_p: top_p,
-        stream: true,
-      }
-    );
-
-    let tempData = "";
-
-    for await (const data of res) {
-      const lines = data
-        .toString()
-        .split("\n")
-        .filter((line) => line.trim() !== "");
-
-      for (const line of lines) {
-        const lineData = tempData + line;
-        const message = lineData.replace(/^data: /, "");
-
-        if (message === "[DONE]") {
-          return; // Stream finished
-        }
-
-        try {
-          const parsed = JSON.parse(message);
-          const chunk_message = parsed.choices[0].delta.content;
-          const finish_reason = parsed.choices[0].finish_reason;
-
-          if (finish_reason === "stop") {
-            return; // Stream finished
-          }
-
-          if (typeof chunk_message === "undefined") {
-            continue;
-          }
-
-          if (showDebug) {
-            console.log(`[STREAM] Message received: ${chunk_message}`);
-          }
-
-          // Yield the chunk_message
-          yield chunk_message;
-          tempData = "";
-        } catch (error) {
-          tempData += line;
-          if (showDebug) {
-            console.error(
-              "[STREAM] Could not JSON parse stream message, adding to buffer:",
-              message
-            );
-          }
-        }
-      }
-    }
-  }
 
   function validateFuncReturn(funcReturn) {
     if (!funcReturn || typeof funcReturn === "string") {
@@ -429,67 +318,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
   return aiFunction;
 }
-function convertArgs(args) {
-  const type = getType(args);
 
-  switch (type) {
-    case "array":
-      return args
-        .map((arg, i) => `${String.fromCharCode(97 + i)}: ${getType(arg)}`)
-        .join(", ");
-    case "object":
-      return Object.keys(args)
-        .map((key) => `${key}: ${getType(args[key])}`)
-        .join(", ");
-    case "number":
-      return !isNaN(parseFloat(args)) ? "f: number" : "s: string";
-    case "boolean":
-      return "b: boolean";
-    default:
-      return "a: any";
-  }
-}
 
-function formatArg(arg) {
-  const type = getType(arg);
-
-  if (type === "string") {
-    return `"${arg}"`;
-  } else if (type === "number" || type === "boolean") {
-    return arg;
-  } else if (type === "array" || type === "object") {
-    return JSON.stringify(arg);
-  } else if (type === "undefined" || type === "null" || type === "unknown") {
-    return "null";
-  } else {
-    console.log(`Warning: Unknown type ${type} for argument ${arg}`);
-    return arg;
-  }
-}
-
-function formatObjectArgs(obj) {
-  const keys = Object.keys(obj);
-  return keys.map((key) => `${key}=${formatArg(obj[key])}`).join(", ");
-}
-
-function getType(value) {
-  const type = Object.prototype.toString.call(value);
-
-  switch (type) {
-    case "[object Array]":
-      return "array";
-    case "[object Object]":
-      return "object";
-    case "[object String]":
-      return "string";
-    case "[object Number]":
-      return "number";
-    case "[object Boolean]":
-      return "boolean";
-    default:
-      return "unknown";
-  }
-}
 async function retry(fn, retries = 3, delay = 1000) {
   try {
     return await fn();
@@ -591,5 +421,5 @@ function generateZodSchema(customSchema) {
 
 module.exports = {
   createAiFunctionInstance,
-  getOpenAI,
+  getOpenAI: () => openai,
 };

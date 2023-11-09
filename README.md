@@ -20,7 +20,6 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
     - [funcReturn](#funcreturn)
     - [strictReturn](#strictreturn)
     - [tools](#tools)
-    - [stream](#stream)
     - [blockHijack](#blockhijack)
     - [promptVars](#promptvars)
   - [Examples](#examples)
@@ -98,16 +97,7 @@ const aiFunction = createAiFunctionInstance('your_api_key_here');
 const openai = getOpenAI();
 
 // Use the OpenAI API directly
-const embedText = await openai.createEmbedding({
-    model: "text-embedding-ada-002",
-    input: "Text to embed"
-});
-
-const moderateText = await openai.createModeration({
-    input: "Text to moderate",
-});
-
-const chat = openai.createChatCompletion({
+const chat = openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
     messages: gptMessages,
     temperature: 0.7,
@@ -152,7 +142,6 @@ The main function that takes a set of options as an input and returns the output
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
-  - `stream` (optional):  If true, the AI model will send the response in streams instead of all at once. This is only compatible if `funcReturn` is not defined. Default is `false`.
 
 
 ### funcReturn
@@ -193,9 +182,10 @@ const schemaObject = {
 };
 ```
 
-Or using Zod:
+Or using Zod library, install it using `npm install zod`:
 
 ```javascript
+const { z } = require("zod");
 const zodSchema = z.object({
   name: z.string().describe("Human name"),
   surname: z.string().describe("Human surname"),
@@ -332,28 +322,6 @@ const options = {
 ```
 
 In this case, the `generate_password` tool is a helper function that generates a random password. The tool's `parameters` key specifies that it expects an object with `length` and `passwordCount` properties.
-
-### stream
-
-The `stream` option allows for the AI model's response to be sent in a stream, rather than waiting for the entire prompt to be processed. This can be particularly useful when immediate response is required. Here's an example of how to use it:
-
-```javascript
-let aiFunc = await aiFunction({
-  ...
-  stream: true,
-  ...
-})
-let fullResponse = '';
-for await (let message of aiFunc) {
-  fullResponse += message;
-  console.log("Partial message:" + message);
-}
-console.log("Full response: " + fullResponse);
-```
-
-
-Please note that stream can only be used with `str`, `int`, `float` and `bool` as `funcReturn` types. Using it with any other return types will result in an error.
-
 
 ### blockHijack
 
