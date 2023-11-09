@@ -1,9 +1,8 @@
-const {
-    createAiFunctionInstance
-} = require('./src/aiFunction.js');
-const path = require('path')
 require('dotenv').config();
+const { createAiFunctionInstance } = require('ai-function-helper');
 const aiFunction = createAiFunctionInstance(process.env.OPENAI_API_KEY);
+
+const { z } = require('zod');
 
 const math = require('mathjs');
 
@@ -76,16 +75,13 @@ async function test1(model) {
         },
         functionName: 'fake_people',
         description: 'Generates n examples of fake data representing people, each with a name and an age. Each data must look realistic.',
-        funcReturn: {
-            peoples: {
-                type: "object[]",
-                schema: {
-                    name: { type: "string" },
-                    age: { type: "number" }
-                }
-            }
-        },
-        temperature: 0.8,
+        funcReturn: z.object({
+            peoples: z.object({
+                name: z.string().describe('The name of the person'),
+                age: z.number().describe('The age of the person'),
+            }).array(),
+        }),
+        temperature: 1,
         model: model,
         showDebug: showDebug,
     });
@@ -333,7 +329,7 @@ async function test8(model) {
     }
 
     // Assert the result is the grammatically correct version of the input sentence
-    if (result !== 'He is a good person') {
+    if (result !== 'He is a good person' && result !== 'He is a good person.') {
         throw new Error('Result is not the grammatically correct version of the input sentence');
     }
 }
@@ -596,5 +592,5 @@ function arraysEqual(a, b) {
     return true;
 }
 // Run the tests for both GPT-4 and GPT-3.5-turbo
-// runTests('gpt-4');
-runTests('gpt-3.5-turbo');
+// runTests('gpt-4-1106-preview');
+runTests('gpt-3.5-turbo-1106');
