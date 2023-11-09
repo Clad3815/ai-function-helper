@@ -80,15 +80,16 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
             ${blockHijackString}
             
-            Your response should be in JSON format with this structure (openApi schema):
-            \`\`\`openApi
-            ${jsonOutput}
+            Your response should be in JSON format and must respect this OpenAPI structure:
+            \`\`\`openapi
+            {OUTPUT}
             \`\`\`
             `
           .split("\n")
           .map((line) => line.trim())
           .join("\n")
-          .trim(),
+          .trim()
+          .replace("{OUTPUT}", jsonOutput),
       }
     ];
 
