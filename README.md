@@ -1,13 +1,16 @@
+# IMPORTANT
+
+Since the version `2.1` only the new models from OpenAI are supported: `gpt-4-1106-preview` & `gpt-3.5-turbo-1106`.
+
 # AI Function Module
 
 Welcome to the AI Function Module, a powerful tool for integrating the capabilities of OpenAI's GPT-4 and GPT-3.5-turbo directly into your Node.js functions! With this module, you can simplify the process of getting precisely formatted responses from the OpenAI API, saving time and reducing complexity in your application development. This project is heavily inspired by [Ask Marvin](https://github.com/prefecthq/marvin) and [AI Functions from Torantulino](https://github.com/Torantulino/AI-Functions).
 
 
-I'm also working on a `langchain` version which add agent capabilities to the `aiFunction` module. The `langchain` version is in beta and can be found [here](https://github.com/Clad3815/ai-function-helper-langchain).
-
 
 ## Table of Contents
 
+- [IMPORTANT](#important)
 - [AI Function Module](#ai-function-module)
   - [Table of Contents](#table-of-contents)
   - [Why using this script instead of the normal OpenAI API?](#why-using-this-script-instead-of-the-normal-openai-api)
@@ -117,10 +120,10 @@ const chat = openai.createChatCompletion({
 Or you can also use an OpenAI instance directly:
 
 ```javascript
-const configuration = new Configuration({
+
+const openai = new OpenAI({
     apiKey: apiKey
 });
-const openai = new OpenAIApi(configuration);
 
 const { createAiFunctionInstance } = require('ai-function-helper');
 const aiFunction = createAiFunctionInstance(openai);

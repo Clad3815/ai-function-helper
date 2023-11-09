@@ -94,6 +94,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
     // Generate Zod schema
     const zodSchema = generateZodSchema(funcReturn);
+    const jsonOutput = JSON.stringify(zodToJsonSchema(zodSchema, { target: "openApi3" }), null, 2);
 
     for (const [key, value] of Object.entries(promptVars)) {
       description = description.replace("${" + key + "}", value);
@@ -114,6 +115,10 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
             ${blockHijackString}
             
+            Your response should be in JSON format with this structure (openApi schema):
+            \`\`\`openApi
+            ${jsonOutput}
+            \`\`\`
             `
           .split("\n")
           .map((line) => line.trim())
@@ -191,26 +196,10 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       }
     }));
 
-    const outputSchema = zodToJsonSchema(zodSchema);
-    const ToolOutputFunctionName = functionName + "_output";
-
-    let ToolDescription = `Output formatter`;
-    // if (toolsList?.length > 0) {
-    //   ToolDescription += ` This function must not be called first but only after other functions if needed.`;
-    // }
-    const functionsList = [...(toolsList || []), {
-      type: "function",
-      "function": {
-        name: ToolOutputFunctionName,
-        description: ToolDescription,
-        parameters: outputSchema,
-      }
-    }];
-
-    if (showDebug && funcReturn) {
+    if (showDebug && (toolsList?.length > 0)) {
       console.log(chalk.yellow("####################"));
       console.log(chalk.blue.bold("List of functions: "));
-      functionsList.forEach((func) => {
+      toolsList.forEach((func) => {
         console.log(chalk.magenta("Function name: ") + chalk.green(func.function.name));
         console.log(
           chalk.magenta("Function description: ") + chalk.green(func.function.description)
@@ -234,8 +223,9 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         presence_penalty: presence_penalty,
         max_tokens: max_tokens,
         top_p: top_p,
-        tools: !funcReturn ? undefined : functionsList,
-        tool_choice: !funcReturn ? undefined : ((toolsList?.length > 0) ? "auto" : { type: "function", "function": { "name": ToolOutputFunctionName } }),
+        response_format: { type: "json_object" },
+        tools: (toolsList?.length > 0) ? toolsList : undefined,
+        tool_choice: (toolsList?.length > 0) ? ((toolsList?.length > 0) ? "auto" : "none") : undefined,
       });
 
     let gptResponse;
@@ -281,83 +271,81 @@ function createAiFunctionInstance(apiKey, basePath = null) {
     if (!funcReturn) {
       return answer.content;
     }
+    messages.push(answer);
+    if (answer.tool_calls) {
+      for (const toolCall of answer.tool_calls) {
+        if (tools?.some(tool => tool.name === toolCall.function.name)) {
+          const tool = tools.find(tool => tool.name === toolCall.function.name);
+          const argumentsFixed = checkAndFixJson(toolCall.function.arguments);
+          if (showDebug) {
+            console.log(chalk.yellow("####################"));
+            console.log(chalk.blue("Calling tool: " + tool.name + " with arguments: " + argumentsFixed));
+            console.log(chalk.yellow("####################"));
+          }
+          const result = tool.function_call(JSON.parse(argumentsFixed));
 
-    if (answer.tool_calls[0].function) {
+          if (showDebug) {
+            console.log(chalk.yellow("####################"));
+            console.log(chalk.blue("Returned result: " + JSON.stringify(result)));
+            console.log(chalk.yellow("####################"));
+          }
 
-      if (tools?.some(tool => tool.name === answer.tool_calls[0].function.name)) {
-        const tool = tools.find(tool => tool.name === answer.tool_calls[0].function.name);
-        const argumentsFixed = checkAndFixJson(answer.tool_calls[0].function.arguments);
-        if (showDebug) {
-          console.log(chalk.yellow("####################"));
-          console.log(chalk.blue("Calling tool: " + tool.name + " with arguments: " + argumentsFixed));
-          console.log(chalk.yellow("####################"));
+          const functionMessage = {
+            tool_call_id: toolCall.id,
+            role: "tool",
+            name: tool.name,
+            content: JSON.stringify(result),
+          };
+
+          // Add function message and result to messages array
+          messages.push(functionMessage);
+        } else {
+          const functionMessage = {
+            tool_call_id: toolCall.id,
+            role: "tool",
+            name: toolCall.function.name,
+            content: "Error, function not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", "),
+          };
+
+          // Add function message and result to messages array
+          messages.push(functionMessage);
+          if (showDebug) {
+            console.log(chalk.yellow("####################"));
+            console.log(chalk.red("Error, function " + answer.tool_calls[0].function.name + " not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + ToolOutputFunctionName));
+            console.log(chalk.red(JSON.stringify(answer.tool_calls[0].function.arguments)));
+            console.log(chalk.yellow("####################"));
+          }
+
         }
-        const result = tool.function_call(JSON.parse(argumentsFixed));
-
-        if (showDebug) {
-          console.log(chalk.yellow("####################"));
-          console.log(chalk.blue("Returned result: " + JSON.stringify(result)));
-          console.log(chalk.yellow("####################"));
-        }
-
-        const functionMessage = {
-          role: "function",
-          name: tool.name,
-          content: JSON.stringify(result),
-        };
-
-        // Add function message and result to messages array
-        messages.push(answer, functionMessage);
-
-
-        // Recall getDataFromAPI with updated messages array
-        return getDataFromAPI(options, messages, zodSchema);
       }
 
-      if (answer.tool_calls[0].function.name === ToolOutputFunctionName) {
-        const argumentsFixed = checkAndFixJson(answer.tool_calls[0].function.arguments);
-        if (showDebug) {
-          console.log(chalk.yellow("####################"));
-          console.log(chalk.blue("Returning brut answer: " + argumentsFixed));
-          console.log(chalk.yellow("####################"));
-        }
-        let returnData = JSON.parse(argumentsFixed);
+      // Recall getDataFromAPI with updated messages array
+      return getDataFromAPI(options, messages, zodSchema);
 
-        // If strictReturn is true, validate the return data
-        if (strictReturn) {
-          try {
-            // Parse and validate the return data with the Zod schema
-            returnData = zodSchema.parse(returnData);
-          } catch (error) {
-            throw new Error(`Return data validation error: ${error.message}`);
-          }
-        }
+    }
 
-        return returnData;
-      } else {
-        const functionMessage = {
-          role: "function",
-          name: answer.tool_calls[0].function.name,
-          content: "Error, function not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + ToolOutputFunctionName,
-        };
+    let textAnswer = answer['content'];
+    const argumentsFixed = checkAndFixJson(textAnswer);
+    if (showDebug) {
+      console.log(chalk.yellow("####################"));
+      console.log(chalk.blue("Returning brut answer: " + argumentsFixed));
+      console.log(chalk.yellow("####################"));
+    }
+    let returnData = JSON.parse(argumentsFixed);
 
-        // Add function message and result to messages array
-        messages.push(answer, functionMessage);
-        if (showDebug) {
-          console.log(chalk.yellow("####################"));
-          console.log(chalk.red("Error, function " + answer.tool_calls[0].function.name + " not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") + ", " + ToolOutputFunctionName));
-          console.log(chalk.red(JSON.stringify(answer.tool_calls[0].function.arguments)));
-          console.log(chalk.yellow("####################"));
-        }
-        // Recall getDataFromAPI with updated messages array
-        return getDataFromAPI(options, messages, zodSchema);
-        // throw new Error(
-        //   "The function_call returned by the AI is not supported. Please contact the developer. " + JSON.stringify(answer.function_call)
-        // );
+    // If strictReturn is true, validate the return data
+    if (strictReturn) {
+      try {
+        // Parse and validate the return data with the Zod schema
+        returnData = zodSchema.parse(returnData);
+      } catch (error) {
+        throw new Error(`Return data validation error: ${error.message}`);
       }
     }
 
+    return returnData;
   }
+
 
   async function* returnStreamingData(options, messages) {
     let {
@@ -365,7 +353,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       temperature = 0.8,
       frequency_penalty = 0,
       presence_penalty = 0,
-      model = "gpt-3.5-turbo",
+      model = "gpt-3.5-turbo-1106",
       top_p = null,
       max_tokens = 1000,
     } = options;
