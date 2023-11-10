@@ -175,8 +175,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
     }
 
 
-
     const apiCall = (modelToUse) =>
+
       openai.chat.completions.create({
         model: modelToUse,
         messages: messages,
@@ -185,7 +185,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         presence_penalty: presence_penalty,
         max_tokens: max_tokens,
         top_p: top_p,
-        response_format: { type: "json_object" },
+        response_format: (modelToUse === "gpt-4-1106-preview" || modelToUse === "gpt-3.5-turbo-1106") ? { type: "json_object" } : undefined,
         tools: (toolsList?.length > 0) ? toolsList : undefined,
         tool_choice: (toolsList?.length > 0) ? ((toolsList?.length > 0) ? "auto" : "none") : undefined,
       });
