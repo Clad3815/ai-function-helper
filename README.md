@@ -138,7 +138,8 @@ The main function that takes a set of options as an input and returns the output
   - `temperature` (optional): The sampling temperature for the AI model. Default is `0.8`
   - `frequency_penalty` (optional): The frequency penalty for the AI model. Default is `0`
   - `presence_penalty` (optional): The presence penalty for the AI model. Default is `0`
-  - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo`.
+  - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo-1106`.
+  - `largeModel` (optional): Larger model to use instead of the default model when the total number of tokens is too high. Default is `gpt-4-1106-preview`.
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
