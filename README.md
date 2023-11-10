@@ -1,6 +1,6 @@
 # IMPORTANT
 
-Since the version `2.1` only the new models from OpenAI are supported: `gpt-4-1106-preview` & `gpt-3.5-turbo-1106`.
+Since the version `2.1` we stongly recommand to use the new OpenAI models: `gpt-4-1106-preview` & `gpt-3.5-turbo-1106`. They offer a new JSON mode output to ensure the output is always in the same format.
 
 # AI Function Module
 
