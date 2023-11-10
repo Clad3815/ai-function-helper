@@ -192,14 +192,16 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
     let gptResponse;
     try {
-      gptResponse = await (autoRetry ? retry(apiCall(model)) : apiCall(model));
+      gptResponse = await (autoRetry ? retry(() => apiCall(model)) : apiCall(model));
+
     } catch (error) {
       // Check if the error is a 'context_length_exceeded' error
       if (error.code === 'context_length_exceeded') {
         if (showDebug) {
           console.log("Context length exceeded, switching to the larger model");
         }
-        gptResponse = await (autoRetry ? retry(apiCall(largeModel)) : apiCall(largeModel));
+        gptResponse = await (autoRetry ? retry(() => apiCall(largeModel)) : apiCall(largeModel));
+
       } else {
         // If it's a different error, throw it
         throw error;
