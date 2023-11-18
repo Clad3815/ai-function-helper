@@ -58,7 +58,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
     // Generate Zod schema
     const zodSchema = generateZodSchema(funcReturn);
-    const jsonOutput = JSON.stringify(zodToJsonSchema(zodSchema, { target: "openApi3" }), null, 2);
+    // const jsonOutput = JSON.stringify(zodToJsonSchema(zodSchema, { target: "openApi3" }), null, 2);
+    const jsonOutput = zodToText(zodSchema);
 
     for (const [key, value] of Object.entries(promptVars)) {
       description = description.replace("${" + key + "}", value);
@@ -80,8 +81,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
             ${blockHijackString}
             
-            Your response should be in JSON format and must respect this OpenAPI structure:
-            \`\`\`openapi
+            Your response should be in JSON format and must respect this structure:
+            \`\`\`
             {OUTPUT}
             \`\`\`
             `
@@ -322,6 +323,40 @@ function createAiFunctionInstance(apiKey, basePath = null) {
   return aiFunction;
 }
 
+// Helper function to convert Zod schema to text format
+const zodToText = (schema, indent = '') => {
+  let text = '';
+
+  if (schema instanceof z.ZodObject) {
+    text += '{\n';
+    for (const key in schema.shape) {
+      const field = schema.shape[key];
+      const description = field._def.description ? `// ${field._def.description}\n${indent}` : '';
+      text += `${indent}${description}${key}: ${zodToText(field, indent + '  ')},\n`;
+    }
+    text += `${indent.slice(0, -2)}}`;
+  } else if (schema instanceof z.ZodString) {
+    text += 'string';
+  } else if (schema instanceof z.ZodNumber) {
+    text += 'number';
+  } else if (schema instanceof z.ZodEnum) {
+    text += `"${schema._def.values.join('" | "')}"`;
+  } else if (schema instanceof z.ZodArray) {
+    text += `Array<\n${zodToText(schema._def.type, indent + '  ')}\n${indent}>`;
+  } else if (schema instanceof z.ZodUnion) {
+    text += schema._def.options.map(opt => zodToText(opt, indent)).join(' | ');
+  } else if (schema instanceof z.ZodIntersection) {
+    text += `${zodToText(schema._def.left, indent)} & ${zodToText(schema._def.right, indent)}`;
+  } else if (schema instanceof z.ZodOptional) {
+    text += `${zodToText(schema.unwrap(), indent)}?`;
+  } else if (schema instanceof z.ZodNull) {
+    text += 'null';
+  } else if (schema instanceof z.ZodUndefined) {
+    text += 'undefined';
+  }
+
+  return text;
+};
 
 async function retry(fn, retries = 3, delay = 1000) {
   try {
