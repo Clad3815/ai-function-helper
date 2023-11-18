@@ -123,7 +123,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       console.log(chalk.yellow("####################"));
       console.log(
         chalk.magenta("With arguments: ") +
-        chalk.green(JSON.stringify(messages[1]))
+        chalk.green(JSON.stringify(messages[1], null, 2))
       );
       console.log(chalk.yellow("####################"));
     }
