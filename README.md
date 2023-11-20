@@ -143,7 +143,7 @@ The main function that takes a set of options as an input and returns the output
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
-
+  - `timeout` (optional): The timeout in milliseconds for the AI model. Default is `120000` (2 minutes).
 
 ### funcReturn
 

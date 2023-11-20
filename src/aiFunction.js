@@ -147,6 +147,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       autoRetry = false,
       strictReturn = false,
       funcReturn = null,
+      timeout = 120 * 1000,
       tools = [],
     } = options;
 
@@ -189,6 +190,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         response_format: (modelToUse === "gpt-4-1106-preview" || modelToUse === "gpt-3.5-turbo-1106") ? { type: "json_object" } : undefined,
         tools: (toolsList?.length > 0) ? toolsList : undefined,
         tool_choice: (toolsList?.length > 0) ? ((toolsList?.length > 0) ? "auto" : "none") : undefined,
+      }, {
+        timeout: timeout,
       });
 
     let gptResponse;
@@ -324,16 +327,19 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 }
 const zodToText = (schema, indent = '') => {
   let text = '';
+  const deeperIndent = indent + '  ';
 
   if (schema instanceof z.ZodObject) {
-    text += '\n{\n';
-    for (const key in schema.shape) {
+    text += '\n' + indent + '{\n';
+    const keys = Object.keys(schema.shape);
+    keys.forEach((key, index) => {
       const field = schema.shape[key];
-      const description = field._def.description ? `// ${field._def.description}\n${indent}` : '';
+      const description = field._def.description ? `// ${field._def.description}\n${deeperIndent}` : '';
       const optionalMark = field instanceof z.ZodOptional ? '?' : '';
-      text += `${indent}${description}${key}${optionalMark}: ${zodToText(field.unwrap ? field.unwrap() : field, indent + '  ')},\n`;
-    }
-    text += `${indent.slice(0, -2)}\n}\n`;
+      text += `${deeperIndent}${description}${key}${optionalMark}: ${zodToText(field.unwrap ? field.unwrap() : field, deeperIndent)}`;
+      text += index < keys.length - 1 ? ',\n' : '\n';
+    });
+    text += `${indent}}\n`;
   } else if (schema instanceof z.ZodString) {
     text += 'string';
   } else if (schema instanceof z.ZodNumber) {
@@ -345,7 +351,7 @@ const zodToText = (schema, indent = '') => {
   } else if (schema instanceof z.ZodEnum) {
     text += `"${schema._def.values.join('" | "')}"`;
   } else if (schema instanceof z.ZodArray) {
-    text += `Array<${zodToText(schema._def.type, indent + '  ')}>`;
+    text += `Array<\n${deeperIndent}${zodToText(schema._def.type, deeperIndent)}\n${indent}>`;
   } else if (schema instanceof z.ZodUnion) {
     text += schema._def.options.map(opt => zodToText(opt, indent)).join(' | ');
   } else if (schema instanceof z.ZodIntersection) {
@@ -355,6 +361,7 @@ const zodToText = (schema, indent = '') => {
   } else if (schema instanceof z.ZodUndefined) {
     text += 'undefined';
   }
+
   // Delete double break lines
   return text.replace(/\n\n/g, '\n');
 };
