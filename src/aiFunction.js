@@ -78,14 +78,20 @@ function createAiFunctionInstance(apiKey, basePath = null) {
     } else {
       ensureJSON = "Your response should return a valid JSON format only without explanation and must respect this structure";
     }
+    let functionNamePrompt = "";
+    if (functionName !== "custom_function") {
+      functionNamePrompt = `You must assume the role of a function called \`${functionName}\` with this description:`;
+    }
 
     let messages = [
       {
         role: "system",
         content: `
             Current time: ${current_date_time}
-            You must assume the role of a function called \`${functionName}\` with this description:
+            ${functionNamePrompt}
+            ---
             ${description}
+            ---
 
             ${blockHijackString}
             
@@ -422,25 +428,30 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 }
 const zodToText = (schema, indent = '') => {
   let text = '';
-  const deeperIndent = indent + '  ';
 
   const isSimpleType = (schema) => {
     return schema instanceof z.ZodString ||
       schema instanceof z.ZodNumber ||
-      schema instanceof z.ZodBoolean ||
-      schema instanceof z.ZodEnum;
+      schema instanceof z.ZodBoolean;
   };
+
+  const formatArrayType = (itemType, indent) => {
+    if (isSimpleType(itemType)) {
+      return `${zodToText(itemType, indent)}[]`;
+    } else {
+      return `Array<${zodToText(itemType, indent)}>`;
+    }
+  };
+
   if (schema instanceof z.ZodObject) {
-    text += '\n' + indent + '{\n';
-    const keys = Object.keys(schema.shape);
-    keys.forEach((key, index) => {
+    text += '{\n';
+    for (const key in schema.shape) {
       const field = schema.shape[key];
-      const description = field._def.description ? `// ${field._def.description}\n${deeperIndent}` : '';
+      const description = field._def.description ? `// ${field._def.description}\n${indent}` : '';
       const optionalMark = field instanceof z.ZodOptional ? '?' : '';
-      text += `${deeperIndent}${description}${key}${optionalMark}: ${zodToText(field.unwrap ? field.unwrap() : field, deeperIndent)}`;
-      text += index < keys.length - 1 ? ',\n' : '\n';
-    });
-    text += `${indent}}\n`;
+      text += `${indent}${description}${key}${optionalMark}: ${zodToText(field.unwrap ? field.unwrap() : field, indent + '  ')},\n`;
+    }
+    text += `${indent.slice(0, -2)}}`;
   } else if (schema instanceof z.ZodString) {
     text += 'string';
   } else if (schema instanceof z.ZodNumber) {
@@ -452,9 +463,7 @@ const zodToText = (schema, indent = '') => {
   } else if (schema instanceof z.ZodEnum) {
     text += `"${schema._def.values.join('" | "')}"`;
   } else if (schema instanceof z.ZodArray) {
-    const itemType = schema._def.type;
-    text += isSimpleType(itemType) ? `${zodToText(itemType, indent)}[]` : `Array<\n${zodToText(itemType, indent + '  ')}\n${indent}>`;
-
+    text += formatArrayType(schema._def.type, indent);
   } else if (schema instanceof z.ZodUnion) {
     text += schema._def.options.map(opt => zodToText(opt, indent)).join(' | ');
   } else if (schema instanceof z.ZodIntersection) {
@@ -464,6 +473,7 @@ const zodToText = (schema, indent = '') => {
   } else if (schema instanceof z.ZodUndefined) {
     text += 'undefined';
   }
+  // ... add more types as needed
 
   // Delete double break lines
   return text.replace(/\n\n/g, '\n');
