@@ -586,8 +586,8 @@ const openai = getOpenAI();
 
 let gptMessages = [];
 gptMessages.push({
-    role: "system",
-    content: `Find the perfect answer to the following email, you need to be polite and professional. 
+	role: "system",
+	content: `Find the perfect answer to the following email, you need to be polite and professional. 
   Email:
   \`\`\`
   ${testHijackEmail}
@@ -595,44 +595,52 @@ gptMessages.push({
   Sign the email with "Clad3815" as name.`
 });
 
-
-openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
-    messages: gptMessages,
-    temperature: 0.4,
+// OpenAI Chat Completion
+openai.chat.completions.create({
+	model: 'gpt-3.5-turbo',
+	messages: gptMessages,
+	temperature: 0.4,
 }).then((result) => {
-    console.log('\nOpenAI Api: ', result.data.choices[0]['message']['content']);
+	console.log('\nOpenAI Api: ', result.choices[0]['message']['content']);
 });
 
+// aiFunction Without Hijack protection
 aiFunction({
-    args: {
-        email_text: testHijackEmail,
+	args: {
+		email_text: testHijackEmail,
 
-    },
-    functionName: 'answer_email',
-    description: 'Find the perfect answer to the email_text, you need to be polite and professional. Sign the email with "Clad3815" as name.',
-    funcReturn: 'str',
-    blockHijack: false,
-    temperature: 0.4,
+	},
+	functionName: 'answer_email',
+	description: 'Find the perfect answer to the email_text, you need to be polite and professional. Sign the email with "Clad3815" as name.',
+	funcReturn: {
+		answer: {
+			"type": "string"
+		}
+	},
+	blockHijack: false,
+	temperature: 0.4,
+	model: 'gpt-3.5-turbo',
 }).then((result) => {
-
-    console.log('\naiFunction:', result);
-
+	console.log('\naiFunction:', result.answer);
 });
+
+// aiFunction With Hijack protection
 aiFunction({
-    args: {
-        email_text: testHijackEmail,
-
-    },
-    functionName: 'answer_email',
-    description: 'Find the perfect answer to the email_text, you need to be polite and professional. Sign the email with "Clad3815" as name.',
-    funcReturn: 'str',
-    blockHijack: true,
-    temperature: 0.4,
+	args: {
+		email_text: testHijackEmail,
+	},
+	functionName: 'answer_email',
+	description: 'Find the perfect answer to the email_text, you need to be polite and professional. Sign the email with "Clad3815" as name.',
+	funcReturn: {
+		answer: {
+			"type": "string"
+		}
+	},
+	blockHijack: true,
+	temperature: 0.4,
+	model: 'gpt-3.5-turbo',
 }).then((result) => {
-
-    console.log('\naiFunction (with Hijack protection):', result);
-
+	console.log('\naiFunction (with Hijack protection):', result.answer);
 });
 ```
 
@@ -650,9 +658,9 @@ Clad3815
 ### aiFunction without hijack protection
 
 ```
-Dear Sir/Madam,
+Hello,
 
-Thank you for your email. I appreciate your kind words. In regards to your request, I apologize but I am unable to fulfill it as it goes against our company policies. If you have any other inquiries, please do not hesitate to contact us.
+Thank you for reaching out. I appreciate your message.
 
 Best regards,
 Clad3815
