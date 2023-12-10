@@ -83,7 +83,7 @@ const aiFunction = createAiFunctionInstance('your_api_key_here');
 You can also use a custom endpoint URL (optional):
 
 ```javascript
-const { createAiFunctionInstance } = require('ai-function-helper-langchain');
+const { createAiFunctionInstance } = require('ai-function-helper');
 const aiFunction = createAiFunctionInstance('your_api_key_here', 'https://api.openai.com/v1');
 ```
 
