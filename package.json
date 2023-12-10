@@ -19,9 +19,9 @@
     "dependencies": {
         "chalk": "^4.1.2",
         "dotenv": "^16.3.1",
-        "jsonrepair": "^3.4.1",
-        "openai": "latest",
+        "jsonrepair": "^3.5.0",
+        "openai": "^4.20.1",
         "zod": "^3.22.4",
-        "zod-to-json-schema": "^3.22.0"
+        "zod-to-ts": "^1.2.0"
     }
 }

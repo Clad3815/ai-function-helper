@@ -1,8 +1,9 @@
 const OpenAI = require("openai");
 const chalk = require("chalk");
 const { z } = require("zod");
-const { zodToJsonSchema } = require("zod-to-json-schema");
 const { jsonrepair } = require('jsonrepair');
+
+const { printNode, zodToTs } = require("zod-to-ts");
 
 
 let openai;
@@ -59,8 +60,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
     // Generate Zod schema
     const zodSchema = generateZodSchema(funcReturn);
-    // const jsonOutput = JSON.stringify(zodToJsonSchema(zodSchema, { target: "openApi3" }), null, 2);
-    const jsonOutput = zodToText(zodSchema).trim();
+    const jsonOutput = printNode(zodToTs(zodSchema).node);
 
     for (const [key, value] of Object.entries(promptVars)) {
       description = description.replace("${" + key + "}", value);
@@ -74,9 +74,9 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
     let ensureJSON;
     if (model === "gpt-4-1106-preview" || model === "gpt-3.5-turbo-1106") {
-      ensureJSON = "Your response should be in JSON format and must respect this structure";
+      ensureJSON = "Your response should be in JSON format and strictly conform to the following typescript schema, paying attention to comments as requirements";
     } else {
-      ensureJSON = "Your response should return a valid JSON format only without explanation and must respect this structure";
+      ensureJSON = "Your response should return a valid JSON format only without explanation and strictly conform to the following typescript schema, paying attention to comments as requirements";
     }
     let functionNamePrompt = "";
     if (functionName !== "custom_function") {
@@ -426,59 +426,6 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
   return aiFunction;
 }
-const zodToText = (schema, indent = '') => {
-  let text = '';
-
-  const isSimpleType = (schema) => {
-    return schema instanceof z.ZodString ||
-      schema instanceof z.ZodNumber ||
-      schema instanceof z.ZodBoolean;
-  };
-
-  const formatArrayType = (itemType, indent) => {
-    if (isSimpleType(itemType)) {
-      return `${zodToText(itemType, indent)}[]`;
-    } else {
-      return `Array<${zodToText(itemType, indent)}>`;
-    }
-  };
-
-  if (schema instanceof z.ZodObject) {
-    text += '{\n';
-    for (const key in schema.shape) {
-      const field = schema.shape[key];
-      const description = field._def.description ? `// ${field._def.description}\n${indent}` : '';
-      const optionalMark = field instanceof z.ZodOptional ? '?' : '';
-      text += `${indent}${description}${key}${optionalMark}: ${zodToText(field.unwrap ? field.unwrap() : field, indent + '  ')},\n`;
-    }
-    text += `${indent.slice(0, -2)}}`;
-  } else if (schema instanceof z.ZodString) {
-    text += 'string';
-  } else if (schema instanceof z.ZodNumber) {
-    text += 'number';
-  } else if (schema instanceof z.ZodBoolean) {
-    text += 'boolean';
-  } else if (schema instanceof z.ZodDate) {
-    text += 'Date';
-  } else if (schema instanceof z.ZodEnum) {
-    text += `"${schema._def.values.join('" | "')}"`;
-  } else if (schema instanceof z.ZodArray) {
-    text += formatArrayType(schema._def.type, indent);
-  } else if (schema instanceof z.ZodUnion) {
-    text += schema._def.options.map(opt => zodToText(opt, indent)).join(' | ');
-  } else if (schema instanceof z.ZodIntersection) {
-    text += `${zodToText(schema._def.left, indent)} & ${zodToText(schema._def.right, indent)}`;
-  } else if (schema instanceof z.ZodNull) {
-    text += 'null';
-  } else if (schema instanceof z.ZodUndefined) {
-    text += 'undefined';
-  }
-  // ... add more types as needed
-
-  // Delete double break lines
-  return text.replace(/\n\n/g, '\n');
-};
-
 async function retry(fn, retries = 3, delay = 1000) {
   try {
     return await fn();
