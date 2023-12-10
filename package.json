@@ -1,6 +1,6 @@
 {
     "name": "ai-function-helper",
-    "version": "2.1.10",
+    "version": "2.1.11",
     "description": "A NodeJS utility to simplify interaction with OpenAI GPT models.",
     "main": "src/aiFunction.js",
     "scripts": {
