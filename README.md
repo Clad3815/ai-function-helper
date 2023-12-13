@@ -17,6 +17,8 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
   - [Installation](#installation)
   - [Usage](#usage)
   - [aiFunction(options)](#aifunctionoptions)
+    - [stream](#stream)
+    - [streamCallback](#streamcallback)
     - [funcReturn](#funcreturn)
     - [strictReturn](#strictreturn)
     - [tools](#tools)
@@ -145,6 +147,35 @@ The main function that takes a set of options as an input and returns the output
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
   - `timeout` (optional): The timeout in milliseconds for the AI model. Default is `120000` (2 minutes).
   - `maxRetries` (optional): The maximum number of retries for the AI model. Default is `0`.
+  - `stream` (optional): If true, the AI model will stream the response. Default is `false`.
+  - `streamCallback` (optional): A callback function to be called when the AI model streams the response. Default is `null`.
+
+
+### stream
+
+The `stream` option is used to stream the response from the AI model. If set to true, the AI model will stream the response instead of returning it all at once. This can be useful when you want to process the response in real-time.
+
+It's also recommended to use it even if you don't want to process the response in real-time, because it's more efficient and faster than the normal mode.
+
+### streamCallback
+
+The `streamCallback` option is used to define a callback function to be called when the AI model streams the response. This can be useful when you want to process the response in real-time.
+
+```javascript
+const options = {
+  stream: true,
+  streamCallback: (data) => {
+    console.log(data);
+  },
+};
+```
+
+Example of chunk format:
+
+```json
+{"id":"chatcmpl-....","object":"chat.completion.chunk","created":1702473023,"model":"gpt-4","choices":[{"finish_reason":null,"index":0,"delta":{"content":"\":"},"content_filter_results":{"hate":{"filtered":false,"severity":"safe"},"self_harm":{"filtered":false,"severity":"safe"},"sexual":{"filtered":false,"severity":"safe"},"violence":{"filtered":false,"severity":"safe"}}}],"system_fingerprint":"fp_...."}
+```
+
 
 ### funcReturn
 

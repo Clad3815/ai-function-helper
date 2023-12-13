@@ -172,6 +172,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
       timeout = 120 * 1000,
       maxRetries = 0,
       tools = [],
+      stream = false,
+      streamCallback = null,
     } = options;
 
 
@@ -206,7 +208,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
             console.log(chalk.yellow("####################"));
           });
         }
-        return openai.chat.completions.create({
+
+        const chatOptions = {
           model: modelToUse,
           messages: messages,
           temperature: temperature,
@@ -217,10 +220,19 @@ function createAiFunctionInstance(apiKey, basePath = null) {
           response_format: { type: "json_object" },
           tools: (toolsList?.length > 0) ? toolsList : undefined,
           tool_choice: (toolsList?.length > 0) ? "auto" : undefined,
-        }, {
-          timeout: timeout,
-          maxRetries: maxRetries,
-        });
+          stream: stream,
+        };
+        if (stream) {
+          return openai.beta.chat.completions.stream(chatOptions, {
+            timeout: timeout,
+            maxRetries: maxRetries,
+          });
+        } else {
+          return openai.chat.completions.create(chatOptions, {
+            timeout: timeout,
+            maxRetries: maxRetries,
+          });
+        }
       } else {
         const toolsList = tools?.map(tool => ({
           name: tool.name,
@@ -243,8 +255,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
             console.log(chalk.yellow("####################"));
           });
         }
-
-        return openai.chat.completions.create({
+        const chatOptions = {
           model: modelToUse,
           messages: messages,
           temperature: temperature,
@@ -254,10 +265,20 @@ function createAiFunctionInstance(apiKey, basePath = null) {
           top_p: top_p,
           functions: (toolsList?.length > 0) ? toolsList : undefined,
           function_call: (toolsList?.length > 0) ? "auto" : undefined,
-        }, {
-          timeout: timeout,
-          maxRetries: maxRetries,
-        });
+          stream: stream,
+        };
+        if (stream) {
+          return openai.beta.chat.completions.stream(chatOptions, {
+            timeout: timeout,
+            maxRetries: maxRetries,
+          });
+
+        } else {
+          return openai.chat.completions.create(chatOptions, {
+            timeout: timeout,
+            maxRetries: maxRetries,
+          });
+        }
       }
     };
 
@@ -281,8 +302,21 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         throw error;
       }
     }
-
-    let answer = gptResponse.choices[0].message;
+    let answer;
+    if (stream) {
+      for await (const chunk of gptResponse) {
+        if (debugLevel >= 2) {
+          console.log(chalk.yellow("Received chunk: " + JSON.stringify(chunk)));
+        }
+        if (streamCallback) {
+          streamCallback(chunk);
+        }
+      }
+      const chatCompletion = await gptResponse.finalChatCompletion();
+      answer = chatCompletion.choices[0].message;
+    } else {
+      answer = gptResponse.choices[0].message;
+    }
 
     if (showDebug) {
       if (debugLevel >= 2) {
@@ -290,21 +324,22 @@ function createAiFunctionInstance(apiKey, basePath = null) {
         console.log(JSON.stringify(gptResponse, null, 2));
         console.log(chalk.yellow("####################"));
       }
-
-      console.log(chalk.yellow("####################"));
-      console.log(
-        chalk.magenta("Tokens from prompt: ") +
-        chalk.green(gptResponse.usage.prompt_tokens.toString())
-      );
-      console.log(
-        chalk.magenta("Tokens from completion: ") +
-        chalk.green(gptResponse.usage.completion_tokens.toString())
-      );
-      console.log(
-        chalk.yellow("Total tokens: ") +
-        chalk.green(gptResponse.usage.total_tokens.toString())
-      );
-      console.log(chalk.yellow("####################"));
+      if (!stream) {
+        console.log(chalk.yellow("####################"));
+        console.log(
+          chalk.magenta("Tokens from prompt: ") +
+          chalk.green(gptResponse.usage.prompt_tokens.toString())
+        );
+        console.log(
+          chalk.magenta("Tokens from completion: ") +
+          chalk.green(gptResponse.usage.completion_tokens.toString())
+        );
+        console.log(
+          chalk.yellow("Total tokens: ") +
+          chalk.green(gptResponse.usage.total_tokens.toString())
+        );
+        console.log(chalk.yellow("####################"));
+      }
     }
 
     if (!funcReturn) {
