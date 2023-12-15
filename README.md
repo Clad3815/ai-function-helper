@@ -149,6 +149,8 @@ The main function that takes a set of options as an input and returns the output
   - `maxRetries` (optional): The maximum number of retries for the AI model. Default is `0`.
   - `stream` (optional): If true, the AI model will stream the response. Default is `false`.
   - `streamCallback` (optional): A callback function to be called when the AI model streams the response. Default is `null`.
+  - `minifyJSON` (optional): If true, the JSON output got from the AI model will be minified which will reduce the token size of the output. Default is `false`.
+  - `openaiInstance` (optional): The OpenAI instance to use. Default is `null`. If null, the `aiFunction` will use the instance created with `createAiFunctionInstance` or `getOpenAI`.
 
 
 ### stream
