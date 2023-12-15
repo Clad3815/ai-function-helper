@@ -163,7 +163,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 
 
-		let apiCall = async function (modelToUse) {
+		let apiCall = function (modelToUse) {
 			// Check which model is being used inside the function
 			if (modelToUse === "gpt-4-1106-preview" || modelToUse === "gpt-3.5-turbo-1106") {
 				let toolsList;
@@ -206,21 +206,16 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 					tool_choice: (toolsList?.length > 0) ? "auto" : undefined,
 					stream: stream,
 				};
-				try {
-					if (stream) {
-						return await openaiInstance.beta.chat.completions.stream(chatOptions, {
-							timeout: timeout,
-							maxRetries: maxRetries,
-						});
-					} else {
-						return await openaiInstance.chat.completions.create(chatOptions, {
-							timeout: timeout,
-							maxRetries: maxRetries,
-						});
-					}
-				} catch (error) {
-					console.log(error);
-					throw new Error("Error calling OpenAI API");
+				if (stream) {
+					return openaiInstance.beta.chat.completions.stream(chatOptions, {
+						timeout: timeout,
+						maxRetries: maxRetries,
+					});
+				} else {
+					return openaiInstance.chat.completions.create(chatOptions, {
+						timeout: timeout,
+						maxRetries: maxRetries,
+					});
 				}
 			} else {
 				const toolsList = tools?.map(tool => ({
@@ -256,22 +251,17 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 					function_call: (toolsList?.length > 0) ? "auto" : undefined,
 					stream: stream,
 				};
-				try {
-					if (stream) {
-						return await openaiInstance.beta.chat.completions.stream(chatOptions, {
-							timeout: timeout,
-							maxRetries: maxRetries,
-						});
+				if (stream) {
+					return openaiInstance.beta.chat.completions.stream(chatOptions, {
+						timeout: timeout,
+						maxRetries: maxRetries,
+					});
 
-					} else {
-						return await openaiInstance.chat.completions.create(chatOptions, {
-							timeout: timeout,
-							maxRetries: maxRetries,
-						});
-					}
-				} catch (error) {
-					console.log(error);
-					throw new Error("Error calling OpenAI API");
+				} else {
+					return openaiInstance.chat.completions.create(chatOptions, {
+						timeout: timeout,
+						maxRetries: maxRetries,
+					});
 				}
 			}
 		};
