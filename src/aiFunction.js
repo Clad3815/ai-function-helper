@@ -422,26 +422,22 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		}
 
 		let textAnswer = answer['content'];
-		if (!funcReturn) {
-			if (showDebug) {
-				if (debugLevel >= 2) {
-					console.log(chalk.yellow("####################"));
-					console.log(chalk.blue("Message history: " + JSON.stringify(messages, null, 2)));
-					console.log(chalk.yellow("####################"));
-				}
-				console.log(chalk.yellow("####################"));
-				console.log(chalk.blue("Returning brut answer: " + textAnswer));
-				console.log(chalk.yellow("####################"));
-			}
-			return textAnswer;
-		}
-		const argumentsFixed = checkAndFixJson(textAnswer);
+
 		if (showDebug) {
 			if (debugLevel >= 2) {
 				console.log(chalk.yellow("####################"));
 				console.log(chalk.blue("Message history: " + JSON.stringify(messages, null, 2)));
 				console.log(chalk.yellow("####################"));
 			}
+			console.log(chalk.yellow("####################"));
+			console.log(chalk.blue("Returning brut answer: " + textAnswer));
+			console.log(chalk.yellow("####################"));
+		}
+		if (!funcReturn) {
+			return textAnswer;
+		}
+		const argumentsFixed = checkAndFixJson(textAnswer);
+		if (showDebug) {
 			console.log(chalk.yellow("####################"));
 			console.log(chalk.blue("Returning check and fixed JSON answer: " + argumentsFixed));
 			console.log(chalk.yellow("####################"));
@@ -483,6 +479,17 @@ async function retry(fn, retries = 3, delay = 1000) {
 }
 
 function checkAndFixJson(json) {
+
+	// Check if the JSON start with ```json and end with ``` and remove them
+	if (json.startsWith("```json")) {
+		json = json.substring(7);
+		if (json.endsWith("```")) {
+			json = json.substring(0, json.length - 3);
+		}
+	}
+
+
+
 	let parsedJson = tryParse(json);
 	if (parsedJson !== null) {
 		return json;
