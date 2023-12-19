@@ -7,6 +7,7 @@ const { printNode, zodToTs } = require("zod-to-ts");
 
 
 let openai;
+let lastMessages = [];
 function createAiFunctionInstance(apiKey, basePath = null) {
 	if (!apiKey) {
 		throw new Error("You must provide an OpenAI API key or an OpenAI instance");
@@ -45,6 +46,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			current_date_time = new Date().toISOString(),
 			tools = [],
 			minifyJSON = false,
+			history = []
 		} = options;
 
 		const argsString = typeof args === "string" ? args : JSON.stringify(args, null, 2);
@@ -64,7 +66,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 		const functionNamePrompt = functionName ? `You must assume the role of a function called \`${functionName}\` with this description:` : "";
 
-		const messages = generateMessages(argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON);
+		const messages = generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON);
 
 		if (showDebug) {
 			displayDebugInfo(messages, argsString, debugLevel);
@@ -93,7 +95,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		}
 	}
 
-	function generateMessages(argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON) {
+	function generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON) {
 
 		let messages;
 		if (funcReturn) {
@@ -108,18 +110,37 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 				content: `Current time: ${current_date_time}\n\n${updatedDescription}\n${blockHijackString}`
 			}];
 		}
+		if (history.length > 0) {
+			// messages = messages.concat(history);
+			for (const message of history) {
+				messages.push(message);
+			}
+		}
 
+		let argumentMessage;
 		if (imagePrompt) {
-			messages.push({
-				role: "user",
-				content: [{ type: "text", text: argsString }, { type: "image", image_url: imagePrompt }],
-			});
+			// Check if imagePrompt is a string or an array
+			if (Array.isArray(imagePrompt)) {
+				const imageList = imagePrompt.map(image => ({ type: "image", image_url: image }));
+				argumentMessage = {
+					role: "user",
+					content: [{ type: "text", text: argsString }, ...imageList],
+				};
+			} else {
+				argumentMessage = {
+					role: "user",
+					content: [{ type: "text", text: argsString }, { type: "image", image_url: imagePrompt }],
+				};
+			}
 		} else {
-			messages.push({
+			argumentMessage = {
 				role: "user",
 				content: argsString,
-			});
+			};
 		}
+		lastMessages = [];
+		lastMessages.push(argumentMessage);
+		messages.push(argumentMessage);
 
 		return messages;
 	}
@@ -130,7 +151,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		console.log(chalk.yellow("####################"));
 
 		if (debugLevel >= 1) {
-			console.log(chalk.magenta("With arguments: ") + chalk.green(JSON.stringify(messages[1], null, 2)));
+			console.log(chalk.magenta("All data: ") + chalk.green(JSON.stringify(messages, null, 2)));
 			console.log(chalk.yellow("####################"));
 		} else {
 			console.log(chalk.magenta("With arguments: ") + chalk.green(argsString));
@@ -301,6 +322,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		} else {
 			answer = gptResponse.choices[0].message;
 		}
+		lastMessages.push(answer);
 
 		if (showDebug) {
 			if (debugLevel >= 2) {
@@ -581,4 +603,5 @@ function generateZodSchema(customSchema) {
 module.exports = {
 	createAiFunctionInstance,
 	getOpenAI: () => openai,
+	getLastMessages: () => lastMessages,
 };

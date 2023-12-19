@@ -151,7 +151,8 @@ The main function that takes a set of options as an input and returns the output
   - `streamCallback` (optional): A callback function to be called when the AI model streams the response. Default is `null`.
   - `minifyJSON` (optional): If true, the JSON output got from the AI model will be minified which will reduce the token size of the output. Default is `false`.
   - `openaiInstance` (optional): The OpenAI instance to use. Default is `null`. If null, the `aiFunction` will use the instance created with `createAiFunctionInstance` or `getOpenAI`.
-
+  - `history` (optional): The history to use for the AI model. Must be formatted as a list of messages with the OpenAI api format. Default is `[]`.
+  - `imagePrompt` (optional): An image or a list of image to send to the AI model (Work only with the `gpt-4-vision` model). Can be url or base64 format image. Default is `null`.
 
 ### stream
 
