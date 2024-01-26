@@ -88,7 +88,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 	}
 
 	function generateEnsureJSONString(model) {
-		if (model === "gpt-4-1106-preview" || model === "gpt-3.5-turbo-1106") {
+		if (model === "gpt-4-1106-preview" || model === "gpt-3.5-turbo-1106" || model === "gpt-4-0125-preview" || model === "gpt-3.5-turbo-0125" || model === "gpt-4-turbo-preview") {
 			return "Your response should be in JSON format and strictly conform to the following typescript schema, paying attention to comments as requirements";
 		} else {
 			return "Your response should return a valid JSON format only without explanation and strictly conform to the following typescript schema, paying attention to comments as requirements";
@@ -186,7 +186,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 		let apiCall = function (modelToUse) {
 			// Check which model is being used inside the function
-			if (modelToUse === "gpt-4-1106-preview" || modelToUse === "gpt-3.5-turbo-1106") {
+			if (modelToUse === "gpt-4-1106-preview" || modelToUse === "gpt-3.5-turbo-1106" || modelToUse === "gpt-4-0125-preview" || modelToUse === "gpt-3.5-turbo-0125" || modelToUse === "gpt-4-turbo-preview") {
 				let toolsList;
 
 				toolsList = tools?.map(tool => ({
@@ -355,7 +355,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			answer.content = "";
 		}
 		messages.push(answer);
-		if (usedModel === "gpt-4-1106-preview" || usedModel === "gpt-3.5-turbo-1106") {
+		if (usedModel === "gpt-4-1106-preview" || usedModel === "gpt-3.5-turbo-1106" || usedModel === "gpt-4-0125-preview" || usedModel === "gpt-3.5-turbo-0125" || usedModel === "gpt-4-turbo-preview") {
 			if (answer.tool_calls) {
 				for (const toolCall of answer.tool_calls) {
 					if (tools?.some(tool => tool.name === toolCall.function.name)) {
