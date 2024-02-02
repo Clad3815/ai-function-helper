@@ -35,7 +35,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		const {
 			functionName = "",
 			args,
-			model = "gpt-3.5-turbo-1106",
+			model = "gpt-3.5-turbo-0125",
 			description,
 			showDebug = false,
 			debugLevel = 0,
@@ -167,7 +167,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			temperature = 0.6,
 			frequency_penalty = 0,
 			presence_penalty = 0,
-			model = "gpt-3.5-turbo-1106",
+			model = "gpt-3.5-turbo-0125",
 			largeModel = "gpt-4-1106-preview",
 			top_p = null,
 			max_tokens = 1000,
