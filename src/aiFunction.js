@@ -144,7 +144,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		if (imagePrompt) {
 			// Check if imagePrompt is a string or an array
 			if (Array.isArray(imagePrompt)) {
-				const imageList = imagePrompt.map(image => ({ type: "image", image_url: image }));
+				const imageList = imagePrompt.map(image => ({ type: "image_url", image_url: { url: image } }));
 				argumentMessage = {
 					role: "user",
 					content: [{ type: "text", text: argsString }, ...imageList],
@@ -152,7 +152,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			} else {
 				argumentMessage = {
 					role: "user",
-					content: [{ type: "text", text: argsString }, { type: "image", image_url: imagePrompt }],
+					content: [{ type: "text", text: argsString }, { type: "image_url", image_url: {url: imagePrompt} }],
 				};
 			}
 		} else {
