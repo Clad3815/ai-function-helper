@@ -87,6 +87,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 	function modelHasJsonMode(model) {
 		switch (model) {
+			case "gpt-4o":
 			case "gpt-4-turbo":
 			case "gpt-4-turbo-2024-04-09":
 			case "gpt-3.5-turbo":
