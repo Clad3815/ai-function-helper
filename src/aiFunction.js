@@ -43,6 +43,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			blockHijack = false,
 			promptVars = {},
 			imagePrompt = null,
+			imageQuality = "low",
 			current_date_time = new Date().toISOString(),
 			tools = [],
 			minifyJSON = false,
@@ -66,7 +67,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 		const functionNamePrompt = functionName ? `You must assume the role of a function called \`${functionName}\` with this description:` : "";
 
-		const messages = generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON);
+		const messages = generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON, imageQuality);
 
 		if (showDebug) {
 			displayDebugInfo(messages, argsString, debugLevel);
@@ -118,7 +119,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		}
 	}
 
-	function generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON) {
+	function generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, ensureJSON, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON, imageQuality) {
 
 		let messages;
 		if (funcReturn) {
@@ -144,7 +145,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		if (imagePrompt) {
 			// Check if imagePrompt is a string or an array
 			if (Array.isArray(imagePrompt)) {
-				const imageList = imagePrompt.map(image => ({ type: "image_url", image_url: { url: image } }));
+				const imageList = imagePrompt.map(image => ({ type: "image_url", image_url: { url: image, detail: imageQuality } }));
 				argumentMessage = {
 					role: "user",
 					content: [{ type: "text", text: argsString }, ...imageList],
@@ -152,7 +153,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			} else {
 				argumentMessage = {
 					role: "user",
-					content: [{ type: "text", text: argsString }, { type: "image_url", image_url: {url: imagePrompt} }],
+					content: [{ type: "text", text: argsString }, { type: "image_url", image_url: {url: imagePrompt, detail: imageQuality} }],
 				};
 			}
 		} else {
