@@ -220,6 +220,11 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			console.log(chalk.yellow("####################"));
 		}
 
+		if (showDebug) {
+			console.log(chalk.yellow("####################"));
+			console.log(chalk.blue("Brut answer: " + answer.content));
+			console.log(chalk.yellow("####################"));
+		}
 		if (!funcReturn) return answer.content;
 
 		messages.push(answer);
@@ -231,6 +236,11 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 		let returnData = JSON.parse(checkAndFixJson(answer.content));
 
+		if (showDebug) {
+			console.log(chalk.yellow("####################"));
+			console.log(chalk.blue("Returning check and fixed JSON answer: " + JSON.stringify(returnData, null, 2)));
+			console.log(chalk.yellow("####################"));
+		}
 		if (strictReturn) {
 			try {
 				returnData = zodSchema.parse(returnData);
