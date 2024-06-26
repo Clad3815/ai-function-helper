@@ -21,7 +21,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		const {
 			functionName = "",
 			args,
-			model = "gpt-3.5-turbo-0125",
+			model = "gpt-3.5-turbo",
 			description,
 			showDebug = false,
 			debugLevel = 0,
@@ -137,8 +137,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			temperature = 0.6,
 			frequency_penalty = 0,
 			presence_penalty = 0,
-			model = "gpt-3.5-turbo-0125",
-			largeModel = "gpt-4-1106-preview",
+			model = "gpt-3.5-turbo",
+			largeModel = "gpt-4-o",
 			top_p = null,
 			max_tokens = 1000,
 			strictReturn = false,
@@ -221,6 +221,22 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		}
 
 		if (showDebug) {
+			if (gptResponse.usage && gptResponse.usage.total_tokens) {
+				console.log(chalk.yellow("####################"));
+				console.log(
+					chalk.magenta("Tokens from prompt: ") +
+					chalk.green(gptResponse.usage.prompt_tokens.toString())
+				);
+				console.log(
+					chalk.magenta("Tokens from completion: ") +
+					chalk.green(gptResponse.usage.completion_tokens.toString())
+				);
+				console.log(
+					chalk.yellow("Total tokens: ") +
+					chalk.green(gptResponse.usage.total_tokens.toString())
+				);
+				console.log(chalk.yellow("####################"));
+			}
 			console.log(chalk.yellow("####################"));
 			console.log(chalk.blue("Brut answer: " + answer.content));
 			console.log(chalk.yellow("####################"));
