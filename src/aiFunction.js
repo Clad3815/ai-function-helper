@@ -301,6 +301,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 	function checkAndFixJson(json) {
 		if (json.startsWith("```json")) json = json.slice(7, json.endsWith("```") ? -3 : undefined);
+		// Remove any </json> or <json> tags if present
+		json = json.replace(/<\/?json>/g, "");
 		return tryParse(json) !== null ? json : jsonrepair(json);
 	}
 
