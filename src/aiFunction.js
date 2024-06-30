@@ -84,12 +84,28 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		if (funcReturn) {
 			systemMessage = {
 				role: "system",
-				content: `Current time: ${current_date_time}\n${functionNamePrompt}\n--- Function description ---\n${updatedDescription}\n--- End of function description ---\n\n**Output format:**\n${ensureJSON}:\n\`\`\`\n${jsonOutput || "{OUTPUT}"}\n\`\`\`\n${minifyJSON ? "You must return minified JSON, not pretty printed." : ""}\n${blockHijackString}`
+				content: `<current_time>${current_date_time}</current_time>
+<instructions>
+${functionNamePrompt}
+</instructions>
+<function_description>
+${updatedDescription}
+</function_description>
+
+${ensureJSON}
+<output_format>
+${jsonOutput || "{OUTPUT}"}
+</output_format>${minifyJSON ? "You must return minified JSON, not pretty printed." : ""}
+${blockHijackString}`
 			};
 		} else {
 			systemMessage = {
 				role: "system",
-				content: `Current time: ${current_date_time}\n\n${updatedDescription}\n${blockHijackString}`
+				content: `<current_time>${current_date_time}</current_time>
+<instructions>
+${updatedDescription}
+</instructions>
+${blockHijackString}`
 			};
 		}
 		const messages = [systemMessage, ...history];
@@ -141,7 +157,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			largeModel = "gpt-4-o",
 			top_p = null,
 			max_tokens = 1000,
-			strictReturn = false,
+			strictReturn = true,
 			funcReturn = null,
 			timeout = 120 * 1000,
 			maxRetries = 0,

@@ -131,7 +131,7 @@ The main function that takes a set of options as an input and returns the output
   - `args`: The arguments to be passed to the custom function. Can be a string, number, list, dictionary, or a combination of these, the function will auto manage them.
   - `description`: A description of the function's purpose.
   - `funcReturn`: The expected return type of the custom function.
-  - `strictReturn` (optional): If set to true, the structure of the returned data will be strictly validated against the `funcReturn` schema. If the returned data does not match the schema, an error will be thrown. Default is `false`.
+  - `strictReturn` (optional): If set to true, the structure of the returned data will be strictly validated against the `funcReturn` schema. If the returned data does not match the schema, an error will be thrown. Default is `true`.
   - `functionName`: (optional): The name of the custom Python function to use. It's help to give context to the AI model. Default is `custom_function`.
   - `tools`: (optional): An array of helper functions to be used within the main function.
   - `promptVars` : (optional): A dictionary of variables to be used in the prompt. It's will replace the variable name by the variable value in the prompt. Format: `${variableName}`. Default is `{}`.
