@@ -7,6 +7,12 @@ const { printNode, zodToTs } = require("zod-to-ts");
 let openai;
 let lastMessages = [];
 
+let jsonModeModels = new Set([
+	"gpt-4o", "gpt-4-turbo", "gpt-4-turbo-2024-04-09", "gpt-3.5-turbo", "gpt-4-1106-preview",
+	"gpt-3.5-turbo-1106", "gpt-4-0125-preview", "gpt-3.5-turbo-0125", "gpt-4-turbo-preview",
+	"mistral-small-2402", "mistral-small-latest", "mistral-large-2402", "mistral-large-latest"
+]);
+
 function createAiFunctionInstance(apiKey, basePath = null) {
 	if (!apiKey) throw new Error("You must provide an OpenAI API key or an OpenAI instance");
 
@@ -72,12 +78,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 	}
 
 	function modelHasJsonMode(model) {
-		const modelsWithJsonMode = [
-			"gpt-4o", "gpt-4-turbo", "gpt-4-turbo-2024-04-09", "gpt-3.5-turbo", "gpt-4-1106-preview",
-			"gpt-3.5-turbo-1106", "gpt-4-0125-preview", "gpt-3.5-turbo-0125", "gpt-4-turbo-preview",
-			"mistral-small-2402", "mistral-small-latest", "mistral-large-2402", "mistral-large-latest"
-		];
-		return modelsWithJsonMode.includes(model);
+		return jsonModeModels.has(model);
 	}
 
 	function generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, jsonEnabled, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON, imageQuality) {
@@ -322,11 +323,33 @@ ${blockHijackString}`
 	}
 
 	function checkAndFixJson(json) {
-		if (json.startsWith("```json")) json = json.slice(7, json.endsWith("```") ? -3 : undefined);
-		// Remove any </json> or <json> tags if present
-		json = json.replace(/<\/?json>/g, "");
-		return tryParse(json) !== null ? json : jsonrepair(json);
+		json = json.trim();
+	
+		// Array of objects defining possible delimiters and their properties
+		const delimiters = [
+			{ start: "```json", end: "```" },
+			{ start: "<json>", end: "</json>" }
+		];
+	
+		// Process each delimiter set
+		delimiters.forEach(({ start, end }) => {
+			if (json.startsWith(start)) {
+				json = json.slice(start.length);
+				if (end && json.endsWith(end)) {
+					json = json.slice(0, -end.length);
+				}
+			}
+		});
+	
+		// Handle potential special XML-like end tag that isn't paired with a start
+		if (json.endsWith("</json>")) {
+			json = json.slice(0, -"</json>".length);
+		}
+	
+		json = json.trim();
+		return tryParse(json) ? json : jsonrepair(json);
 	}
+	
 
 	function tryParse(json) {
 		try {
@@ -375,8 +398,19 @@ ${blockHijackString}`
 }
 
 
+function addJsonModeModels(models) {
+	if (Array.isArray(models)) {
+		models.forEach(model => jsonModeModels.add(model));
+	} else if (typeof models === 'string') {
+		jsonModeModels.add(models);
+	} else {
+		throw new Error('addJsonModeModels expects a string or an array of strings');
+	}
+}
+
 module.exports = {
 	createAiFunctionInstance,
 	getOpenAI: () => openai,
 	getLastMessages: () => lastMessages,
+	addJsonModeModels
 };
