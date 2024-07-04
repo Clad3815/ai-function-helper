@@ -1,8 +1,9 @@
-# IMPORTANT
-
-Since the version `2.1` we stongly recommand to use the new OpenAI models: `gpt-4-1106-preview` & `gpt-3.5-turbo-1106`. They offer a new JSON mode output to ensure the output is always in the same format.
-
 # AI Function Module
+
+![npm version](https://img.shields.io/npm/v/ai-function-helper.svg)
+![npm downloads](https://img.shields.io/npm/dm/ai-function-helper.svg)
+![License](https://img.shields.io/npm/l/ai-function-helper.svg)
+![Node.js Version](https://img.shields.io/node/v/ai-function-helper.svg)
 
 Welcome to the AI Function Module, a powerful tool for integrating the capabilities of OpenAI's GPT-4 and GPT-3.5-turbo directly into your Node.js functions! With this module, you can simplify the process of getting precisely formatted responses from the OpenAI API, saving time and reducing complexity in your application development. This project is heavily inspired by [Ask Marvin](https://github.com/prefecthq/marvin) and [AI Functions from Torantulino](https://github.com/Torantulino/AI-Functions).
 
@@ -10,30 +11,28 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
 
 ## Table of Contents
 
-- [IMPORTANT](#important)
-- [AI Function Module](#ai-function-module)
-  - [Table of Contents](#table-of-contents)
-  - [Why using this script instead of the normal OpenAI API?](#why-using-this-script-instead-of-the-normal-openai-api)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [aiFunction(options)](#aifunctionoptions)
-    - [stream](#stream)
-    - [streamCallback](#streamcallback)
-    - [funcReturn](#funcreturn)
-    - [strictReturn](#strictreturn)
-    - [tools](#tools)
-    - [blockHijack](#blockhijack)
-    - [promptVars](#promptvars)
-  - [Examples](#examples)
-  - [Example Usage](#example-usage)
-    - [1. Generate a quiz](#1-generate-a-quiz)
-    - [2. Suggest gift ideas based on hobbies and interests](#2-suggest-gift-ideas-based-on-hobbies-and-interests)
-    - [3. Analyze and moderate a list of messages](#3-analyze-and-moderate-a-list-of-messages)
-    - [4. Translate a text](#4-translate-a-text)
-    - [5. Shorten a text](#5-shorten-a-text)
-  - [Tests](#tests)
-    - [Test Results](#test-results)
-    - [Disclaimer](#disclaimer)
+- [Why using this script instead of the normal OpenAI API?](#why-using-this-script-instead-of-the-normal-openai-api)
+- [Installation](#installation)
+- [Usage](#usage)
+- [aiFunction(options)](#aifunctionoptions)
+  - [stream](#stream)
+  - [streamCallback](#streamcallback)
+  - [funcReturn](#funcreturn)
+  - [strictReturn](#strictreturn)
+  - [tools](#tools)
+  - [blockHijack](#blockhijack)
+  - [promptVars](#promptvars)
+- [Examples](#examples)
+  - [Generate a Quiz](#1-generate-a-quiz)
+  - [Create a Recipe Based on Ingredients](#2-create-a-recipe-based-on-ingredients)
+  - [Generate a Travel Itinerary](#3-generate-a-travel-itinerary)
+  - [Analyze Sentiment of Customer Reviews](#4-analyze-sentiment-of-customer-reviews)
+  - [Generate a Short Story](#5-generate-a-short-story)
+  - [Create a Workout Plan](#6-create-a-workout-plan)
+  - [Summarize a Long Text](#7-summarize-a-long-text)
+- [Tests](#tests)
+  - [Test Results](#test-results)
+  - [Disclaimer](#disclaimer)
 - [About Hijacking](#about-hijacking)
   - [Example](#example)
   - [Output](#output)
@@ -140,8 +139,8 @@ The main function that takes a set of options as an input and returns the output
   - `temperature` (optional): The sampling temperature for the AI model. Default is `0.8`
   - `frequency_penalty` (optional): The frequency penalty for the AI model. Default is `0`
   - `presence_penalty` (optional): The presence penalty for the AI model. Default is `0`
-  - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo-1106`.
-  - `largeModel` (optional): Larger model to use instead of the default model when the total number of tokens is too high. Default is `gpt-4-1106-preview`.
+  - `model` (optional): The AI model to use. Default is `gpt-3.5-turbo`.
+  - `largeModel` (optional): Larger model to use instead of the default model when the total number of tokens is too high. Default is `gpt-4o`.
   - `max_tokens` (optional): The maximum number of tokens to generate.
   - `top_p` (optional): The top p value for the AI model.
   - `blockHijack` (optional): If true, the AI model will strictly follow the function's instructions and ignore any hijack attempts in the user message. Default is `false`.
@@ -152,7 +151,7 @@ The main function that takes a set of options as an input and returns the output
   - `minifyJSON` (optional): If true, the JSON output got from the AI model will be minified which will reduce the token size of the output. Default is `false`.
   - `openaiInstance` (optional): The OpenAI instance to use. Default is `null`. If null, the `aiFunction` will use the instance created with `createAiFunctionInstance` or `getOpenAI`.
   - `history` (optional): The history to use for the AI model. Must be formatted as a list of messages with the OpenAI api format. Default is `[]`.
-  - `imagePrompt` (optional): An image or a list of image to send to the AI model (Work only with the `gpt-4-vision` model). Can be url or base64 format image. Default is `null`.
+  - `imagePrompt` (optional): An image or a list of image to send to the AI model (Work only with the `vision` models). Can be url or base64 format image. Default is `null`.
 
 ### stream
 
@@ -178,65 +177,127 @@ Example of chunk format:
 ```json
 {"id":"chatcmpl-....","object":"chat.completion.chunk","created":1702473023,"model":"gpt-4","choices":[{"finish_reason":null,"index":0,"delta":{"content":"\":"},"content_filter_results":{"hate":{"filtered":false,"severity":"safe"},"self_harm":{"filtered":false,"severity":"safe"},"sexual":{"filtered":false,"severity":"safe"},"violence":{"filtered":false,"severity":"safe"}}}],"system_fingerprint":"fp_...."}
 ```
-
-
 ### funcReturn
 
-The `funcReturn` option is used to define the expected return type of the custom function. Since the version `2.0.0` it is expressed in a custom format or using Zod library, and it can be used to specify complex data structures like lists and dictionaries.
+The `funcReturn` option is used to define the expected return type of the custom function. As of version 3.0.0, it uses JSON Schema format, which is then converted to a Zod schema for validation. This allows for specifying complex data structures including objects, arrays, and nested schemas.
 
-For instance:
+Here's an example of a complex schema using JSON Schema:
 
 ```javascript
-const schemaObject = {
-  name: { type: "string", description: "Human name" },
-  surname: { type: "string", description: "Human surname" },
-  age: { type: "number", description: "Human age" },
-  birthplace: { type: "string", description: "Where the human was born" },
-  appearance: { type: "string", description: "Human appearance description" },
-  shortBio: { type: "string", description: "Short bio description" },
-  university: { type: "string", optional: true, description: "University name if attended" },
-  gender: { type: "string", description: "Gender of the human" },
-  interests: { type: "string[]", description: "Interests of the human" },
-  favoritesPlaces: {
-    type: "object",
-    array: true,
-    description: "Favorite places of the human",
-    schema: {
-      name: { type: "string" },
-      country: { type: "string" },
-      bestTimes: { type: "string", array: true, description: "The best time of the day to travel around, example '9am'" }
+const schema = {
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human name"
+    },
+    "surname": {
+      "type": "string",
+      "description": "Human surname"
+    },
+    "age": {
+      "type": "integer",
+      "description": "Human age"
+    },
+    "birthplace": {
+      "type": "string",
+      "description": "Where the human was born"
+    },
+    "appearance": {
+      "type": "string",
+      "description": "Human appearance description"
+    },
+    "shortBio": {
+      "type": "string",
+      "description": "Short bio description"
+    },
+    "university": {
+      "type": "string",
+      "description": "University name if attended"
+    },
+    "gender": {
+      "type": "string",
+      "description": "Gender of the human"
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Interests of the human"
+    },
+    "favoritesPlaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "bestTimes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The best time of the day to travel around, example '9am'"
+          }
+        },
+        "required": ["name", "country", "bestTimes"]
+      },
+      "description": "Favorite places of the human"
+    },
+    "nameAndAge": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer"
+        }
+      },
+      "required": ["name", "age"]
+    },
+    "birthDate": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Birth date of the human"
     }
   },
-  nameAndAge: {
-    type: "object",
-    schema: {
-      name: { type: "string" },
-      age: { type: "number" }
-    }
-  },
-  birthDate: { type: ["date", "string"], description: "Birth date of the human" },
-};
+  "required": ["name", "surname", "age", "birthplace", "gender"]
+}
 ```
-
-Or using Zod library, install it using `npm install zod`:
+For users who prefer working directly with Zod, here's the equivalent schema using Zod:
 
 ```javascript
 const { z } = require("zod");
+
 const zodSchema = z.object({
   name: z.string().describe("Human name"),
   surname: z.string().describe("Human surname"),
-  age: z.number().describe("Human age"),
+  age: z.number().int().describe("Human age"),
   birthplace: z.string().describe("Where the human was born"),
-  appearance: z.string().describe("Human appearance description"),
-  shortBio: z.string().describe("Short bio secription"),
+  appearance: z.string().optional().describe("Human appearance description"),
+  shortBio: z.string().optional().describe("Short bio description"),
   university: z.string().optional().describe("University name if attended"),
   gender: z.string().describe("Gender of the human"),
-  interests: z.string().array().describe("Interests of the human"),
-  favoritesPlaces: z.array(z.object({ name: z.string(), country: z.string(), bestTimes: z.array(z.string()).describe("The best time of the day to travel around, example '9am')") })).describe("Favorite places of the human"),
-  nameAndAge: z.object({ name: z.string() }).and(z.object({ age: z.number() })),
-  birthDate: z.date().or(z.string()).describe("Birth date of the human"),
-});
+  interests: z.array(z.string()).describe("Interests of the human"),
+  favoritesPlaces: z.array(z.object({
+    name: z.string(),
+    country: z.string(),
+    bestTimes: z.array(z.string()).describe("The best time of the day to travel around, example '9am'")
+  })).describe("Favorite places of the human"),
+  nameAndAge: z.object({
+    name: z.string(),
+    age: z.number().int()
+  }),
+  birthDate: z.string().nullable().describe("Birth date of the human")
+})
 ```
+
 
 This `funcReturn` specification translates into the following output format:
 
@@ -245,56 +306,73 @@ This `funcReturn` specification translates into the following output format:
   "name": "John",
   "surname": "Doe",
   "age": 30,
-  "birthplace": "City",
-  "appearance": "Tall and slim",
-  "shortBio": "A short bio",
-  "university": "University Name",
+  "birthplace": "New York",
+  "appearance": "Tall with brown hair",
+  "shortBio": "A passionate developer with a love for AI",
+  "university": "MIT",
   "gender": "Male",
-  "interests": ["Reading", "Traveling"],
+  "interests": ["AI", "Programming", "Hiking"],
   "favoritesPlaces": [
     {
-      "name": "Place",
-      "country": "Country",
-      "bestTimes": ["9am"]
+      "name": "Paris",
+      "country": "France",
+      "bestTimes": ["Spring", "Fall"]
+    },
+    {
+      "name": "Tokyo",
+      "country": "Japan",
+      "bestTimes": ["Cherry blossom season"]
     }
   ],
   "nameAndAge": {
     "name": "John",
     "age": 30
   },
-  "birthDate": "2000-01-01"
+  "birthDate": "1993-05-15"
 }
 ```
 
-
 ### strictReturn
 
-The `strictReturn` option is used to enforce the structure of the return data. If `strictReturn` is set to `true`, the returned data must match the `funcReturn` schema, otherwise an error will be thrown. This can be useful when you want to ensure that the data returned from the AI model has a specific structure.
+The `strictReturn` option enforces the structure of the return data. When set to `true`, the returned data must match the `funcReturn` schema exactly, or an error will be thrown. This is useful for ensuring that the AI model's output adheres to a specific structure.
 
 For example, if `funcReturn` is set to:
 
 ```javascript
-const schemaObject = {
-  name: { type: "string", description: "Human name" },
-  surname: { type: "string", description: "Human surname" },
-  age: { type: "number", description: "Human age" },
-};
+const schema = {
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human name"
+    },
+    "surname": {
+      "type": "string",
+      "description": "Human surname"
+    },
+    "age": {
+      "type": "integer",
+      "description": "Human age"
+    }
+  },
+  "required": ["name", "surname", "age"]
+}
 ```
 
-And `strictReturn` is set to `true`, the returned data must be an object with a `name` property of type `string`, a `surname` property of type `string`, and an `age` property of type `number`. If the returned data does not match this structure, an error will be thrown.
+And `strictReturn` is `true`, the returned data must be an object with `name` (string), `surname` (string), and `age` (integer) properties. Any deviation from this structure will result in an error.
 
-Please note that `strictReturn` only works when `funcReturn` is defined
+Note: `strictReturn` only works when `funcReturn` is defined.
 
 ### tools
 
-The `tools` option allows you to define an array of helper functions that can be used within the main function. Each tool is an object with the following keys:
+The `tools` option allows you to define an array of helper functions for use within the main function. Each tool is an object with the following properties:
 
-- `name`: The name of the tool.
-- `function_call`: The function to be called.
-- `description`: A description of what the tool does.
-- `parameters`: The parameters that the tool expects.
+- `name`: The name of the tool (string).
+- `function_call`: The actual function to be called.
+- `description`: A description of the tool's purpose (string).
+- `parameters`: The expected parameters for the tool (JSON Schema format).
 
-Here is an example:
+Here's an example:
 
 ```javascript
 function generateRandomWord({ length = 5, passwordCount = 1}) {
@@ -313,8 +391,8 @@ function generateRandomWord({ length = 5, passwordCount = 1}) {
     randomWord = '';
   }
   return randomWords;
-  
 }
+
 const options = {
   functionName: 'generate_quiz',
   args: {
@@ -322,42 +400,64 @@ const options = {
     difficulty: 'medium', 
     num_questions: 3 
   },
-  description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer. Also generate a password for each question to join to room. ',
+  description: 'Generate N quiz questions with the given topic and difficulty. Return a list of questions, each with 4 possible answers, the correct answer, and a password to join the room.',
   funcReturn: {
-    quizList: {
-      type: "object[]",
-      schema: {
-        question: { type: "string" },
-        answers: { type: "string[]" },
-        correct_answer: { type: "string" },
-        password: { type: "string" },
-      },
-    }
+    "type": "object",
+    "properties": {
+      "quizList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string"
+            },
+            "answers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 4,
+              "maxItems": 4
+            },
+            "correct_answer": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": ["question", "answers", "correct_answer", "password"]
+        }
+      }
+    },
+    "required": ["quizList"]
   },
   tools: [
     {
       name: "generate_password",
       function_call: generateRandomWord,
-      description: "Generate a random password, always use this function to generate 1 or multiple passwords. Never generate a password by yourself.",
+      description: "Generate a random password. Always use this function to generate one or multiple passwords. Never generate a password by yourself.",
       parameters: {
         "type": "object",
         "properties": {
           "length": {
-            "type": "number",
+            "type": "integer",
+            "description": "The length of the password"
           },
           "passwordCount": {
-            "type": "number",
+            "type": "integer",
+            "description": "The number of passwords to generate"
           }
         },
-        "required": ["length"],
-      
+        "required": ["length"]
       }
     }
-  ],
+  ]
 };
 ```
 
-In this case, the `generate_password` tool is a helper function that generates a random password. The tool's `parameters` key specifies that it expects an object with `length` and `passwordCount` properties.
+In this example, the `generate_password` tool is a helper function that generates random passwords. The AI model can use this tool when creating the quiz questions, ensuring that each question has a unique, randomly generated password.
 
 ### blockHijack
 
@@ -397,161 +497,413 @@ This `promptVars` specification translates into the following prompt:
 
 ## Examples
 
-The `exampleUsage.js` file contains example usage of the `aiFunction` for various tasks
+Here are some engaging examples that showcase the versatility and power of the `aiFunction` module:
 
-## Example Usage
-
-Here are some examples of how to use the `aiFunction`:
-
-All examples was made using the `gpt-3.5-turbo` model, the `gpt-4` must return better results.
-
-### 1. Generate a quiz
+### 1. Generate a Quiz
 
 ```javascript
 const options = {
   functionName: 'generate_quiz',
-  args: { topic: 'history', difficulty: 'medium', num_questions: 3 },
-  description: 'Generate N quiz  questions with the topic and the difficulty given. Return a list of questions and 4 possible answers + the correct answer.',
+  args: { topic: 'space exploration', difficulty: 'medium', num_questions: 5 },
+  description: 'Generate a quiz with multiple-choice questions on the given topic.',
   funcReturn: {
-    type: "object[]",
-    schema: {
-      question: { type: "string" },
-      answers: { type: "string[]"},
-      correct_answer: { type: "string" }
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "question": { "type": "string" },
+        "options": { 
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "correct_answer": { "type": "string" }
+      },
+      "required": ["question", "options", "correct_answer"]
     }
-  },
-  model: 'gpt-4',
+  }
 };
 
 const quiz = await aiFunction(options);
-console.log(quiz);
-/*
-Output:
+console.log(JSON.stringify(quiz, null, 2));
+
+/* Expected output:
 [
   {
-    question: 'What event triggered the start of World War I?',
-    answers: [
-      'Assassination of Archduke Franz Ferdinand',
-      'Invasion of Poland',
-      'Bombing of Pearl Harbor',
-      'Fall of the Berlin Wall'
+    "question": "What is the largest planet in our solar system?",
+    "options": [
+      "Mars",
+      "Jupiter",
+      "Saturn",
+      "Neptune"
     ],
-    correct_answer: 'Assassination of Archduke Franz Ferdinand'
+    "correct_answer": "Jupiter"
   },
   {
-    question: 'Who was the first president of the United States?',
-    answers: [
-      'George Washington',
-      'Thomas Jefferson',
-      'John Adams',
-      'Benjamin Franklin'
+    "question": "Who was the first person to walk on the moon?",
+    "options": [
+      "Buzz Aldrin",
+      "Yuri Gagarin",
+      "Neil Armstrong",
+      "John Glenn"
     ],
-    correct_answer: 'George Washington'
+    "correct_answer": "Neil Armstrong"
+  },
+  ...
+]
+*/
+```
+
+### 2. Create a Recipe Based on Ingredients
+
+```javascript
+const options = {
+  functionName: 'create_recipe',
+  args: { ingredients: ['chicken', 'spinach', 'feta cheese', 'olive oil'], cuisine: 'Mediterranean' },
+  description: 'Create a recipe using the provided ingredients and cuisine style.',
+  funcReturn: {
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" },
+      "ingredients": { 
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "instructions": { 
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "prep_time": { "type": "string" },
+      "cook_time": { "type": "string" },
+      "servings": { "type": "integer" }
+    },
+    "required": ["name", "ingredients", "instructions", "prep_time", "cook_time", "servings"]
+  }
+};
+
+const recipe = await aiFunction(options);
+console.log(JSON.stringify(recipe, null, 2));
+
+/* Expected output:
+{
+  "name": "Mediterranean Chicken and Spinach Skillet",
+  "ingredients": [
+    "4 boneless, skinless chicken breasts",
+    "2 cups fresh spinach",
+    "1/2 cup crumbled feta cheese",
+    "2 tablespoons olive oil",
+    "1 lemon, juiced",
+    "2 cloves garlic, minced",
+    "1 teaspoon dried oregano",
+    "Salt and pepper to taste"
+  ],
+  "instructions": [
+    "Season chicken breasts with salt, pepper, and oregano.",
+    "Heat olive oil in a large skillet over medium-high heat.",
+    "Add chicken and cook for 6-7 minutes per side, until golden brown and cooked through.",
+    "Remove chicken from skillet and set aside.",
+    "In the same skillet, add minced garlic and sauté for 30 seconds.",
+    "Add spinach and cook until wilted, about 2 minutes.",
+    "Return chicken to the skillet and top with crumbled feta cheese.",
+    "Squeeze lemon juice over the dish and serve hot."
+  ],
+  "prep_time": "10 minutes",
+  "cook_time": "20 minutes",
+  "servings": 4
+}
+*/
+```
+
+### 3. Generate a Travel Itinerary
+
+```javascript
+const options = {
+  functionName: 'create_travel_itinerary',
+  args: { destination: 'Tokyo', duration: 5, interests: ['technology', 'food', 'history'] },
+  description: 'Create a daily travel itinerary for the specified destination and duration, considering the traveler\'s interests.',
+  funcReturn: {
+    "type": "object",
+    "properties": {
+      "destination": { "type": "string" },
+      "duration": { "type": "integer" },
+      "daily_plans": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "day": { "type": "integer" },
+            "activities": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "time": { "type": "string" },
+                  "activity": { "type": "string" },
+                  "description": { "type": "string" }
+                },
+                "required": ["time", "activity", "description"]
+              }
+            }
+          },
+          "required": ["day", "activities"]
+        }
+      }
+    },
+    "required": ["destination", "duration", "daily_plans"]
+  }
+};
+
+const itinerary = await aiFunction(options);
+console.log(JSON.stringify(itinerary, null, 2));
+
+/* Expected output:
+{
+  "destination": "Tokyo",
+  "duration": 5,
+  "daily_plans": [
+    {
+      "day": 1,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit Senso-ji Temple",
+          "description": "Start your trip with a visit to Tokyo's oldest temple, experiencing its rich history and architecture."
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Akihabara",
+          "description": "Dive into Tokyo's tech culture in this electronics and anime mecca."
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner at Robot Restaurant",
+          "description": "Experience a unique blend of technology and entertainment at this quirky dinner show."
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "activities": [
+        {
+          "time": "10:00",
+          "activity": "Tour the Tsukiji Outer Market",
+          "description": "Explore the world's largest fish market and try some fresh sushi."
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+*/
+```
+
+### 4. Analyze Sentiment of Customer Reviews
+
+```javascript
+const options = {
+  functionName: 'analyze_reviews',
+  args: {
+    reviews: [
+      "The product exceeded my expectations. Great value for money!",
+      "Disappointed with the quality. Wouldn't recommend.",
+      "Average product, nothing special but does the job."
+    ]
+  },
+  description: 'Analyze the sentiment of customer reviews and categorize them.',
+  funcReturn: {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "review": { "type": "string" },
+        "sentiment": { "type": "string", "enum": ["positive", "neutral", "negative"] },
+        "score": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "required": ["review", "sentiment", "score"]
+    }
+  }
+};
+
+const sentiment_analysis = await aiFunction(options);
+console.log(JSON.stringify(sentiment_analysis, null, 2));
+
+/* Expected output:
+[
+  {
+    "review": "The product exceeded my expectations. Great value for money!",
+    "sentiment": "positive",
+    "score": 0.9
   },
   {
-    question: 'What year did the United States declare independence?',
-    answers: [ '1776', '1783', '1791', '1800' ],
-    correct_answer: '1776'
+    "review": "Disappointed with the quality. Wouldn't recommend.",
+    "sentiment": "negative",
+    "score": 0.2
+  },
+  {
+    "review": "Average product, nothing special but does the job.",
+    "sentiment": "neutral",
+    "score": 0.5
   }
 ]
 */
 ```
 
-### 2. Suggest gift ideas based on hobbies and interests
+### 5. Generate a Short Story
 
 ```javascript
 const options = {
-  functionName: 'suggest_gifts',
-  args: { hobbies: 'photography, cooking', interests: 'travel, fashion' },
-  description: 'Suggest gift ideas for someone who loves the given hobbies and interests.',
+  functionName: 'write_short_story',
+  args: { 
+    genre: 'science fiction',
+    theme: 'first contact with aliens',
+    wordCount: 500
+  },
+  description: 'Write a short story based on the given genre, theme, and approximate word count.',
   funcReturn: {
-    type: "string[]"
+    "type": "object",
+    "properties": {
+      "title": { "type": "string" },
+      "story": { "type": "string" },
+      "wordCount": { "type": "integer" }
+    },
+    "required": ["title", "story", "wordCount"]
   }
 };
 
-const giftIdeas = await aiFunction(options);
-console.log(giftIdeas); // Output: [ 'camera', 'cookbook', 'travel guidebook', 'fashion magazine' ]
+const story = await aiFunction(options);
+console.log(JSON.stringify(story, null, 2));
+
+/* Expected output:
+{
+  "title": "The Silent Visitors",
+  "story": "Dr. Elena Martinez squinted at the radar screen, her heart racing. The blip that shouldn't be there pulsed steadily, growing larger by the second. 'This is it,' she whispered, her voice barely audible over the hum of equipment...",
+  "wordCount": 502
+}
+*/
 ```
 
-### 3. Analyze and moderate a list of messages
+### 6. Create a Workout Plan
 
 ```javascript
-const messages = [
-  { id: 1, content: 'Hello, world!' },
-  { id: 2, content: 'Offensive message here...' },
-  { id: 3, content: 'Another friendly message.' },
-];
-
 const options = {
-  functionName: 'moderate_messages',
-  args: messages,
-  description: 'Analyze and moderate a list of messages. Return a list of messages with the "content" field updated with bad words changed with "*" to indicate whether the message was flagged for moderation.',
+  functionName: 'create_workout_plan',
+  args: { 
+    fitnessLevel: 'intermediate',
+    goal: 'muscle gain',
+    daysPerWeek: 4,
+    equipmentAvailable: ['dumbbells', 'barbell', 'pull-up bar']
+  },
+  description: 'Create a weekly workout plan based on the user\'s fitness level, goal, available days, and equipment.',
   funcReturn: {
-    type: "object[]",
-    schema: {
-      id: { type: "number" },
-      content: { type: "string" },
-      flagged: { type: "boolean" }
-    }
+    "type": "object",
+    "properties": {
+      "weeklyPlan": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "day": { "type": "integer" },
+            "focus": { "type": "string" },
+            "exercises": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "sets": { "type": "integer" },
+                  "reps": { "type": "string" },
+                  "rest": { "type": "string" }
+                },
+                "required": ["name", "sets", "reps", "rest"]
+              }
+            }
+          },
+          "required": ["day", "focus", "exercises"]
+        }
+      }
+    },
+    "required": ["weeklyPlan"]
   }
 };
 
-aiFunction(options).then(moderatedMessages => {
-  console.log(moderatedMessages); /*
-   Output:
-    [
-      { id: 1, content: 'Hello, world!', flagged: false },
-      {
-        id: 2,
-        content: 'Offensive message here... I will **** you **',
-        flagged: true
-      },
-      { id: 3, content: 'Another friendly message.', flagged: false }
-    ]
-   */
-});
+const workoutPlan = await aiFunction(options);
+console.log(JSON.stringify(workoutPlan, null, 2));
+
+/* Expected output:
+{
+  "weeklyPlan": [
+    {
+      "day": 1,
+      "focus": "Chest and Triceps",
+      "exercises": [
+        {
+          "name": "Barbell Bench Press",
+          "sets": 4,
+          "reps": "8-10",
+          "rest": "90 seconds"
+        },
+        {
+          "name": "Incline Dumbbell Press",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        ...
+      ]
+    },
+    {
+      "day": 2,
+      "focus": "Back and Biceps",
+      "exercises": [
+        {
+          "name": "Pull-ups",
+          "sets": 4,
+          "reps": "6-8",
+          "rest": "90 seconds"
+        },
+        ...
+      ]
+    },
+    ...
+  ]
+}
+*/
 ```
 
-### 4. Translate a text
+### 7. Summarize a Long Text
 
 ```javascript
-let aiData = await aiFunction({
-    args: {
-        text: "Hello world !",
-        to: "de",
+const options = {
+  functionName: 'summarize_text',
+  args: { 
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    maxLength: 50
+  },
+  description: 'Summarize the given text, keeping the summary within the specified maximum length in words.',
+  funcReturn: {
+    "type": "object",
+    "properties": {
+      "summary": { "type": "string" },
+      "wordCount": { "type": "integer" }
     },
-    functionName: "translate_text",
-    description: "Translate text from one language to another. Use the to arguments to specify destination language. The text is from a game user interface. Return a string with the translated text",
-    funcReturn: {
-      translatedText: {
-        type: "string",
-      },
-    },
-    showDebug: false,
-    temperature: 0,
-});
-console.log(aiData.translatedText); // Output: "Hallo Welt!"
+    "required": ["summary", "wordCount"]
+  }
+};
+
+const summary = await aiFunction(options);
+console.log(JSON.stringify(summary, null, 2));
+
+/* Expected output:
+{
+  "summary": "This text discusses the concept of Lorem ipsum, a placeholder text used in design. It touches on themes of work, effort, and consequences, while emphasizing the importance of personal responsibility and ethics in one's actions.",
+  "wordCount": 35
+}
+*/
 ```
 
-### 5. Shorten a text
-
-```javascript
-let aiData = await aiFunction({
-    args: {
-        sentence: "I am a sentence that is too long and I need to be shorten. This is extra information that is not needed, and I want to remove it. Just keep the important information.",
-    },
-    functionName: "shorten_sentence",
-    description: "Rewrite the sentence to a minimum of words without breaking the context or important data. If the sentence can't be shorten, it will return the same sentence.",
-    funcReturn: {
-      shortenSentence: {
-        type: "string",
-      },
-    },
-    temperature: 0,
-});
-console.log(aiData.shortenSentence); // Output: "I am a sentence that is too long and I need to be shortened. Just keep the important information."
-```
-
+These examples demonstrate the versatility of the `aiFunction` module in handling various tasks, from content generation to data analysis and text processing. Each example includes a detailed `funcReturn` schema to ensure structured and validated output from the AI model.
 
 
 ## Tests

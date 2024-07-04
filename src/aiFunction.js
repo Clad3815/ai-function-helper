@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const { z } = require("zod");
 const { jsonrepair } = require('jsonrepair');
 const { printNode, zodToTs } = require("zod-to-ts");
+const { jsonSchemaToZod } = require("json-schema-to-zod");
 
 let openai;
 let lastMessages = [];
@@ -324,13 +325,13 @@ ${blockHijackString}`
 
 	function checkAndFixJson(json) {
 		json = json.trim();
-	
+
 		// Array of objects defining possible delimiters and their properties
 		const delimiters = [
 			{ start: "```json", end: "```" },
 			{ start: "<json>", end: "</json>" }
 		];
-	
+
 		// Process each delimiter set
 		delimiters.forEach(({ start, end }) => {
 			if (json.startsWith(start)) {
@@ -340,16 +341,16 @@ ${blockHijackString}`
 				}
 			}
 		});
-	
+
 		// Handle potential special XML-like end tag that isn't paired with a start
 		if (json.endsWith("</json>")) {
 			json = json.slice(0, -"</json>".length);
 		}
-	
+
 		json = json.trim();
 		return tryParse(json) ? json : jsonrepair(json);
 	}
-	
+
 
 	function tryParse(json) {
 		try {
@@ -362,32 +363,10 @@ ${blockHijackString}`
 	function generateZodSchema(customSchema) {
 		if (isZodSchema(customSchema)) return customSchema;
 
-		const zodSchema = {};
-
-		for (const [key, field] of Object.entries(customSchema)) {
-			const isArray = field.array || (typeof field.type === "string" && field.type.endsWith("[]"));
-			const fieldType = isArray ? field.type.replace("[]", "") : field.type;
-
-			zodSchema[key] = generateFieldSchema(fieldType, isArray);
-
-			if (field.description || field.describe) zodSchema[key] = zodSchema[key].describe(field.description || field.describe);
-			if (field.optional) zodSchema[key] = zodSchema[key].optional();
-		}
-
-		return z.object(zodSchema);
-	}
-
-	function generateFieldSchema(fieldType, isArray) {
-		const typeMappings = {
-			string: z.string(),
-			number: z.number(),
-			date: z.date(),
-			boolean: z.boolean(),
-			object: (field) => z.object(generateZodSchema(field.schema))
-		};
-
-		const schema = typeMappings[fieldType] || z.string();
-		return isArray ? z.array(schema) : schema;
+		// Convert JSON Schema to Zod schema
+		const zodSchema = eval(jsonSchemaToZod(customSchema));
+		// The jsonSchemaToZod function directly returns a Zod schema, so we can use it as is
+		return zodSchema;
 	}
 
 	function isZodSchema(schemaObject) {
