@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const { jsonrepair } = require('jsonrepair');
 const { jsonSchemaToZod } = require("json-schema-to-zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
+const { z } = require('zod');
 
 let openai;
 let lastMessages = [];
