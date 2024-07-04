@@ -507,22 +507,45 @@ const options = {
   args: { topic: 'space exploration', difficulty: 'medium', num_questions: 5 },
   description: 'Generate a quiz with multiple-choice questions on the given topic.',
   funcReturn: {
+    // JSON Schema
     "type": "array",
     "items": {
       "type": "object",
       "properties": {
-        "question": { "type": "string" },
+        "question": { 
+          "type": "string",
+          "description": "The question text"
+        },
         "options": { 
           "type": "array",
-          "items": { "type": "string" },
+          "items": { 
+            "type": "string",
+            "description": "A possible answer to the question"
+          },
           "minItems": 4,
-          "maxItems": 4
+          "maxItems": 4,
+          "description": "An array of four possible answers"
         },
-        "correct_answer": { "type": "string" }
+        "correct_answer": { 
+          "type": "string",
+          "description": "The correct answer to the question"
+        }
       },
       "required": ["question", "options", "correct_answer"]
     }
   }
+  // Zod Schema
+  /*
+  z.array(
+    z.object({
+      question: z.string().describe("The question text"),
+      options: z.array(z.string().describe("A possible answer to the question"))
+        .length(4)
+        .describe("An array of four possible answers"),
+      correct_answer: z.string().describe("The correct answer to the question")
+    })
+  )
+  */
 };
 
 const quiz = await aiFunction(options);
@@ -540,16 +563,6 @@ console.log(JSON.stringify(quiz, null, 2));
     ],
     "correct_answer": "Jupiter"
   },
-  {
-    "question": "Who was the first person to walk on the moon?",
-    "options": [
-      "Buzz Aldrin",
-      "Yuri Gagarin",
-      "Neil Armstrong",
-      "John Glenn"
-    ],
-    "correct_answer": "Neil Armstrong"
-  },
   ...
 ]
 */
@@ -563,23 +576,55 @@ const options = {
   args: { ingredients: ['chicken', 'spinach', 'feta cheese', 'olive oil'], cuisine: 'Mediterranean' },
   description: 'Create a recipe using the provided ingredients and cuisine style.',
   funcReturn: {
+    // JSON Schema
     "type": "object",
     "properties": {
-      "name": { "type": "string" },
+      "name": { 
+        "type": "string",
+        "description": "The name of the dish"
+      },
       "ingredients": { 
         "type": "array",
-        "items": { "type": "string" }
+        "items": { 
+          "type": "string",
+          "description": "An ingredient with its quantity"
+        },
+        "description": "List of ingredients with quantities"
       },
       "instructions": { 
         "type": "array",
-        "items": { "type": "string" }
+        "items": { 
+          "type": "string",
+          "description": "A step in the cooking process"
+        },
+        "description": "Step-by-step cooking instructions"
       },
-      "prep_time": { "type": "string" },
-      "cook_time": { "type": "string" },
-      "servings": { "type": "integer" }
+      "prep_time": { 
+        "type": "string",
+        "description": "Preparation time (e.g., '10 minutes')"
+      },
+      "cook_time": { 
+        "type": "string",
+        "description": "Cooking time (e.g., '20 minutes')"
+      },
+      "servings": { 
+        "type": "integer",
+        "description": "Number of servings the recipe yields"
+      }
     },
     "required": ["name", "ingredients", "instructions", "prep_time", "cook_time", "servings"]
   }
+  // Zod Schema
+  /*
+  z.object({
+    name: z.string().describe("The name of the dish"),
+    ingredients: z.array(z.string().describe("An ingredient with its quantity")).describe("List of ingredients with quantities"),
+    instructions: z.array(z.string().describe("A step in the cooking process")).describe("Step-by-step cooking instructions"),
+    prep_time: z.string().describe("Preparation time (e.g., '10 minutes')"),
+    cook_time: z.string().describe("Cooking time (e.g., '20 minutes')"),
+    servings: z.number().int().describe("Number of servings the recipe yields")
+  })
+  */
 };
 
 const recipe = await aiFunction(options);
@@ -593,20 +638,12 @@ console.log(JSON.stringify(recipe, null, 2));
     "2 cups fresh spinach",
     "1/2 cup crumbled feta cheese",
     "2 tablespoons olive oil",
-    "1 lemon, juiced",
-    "2 cloves garlic, minced",
-    "1 teaspoon dried oregano",
-    "Salt and pepper to taste"
+    ...
   ],
   "instructions": [
     "Season chicken breasts with salt, pepper, and oregano.",
     "Heat olive oil in a large skillet over medium-high heat.",
-    "Add chicken and cook for 6-7 minutes per side, until golden brown and cooked through.",
-    "Remove chicken from skillet and set aside.",
-    "In the same skillet, add minced garlic and sauté for 30 seconds.",
-    "Add spinach and cook until wilted, about 2 minutes.",
-    "Return chicken to the skillet and top with crumbled feta cheese.",
-    "Squeeze lemon juice over the dish and serve hot."
+    ...
   ],
   "prep_time": "10 minutes",
   "cook_time": "20 minutes",
@@ -623,35 +660,75 @@ const options = {
   args: { destination: 'Tokyo', duration: 5, interests: ['technology', 'food', 'history'] },
   description: 'Create a daily travel itinerary for the specified destination and duration, considering the traveler\'s interests.',
   funcReturn: {
+    // JSON Schema
     "type": "object",
     "properties": {
-      "destination": { "type": "string" },
-      "duration": { "type": "integer" },
+      "destination": { 
+        "type": "string",
+        "description": "The travel destination"
+      },
+      "duration": { 
+        "type": "integer",
+        "description": "Number of days for the trip"
+      },
       "daily_plans": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
-            "day": { "type": "integer" },
+            "day": { 
+              "type": "integer",
+              "description": "Day number of the trip"
+            },
             "activities": {
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
-                  "time": { "type": "string" },
-                  "activity": { "type": "string" },
-                  "description": { "type": "string" }
+                  "time": { 
+                    "type": "string",
+                    "description": "Time of the activity"
+                  },
+                  "activity": { 
+                    "type": "string",
+                    "description": "Name of the activity"
+                  },
+                  "description": { 
+                    "type": "string",
+                    "description": "Brief description of the activity"
+                  }
                 },
                 "required": ["time", "activity", "description"]
-              }
+              },
+              "description": "List of activities for the day"
             }
           },
           "required": ["day", "activities"]
-        }
+        },
+        "description": "Daily itinerary for each day of the trip"
       }
     },
     "required": ["destination", "duration", "daily_plans"]
   }
+  // Zod Schema
+  /*
+  z.object({
+    destination: z.string().describe("The travel destination"),
+    duration: z.number().int().describe("Number of days for the trip"),
+    daily_plans: z.array(
+      z.object({
+        day: z.number().int().describe("Day number of the trip"),
+        activities: z.array(
+          z.object({
+            time: z.string().describe("Time of the activity"),
+            activity: z.string().describe("Name of the activity"),
+            description: z.string().describe("Brief description of the activity")
+          })
+        ).describe("List of activities for the day")
+      })
+    ).describe("Daily itinerary for each day of the trip")
+  })
+  */
 };
 
 const itinerary = await aiFunction(options);
@@ -669,26 +746,6 @@ console.log(JSON.stringify(itinerary, null, 2));
           "time": "09:00",
           "activity": "Visit Senso-ji Temple",
           "description": "Start your trip with a visit to Tokyo's oldest temple, experiencing its rich history and architecture."
-        },
-        {
-          "time": "13:00",
-          "activity": "Explore Akihabara",
-          "description": "Dive into Tokyo's tech culture in this electronics and anime mecca."
-        },
-        {
-          "time": "19:00",
-          "activity": "Dinner at Robot Restaurant",
-          "description": "Experience a unique blend of technology and entertainment at this quirky dinner show."
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "activities": [
-        {
-          "time": "10:00",
-          "activity": "Tour the Tsukiji Outer Market",
-          "description": "Explore the world's largest fish market and try some fresh sushi."
         },
         ...
       ]
@@ -713,17 +770,40 @@ const options = {
   },
   description: 'Analyze the sentiment of customer reviews and categorize them.',
   funcReturn: {
+    // JSON Schema
     "type": "array",
     "items": {
       "type": "object",
       "properties": {
-        "review": { "type": "string" },
-        "sentiment": { "type": "string", "enum": ["positive", "neutral", "negative"] },
-        "score": { "type": "number", "minimum": 0, "maximum": 1 }
+        "review": { 
+          "type": "string",
+          "description": "The original review text"
+        },
+        "sentiment": { 
+          "type": "string", 
+          "enum": ["positive", "neutral", "negative"],
+          "description": "The sentiment category of the review"
+        },
+        "score": { 
+          "type": "number", 
+          "minimum": 0, 
+          "maximum": 1,
+          "description": "Sentiment score between 0 (most negative) and 1 (most positive)"
+        }
       },
       "required": ["review", "sentiment", "score"]
     }
   }
+  // Zod Schema
+  /*
+  z.array(
+    z.object({
+      review: z.string().describe("The original review text"),
+      sentiment: z.enum(["positive", "neutral", "negative"]).describe("The sentiment category of the review"),
+      score: z.number().min(0).max(1).describe("Sentiment score between 0 (most negative) and 1 (most positive)")
+    })
+  )
+  */
 };
 
 const sentiment_analysis = await aiFunction(options);
@@ -736,16 +816,7 @@ console.log(JSON.stringify(sentiment_analysis, null, 2));
     "sentiment": "positive",
     "score": 0.9
   },
-  {
-    "review": "Disappointed with the quality. Wouldn't recommend.",
-    "sentiment": "negative",
-    "score": 0.2
-  },
-  {
-    "review": "Average product, nothing special but does the job.",
-    "sentiment": "neutral",
-    "score": 0.5
-  }
+  ...
 ]
 */
 ```
@@ -762,14 +833,32 @@ const options = {
   },
   description: 'Write a short story based on the given genre, theme, and approximate word count.',
   funcReturn: {
+    // JSON Schema
     "type": "object",
     "properties": {
-      "title": { "type": "string" },
-      "story": { "type": "string" },
-      "wordCount": { "type": "integer" }
+      "title": { 
+        "type": "string",
+        "description": "The title of the short story"
+      },
+      "story": { 
+        "type": "string",
+        "description": "The full text of the short story"
+      },
+      "wordCount": { 
+        "type": "integer",
+        "description": "The actual word count of the story"
+      }
     },
     "required": ["title", "story", "wordCount"]
   }
+  // Zod Schema
+  /*
+  z.object({
+    title: z.string().describe("The title of the short story"),
+    story: z.string().describe("The full text of the short story"),
+    wordCount: z.number().int().describe("The actual word count of the story")
+  })
+  */
 };
 
 const story = await aiFunction(options);
@@ -797,6 +886,7 @@ const options = {
   },
   description: 'Create a weekly workout plan based on the user\'s fitness level, goal, available days, and equipment.',
   funcReturn: {
+    // JSON Schema
     "type": "object",
     "properties": {
       "weeklyPlan": {
@@ -804,28 +894,67 @@ const options = {
         "items": {
           "type": "object",
           "properties": {
-            "day": { "type": "integer" },
-            "focus": { "type": "string" },
+            "day": { 
+              "type": "integer",
+              "description": "Day number of the workout"
+            },
+            "focus": { 
+              "type": "string",
+              "description": "Main focus of the workout (e.g., 'Chest and Triceps')"
+            },
             "exercises": {
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string" },
-                  "sets": { "type": "integer" },
-                  "reps": { "type": "string" },
-                  "rest": { "type": "string" }
+                  "name": { 
+                    "type": "string",
+                    "description": "Name of the exercise"
+                  },
+                  "sets": { 
+                    "type": "integer",
+                    "description": "Number of sets"
+                  },
+                  "reps": { 
+                    "type": "string",
+                    "description": "Number of repetitions (e.g., '8-10' or '12')"
+                  },
+                  "rest": { 
+                    "type": "string",
+                    "description": "Rest time between sets (e.g., '60 seconds')"
+                  }
                 },
                 "required": ["name", "sets", "reps", "rest"]
-              }
+              },
+              "description": "List of exercises for the workout"
             }
           },
           "required": ["day", "focus", "exercises"]
-        }
+        },
+        "description": "Workout plan for each day of the week"
       }
     },
     "required": ["weeklyPlan"]
   }
+  // Zod Schema
+  /*
+  z.object({
+    weeklyPlan: z.array(
+      z.object({
+        day: z.number().int().describe("Day number of the workout"),
+        focus: z.string().describe("Main focus of the workout (e.g., 'Chest and Triceps')"),
+        exercises: z.array(
+          z.object({
+            name: z.string().describe("Name of the exercise"),
+            sets: z.number().int().describe("Number of sets"),
+            reps: z.string().describe("Number of repetitions (e.g., '8-10' or '12')"),
+            rest: z.string().describe("Rest time between sets (e.g., '60 seconds')")
+          })
+        ).describe("List of exercises for the workout")
+      })
+    ).describe("Workout plan for each day of the week")
+  })
+  */
 };
 
 const workoutPlan = await aiFunction(options);
@@ -842,25 +971,6 @@ console.log(JSON.stringify(workoutPlan, null, 2));
           "name": "Barbell Bench Press",
           "sets": 4,
           "reps": "8-10",
-          "rest": "90 seconds"
-        },
-        {
-          "name": "Incline Dumbbell Press",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        ...
-      ]
-    },
-    {
-      "day": 2,
-      "focus": "Back and Biceps",
-      "exercises": [
-        {
-          "name": "Pull-ups",
-          "sets": 4,
-          "reps": "6-8",
           "rest": "90 seconds"
         },
         ...
@@ -883,13 +993,27 @@ const options = {
   },
   description: 'Summarize the given text, keeping the summary within the specified maximum length in words.',
   funcReturn: {
+    // JSON Schema
     "type": "object",
     "properties": {
-      "summary": { "type": "string" },
-      "wordCount": { "type": "integer" }
+      "summary": { 
+        "type": "string",
+        "description": "The summarized text"
+      },
+      "wordCount": { 
+        "type": "integer",
+        "description": "The actual word count of the summary"
+      }
     },
     "required": ["summary", "wordCount"]
   }
+  // Zod Schema
+  /*
+  z.object({
+    summary: z.string().describe("The summarized text"),
+    wordCount: z.number().int().describe("The actual word count of the summary")
+  })
+  */
 };
 
 const summary = await aiFunction(options);
@@ -903,7 +1027,7 @@ console.log(JSON.stringify(summary, null, 2));
 */
 ```
 
-These examples demonstrate the versatility of the `aiFunction` module in handling various tasks, from content generation to data analysis and text processing. Each example includes a detailed `funcReturn` schema to ensure structured and validated output from the AI model.
+These examples demonstrate the versatility of the `aiFunction` module in handling various tasks, from content generation to data analysis and text processing. Each example includes a detailed `funcReturn` schema in both JSON Schema and Zod formats, ensuring structured and validated output from the AI model. The added descriptions in both formats provide better context for the AI, potentially improving the quality and accuracy of the generated responses.
 
 
 ## Tests

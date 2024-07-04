@@ -1,9 +1,8 @@
 const OpenAI = require("openai");
 const chalk = require("chalk");
-const { z } = require("zod");
 const { jsonrepair } = require('jsonrepair');
-const { printNode, zodToTs } = require("zod-to-ts");
 const { jsonSchemaToZod } = require("json-schema-to-zod");
+const { zodToJsonSchema } = require("zod-to-json-schema");
 
 let openai;
 let lastMessages = [];
@@ -45,7 +44,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 		const argsString = typeof args === "string" ? args : JSON.stringify(args, null, 2);
 		const zodSchema = funcReturn ? generateZodSchema(funcReturn) : null;
-		const jsonOutput = zodSchema ? printNode(zodToTs(zodSchema).node) : null;
+		const jsonSchema = zodToJsonSchema(zodSchema);
+		const jsonOutput = jsonSchema ? JSON.stringify(jsonSchema, null, 2) : null;
 		const updatedDescription = replaceDescriptionPlaceholders(description, promptVars);
 
 
@@ -85,8 +85,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 	function generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, jsonEnabled, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON, imageQuality) {
 
 		const ensureJSON = jsonEnabled
-			? "Your response should be in JSON format and strictly conform to the following typescript schema, paying attention to comments as requirements"
-			: "Your response should return a valid JSON format only without explanation and strictly conform to the following typescript schema, paying attention to comments as requirements. The JSON data must be between XML tags <json></json>";
+			? "Your response should be in JSON format and strictly conform to the following Json Schema, paying attention to comments as requirements"
+			: "Your response should return a valid JSON format only without explanation and strictly conform to the following Json Schema, paying attention to comments as requirements. The JSON data must be between XML tags <json></json>";
 		let systemMessage;
 		if (funcReturn) {
 			systemMessage = {
@@ -100,9 +100,9 @@ ${updatedDescription}
 </function_description>
 
 ${ensureJSON}
-<output_format>
+<json_output_format>
 ${jsonOutput || "{OUTPUT}"}
-</output_format>
+</json_output_format>
 ${minifyJSON ? "<extra_info>You must return minified JSON, not pretty printed.</extra_info>" : ""}
 ${blockHijackString}`
 			};
