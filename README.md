@@ -30,9 +30,6 @@ Welcome to the AI Function Module, a powerful tool for integrating the capabilit
   - [Generate a Short Story](#5-generate-a-short-story)
   - [Create a Workout Plan](#6-create-a-workout-plan)
   - [Summarize a Long Text](#7-summarize-a-long-text)
-- [Tests](#tests)
-  - [Test Results](#test-results)
-  - [Disclaimer](#disclaimer)
 - [About Hijacking](#about-hijacking)
   - [Example](#example)
   - [Output](#output)
@@ -1029,35 +1026,6 @@ console.log(JSON.stringify(summary, null, 2));
 
 These examples demonstrate the versatility of the `aiFunction` module in handling various tasks, from content generation to data analysis and text processing. Each example includes a detailed `funcReturn` schema in both JSON Schema and Zod formats, ensuring structured and validated output from the AI model. The added descriptions in both formats provide better context for the AI, potentially improving the quality and accuracy of the generated responses.
 
-
-## Tests
-
-The `test_ai_function.js` file contains a series of tests for the `aiFunction`. These tests cover various use cases and can be run using the `runTests` function with the desired AI model as an argument.
-
-### Test Results
-
-A total of 60 tests for each function were performed using the GPT-3.5-turbo model. The table below shows the success rate for each function:
-
-| Function                    | GPT-3.5-turbo | GPT-4 |
-|-----------------------------|---------------|-------|
-| Generate fake people        | 100%       | N/A   |
-| Calculate the nth prime number | 100%    | N/A   |
-| Find missing numbers        | 100%       | N/A   |
-| Generate a quiz             | 100%       | N/A   |
-| Find capital of cities      | 100%       | N/A   |
-| Grammar correction          | 100%       | N/A   |
-| Detect language in text     | 100%       | N/A   |
-| Generate Random Password    | 60%-100%   | N/A   |
-| Encrypt text                | 80-100%    | N/A   |
-| Calculate area of triangle  | 0%-50%     | N/A   |
-| Calculate area of triangle (Using mathjs evaluated)  | 100%     | N/A   |
-| Calculate the approximate surface area of an ellipsoid  | 0%     | N/A   |
-| Calculate the approximate surface area of an ellipsoid (Using mathjs evaluated)  | 100%     | N/A   |
-
-
-`Some results can be improved by optimising the prompt, temperature, and other parameters according to the function and the use case.`
-
-I currently do not have access to the GPT-4 API. Once I have access, I will update the table with the test results.
 
 ### Disclaimer
 
