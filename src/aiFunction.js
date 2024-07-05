@@ -71,7 +71,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 		const messages = generateMessages(history, argsString, new Date().toISOString(), functionNamePrompt, updatedDescription, jsonEnabled, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON, imageQuality);
 
-		if (showDebug) displayDebugInfo(messages, argsString, debugLevel);
+		if (showDebug) displayDebugInfo(options, messages, argsString);
 
 		return await getDataFromAPI(options, messages, zodSchema);
 	}
@@ -144,20 +144,50 @@ ${blockHijackString}`
 		}
 		return messages;
 	}
+	function displayDebugInfo(options, messages, argsString) {
+		const {
+			debugLevel = 0,
+			functionName,
+			model,
+			temperature,
+			max_tokens,
+			tools
+		} = options;
 
-	function displayDebugInfo(messages, argsString, debugLevel) {
-		console.log(chalk.yellow("####################"));
-		console.log(chalk.blue.bold("Using AI function: "));
-		console.log(chalk.green(messages[0].content));
-		console.log(chalk.yellow("####################"));
+		console.log(chalk.yellow("========== Debug Information =========="));
 
+		// Basic debug info (Level 0)
+		console.log(chalk.blue.bold(`Function Name: ${functionName || 'Not specified'}`));
+		console.log(chalk.blue(`Model: ${model}`));
+		console.log(chalk.blue(`Temperature: ${temperature}`));
+		console.log(chalk.blue(`Max Tokens: ${max_tokens}`));
+
+		// Intermediate debug info (Level 1)
 		if (debugLevel >= 1) {
-			console.log(chalk.magenta("All data: ") + chalk.green(JSON.stringify(messages, null, 2)));
-			console.log(chalk.yellow("####################"));
-		} else {
-			console.log(chalk.magenta("With arguments: ") + chalk.green(argsString));
-			console.log(chalk.yellow("####################"));
+			console.log(chalk.magenta("\n--- Function Description ---"));
+			console.log(chalk.green(messages[0].content));
+
+			console.log(chalk.magenta("\n--- Function Arguments ---"));
+			console.log(chalk.green(argsString));
+
+			if (tools && tools.length > 0) {
+				console.log(chalk.magenta("\n--- Available Tools ---"));
+				tools.forEach(tool => {
+					console.log(chalk.cyan(`- ${tool.name}: ${tool.description}`));
+				});
+			}
 		}
+
+		// Advanced debug info (Level 2)
+		if (debugLevel >= 2) {
+			console.log(chalk.magenta("\n--- All Messages ---"));
+			messages.forEach((msg, index) => {
+				console.log(chalk.yellow(`Message ${index + 1} (${msg.role}):`));
+				console.log(chalk.green(JSON.stringify(msg.content, null, 2)));
+			});
+		}
+
+		console.log(chalk.yellow("=========================================\n"));
 	}
 
 	async function getDataFromAPI(options, messages, zodSchema) {
@@ -247,33 +277,8 @@ ${blockHijackString}`
 		let answer = stream ? await handleStreamResponse(gptResponse, debugLevel, streamCallback) : gptResponse.choices[0].message;
 
 		lastMessages.push(answer);
-
-		if (showDebug && debugLevel >= 2) {
-			console.log(chalk.yellow("####################"));
-			console.log(JSON.stringify(gptResponse, null, 2));
-			console.log(chalk.yellow("####################"));
-		}
-
 		if (showDebug) {
-			if (gptResponse.usage && gptResponse.usage.total_tokens) {
-				console.log(chalk.yellow("####################"));
-				console.log(
-					chalk.magenta("Tokens from prompt: ") +
-					chalk.green(gptResponse.usage.prompt_tokens.toString())
-				);
-				console.log(
-					chalk.magenta("Tokens from completion: ") +
-					chalk.green(gptResponse.usage.completion_tokens.toString())
-				);
-				console.log(
-					chalk.yellow("Total tokens: ") +
-					chalk.green(gptResponse.usage.total_tokens.toString())
-				);
-				console.log(chalk.yellow("####################"));
-			}
-			console.log(chalk.yellow("####################"));
-			console.log(chalk.blue("Brut answer: " + answer.content));
-			console.log(chalk.yellow("####################"));
+			displayApiResponse(gptResponse, debugLevel);
 		}
 		if (!funcReturnSchema) return answer.content;
 
@@ -286,10 +291,9 @@ ${blockHijackString}`
 
 		let returnData = JSON.parse(checkAndFixJson(answer.content));
 
-		if (showDebug) {
-			console.log(chalk.yellow("####################"));
-			console.log(chalk.blue("Returning check and fixed JSON answer: " + JSON.stringify(returnData, null, 2)));
-			console.log(chalk.yellow("####################"));
+		if (showDebug && debugLevel >= 1) {
+			console.log(chalk.magenta("\n--- Checked & fixed JSON ---"));
+			console.log(chalk.green(JSON.stringify(returnData, null, 2)));
 		}
 		if (strictReturn) {
 			try {
@@ -302,6 +306,31 @@ ${blockHijackString}`
 		return returnData;
 	}
 
+	function displayApiResponse(gptResponse, debugLevel) {
+		console.log(chalk.yellow("========== API Response =========="));
+
+		// Basic response info (Level 0)
+		if (gptResponse.usage) {
+			console.log(chalk.blue(`Prompt Tokens: ${gptResponse.usage.prompt_tokens}`));
+			console.log(chalk.blue(`Completion Tokens: ${gptResponse.usage.completion_tokens}`));
+			console.log(chalk.blue(`Total Tokens: ${gptResponse.usage.total_tokens}`));
+		}
+
+		// Intermediate response info (Level 0)
+
+		console.log(chalk.magenta("\n--- Response Content ---"));
+		console.log(chalk.green(gptResponse.choices[0].message.content));
+
+
+
+		// Advanced response info (Level 2)
+		if (debugLevel >= 2) {
+			console.log(chalk.magenta("\n--- Full API Response ---"));
+			console.log(chalk.green(JSON.stringify(gptResponse, null, 2)));
+		}
+
+		console.log(chalk.yellow("====================================\n"));
+	}
 	async function handleStreamResponse(gptResponse, debugLevel, streamCallback) {
 		for await (const chunk of gptResponse) {
 			if (debugLevel >= 2) console.log(chalk.yellow("Received chunk: " + JSON.stringify(chunk)));
