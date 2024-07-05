@@ -10,8 +10,8 @@
 | claude-3-5-sonnet-20240620 | 100.00% | 5940.50ms |
 | gemini-1.5-flash | 88.89% | 5150.00ms |
 | gemini-1.5-pro | 100.00% | 10066.06ms |
-| llama3 | 72.22% | 7529.17ms |
-| gemma2 | 100.00% | 13368.94ms |
+| llama3:7b | 72.22% | 7529.17ms |
+| gemma2:9b | 100.00% | 13368.94ms |
 
 ## claude-3-haiku-20240307 Detailed Results
 
@@ -151,7 +151,7 @@
 | Analyze Stock Market Data | ✅ Success | 11473ms | Output structure valid |
 | Analyze Social Media Campaign | ✅ Success | 16341ms | Output structure valid |
 
-## llama3 Detailed Results
+## llama3:7b Detailed Results
 
 | Test Case | Result | Duration | Details |
 |-----------|--------|----------|---------|
@@ -174,7 +174,7 @@
 | Analyze Stock Market Data | ❌ Failure | 17398ms | Error: Return data validation error: [Various validation errors] |
 | Analyze Social Media Campaign | ✅ Success | 11986ms | Output structure valid |
 
-## gemma2 Detailed Results
+## gemma2:9b Detailed Results
 
 | Test Case | Result | Duration | Details |
 |-----------|--------|----------|---------|

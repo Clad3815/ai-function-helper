@@ -7098,7 +7098,7 @@ Status: ✅ Success
 ```
 
 
-## llama3
+## llama3:7b
 
 ### Complex calculation
 
@@ -7785,7 +7785,7 @@ Status: ✅ Success
 ```
 
 
-## gemma2
+## gemma2:9b
 
 ### Complex calculation
 

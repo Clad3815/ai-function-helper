@@ -678,8 +678,8 @@ To ensure comprehensive testing across a wide range of AI models, including thos
 | claude-3-5-sonnet-20240620 | 100.00% | 5940.50ms |
 | gemini-1.5-flash | 88.89% | 5150.00ms |
 | gemini-1.5-pro | 100.00% | 10066.06ms |
-| llama3 | 72.22% | 7529.17ms |
-| gemma2 | 100.00% | 13368.94ms |
+| llama3:7b | 72.22% | 7529.17ms |
+| gemma2:9b | 100.00% | 13368.94ms |
 
 ### Test Categories
 
