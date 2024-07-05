@@ -32,7 +32,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			description,
 			showDebug = false,
 			debugLevel = 0,
-			funcReturn = null,
+			funcReturn = null, // Deprecated, use "outputSchema" instead
+			outputSchema = null,
 			blockHijack = false,
 			blockHijackThrowError = false,
 			promptVars = {},
@@ -43,8 +44,12 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			forceJsonMode = false,
 		} = options;
 
+
+		// Make funcReturn backward compatible with outputSchema
+		const funcReturnSchema = funcReturn || outputSchema;
+
 		const argsString = typeof args === "string" ? args : JSON.stringify(args, null, 2);
-		const zodSchema = funcReturn ? generateZodSchema(funcReturn) : null;
+		const zodSchema = funcReturnSchema ? generateZodSchema(funcReturnSchema) : null;
 		const jsonSchema = zodToJsonSchema(zodSchema);
 		const jsonOutput = jsonSchema ? JSON.stringify(jsonSchema, null, 2) : null;
 		const updatedDescription = replaceDescriptionPlaceholders(description, promptVars);
@@ -167,7 +172,8 @@ ${blockHijackString}`
 			top_p = null,
 			max_tokens = 1000,
 			strictReturn = true,
-			funcReturn = null,
+			funcReturn = null, // Deprecated, use "outputSchema" instead
+			outputSchema = null,
 			timeout = 120 * 1000,
 			maxRetries = 0,
 			tools = [],
@@ -176,6 +182,9 @@ ${blockHijackString}`
 			forceJsonMode = false,
 			openaiInstance = openai
 		} = options;
+
+		// Make funcReturn backward compatible with outputSchema
+		const funcReturnSchema = funcReturn || outputSchema;
 
 		const jsonEnabled = modelHasJsonMode(model) || forceJsonMode;
 		let apiCall = async (modelToUse) => {
@@ -207,8 +216,8 @@ ${blockHijackString}`
 				presence_penalty: presence_penalty > 0 ? presence_penalty : undefined,
 				max_tokens: max_tokens,
 				top_p: top_p || undefined,
-				response_format: (jsonEnabled && funcReturn) ? { type: "json_object" } : undefined,
-				stop: (!jsonEnabled && funcReturn) ? ["</json>"] : undefined,
+				response_format: (jsonEnabled && funcReturnSchema) ? { type: "json_object" } : undefined,
+				stop: (!jsonEnabled && funcReturnSchema) ? ["</json>"] : undefined,
 				tools: toolsList.length > 0 ? toolsList : undefined,
 				tool_choice: toolsList.length > 0 ? "auto" : undefined,
 				stream: stream
@@ -266,7 +275,7 @@ ${blockHijackString}`
 			console.log(chalk.blue("Brut answer: " + answer.content));
 			console.log(chalk.yellow("####################"));
 		}
-		if (!funcReturn) return answer.content;
+		if (!funcReturnSchema) return answer.content;
 
 		messages.push(answer);
 		if (modelHasJsonMode(usedModel) && answer.tool_calls && answer.tool_calls.length > 0) {
