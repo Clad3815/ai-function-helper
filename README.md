@@ -56,6 +56,7 @@ const aiFunction = createAiFunctionInstance('your_api_key_here');
 // Define your function
 const options = {
   functionName: 'generate_haiku',
+  model: 'gpt-3.5-turbo',
   args: { topic: 'spring' },
   description: 'Generate a haiku about the given topic.',
   outputSchema: {
@@ -101,6 +102,7 @@ Once you have an instance, you can call AI functions by providing options:
 ```javascript
 const result = await aiFunction({
   functionName: 'example_function',
+  model: 'gpt-4o',
   args: { param1: 'value1', param2: 'value2' },
   description: 'This is an example function.',
   outputSchema: {
@@ -188,6 +190,7 @@ async function generateStory() {
 
   const options = {
     functionName: 'generate_story',
+    model: 'gpt-4o',
     args: {
       theme: 'space exploration',
       length: 'short'
@@ -300,12 +303,15 @@ const options = {
 
 ## Examples
 
+Here are some engaging examples that showcase the versatility and power of the `aiFunction` module:
+
 ### 1. Generate a Quiz
 
 ```javascript
 const options = {
   functionName: 'generate_quiz',
-  args: { topic: 'space exploration', difficulty: 'medium', num_questions: 5 },
+  model: 'gpt-4o',
+  args: { topic: 'space exploration', difficulty: 'medium', num_questions: 2 },
   description: 'Generate a quiz with multiple-choice questions on the given topic.',
   outputSchema: {
     type: "array",
@@ -330,42 +336,89 @@ const quiz = await aiFunction(options);
 console.log(JSON.stringify(quiz, null, 2));
 ```
 
-### 2. Create a Recipe
+Expected output:
+```json
+[
+  {
+    "question": "Which space agency launched the first artificial satellite, Sputnik 1?",
+    "options": [
+      "NASA",
+      "Soviet Union",
+      "European Space Agency",
+      "China National Space Administration"
+    ],
+    "correct_answer": "Soviet Union"
+  },
+  {
+    "question": "What year did the Apollo 11 mission successfully land humans on the Moon?",
+    "options": [
+      "1967",
+      "1969",
+      "1971",
+      "1973"
+    ],
+    "correct_answer": "1969"
+  }
+]
+```
+
+### 2. Create a Recipe (using Zod)
 
 ```javascript
+const { z } = require('zod');
+
 const options = {
   functionName: 'create_recipe',
-  args: { ingredients: ['chicken', 'spinach', 'feta cheese', 'olive oil'], cuisine: 'Mediterranean' },
-  description: 'Create a recipe using the provided ingredients and cuisine style.',
-  outputSchema: {
-    type: "object",
-    properties: {
-      name: { type: "string" },
-      ingredients: { 
-        type: "array",
-        items: { type: "string" }
-      },
-      instructions: { 
-        type: "array",
-        items: { type: "string" }
-      },
-      prep_time: { type: "string" },
-      cook_time: { type: "string" },
-      servings: { type: "integer" }
-    },
-    required: ["name", "ingredients", "instructions", "prep_time", "cook_time", "servings"]
-  }
+  model: 'gpt-4o',
+  args: { cuisine: 'Italian', main_ingredient: 'pasta', dietary_restriction: 'vegetarian' },
+  description: 'Create a recipe based on the given cuisine, main ingredient, and dietary restriction.',
+  outputSchema: z.object({
+    name: z.string(),
+    ingredients: z.array(z.string()),
+    instructions: z.array(z.string()),
+    prep_time: z.string(),
+    cook_time: z.string(),
+    servings: z.number().int()
+  })
 };
 
 const recipe = await aiFunction(options);
 console.log(JSON.stringify(recipe, null, 2));
 ```
 
-### 3. Analyze Sentiment
+Expected output:
+```json
+{
+  "name": "Vegetarian Pasta Primavera",
+  "ingredients": [
+    "12 oz penne pasta",
+    "2 cups mixed vegetables (bell peppers, zucchini, carrots)",
+    "1/4 cup olive oil",
+    "3 cloves garlic, minced",
+    "1/2 cup grated Parmesan cheese",
+    "1/4 cup fresh basil, chopped",
+    "Salt and pepper to taste"
+  ],
+  "instructions": [
+    "Cook pasta according to package instructions. Reserve 1/2 cup pasta water.",
+    "In a large skillet, heat olive oil over medium heat. Add minced garlic and sauté for 1 minute.",
+    "Add mixed vegetables to the skillet and cook for 5-7 minutes until tender-crisp.",
+    "Drain pasta and add it to the skillet with vegetables. Toss to combine.",
+    "Add Parmesan cheese, basil, and pasta water as needed to create a light sauce.",
+    "Season with salt and pepper to taste. Serve hot."
+  ],
+  "prep_time": "15 minutes",
+  "cook_time": "20 minutes",
+  "servings": 4
+}
+```
+
+### 3. Analyze Sentiment of Customer Reviews
 
 ```javascript
 const options = {
   functionName: 'analyze_reviews',
+  model: 'gpt-4o',
   args: {
     reviews: [
       "The product exceeded my expectations. Great value for money!",
@@ -391,6 +444,186 @@ const options = {
 const sentiment_analysis = await aiFunction(options);
 console.log(JSON.stringify(sentiment_analysis, null, 2));
 ```
+
+Expected output:
+```json
+[
+  {
+    "review": "The product exceeded my expectations. Great value for money!",
+    "sentiment": "positive",
+    "score": 0.9
+  },
+  {
+    "review": "Disappointed with the quality. Wouldn't recommend.",
+    "sentiment": "negative",
+    "score": 0.2
+  },
+  {
+    "review": "Average product, nothing special but does the job.",
+    "sentiment": "neutral",
+    "score": 0.5
+  }
+]
+```
+
+### 4. Generate a Travel Itinerary (using Zod)
+
+```javascript
+const { z } = require('zod');
+
+const options = {
+  functionName: 'create_travel_itinerary',
+  model: 'gpt-4o',
+  args: { destination: 'Tokyo', duration: 3, interests: ['technology', 'culture', 'food'] },
+  description: 'Create a daily travel itinerary for the specified destination and duration, considering the traveler\'s interests.',
+  outputSchema: z.object({
+    destination: z.string(),
+    duration: z.number().int(),
+    daily_plans: z.array(z.object({
+      day: z.number().int(),
+      activities: z.array(z.object({
+        time: z.string(),
+        activity: z.string(),
+        description: z.string()
+      }))
+    }))
+  })
+};
+
+const itinerary = await aiFunction(options);
+console.log(JSON.stringify(itinerary, null, 2));
+```
+
+Expected output:
+```json
+{
+  "destination": "Tokyo",
+  "duration": 3,
+  "daily_plans": [
+    {
+      "day": 1,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit Akihabara",
+          "description": "Explore the technology and electronics district, known for its gadgets and anime culture."
+        },
+        {
+          "time": "13:00",
+          "activity": "Lunch at a Robot Restaurant",
+          "description": "Experience a unique dining experience with robot performances."
+        },
+        {
+          "time": "15:00",
+          "activity": "Tour the Miraikan Science Museum",
+          "description": "Discover cutting-edge technology and scientific innovations at this interactive museum."
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "activities": [
+        {
+          "time": "10:00",
+          "activity": "Visit Senso-ji Temple",
+          "description": "Explore Tokyo's oldest Buddhist temple and experience traditional Japanese culture."
+        },
+        {
+          "time": "14:00",
+          "activity": "Tea Ceremony in Hamarikyu Gardens",
+          "description": "Participate in a traditional Japanese tea ceremony in a beautiful garden setting."
+        },
+        {
+          "time": "18:00",
+          "activity": "Dinner at Tsukiji Outer Market",
+          "description": "Enjoy fresh sushi and local delicacies at the world-famous fish market area."
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit teamLab Borderless",
+          "description": "Immerse yourself in a digital art museum that blends technology and creativity."
+        },
+        {
+          "time": "13:00",
+          "activity": "Ramen Tour in Shinjuku",
+          "description": "Sample various styles of ramen at some of Tokyo's best ramen shops."
+        },
+        {
+          "time": "16:00",
+          "activity": "Shopping in Ginza",
+          "description": "Explore high-end technology stores and experience Japanese retail innovation."
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 5. Analyze Stock Market Data
+
+```javascript
+const options = {
+  functionName: 'analyze_stock',
+  model: 'gpt-4o',
+  args: { symbol: 'AAPL', timeframe: '1 year' },
+  description: 'Analyze the stock performance and provide insights based on the given symbol and timeframe.',
+  outputSchema: {
+    type: "object",
+    properties: {
+      symbol: { type: "string" },
+      currentPrice: { type: "number" },
+      yearlyPerformance: { type: "number" },
+      technicalIndicators: {
+        type: "object",
+        properties: {
+          RSI: { type: "number" },
+          MACD: {
+            type: "object",
+            properties: {
+              value: { type: "number" },
+              signal: { type: "number" },
+              histogram: { type: "number" }
+            },
+            required: ["value", "signal", "histogram"]
+          }
+        },
+        required: ["RSI", "MACD"]
+      },
+      recommendation: { type: "string", enum: ["Buy", "Hold", "Sell"] }
+    },
+    required: ["symbol", "currentPrice", "yearlyPerformance", "technicalIndicators", "recommendation"]
+  }
+};
+
+const stockAnalysis = await aiFunction(options);
+console.log(JSON.stringify(stockAnalysis, null, 2));
+```
+
+Expected output:
+```json
+{
+  "symbol": "AAPL",
+  "currentPrice": 178.25,
+  "yearlyPerformance": 0.35,
+  "technicalIndicators": {
+    "RSI": 62.5,
+    "MACD": {
+      "value": 2.1,
+      "signal": 1.8,
+      "histogram": 0.3
+    }
+  },
+  "recommendation": "Buy"
+}
+```
+
+These examples demonstrate how to use the AI Function Helper for various tasks, from content generation to data analysis. Each example includes a detailed `outputSchema` schema (alternating between JSON Schema and Zod formats), ensuring structured and validated output from the AI model.
+
 
 ## Best Practices
 
