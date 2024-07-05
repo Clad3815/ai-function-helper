@@ -462,14 +462,14 @@ The tests cover a wide range of functionalities, from simple calculations to com
 
 For detailed results of each test case and model performance, please refer to the following files:
 
-- [API Responses](https://github.com/Clad3815/ai-function-helper/blob/main/tests/api_responses.md)
-- [Test Results](https://github.com/Clad3815/ai-function-helper/blob/main/tests/test_results.md)
+- [API Responses](https://github.com/Clad3815/ai-function-helper/blob/master/tests/api_responses.md)
+- [Test Results](https://github.com/Clad3815/ai-function-helper/blob/master/tests/test_results.md)
 
 ### Running the Tests
 
 If you want to run the tests yourself or contribute to improving them, you can find the test script in our GitHub repository:
 
-- [Test Script](https://github.com/Clad3815/ai-function-helper/blob/main/tests/test_ai_function.js)
+- [Test Script](https://github.com/Clad3815/ai-function-helper/blob/master/tests/test_ai_function.js)
 
 These tests demonstrate the AI Function Helper's capability to work with various AI models and handle a wide range of task complexities. They also showcase the module's ability to enforce structured outputs, making it easier to integrate AI-generated content into your applications.
 
