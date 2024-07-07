@@ -89,39 +89,48 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 	}
 
 	function generateMessages(history, argsString, current_date_time, functionNamePrompt, updatedDescription, jsonEnabled, jsonOutput, blockHijackString, imagePrompt, funcReturn, minifyJSON, imageQuality) {
+		const systemMessage = {
+			role: "system",
+			content: `
+	<system_prompt>
+		<current_time>${current_date_time}</current_time>
+		
+		<role_definition>
+		You are an AI function named \`${functionNamePrompt ? functionNamePrompt.replace('You must assume the role of a function called `', '').replace('` with this description:', '') : "custom_function"}\`. Your task is to generate a response based on the function description and given parameters.
+		</role_definition>
+		
+		<function_description>
+		${updatedDescription}
+		</function_description>
+		
+		${generateOutputFormatInstruction(jsonEnabled, funcReturn, jsonOutput, minifyJSON)}
+		
+		<response_guidelines>
+		- Focus solely on generating the requested ${funcReturn ? 'JSON' : 'text'}.
+		- Do not provide explanations, comments, or additional text outside the ${funcReturn ? 'JSON' : 'required output'}.
+		- Ensure generated content is consistent and logical within the function's context.
+		</response_guidelines>
+		
+		<error_handling>
+		If you encounter difficulty generating any part of the ${funcReturn ? 'JSON' : 'text'}:
+		- Provide the best possible approximation based on available context.
+		- If absolutely impossible, use an appropriate default value or placeholder.
+		</error_handling>
+		
+		${blockHijackString}
+		
+		<final_verification>
+		Before submitting your response, perform a final check to ensure:
+		1. The ${funcReturn ? 'JSON' : 'text'} is complete and ${funcReturn ? 'syntactically valid' : 'well-formed'}.
+		2. ${funcReturn ? 'All required properties are present.' : 'All required information is included.'}
+		3. ${funcReturn ? 'Data types are correct for each field.' : 'The text format is appropriate.'}
+		4. Content is relevant and consistent with the function description.
+		5. No superfluous information has been added.
+		</final_verification>
+	</system_prompt>
+			`
+		};
 
-		const ensureJSON = jsonEnabled
-			? "Your response should be in JSON format and strictly conform to the following Json Schema, paying attention to comments as requirements"
-			: "Your response should return a valid JSON format only without explanation and strictly conform to the following Json Schema, paying attention to comments as requirements. The JSON data must be between XML tags <json></json>";
-		let systemMessage;
-		if (funcReturn) {
-			systemMessage = {
-				role: "system",
-				content: `<current_time>${current_date_time}</current_time>
-<instructions>
-${functionNamePrompt}
-</instructions>
-<function_description>
-${updatedDescription}
-</function_description>
-
-${ensureJSON}
-<json_output_format>
-${jsonOutput || "{OUTPUT}"}
-</json_output_format>
-${minifyJSON ? "<extra_info>You must return minified JSON, not pretty printed.</extra_info>" : ""}
-${blockHijackString}`
-			};
-		} else {
-			systemMessage = {
-				role: "system",
-				content: `<current_time>${current_date_time}</current_time>
-<instructions>
-${updatedDescription}
-</instructions>
-${blockHijackString}`
-			};
-		}
 		const messages = [systemMessage, ...history];
 
 		const argumentMessage = imagePrompt ? {
@@ -131,7 +140,6 @@ ${blockHijackString}`
 			role: "user",
 			content: argsString
 		};
-
 
 		lastMessages = [argumentMessage];
 		messages.push(argumentMessage);
@@ -143,6 +151,48 @@ ${blockHijackString}`
 			});
 		}
 		return messages;
+	}
+	function generateOutputFormatInstruction(jsonEnabled, funcReturn, jsonOutput, minifyJSON) {
+		if (!funcReturn) {
+			return `
+	<output_instructions>
+		<format>
+		Your response should be in plain text format, directly addressing the requirements of the function.
+		Do not include any JSON formatting or XML tags in your response.
+		</format>
+		<important_notes>
+		- Provide a coherent and well-structured text response.
+		- Ensure the content directly relates to the function's purpose and given parameters.
+		- Be concise yet comprehensive in addressing all aspects of the required output.
+		</important_notes>
+	</output_instructions>
+			`;
+		} else {
+			const jsonFormatInstruction = jsonEnabled
+				? "Your response must be a valid JSON object, strictly conforming to the schema provided below."
+				: "Your response must be a valid JSON object, enclosed within <json></json> XML tags, and strictly conforming to the schema provided below.";
+			return `
+	<output_instructions>
+		<format>
+		Pay close attention to comments as they contain crucial requirements.
+		${jsonFormatInstruction}
+		The schema (JsonSchema) below defines the structure and constraints for the JSON object, that's not the output format.
+		Pay attention to the schema, for example a number should be a number, a string should be a string, etc. Don't put a string where a number should be as it's not valid.
+		</format>
+		<schema>
+		${jsonOutput}
+		</schema>
+		<important_notes>
+		- Adhere strictly to the structure, types, and constraints defined in the schema.
+		- Do not add extra properties not specified in the schema.
+		- Ensure all required properties are present and correctly formatted.
+		- For optional properties, include them only if you have relevant information to provide.
+		${minifyJSON ? "- Return minified JSON, not pretty-printed." : ""}
+		- Your response should be the complete JSON object as specified in the schema, not wrapped in any additional structure.
+		</important_notes>
+	</output_instructions>
+			`;
+		}
 	}
 	function displayDebugInfo(options, messages, argsString) {
 		const {
