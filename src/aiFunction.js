@@ -302,13 +302,18 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 				stop: (!jsonEnabled && funcReturnSchema) ? ["</json>"] : undefined,
 				tools: toolsList.length > 0 ? toolsList : undefined,
 				tool_choice: toolsList.length > 0 ? "auto" : undefined,
+				// parallel_tool_calls: false,
 				stream: stream
 			};
 
 			if (stream) {
 				return openaiInstance.beta.chat.completions.stream(chatOptions, { timeout: timeout, maxRetries: maxRetries });
 			} else {
-				return openaiInstance.beta.chat.completions.runTools(chatOptions, { timeout: timeout, maxRetries: maxRetries });
+				if (toolsList.length > 0) {
+					return openaiInstance.beta.chat.completions.runTools(chatOptions, { timeout: timeout, maxRetries: maxRetries });
+				} else {
+					return openaiInstance.chat.completions.create(chatOptions, { timeout: timeout, maxRetries: maxRetries });
+				}
 			}
 		};
 
@@ -326,21 +331,20 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			}
 		}
 
-
-		let answer = stream ? await handleStreamResponse(gptResponse, debugLevel, streamCallback) : await gptResponse.finalContent();
-
-		lastMessages.push(answer);
-		if (showDebug) {
-			displayApiResponse(gptResponse, debugLevel);
+		let answer;
+		if (tools.length > 0) {
+			answer = await gptResponse.finalChatCompletion();
+		} else {
+			answer = stream ? await handleStreamResponse(gptResponse, debugLevel, streamCallback) : gptResponse;
 		}
 		
+
+		if (showDebug) {
+			displayApiResponse(answer, debugLevel);
+		}
+		lastMessages.push(answer);
+		answer = answer.choices[0].message;
 		messages.push(answer);
-		console.log(answer);
-		// if (answer.tool_calls && answer.tool_calls.length > 0) {
-		// 	return handleToolCalls(answer.tool_calls, tools, messages, options, zodSchema);
-		// } else if (answer.function_call) {
-		// 	return handleFunctionCall(answer.function_call, tools, messages, options, zodSchema, showDebug);
-		// }
 		if (!funcReturnSchema) return answer.content;
 
 		let returnData = JSON.parse(checkAndFixJson(answer.content));
@@ -373,14 +377,14 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		// Intermediate response info (Level 0)
 
 		console.log(chalk.magenta("\n--- Response Content ---"));
-		console.log(chalk.green(JSON.stringify(gptResponse)));
+		console.log(chalk.green(gptResponse.choices[0].message.content));	
 
 
 
 		// Advanced response info (Level 2)
 		if (debugLevel >= 2) {
 			console.log(chalk.magenta("\n--- Full API Response ---"));
-			console.log(chalk.green(JSON.stringify(gptResponse, null, 2)));
+			console.log(chalk.green(gptResponse));
 		}
 
 		console.log(chalk.yellow("====================================\n"));
