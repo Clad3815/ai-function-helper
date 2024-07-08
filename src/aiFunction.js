@@ -271,6 +271,8 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			const toolsList = tools.map(tool => ({
 				type: "function",
 				"function": {
+					function: tool.function,
+					parse: JSON.parse,
 					name: tool.name,
 					description: tool.description,
 					parameters: tool.parameters
@@ -306,7 +308,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			if (stream) {
 				return openaiInstance.beta.chat.completions.stream(chatOptions, { timeout: timeout, maxRetries: maxRetries });
 			} else {
-				return openaiInstance.chat.completions.create(chatOptions, { timeout: timeout, maxRetries: maxRetries });
+				return openaiInstance.beta.chat.completions.runTools(chatOptions, { timeout: timeout, maxRetries: maxRetries });
 			}
 		};
 
@@ -324,20 +326,22 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			}
 		}
 
-		let answer = stream ? await handleStreamResponse(gptResponse, debugLevel, streamCallback) : gptResponse.choices[0].message;
+
+		let answer = stream ? await handleStreamResponse(gptResponse, debugLevel, streamCallback) : await gptResponse.finalContent();
 
 		lastMessages.push(answer);
 		if (showDebug) {
 			displayApiResponse(gptResponse, debugLevel);
 		}
-		if (!funcReturnSchema) return answer.content;
-
+		
 		messages.push(answer);
-		if (modelHasJsonMode(usedModel) && answer.tool_calls && answer.tool_calls.length > 0) {
-			return handleToolCalls(answer.tool_calls, tools, messages, options, zodSchema);
-		} else if (answer.function_call) {
-			return handleFunctionCall(answer.function_call, tools, messages, options, zodSchema, showDebug);
-		}
+		console.log(answer);
+		// if (answer.tool_calls && answer.tool_calls.length > 0) {
+		// 	return handleToolCalls(answer.tool_calls, tools, messages, options, zodSchema);
+		// } else if (answer.function_call) {
+		// 	return handleFunctionCall(answer.function_call, tools, messages, options, zodSchema, showDebug);
+		// }
+		if (!funcReturnSchema) return answer.content;
 
 		let returnData = JSON.parse(checkAndFixJson(answer.content));
 
@@ -369,7 +373,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 		// Intermediate response info (Level 0)
 
 		console.log(chalk.magenta("\n--- Response Content ---"));
-		console.log(chalk.green(gptResponse.choices[0].message.content));
+		console.log(chalk.green(JSON.stringify(gptResponse)));
 
 
 
@@ -400,6 +404,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 				messages.push({ tool_call_id: toolCall.id, role: "tool", name: toolCall.function.name, content: "Error, function not found. Only the following functions are supported: " + tools.map(tool => tool.name).join(", ") });
 			}
 		}
+		console.log(messages);
 		return getDataFromAPI(options, messages, zodSchema);
 	}
 
