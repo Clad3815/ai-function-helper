@@ -50,7 +50,7 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 
 		const argsString = typeof args === "string" ? args : JSON.stringify(args, null, 2);
 		const zodSchema = funcReturnSchema ? generateZodSchema(funcReturnSchema) : null;
-		const jsonSchema = zodToJsonSchema(zodSchema);
+		const jsonSchema = zodSchema ? zodToJsonSchema(zodSchema) : null;
 		const jsonOutput = jsonSchema ? JSON.stringify(jsonSchema, null, 2) : null;
 		const updatedDescription = replaceDescriptionPlaceholders(description, promptVars);
 
