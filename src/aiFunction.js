@@ -11,7 +11,8 @@ let lastMessages = [];
 const jsonModeModels = new Set([
 	"gpt-4o", "gpt-4-turbo", "gpt-4-turbo-2024-04-09", "gpt-3.5-turbo", "gpt-4-1106-preview",
 	"gpt-3.5-turbo-1106", "gpt-4-0125-preview", "gpt-3.5-turbo-0125", "gpt-4-turbo-preview",
-	"mistral-small-2402", "mistral-small-latest", "mistral-large-2402", "mistral-large-latest"
+	"mistral-small-2402", "mistral-small-latest", "mistral-large-2402", "mistral-large-latest",
+	"gpt-4o-mini", "gpt-4o-mini-2024-07-18"
 ]);
 
 const defaultConfig = {
@@ -176,43 +177,41 @@ function generateMessages(history, argsString, options) {
 	const systemMessage = {
 		role: "system",
 		content: `
-<system_prompt>
-  <current_time>${current_date_time}</current_time>
-  
-  <role_definition>
-  You are an AI function named \`${functionName || "custom_function"}\`. Your task is to generate a response based on the function description and given parameters.
-  </role_definition>
-  
-  <function_description>
-  ${updatedDescription}
-  </function_description>
-  
-  ${generateOutputFormatInstruction(jsonEnabled, funcReturn, jsonOutput, minifyJSON)}
-  
-  <response_guidelines>
-  - Focus solely on generating the requested ${funcReturn ? 'JSON' : 'text'}.
-  - Do not provide explanations, comments, or additional text outside the ${funcReturn ? 'JSON' : 'required output'}.
-  - Ensure generated content is consistent and logical within the function's context.
-  </response_guidelines>
-  
-  <error_handling>
-  If you encounter difficulty generating any part of the ${funcReturn ? 'JSON' : 'text'}:
-  - Provide the best possible approximation based on available context.
-  - If absolutely impossible, use an appropriate default value or placeholder.
-  </error_handling>
-  
-  ${blockHijackString}
-  
-  <final_verification>
-  Before submitting your response, perform a final check to ensure:
-  1. The ${funcReturn ? 'JSON' : 'text'} is complete and ${funcReturn ? 'syntactically valid' : 'well-formed'}.
-  2. ${funcReturn ? 'All required properties are present.' : 'All required information is included.'}
-  3. ${funcReturn ? 'Data types are correct for each field.' : 'The text format is appropriate.'}
-  4. Content is relevant and consistent with the function description.
-  5. No superfluous information has been added.
-  </final_verification>
-</system_prompt>
-    `
+<current_time>${current_date_time}</current_time>
+
+<role_definition>
+You are an AI function named \`${functionName || "custom_function"}\`. Your task is to generate a response based on the function description and given parameters.
+</role_definition>
+
+<function_description>
+${updatedDescription}
+</function_description>
+
+${generateOutputFormatInstruction(jsonEnabled, funcReturn, jsonOutput, minifyJSON)}
+
+<response_guidelines>
+- Focus solely on generating the requested ${funcReturn ? 'JSON' : 'text'}.
+- Do not provide explanations, comments, or additional text outside the ${funcReturn ? 'JSON' : 'required output'}.
+- Ensure generated content is consistent and logical within the function's context.
+</response_guidelines>
+
+<error_handling>
+If you encounter difficulty generating any part of the ${funcReturn ? 'JSON' : 'text'}:
+- Provide the best possible approximation based on available context.
+- If absolutely impossible, use an appropriate default value or placeholder.
+</error_handling>
+
+${blockHijackString}
+
+<final_verification>
+Before submitting your response, perform a final check to ensure:
+1. The ${funcReturn ? 'JSON' : 'text'} is complete and ${funcReturn ? 'syntactically valid' : 'well-formed'}.
+2. ${funcReturn ? 'All required properties are present.' : 'All required information is included.'}
+3. ${funcReturn ? 'Data types are correct for each field.' : 'The text format is appropriate.'}
+4. Content is relevant and consistent with the function description.
+5. No superfluous information has been added.
+</final_verification>
+    ` 
 	};
 
 	const messages = [systemMessage, ...history];
