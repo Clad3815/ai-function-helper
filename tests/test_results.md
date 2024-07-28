@@ -4,195 +4,172 @@
 
 | Model | Success Rate | Average Duration |
 |-------|--------------|------------------|
-| claude-3-haiku-20240307 | 94.44% | 2809.11ms |
-| gpt-3.5-turbo | 94.44% | 4820.00ms |
-| gpt-4o | 100.00% | 5673.00ms |
-| claude-3-5-sonnet-20240620 | 100.00% | 5940.50ms |
-| gemini-1.5-flash | 88.89% | 5150.00ms |
-| gemini-1.5-pro | 100.00% | 10066.06ms |
-| llama3:7b | 72.22% | 7529.17ms |
-| gemma2:9b | 100.00% | 13368.94ms |
+| fireworks/llama-v3p1-405b-instruct | 100.00% | 16887.67ms |
+| groq/llama-3.1-70b-versatile | 100.00% | 2154.89ms |
+| claude-3-haiku-20240307 | 100.00% | 3175.72ms |
+| gpt-3.5-turbo | 88.89% | 3398.67ms |
+| gpt-4o-mini | 100.00% | 5699.72ms |
+| gpt-4o | 100.00% | 4677.33ms |
+| claude-3-5-sonnet-20240620 | 100.00% | 6429.28ms |
+
+## fireworks/llama-v3p1-405b-instruct Detailed Results
+
+| Test Case | Result | Duration | Details |
+|-----------|--------|----------|----------|
+| Complex calculation | ✅ Success | 8317ms | Output structure valid |
+| Generate fake people | ✅ Success | 4109ms | Output structure valid |
+| Calculate the nth prime number | ✅ Success | 1323ms | Output structure valid |
+| Find capital cities | ✅ Success | 1279ms | Output structure valid |
+| Grammar Correction | ✅ Success | 1389ms | Output structure valid |
+| Detect language in a text | ✅ Success | 1263ms | Output structure valid |
+| Calculate area of triangle (with mathjs expression) | ✅ Success | 1814ms | Output structure valid |
+| Generate Quiz | ✅ Success | 6090ms | Output structure valid |
+| Create Recipe | ✅ Success | 13257ms | Output structure valid |
+| Generate Travel Itinerary | ✅ Success | 33793ms | Output structure valid |
+| Analyze Sentiment of Customer Reviews | ✅ Success | 7953ms | Output structure valid |
+| Generate Short Story | ✅ Success | 13256ms | Output structure valid |
+| Create Workout Plan | ✅ Success | 30696ms | Output structure valid |
+| Summarize Long Text | ✅ Success | 3345ms | Output structure valid |
+| Generate Complex Product Catalog | ✅ Success | 55860ms | Output structure valid |
+| Generate Advanced Chess Game Analysis | ✅ Success | 80497ms | Output structure valid |
+| Analyze Stock Market Data | ✅ Success | 16531ms | Output structure valid |
+| Analyze Social Media Campaign | ✅ Success | 23206ms | Output structure valid |
+
+## groq/llama-3.1-70b-versatile Detailed Results
+
+| Test Case | Result | Duration | Details |
+|-----------|--------|----------|----------|
+| Complex calculation | ✅ Success | 1366ms | Output structure valid |
+| Generate fake people | ✅ Success | 748ms | Output structure valid |
+| Calculate the nth prime number | ✅ Success | 444ms | Output structure valid |
+| Find capital cities | ✅ Success | 431ms | Output structure valid |
+| Grammar Correction | ✅ Success | 716ms | Output structure valid |
+| Detect language in a text | ✅ Success | 431ms | Output structure valid |
+| Calculate area of triangle (with mathjs expression) | ✅ Success | 490ms | Output structure valid |
+| Generate Quiz | ✅ Success | 966ms | Output structure valid |
+| Create Recipe | ✅ Success | 1369ms | Output structure valid |
+| Generate Travel Itinerary | ✅ Success | 4168ms | Output structure valid |
+| Analyze Sentiment of Customer Reviews | ✅ Success | 1174ms | Output structure valid |
+| Generate Short Story | ✅ Success | 1404ms | Output structure valid |
+| Create Workout Plan | ✅ Success | 3773ms | Output structure valid |
+| Summarize Long Text | ✅ Success | 1430ms | Output structure valid |
+| Generate Complex Product Catalog | ✅ Success | 5515ms | Output structure valid |
+| Generate Advanced Chess Game Analysis | ✅ Success | 8421ms | Output structure valid |
+| Analyze Stock Market Data | ✅ Success | 2217ms | Output structure valid |
+| Analyze Social Media Campaign | ✅ Success | 3725ms | Output structure valid |
 
 ## claude-3-haiku-20240307 Detailed Results
 
 | Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ✅ Success | 1216ms | Output structure valid |
-| Generate fake people | ✅ Success | 1011ms | Output structure valid |
-| Calculate the nth prime number | ✅ Success | 558ms | Output structure valid |
-| Find capital cities | ✅ Success | 613ms | Output structure valid |
-| Grammar Correction | ✅ Success | 555ms | Output structure valid |
-| Detect language in a text | ✅ Success | 702ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 700ms | Output structure valid |
-| Generate Quiz | ✅ Success | 1347ms | Output structure valid |
-| Create Recipe | ✅ Success | 2021ms | Output structure valid |
-| Generate Travel Itinerary | ✅ Success | 5656ms | Output structure valid |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 1479ms | Output structure valid |
-| Generate Short Story | ✅ Success | 1699ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 4761ms | Output structure valid |
-| Summarize Long Text | ✅ Success | 915ms | Output structure valid |
-| Generate Complex Product Catalog | ✅ Success | 9962ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ❌ Failure | 9444ms | Error: Return data validation error: [Various validation errors] |
-| Analyze Stock Market Data | ✅ Success | 3040ms | Output structure valid |
-| Analyze Social Media Campaign | ✅ Success | 4885ms | Output structure valid |
+|-----------|--------|----------|----------|
+| Complex calculation | ✅ Success | 1345ms | Output structure valid |
+| Generate fake people | ✅ Success | 939ms | Output structure valid |
+| Calculate the nth prime number | ✅ Success | 596ms | Output structure valid |
+| Find capital cities | ✅ Success | 814ms | Output structure valid |
+| Grammar Correction | ✅ Success | 922ms | Output structure valid |
+| Detect language in a text | ✅ Success | 682ms | Output structure valid |
+| Calculate area of triangle (with mathjs expression) | ✅ Success | 830ms | Output structure valid |
+| Generate Quiz | ✅ Success | 1443ms | Output structure valid |
+| Create Recipe | ✅ Success | 1861ms | Output structure valid |
+| Generate Travel Itinerary | ✅ Success | 5826ms | Output structure valid |
+| Analyze Sentiment of Customer Reviews | ✅ Success | 2024ms | Output structure valid |
+| Generate Short Story | ✅ Success | 2419ms | Output structure valid |
+| Create Workout Plan | ✅ Success | 5362ms | Output structure valid |
+| Summarize Long Text | ✅ Success | 1006ms | Output structure valid |
+| Generate Complex Product Catalog | ✅ Success | 12110ms | Output structure valid |
+| Generate Advanced Chess Game Analysis | ✅ Success | 11370ms | Output structure valid |
+| Analyze Stock Market Data | ✅ Success | 3107ms | Output structure valid |
+| Analyze Social Media Campaign | ✅ Success | 4507ms | Output structure valid |
 
 ## gpt-3.5-turbo Detailed Results
 
 | Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ❌ Failure | 2142ms | Error: Return data validation error: [Various validation errors] |
-| Generate fake people | ✅ Success | 1235ms | Output structure valid |
-| Calculate the nth prime number | ✅ Success | 436ms | Output structure valid |
-| Find capital cities | ✅ Success | 512ms | Output structure valid |
-| Grammar Correction | ✅ Success | 495ms | Output structure valid |
-| Detect language in a text | ✅ Success | 528ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 724ms | Output structure valid |
-| Generate Quiz | ✅ Success | 1849ms | Output structure valid |
-| Create Recipe | ✅ Success | 2633ms | Output structure valid |
-| Generate Travel Itinerary | ✅ Success | 14054ms | Output structure valid |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 2618ms | Output structure valid |
-| Generate Short Story | ✅ Success | 2330ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 8149ms | Output structure valid |
-| Summarize Long Text | ✅ Success | 1321ms | Output structure valid |
-| Generate Complex Product Catalog | ✅ Success | 18264ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ✅ Success | 15142ms | Output structure valid |
-| Analyze Stock Market Data | ✅ Success | 5557ms | Output structure valid |
-| Analyze Social Media Campaign | ✅ Success | 8771ms | Output structure valid |
+|-----------|--------|----------|----------|
+| Complex calculation | ✅ Success | 1499ms | Output structure valid |
+| Generate fake people | ✅ Success | 1341ms | Output structure valid |
+| Calculate the nth prime number | ✅ Success | 811ms | Output structure valid |
+| Find capital cities | ✅ Success | 548ms | Output structure valid |
+| Grammar Correction | ✅ Success | 5714ms | Output structure valid |
+| Detect language in a text | ✅ Success | 674ms | Output structure valid |
+| Calculate area of triangle (with mathjs expression) | ✅ Success | 732ms | Output structure valid |
+| Generate Quiz | ✅ Success | 1565ms | Output structure valid |
+| Create Recipe | ✅ Success | 2235ms | Output structure valid |
+| Generate Travel Itinerary | ✅ Success | 10409ms | Output structure valid |
+| Analyze Sentiment of Customer Reviews | ✅ Success | 1975ms | Output structure valid |
+| Generate Short Story | ✅ Success | 1908ms | Output structure valid |
+| Create Workout Plan | ✅ Success | 7029ms | Output structure valid |
+| Summarize Long Text | ✅ Success | 1076ms | Output structure valid |
+| Generate Complex Product Catalog | ❌ Failure | 12469ms | Error: Return data validation error: [Various validation errors] |
+| Generate Advanced Chess Game Analysis | ❌ Failure | 2093ms | Error: Return data validation error: [Various validation errors] |
+| Analyze Stock Market Data | ✅ Success | 3399ms | Output structure valid |
+| Analyze Social Media Campaign | ✅ Success | 5699ms | Output structure valid |
+
+## gpt-4o-mini Detailed Results
+
+| Test Case | Result | Duration | Details |
+|-----------|--------|----------|----------|
+| Complex calculation | ✅ Success | 1671ms | Output structure valid |
+| Generate fake people | ✅ Success | 1332ms | Output structure valid |
+| Calculate the nth prime number | ✅ Success | 735ms | Output structure valid |
+| Find capital cities | ✅ Success | 1077ms | Output structure valid |
+| Grammar Correction | ✅ Success | 1089ms | Output structure valid |
+| Detect language in a text | ✅ Success | 480ms | Output structure valid |
+| Calculate area of triangle (with mathjs expression) | ✅ Success | 906ms | Output structure valid |
+| Generate Quiz | ✅ Success | 1842ms | Output structure valid |
+| Create Recipe | ✅ Success | 3369ms | Output structure valid |
+| Generate Travel Itinerary | ✅ Success | 14337ms | Output structure valid |
+| Analyze Sentiment of Customer Reviews | ✅ Success | 1997ms | Output structure valid |
+| Generate Short Story | ✅ Success | 5172ms | Output structure valid |
+| Create Workout Plan | ✅ Success | 8406ms | Output structure valid |
+| Summarize Long Text | ✅ Success | 759ms | Output structure valid |
+| Generate Complex Product Catalog | ✅ Success | 34340ms | Output structure valid |
+| Generate Advanced Chess Game Analysis | ✅ Success | 14928ms | Output structure valid |
+| Analyze Stock Market Data | ✅ Success | 4359ms | Output structure valid |
+| Analyze Social Media Campaign | ✅ Success | 5796ms | Output structure valid |
 
 ## gpt-4o Detailed Results
 
 | Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ✅ Success | 1942ms | Output structure valid |
-| Generate fake people | ✅ Success | 1771ms | Output structure valid |
-| Calculate the nth prime number | ✅ Success | 789ms | Output structure valid |
-| Find capital cities | ✅ Success | 576ms | Output structure valid |
-| Grammar Correction | ✅ Success | 530ms | Output structure valid |
-| Detect language in a text | ✅ Success | 550ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 921ms | Output structure valid |
-| Generate Quiz | ✅ Success | 2318ms | Output structure valid |
-| Create Recipe | ✅ Success | 4665ms | Output structure valid |
-| Generate Travel Itinerary | ✅ Success | 13780ms | Output structure valid |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 3572ms | Output structure valid |
-| Generate Short Story | ✅ Success | 2805ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 12758ms | Output structure valid |
-| Summarize Long Text | ✅ Success | 1248ms | Output structure valid |
-| Generate Complex Product Catalog | ✅ Success | 20624ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ✅ Success | 14731ms | Output structure valid |
-| Analyze Stock Market Data | ✅ Success | 7196ms | Output structure valid |
-| Analyze Social Media Campaign | ✅ Success | 11338ms | Output structure valid |
+|-----------|--------|----------|----------|
+| Complex calculation | ✅ Success | 2141ms | Output structure valid |
+| Generate fake people | ✅ Success | 1053ms | Output structure valid |
+| Calculate the nth prime number | ✅ Success | 766ms | Output structure valid |
+| Find capital cities | ✅ Success | 806ms | Output structure valid |
+| Grammar Correction | ✅ Success | 763ms | Output structure valid |
+| Detect language in a text | ✅ Success | 734ms | Output structure valid |
+| Calculate area of triangle (with mathjs expression) | ✅ Success | 810ms | Output structure valid |
+| Generate Quiz | ✅ Success | 2032ms | Output structure valid |
+| Create Recipe | ✅ Success | 3347ms | Output structure valid |
+| Generate Travel Itinerary | ✅ Success | 10271ms | Output structure valid |
+| Analyze Sentiment of Customer Reviews | ✅ Success | 2214ms | Output structure valid |
+| Generate Short Story | ✅ Success | 2398ms | Output structure valid |
+| Create Workout Plan | ✅ Success | 8073ms | Output structure valid |
+| Summarize Long Text | ✅ Success | 1071ms | Output structure valid |
+| Generate Complex Product Catalog | ✅ Success | 18831ms | Output structure valid |
+| Generate Advanced Chess Game Analysis | ✅ Success | 18152ms | Output structure valid |
+| Analyze Stock Market Data | ✅ Success | 4470ms | Output structure valid |
+| Analyze Social Media Campaign | ✅ Success | 6260ms | Output structure valid |
 
 ## claude-3-5-sonnet-20240620 Detailed Results
 
 | Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ✅ Success | 4493ms | Output structure valid |
-| Generate fake people | ✅ Success | 1840ms | Output structure valid |
-| Calculate the nth prime number | ✅ Success | 865ms | Output structure valid |
-| Find capital cities | ✅ Success | 663ms | Output structure valid |
-| Grammar Correction | ✅ Success | 830ms | Output structure valid |
-| Detect language in a text | ✅ Success | 1115ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 1049ms | Output structure valid |
-| Generate Quiz | ✅ Success | 2680ms | Output structure valid |
-| Create Recipe | ✅ Success | 5853ms | Output structure valid |
-| Generate Travel Itinerary | ✅ Success | 15107ms | Output structure valid |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 2581ms | Output structure valid |
-| Generate Short Story | ✅ Success | 4482ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 9182ms | Output structure valid |
-| Summarize Long Text | ✅ Success | 1656ms | Output structure valid |
-| Generate Complex Product Catalog | ✅ Success | 23517ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ✅ Success | 13889ms | Output structure valid |
-| Analyze Stock Market Data | ✅ Success | 7481ms | Output structure valid |
-| Analyze Social Media Campaign | ✅ Success | 9646ms | Output structure valid |
+|-----------|--------|----------|----------|
+| Complex calculation | ✅ Success | 4152ms | Output structure valid |
+| Generate fake people | ✅ Success | 1661ms | Output structure valid |
+| Calculate the nth prime number | ✅ Success | 1490ms | Output structure valid |
+| Find capital cities | ✅ Success | 1359ms | Output structure valid |
+| Grammar Correction | ✅ Success | 1213ms | Output structure valid |
+| Detect language in a text | ✅ Success | 1121ms | Output structure valid |
+| Calculate area of triangle (with mathjs expression) | ✅ Success | 1167ms | Output structure valid |
+| Generate Quiz | ✅ Success | 2590ms | Output structure valid |
+| Create Recipe | ✅ Success | 4450ms | Output structure valid |
+| Generate Travel Itinerary | ✅ Success | 14598ms | Output structure valid |
+| Analyze Sentiment of Customer Reviews | ✅ Success | 2875ms | Output structure valid |
+| Generate Short Story | ✅ Success | 5308ms | Output structure valid |
+| Create Workout Plan | ✅ Success | 10773ms | Output structure valid |
+| Summarize Long Text | ✅ Success | 2053ms | Output structure valid |
+| Generate Complex Product Catalog | ✅ Success | 24031ms | Output structure valid |
+| Generate Advanced Chess Game Analysis | ✅ Success | 21640ms | Output structure valid |
+| Analyze Stock Market Data | ✅ Success | 6261ms | Output structure valid |
+| Analyze Social Media Campaign | ✅ Success | 8985ms | Output structure valid |
 
-## gemini-1.5-flash Detailed Results
-
-| Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ✅ Success | 2068ms | Output structure valid |
-| Generate fake people | ✅ Success | 1651ms | Output structure valid |
-| Calculate the nth prime number | ✅ Success | 1097ms | Output structure valid |
-| Find capital cities | ✅ Success | 1083ms | Output structure valid |
-| Grammar Correction | ✅ Success | 1114ms | Output structure valid |
-| Detect language in a text | ✅ Success | 1175ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 1287ms | Output structure valid |
-| Generate Quiz | ✅ Success | 2228ms | Output structure valid |
-| Create Recipe | ✅ Success | 3794ms | Output structure valid |
-| Generate Travel Itinerary | ✅ Success | 10465ms | Output structure valid |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 2658ms | Output structure valid |
-| Generate Short Story | ✅ Success | 2421ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 9811ms | Output structure valid |
-| Summarize Long Text | ❌ Failure | 8381ms | Error: 500 list index out of range |
-| Generate Complex Product Catalog | ✅ Success | 16883ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ❌ Failure | 16480ms | Error: Return data validation error: [Various validation errors] |
-| Analyze Stock Market Data | ✅ Success | 4167ms | Output structure valid |
-| Analyze Social Media Campaign | ✅ Success | 5937ms | Output structure valid |
-
-## gemini-1.5-pro Detailed Results
-
-| Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ✅ Success | 4156ms | Output structure valid |
-| Generate fake people | ✅ Success | 2439ms | Output structure valid |
-| Calculate the nth prime number | ✅ Success | 1710ms | Output structure valid |
-| Find capital cities | ✅ Success | 1507ms | Output structure valid |
-| Grammar Correction | ✅ Success | 1469ms | Output structure valid |
-| Detect language in a text | ✅ Success | 1437ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 2099ms | Output structure valid |
-| Generate Quiz | ✅ Success | 4578ms | Output structure valid |
-| Create Recipe | ✅ Success | 6135ms | Output structure valid |
-| Generate Travel Itinerary | ✅ Success | 36647ms | Output structure valid |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 6016ms | Output structure valid |
-| Generate Short Story | ✅ Success | 4514ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 20834ms | Output structure valid |
-| Summarize Long Text | ✅ Success | 2507ms | Output structure valid |
-| Generate Complex Product Catalog | ✅ Success | 28202ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ✅ Success | 29125ms | Output structure valid |
-| Analyze Stock Market Data | ✅ Success | 11473ms | Output structure valid |
-| Analyze Social Media Campaign | ✅ Success | 16341ms | Output structure valid |
-
-## llama3:7b Detailed Results
-
-| Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ❌ Failure | 8383ms | Error: Result '1332.375' is not equal to the expected value: 1322.375 |
-| Generate fake people | ❌ Failure | 1250ms | Error: Return data validation error: [Various validation errors] |
-| Calculate the nth prime number | ✅ Success | 478ms | Output structure valid |
-| Find capital cities | ✅ Success | 481ms | Output structure valid |
-| Grammar Correction | ✅ Success | 519ms | Output structure valid |
-| Detect language in a text | ✅ Success | 438ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 734ms | Output structure valid |
-| Generate Quiz | ✅ Success | 3486ms | Output structure valid |
-| Create Recipe | ✅ Success | 4196ms | Output structure valid |
-| Generate Travel Itinerary | ❌ Failure | 13252ms | Error: Object key expected at position 1860 |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 4335ms | Output structure valid |
-| Generate Short Story | ✅ Success | 3272ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 12661ms | Output structure valid |
-| Summarize Long Text | ✅ Success | 1184ms | Output structure valid |
-| Generate Complex Product Catalog | ✅ Success | 20520ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ❌ Failure | 30952ms | Error: Return data validation error: [Various validation errors] |
-| Analyze Stock Market Data | ❌ Failure | 17398ms | Error: Return data validation error: [Various validation errors] |
-| Analyze Social Media Campaign | ✅ Success | 11986ms | Output structure valid |
-
-## gemma2:9b Detailed Results
-
-| Test Case | Result | Duration | Details |
-|-----------|--------|----------|---------|
-| Complex calculation | ✅ Success | 14389ms | Output structure valid |
-| Generate fake people | ✅ Success | 2766ms | Output structure valid |
-| Calculate the nth prime number | ✅ Success | 763ms | Output structure valid |
-| Find capital cities | ✅ Success | 785ms | Output structure valid |
-| Grammar Correction | ✅ Success | 896ms | Output structure valid |
-| Detect language in a text | ✅ Success | 806ms | Output structure valid |
-| Calculate area of triangle (with mathjs expression) | ✅ Success | 1314ms | Output structure valid |
-| Generate Quiz | ✅ Success | 4894ms | Output structure valid |
-| Create Recipe | ✅ Success | 7805ms | Output structure valid |
-| Generate Travel Itinerary | ✅ Success | 23349ms | Output structure valid |
-| Analyze Sentiment of Customer Reviews | ✅ Success | 6141ms | Output structure valid |
-| Generate Short Story | ✅ Success | 4276ms | Output structure valid |
-| Create Workout Plan | ✅ Success | 25464ms | Output structure valid |
-| Summarize Long Text | ✅ Success | 2691ms | Output structure valid |
-| Generate Complex Product Catalog | ✅ Success | 48071ms | Output structure valid |
-| Generate Advanced Chess Game Analysis | ✅ Success | 60174ms | Output structure valid |
-| Analyze Stock Market Data | ✅ Success | 15151ms | Output structure valid |
-| Analyze Social Media Campaign | ✅ Success | 20906ms | Output structure valid |

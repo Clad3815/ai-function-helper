@@ -672,14 +672,16 @@ To ensure comprehensive testing across a wide range of AI models, including thos
 
 | Model | Success Rate | Average Duration |
 |-------|--------------|------------------|
-| claude-3-haiku-20240307 | 94.44% | 2809.11ms |
-| gpt-3.5-turbo | 94.44% | 4820.00ms |
+| fireworks/llama-v3p1-405b-instruct | 100.00% | 16887.67ms |
+| groq/llama-3.1-70b-versatile | 100.00% | 2154.89ms |
+| claude-3-haiku-20240307 | 100.00% | 3175.72ms |
+| gpt-3.5-turbo | 88.89% | 3398.67ms |
+| gpt-4o-mini | 100.00% | 5699.72ms |
 | gpt-4o | 100.00% | 5673.00ms |
 | claude-3-5-sonnet-20240620 | 100.00% | 5940.50ms |
 | gemini-1.5-flash | 88.89% | 5150.00ms |
 | gemini-1.5-pro | 100.00% | 10066.06ms |
-| llama3:7b | 72.22% | 7529.17ms |
-| gemma2:9b | 100.00% | 13368.94ms |
+| gemma2:9b (ollama) | 100.00% | 13368.94ms |
 
 ### Test Categories
 
@@ -690,6 +692,7 @@ The tests cover a wide range of functionalities, from simple calculations to com
 3. Data generation (e.g., fake people generation, quiz creation)
 4. Complex data analysis (e.g., stock market analysis, social media campaign analysis)
 5. Creative tasks (e.g., recipe creation, short story generation)
+6. Complex JSON generation (e.g., nested structures, arrays of objects)
 
 ### Detailed Results
 
@@ -705,6 +708,8 @@ If you want to run the tests yourself or contribute to improving them, you can f
 - [Test Script](https://github.com/Clad3815/ai-function-helper/blob/master/tests/test_ai_function.js)
 
 These tests demonstrate the AI Function Helper's capability to work with various AI models and handle a wide range of task complexities. They also showcase the module's ability to enforce structured outputs, making it easier to integrate AI-generated content into your applications.
+
+Some tests are "stupidly" complex and are designed to push the limits of the AI models. These tests are not meant to be practical but rather to demonstrate the AI Function Helper's ability to handle challenging scenarios. Most of the failed tests can be successfully completed by giving the AI model more context or refining the input prompts.
 
 By leveraging LiteLLM, we've expanded the compatibility of our AI Function Helper beyond OpenAI models, allowing users to work with a diverse array of AI providers and local models while maintaining a consistent interface. This approach not only broadens the applicability of our tool but also provides users with greater flexibility in choosing the AI models that best suit their specific needs and constraints.
 

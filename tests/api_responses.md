@@ -1,6 +1,6 @@
 # AI Function API Responses
 
-## claude-3-haiku-20240307
+## fireworks/llama-v3p1-405b-instruct
 
 ### Complex calculation
 
@@ -10,7 +10,7 @@ Status: ✅ Success
 
 ```json
 {
-  "chain_of_thought": "1. 15 * 87 = 1305\n2. 48 * 0.5 = 24\n3. 129 / 24 = 5.375\n4. 1305 + 5.375 + 12 = 1322.375",
+  "chain_of_thought": "\n- First, let's solve the expression within the parentheses: 48*0.5 = 24.\n- Then, we'll divide 129 by the result: 129 / 24 = 5.375.\n- Next, we'll multiply 15 by 87: 15*87 = 1305.\n- After that, we'll add the result of the division to the result of the multiplication: 1305 + 5.375 = 1310.375.\n- Finally, we'll add 12 to the result: 1310.375 + 12 = 1322.375.\n",
   "result": 1322.375
 }
 ```
@@ -25,16 +25,16 @@ Status: ✅ Success
 {
   "peoples": [
     {
-      "name": "Emily Johnson",
-      "age": 28
+      "name": "Evelyn Russell",
+      "age": 27
     },
     {
-      "name": "Michael Davis",
-      "age": 42
+      "name": "Landon Walker",
+      "age": 32
     },
     {
-      "name": "Sophia Hernandez",
-      "age": 35
+      "name": "Ava Moreno",
+      "age": 41
     }
   ]
 }
@@ -73,6 +73,2176 @@ Status: ✅ Success
 ```json
 {
   "result": "He is a good person"
+}
+```
+
+### Detect language in a text
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "es"
+}
+```
+
+### Calculate area of triangle (with mathjs expression)
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "calculation": "0.5 * 179.74 * 177.76"
+}
+```
+
+### Generate Quiz
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "questions": [
+    {
+      "question": "What is the largest planet in our solar system?",
+      "options": [
+        "Earth",
+        "Saturn",
+        "Jupiter",
+        "Uranus"
+      ],
+      "correct_answer": "Jupiter"
+    },
+    {
+      "question": "Which spacecraft is credited with the first successful landing on Mars?",
+      "options": [
+        "Viking 1",
+        "Curiosity Rover",
+        "Apollo 11",
+        "Pioneer 10"
+      ],
+      "correct_answer": "Viking 1"
+    }
+  ]
+}
+```
+
+### Create Recipe
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "name": "Mediterranean Chicken with Spinach and Feta",
+  "ingredients": [
+    "1 lb boneless, skinless chicken breast",
+    "2 cups fresh spinach leaves",
+    "1/2 cup crumbled feta cheese",
+    "2 tbsp olive oil"
+  ],
+  "instructions": [
+    "Preheat oven to 375°F (190°C).",
+    "Season the chicken with salt and pepper.",
+    "Heat the olive oil in a large skillet over medium-high heat. Add the chicken and cook until browned on both sides, about 5-6 minutes per side.",
+    "Transfer the chicken to a baking dish and top with spinach and feta cheese.",
+    "Bake in the preheated oven for 15-20 minutes or until the chicken is cooked through and the cheese is melted.",
+    "Serve hot and enjoy!"
+  ],
+  "prep_time": "15 minutes",
+  "cook_time": "20-25 minutes",
+  "servings": 4
+}
+```
+
+### Generate Travel Itinerary
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "destination": "Tokyo",
+  "duration": 5,
+  "daily_plans": [
+    {
+      "day": 1,
+      "activities": [
+        {
+          "time": "9:00 AM",
+          "activity": "Visit Tokyo Skytree",
+          "description": "Start the day with panoramic views of Tokyo from the tallest tower in the world"
+        },
+        {
+          "time": "1:00 PM",
+          "activity": "Lunch at a traditional izakaya",
+          "description": "Experience local food and drinks in a lively atmosphere"
+        },
+        {
+          "time": "3:00 PM",
+          "activity": "Explore Akihabara district",
+          "description": "Discover Tokyo's electronic and anime culture hub"
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "activities": [
+        {
+          "time": "9:30 AM",
+          "activity": "Visit the Meiji Shrine",
+          "description": "Dedicated to the deified spirits of Emperor Meiji and his wife, Empress Shoken"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Take a stroll in the Imperial Palace East Garden",
+          "description": "A beautiful and peaceful oasis in the heart of the city"
+        },
+        {
+          "time": "6:00 PM",
+          "activity": "Dinner at a Michelin-starred restaurant",
+          "description": "Indulge in world-class cuisine"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "activities": [
+        {
+          "time": "10:00 AM",
+          "activity": "Visit the Tokyo National Museum",
+          "description": "Learn about Japanese art, history, and culture"
+        },
+        {
+          "time": "1:00 PM",
+          "activity": "Try some delicious street food at Ameya Yokocho",
+          "description": "A historic shopping street filled with food stalls and local shops"
+        },
+        {
+          "time": "4:00 PM",
+          "activity": "Relax in the beautiful Hamarikyu Gardens",
+          "description": "A former duck hunting ground for the Imperial family"
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "activities": [
+        {
+          "time": "9:00 AM",
+          "activity": "Take a sushi-making class",
+          "description": "Learn the art of making sushi from a professional chef"
+        },
+        {
+          "time": "1:00 PM",
+          "activity": "Lunch at the Tsukiji Outer Market",
+          "description": "Fresh seafood and sushi at one of the world's most famous fish markets"
+        },
+        {
+          "time": "3:30 PM",
+          "activity": "Visit the teamLab Borderless digital art museum",
+          "description": "Immerse yourself in stunning digital art exhibitions"
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "activities": [
+        {
+          "time": "10:00 AM",
+          "activity": "Visit the historic Asakusa district",
+          "description": "Explore the ancient Senso-ji Temple and Nakamise shopping street"
+        },
+        {
+          "time": "1:00 PM",
+          "activity": "Farewell lunch at a traditional tempura restaurant",
+          "description": "Savor the flavors of Japan's iconic dish"
+        },
+        {
+          "time": "3:00 PM",
+          "activity": "Last-minute shopping in the trendy Harajuku district",
+          "description": "Fashion, snacks, and unique souvenirs"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Analyze Sentiment of Customer Reviews
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "analyze": [
+    {
+      "review": "The product exceeded my expectations. Great value for money!",
+      "sentiment": "positive",
+      "score": 0.9
+    },
+    {
+      "review": "Disappointed with the quality. Wouldn't recommend.",
+      "sentiment": "negative",
+      "score": 0.1
+    },
+    {
+      "review": "Average product, nothing special but does the job.",
+      "sentiment": "neutral",
+      "score": 0.5
+    },
+    {
+      "review": "Absolutely love it! Will buy again.",
+      "sentiment": "positive",
+      "score": 0.95
+    },
+    {
+      "review": "mf didnt show up",
+      "sentiment": "negative",
+      "score": 0.05
+    }
+  ]
+}
+```
+
+### Generate Short Story
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "title": "Encounter on Kepler-62f",
+  "story": "As the shuttle descended onto Kepler-62f's surface, Captain Lewis felt a mix of excitement and trepidation. This was humanity's first contact with an alien species. The team had detected strange energy signatures emanating from a structure in the distance. Suddenly, a being emerged from the entrance. It had large, almond-shaped eyes and skin that shifted between hues of blue and green. 'Greetings,' it said in perfect English. 'We have been waiting.' The team was stunned. 'How did you learn our language?' Lewis asked. 'We have been monitoring your transmissions for some time,' the alien replied. 'We come in peace.' Lewis smiled, feeling a sense of hope for the future. 'We do too,' he said, extending his hand. The alien grasped it, and a new era of intergalactic cooperation began.",
+  "wordCount": 149
+}
+```
+
+### Create Workout Plan
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "weeklyPlan": [
+    {
+      "day": 1,
+      "focus": "Chest and Triceps",
+      "exercises": [
+        {
+          "name": "Barbell Bench Press",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Incline Dumbbell Press",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Tricep Pushdown",
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Overhead Dumbbell Extension",
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "focus": "Back and Biceps",
+      "exercises": [
+        {
+          "name": "Pull-ups",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Barbell Rows",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Dumbbell Bicep Curls",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Hammer Curls",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "focus": "Legs",
+      "exercises": [
+        {
+          "name": "Squats",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Leg Press",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Lunges",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Leg Extensions",
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "focus": "Shoulders and Abs",
+      "exercises": [
+        {
+          "name": "Shoulder Press",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Lateral Raises",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Rear Delt Fly",
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Plank",
+          "sets": 3,
+          "reps": "30-60 seconds",
+          "rest": "60 seconds"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Summarize Long Text
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "wordCount": 29
+}
+```
+
+### Generate Complex Product Catalog
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "catalog": [
+    {
+      "category": "Electronics",
+      "products": [
+        {
+          "id": "EL001",
+          "name": "Smartphone X5000",
+          "price": 599.99,
+          "description": "A high-end smartphone with advanced camera and AI capabilities.",
+          "specifications": {
+            "displaySize": 6.1,
+            "ram": 12,
+            "storage": 512
+          },
+          "inStock": true,
+          "tags": [
+            "smartphone",
+            "android",
+            "high-end"
+          ],
+          "reviews": [
+            {
+              "userId": "U123",
+              "rating": 5,
+              "comment": "Excellent phone with great performance!",
+              "helpful": 10,
+              "date": "2022-01-01T12:00:00.000Z"
+            },
+            {
+              "userId": "U456",
+              "rating": 4,
+              "comment": "Great phone, but battery life could be better.",
+              "helpful": 5,
+              "date": "2022-02-01T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "EL002",
+            "EL003"
+          ]
+        },
+        {
+          "id": "EL002",
+          "name": "Laptop L3000",
+          "price": 999.99,
+          "description": "A mid-range laptop with Intel Core i5 processor and 8GB RAM.",
+          "specifications": {
+            "displaySize": 15.6,
+            "processor": "Intel Core i5",
+            "ram": 8
+          },
+          "inStock": true,
+          "tags": [
+            "laptop",
+            "mid-range",
+            "intel"
+          ],
+          "reviews": [
+            {
+              "userId": "U789",
+              "rating": 4,
+              "comment": "Good laptop for the price, but not for heavy gaming.",
+              "helpful": 8,
+              "date": "2022-03-01T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "EL001",
+            "EL004"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Home & Garden",
+      "products": [
+        {
+          "id": "HG001",
+          "name": "Coffee Table CT100",
+          "price": 129.99,
+          "description": "A modern coffee table with wooden legs and glass top.",
+          "specifications": {
+            "material": "wood",
+            "size": "40x24"
+          },
+          "inStock": true,
+          "tags": [
+            "coffee table",
+            "modern",
+            "wooden"
+          ],
+          "reviews": [
+            {
+              "userId": "U901",
+              "rating": 5,
+              "comment": "Beautiful and sturdy coffee table!",
+              "helpful": 12,
+              "date": "2022-04-01T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "HG002",
+            "HG003"
+          ]
+        },
+        {
+          "id": "HG002",
+          "name": "Garden Chair GC200",
+          "price": 49.99,
+          "description": "A comfortable garden chair with weather-resistant fabric.",
+          "specifications": {
+            "material": "fabric",
+            "color": "green"
+          },
+          "inStock": true,
+          "tags": [
+            "garden chair",
+            "outdoor",
+            "comfortable"
+          ],
+          "reviews": [
+            {
+              "userId": "U234",
+              "rating": 4,
+              "comment": "Nice chair, but could be more durable.",
+              "helpful": 6,
+              "date": "2022-05-01T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "HG001",
+            "HG004"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Sports",
+      "products": [
+        {
+          "id": "SP001",
+          "name": "Tennis Racket TR100",
+          "price": 79.99,
+          "description": "A high-quality tennis racket with graphite frame and comfortable grip.",
+          "specifications": {
+            "material": "graphite",
+            "size": "27x9"
+          },
+          "inStock": true,
+          "tags": [
+            "tennis racket",
+            "high-quality",
+            "graphite"
+          ],
+          "reviews": [
+            {
+              "userId": "U567",
+              "rating": 5,
+              "comment": "Excellent racket with great control and power!",
+              "helpful": 15,
+              "date": "2022-06-01T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "SP002",
+            "SP003"
+          ]
+        },
+        {
+          "id": "SP002",
+          "name": "Basketball Shoes BS200",
+          "price": 99.99,
+          "description": "A high-performance basketball shoe with advanced cushioning and support.",
+          "specifications": {
+            "material": "leather",
+            "size": "10"
+          },
+          "inStock": true,
+          "tags": [
+            "basketball shoes",
+            "high-performance",
+            "leather"
+          ],
+          "reviews": [
+            {
+              "userId": "U890",
+              "rating": 4,
+              "comment": "Great shoes, but could be more breathable.",
+              "helpful": 9,
+              "date": "2022-07-01T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "SP001",
+            "SP004"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Generate Advanced Chess Game Analysis
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "moves": [
+    {
+      "moveNumber": 1,
+      "white": {
+        "san": "e4",
+        "uci": "e2e4",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.12,
+        "bestMove": "e2e4"
+      },
+      "black": {
+        "san": "e5",
+        "uci": "e7e5",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.06,
+        "bestMove": "e7e5"
+      }
+    },
+    {
+      "moveNumber": 2,
+      "white": {
+        "san": "Nf3",
+        "uci": "g1f3",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.11,
+        "bestMove": "Nb1c3"
+      },
+      "black": {
+        "san": "Nc6",
+        "uci": "b8c6",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.07,
+        "bestMove": "Nb8c6"
+      }
+    },
+    {
+      "moveNumber": 3,
+      "white": {
+        "san": "Bb5",
+        "uci": "c1b5",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.14,
+        "bestMove": "Bf1c4"
+      },
+      "black": {
+        "san": "a6",
+        "uci": "a7a6",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.08,
+        "bestMove": "a7a6"
+      }
+    },
+    {
+      "moveNumber": 4,
+      "white": {
+        "san": "Ba4",
+        "uci": "b5a4",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.1,
+        "bestMove": "Bb5a4"
+      },
+      "black": {
+        "san": "Nf6",
+        "uci": "g8f6",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.06,
+        "bestMove": "Ng8f6"
+      }
+    },
+    {
+      "moveNumber": 5,
+      "white": {
+        "san": "O-O",
+        "uci": "e1g1",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.12,
+        "bestMove": "e1g1"
+      },
+      "black": {
+        "san": "Be7",
+        "uci": "c8e7",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.05,
+        "bestMove": "Bf8e7"
+      }
+    },
+    {
+      "moveNumber": 6,
+      "white": {
+        "san": "Re1",
+        "uci": "f1e1",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.11,
+        "bestMove": "Nb1c3"
+      },
+      "black": {
+        "san": "b5",
+        "uci": "b7b5",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.07,
+        "bestMove": "b7b5"
+      }
+    },
+    {
+      "moveNumber": 7,
+      "white": {
+        "san": "Bb3",
+        "uci": "a4b3",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.09,
+        "bestMove": "Bc1b5"
+      },
+      "black": {
+        "san": "d6",
+        "uci": "d7d6",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.04,
+        "bestMove": "d7d6"
+      }
+    },
+    {
+      "moveNumber": 8,
+      "white": {
+        "san": "c3",
+        "uci": "c2c3",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.08,
+        "bestMove": "c2c4"
+      },
+      "black": {
+        "san": "O-O",
+        "uci": "e8g8",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.03,
+        "bestMove": "e8g8"
+      }
+    },
+    {
+      "moveNumber": 9,
+      "white": {
+        "san": "h3",
+        "uci": "h2h3",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.07,
+        "bestMove": "d2d4"
+      },
+      "black": {
+        "san": "Nb8",
+        "uci": "b8b8",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.02,
+        "bestMove": "Nb8d7"
+      }
+    },
+    {
+      "moveNumber": 10,
+      "white": {
+        "san": "d4",
+        "uci": "d2d4",
+        "comment": "",
+        "nag": [],
+        "evaluation": 0.1,
+        "bestMove": "d2d4"
+      },
+      "black": {
+        "san": "Nbd7",
+        "uci": "b8d7",
+        "comment": "",
+        "nag": [],
+        "evaluation": -0.04,
+        "bestMove": "Nb8d7"
+      }
+    }
+  ],
+  "analysis": {
+    "openingName": "Ruy Lopez",
+    "openingEco": "C60",
+    "middlegameAnalysis": "The position is open, and both sides are fighting for control of the center. White has a slight advantage due to the better pawn structure and more active pieces.",
+    "endgameAnalysis": "",
+    "keyPositions": [
+      {
+        "fen": "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R",
+        "evaluation": 0.12,
+        "bestMove": "e2e4",
+        "comment": "A good starting move, aiming to control the center and create space for the pieces to develop."
+      },
+      {
+        "fen": "r1bqkbnr/ppp2ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R",
+        "evaluation": 0.11,
+        "bestMove": "Nb1c3",
+        "comment": "A solid move, developing the knight and preparing to develop other pieces."
+      }
+    ],
+    "tacticalMotifs": [
+      {
+        "type": "fork",
+        "moveNumber": 5,
+        "description": "White's bishop on a4 is attacking Black's knight on c6, which is also defended by the pawn on b5."
+      }
+    ],
+    "strategicThemes": [
+      "Control of the center",
+      "Piece development",
+      "Pawn structure"
+    ],
+    "blunders": []
+  },
+  "engineAnalysis": {
+    "engineName": "Stockfish",
+    "depth": 20,
+    "totalPositionsEvaluated": 123456,
+    "averageDepth": 15.6,
+    "timeSpent": 10.2,
+    "nodesPerSecond": 12000
+  }
+}
+```
+
+### Analyze Stock Market Data
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "stockAnalysis": {
+    "symbol": "AAPL",
+    "currentPrice": 193.6,
+    "yearlyPerformance": 47.52,
+    "volatility": 12.31,
+    "beta": 1.23,
+    "movingAverages": {
+      "SMA": 173.41,
+      "EMA": 181.29
+    },
+    "technicalIndicators": {
+      "RSI": 56.78,
+      "MACD": {
+        "value": 2.51,
+        "signal": 1.89,
+        "histogram": 0.62
+      }
+    }
+  },
+  "marketComparison": {
+    "correlationWithSP500": 0.85,
+    "correlationWithNASDAQ": 0.91,
+    "relativeStrength": 1.23
+  },
+  "fundamentalAnalysis": {
+    "peRatio": 25.67,
+    "pbRatio": 8.12,
+    "dividendYield": 0.85,
+    "earningsGrowth": 10.23
+  },
+  "economicImpact": {
+    "interestRateSensitivity": 0.56,
+    "inflationImpact": 0.23
+  },
+  "prediction": {
+    "nextQuarterEstimate": 215.12,
+    "confidenceInterval": [
+      205.67,
+      224.57
+    ],
+    "potentialRisks": [
+      "interest rate changes",
+      "global economic downturn"
+    ],
+    "potentialOpportunities": [
+      "increased demand for tech products",
+      "expansion into new markets"
+    ]
+  }
+}
+```
+
+### Analyze Social Media Campaign
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "overallPerformance": {
+    "totalReach": 215000,
+    "totalEngagement": 10325,
+    "engagementRate": 0.048,
+    "clickThroughRate": 0.011,
+    "conversionRate": 0.009,
+    "ROI": 2
+  },
+  "platformBreakdown": [
+    {
+      "platform": "Facebook",
+      "reach": 110000,
+      "engagement": 5700,
+      "engagementRate": 0.052,
+      "clicks": 4500,
+      "CTR": 0.041
+    },
+    {
+      "platform": "Instagram",
+      "reach": 75000,
+      "engagement": 3150,
+      "engagementRate": 0.042,
+      "clicks": 3500,
+      "CTR": 0.047
+    },
+    {
+      "platform": "Twitter",
+      "reach": 30000,
+      "engagement": 1475,
+      "engagementRate": 0.049,
+      "clicks": 1500,
+      "CTR": 0.05
+    }
+  ],
+  "contentAnalysis": {
+    "topPerformingPost": {
+      "platform": "Instagram",
+      "content": "Summer vibes with our new collection!",
+      "engagement": 3150
+    },
+    "contentSentiment": {
+      "positive": 0.8,
+      "neutral": 0.15,
+      "negative": 0.05
+    }
+  },
+  "audienceInsights": {
+    "mostEngagedAgeGroup": "18-24",
+    "topInterests": [
+      "Fashion",
+      "Technology"
+    ],
+    "peakEngagementTimes": [
+      "Afternoon",
+      "Evening"
+    ]
+  },
+  "recommendations": [
+    {
+      "category": "Content",
+      "suggestion": "Increase the number of Instagram posts to capitalize on high engagement rates.",
+      "expectedImpact": "10% increase in overall engagement"
+    },
+    {
+      "category": "Targeting",
+      "suggestion": "Expand the target audience to include 36-45-year-olds to increase reach.",
+      "expectedImpact": "15% increase in total reach"
+    },
+    {
+      "category": "Budget",
+      "suggestion": "Allocate more budget to Instagram to maximize ROI.",
+      "expectedImpact": "20% increase in ROI"
+    }
+  ]
+}
+```
+
+
+## groq/llama-3.1-70b-versatile
+
+### Complex calculation
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "chain_of_thought": "To calculate the given expression, we'll follow the order of operations (PEMDAS):\n\n* First, we'll calculate the multiplication inside the parentheses: 48 * 0.5 = 24\n* Then, we'll calculate the division inside the parentheses: 129 / 24 = 5.375\n* Next, we'll calculate the multiplication outside the parentheses: 15 * 87 = 1305\n* After that, we'll add the results of the multiplication and division: 1305 + 5.375 = 1310.375\n* Finally, we'll add 12 to the result: 1310.375 + 12 = 1322.375\n\nSo, the result of the expression is 1322.375.",
+  "result": 1322.375
+}
+```
+
+### Generate fake people
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "peoples": [
+    {
+      "name": "Emily Wilson",
+      "age": 32
+    },
+    {
+      "name": "Liam Brown",
+      "age": 41
+    },
+    {
+      "name": "Ava Lee",
+      "age": 28
+    }
+  ]
+}
+```
+
+### Calculate the nth prime number
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "primeNumber": 29
+}
+```
+
+### Find capital cities
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "Rome"
+}
+```
+
+### Grammar Correction
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "He is a good person"
+}
+```
+
+### Detect language in a text
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "es"
+}
+```
+
+### Calculate area of triangle (with mathjs expression)
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "calculation": "(179.74 * 177.76) / 2"
+}
+```
+
+### Generate Quiz
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "questions": [
+    {
+      "question": "What is the largest planet in our solar system?",
+      "options": [
+        "Earth",
+        "Saturn",
+        "Jupiter",
+        "Uranus"
+      ],
+      "correct_answer": "Jupiter"
+    },
+    {
+      "question": "Which spacecraft is credited with the first successful landing on Mars?",
+      "options": [
+        "Curiosity Rover",
+        "Viking 1",
+        "Mars Pathfinder",
+        "Perseverance Rover"
+      ],
+      "correct_answer": "Viking 1"
+    }
+  ]
+}
+```
+
+### Create Recipe
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "name": "Mediterranean Chicken with Spinach and Feta",
+  "ingredients": [
+    "1 lb boneless, skinless chicken breast, cut into bite-sized pieces",
+    "2 cups fresh spinach leaves",
+    "1/2 cup crumbled feta cheese",
+    "2 tbsp olive oil"
+  ],
+  "instructions": [
+    "Preheat oven to 400°F (200°C).",
+    "In a large bowl, toss chicken with 1 tbsp olive oil, salt, and pepper until coated.",
+    "Spread chicken on a baking sheet and bake for 15-20 minutes or until cooked through.",
+    "In a large skillet, heat remaining 1 tbsp olive oil over medium heat.",
+    "Add spinach to skillet and cook until wilted, about 3-5 minutes.",
+    "Stir in crumbled feta cheese and cook for an additional minute.",
+    "Serve chicken on top of spinach and feta mixture."
+  ],
+  "prep_time": "10 minutes",
+  "cook_time": "20 minutes",
+  "servings": 4
+}
+```
+
+### Generate Travel Itinerary
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "destination": "Tokyo",
+  "duration": 5,
+  "daily_plans": [
+    {
+      "day": 1,
+      "activities": [
+        {
+          "time": "9:00 AM",
+          "activity": "Visit the Tokyo Skytree for panoramic views of the city",
+          "description": "Start the day with breathtaking views of Tokyo from the tallest tower in the world"
+        },
+        {
+          "time": "12:00 PM",
+          "activity": "Explore the Asakusa district for historic temples and traditional food",
+          "description": "Walk through the ancient streets of Asakusa and try some traditional Japanese cuisine"
+        },
+        {
+          "time": "3:00 PM",
+          "activity": "Visit the Miraikan science museum to learn about cutting-edge technology",
+          "description": "Discover the latest advancements in science and technology at this interactive museum"
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "activities": [
+        {
+          "time": "10:00 AM",
+          "activity": "Take a stroll through the beautiful Imperial Palace East Garden",
+          "description": "Relax in the serene gardens of the Imperial Palace, a tranquil oasis in the heart of the city"
+        },
+        {
+          "time": "1:00 PM",
+          "activity": "Try a traditional Japanese tea ceremony",
+          "description": "Experience the ancient rituals of the Japanese tea ceremony and learn about its history and significance"
+        },
+        {
+          "time": "4:00 PM",
+          "activity": "Visit the teamLab Borderless digital art museum in Odaiba",
+          "description": "Immerse yourself in stunning digital art and interactive exhibits"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "activities": [
+        {
+          "time": "9:30 AM",
+          "activity": "Visit the Tsukiji Outer Market for fresh sushi and seafood",
+          "description": "Sample the freshest sushi and seafood at the world-famous Tsukiji Market"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Explore the trendy Harajuku district for fashion and shopping",
+          "description": "Walk through the colorful streets of Harajuku and discover the latest fashion trends"
+        },
+        {
+          "time": "3:30 PM",
+          "activity": "Visit the Meiji Shrine, a serene Shinto shrine located in a peaceful forested area",
+          "description": "Escape the hustle and bustle of the city and find peace at this beautiful shrine"
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "activities": [
+        {
+          "time": "10:30 AM",
+          "activity": "Take a day trip to the nearby city of Kamakura to visit the Great Buddha",
+          "description": "Visit the iconic Great Buddha statue and explore the historic city of Kamakura"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Try some traditional Japanese street food at the Nakamise Shopping Street",
+          "description": "Sample local delicacies and snacks at this historic shopping street"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Return to Tokyo and enjoy a traditional Japanese dinner",
+          "description": "Savor a delicious Japanese dinner and reflect on the day's adventures"
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "activities": [
+        {
+          "time": "11:00 AM",
+          "activity": "Visit the Ghibli Museum, dedicated to the works of Studio Ghibli and its founder Hayao Miyazaki",
+          "description": "Explore the wonderful world of Studio Ghibli and its beloved animated films"
+        },
+        {
+          "time": "2:30 PM",
+          "activity": "Take a stroll through the beautiful Hamarikyu Gardens",
+          "description": "Relax in the peaceful gardens of Hamarikyu, a former duck hunting ground for the Imperial family"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "End the trip with a visit to the famous Shibuya Crossing",
+          "description": "Experience the busiest and most iconic intersection in the world"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Analyze Sentiment of Customer Reviews
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "analyze": [
+    {
+      "review": "The product exceeded my expectations. Great value for money!",
+      "sentiment": "positive",
+      "score": 0.9
+    },
+    {
+      "review": "Disappointed with the quality. Wouldn't recommend.",
+      "sentiment": "negative",
+      "score": 0.2
+    },
+    {
+      "review": "Average product, nothing special but does the job.",
+      "sentiment": "neutral",
+      "score": 0.5
+    },
+    {
+      "review": "Absolutely love it! Will buy again.",
+      "sentiment": "positive",
+      "score": 0.95
+    },
+    {
+      "review": "mf didnt show up",
+      "sentiment": "negative",
+      "score": 0.1
+    }
+  ]
+}
+```
+
+### Generate Short Story
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "title": "The Unexpected Encounter",
+  "story": "As the last remnants of sunlight faded from the horizon, Captain Lewis gazed out at the endless expanse of stars, his mind consumed by the weight of their mission. The crew of the Celestial Horizon had been traveling for nearly two decades, their ship a tiny speck in the grand tapestry of space. And then, without warning, they saw it - a strange, glowing vessel hovering at the edge of their sensor range. The aliens, tall and imposing with skin like dark, polished marble, emerged from the ship with an unnerving calm. They spoke in a language that sounded like music, their words weaving a spell of wonder and trepidation. As the crew struggled to comprehend the implications of this historic encounter, the aliens extended a gift - a small, crystalline orb that pulsed with an otherworldly energy. It was a gesture of peace, a symbol of their desire for unity in the face of an unfathomable universe. And as the Celestial Horizon's crew reached out to accept the offering, they knew that their world would never be the same.",
+  "wordCount": 149
+}
+```
+
+### Create Workout Plan
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "weeklyPlan": [
+    {
+      "day": 1,
+      "focus": "Chest and Triceps",
+      "exercises": [
+        {
+          "name": "Barbell Bench Press",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Incline Dumbbell Press",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Tricep Pushdown",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Tricep Dips",
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "focus": "Back and Biceps",
+      "exercises": [
+        {
+          "name": "Pull-ups",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Barbell Rows",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Dumbbell Bicep Curls",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Hammer Curls",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "focus": "Rest day",
+      "exercises": []
+    },
+    {
+      "day": 4,
+      "focus": "Legs",
+      "exercises": [
+        {
+          "name": "Squats",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Leg Press",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Lunges",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Leg Extensions",
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "focus": "Shoulders and Abs",
+      "exercises": [
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Lateral Raises",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Rear Delt Fly",
+          "sets": 3,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Plank",
+          "sets": 3,
+          "reps": "30-60 seconds",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "focus": "Rest day",
+      "exercises": []
+    },
+    {
+      "day": 7,
+      "focus": "Rest day",
+      "exercises": []
+    }
+  ]
+}
+```
+
+### Summarize Long Text
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "wordCount": 24
+}
+```
+
+### Generate Complex Product Catalog
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "catalog": [
+    {
+      "category": "Electronics",
+      "products": [
+        {
+          "id": "EL-001",
+          "name": "Smartphone",
+          "price": 599.99,
+          "description": "A high-end smartphone with advanced camera and battery life.",
+          "specifications": {
+            "RAM": 8,
+            "Storage": 128,
+            "Display": "6.1 inches"
+          },
+          "inStock": true,
+          "tags": [
+            "mobile",
+            "android"
+          ],
+          "reviews": [
+            {
+              "userId": "U-001",
+              "rating": 4,
+              "comment": "Great phone, but battery life could be better.",
+              "helpful": 2,
+              "date": "2022-01-01T12:00:00.000Z"
+            },
+            {
+              "userId": "U-002",
+              "rating": 5,
+              "comment": "Excellent phone, highly recommended.",
+              "helpful": 1,
+              "date": "2022-01-05T14:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "EL-002",
+            "EL-003"
+          ]
+        },
+        {
+          "id": "EL-002",
+          "name": "Laptop",
+          "price": 999.99,
+          "description": "A powerful laptop with advanced processor and graphics.",
+          "specifications": {
+            "RAM": 16,
+            "Storage": 512,
+            "Display": "15.6 inches"
+          },
+          "inStock": true,
+          "tags": [
+            "computer",
+            "windows"
+          ],
+          "reviews": [
+            {
+              "userId": "U-003",
+              "rating": 4,
+              "comment": "Good laptop, but could be lighter.",
+              "helpful": 1,
+              "date": "2022-01-10T10:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "EL-001",
+            "EL-003"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Home & Garden",
+      "products": [
+        {
+          "id": "HG-001",
+          "name": "Smart Speaker",
+          "price": 99.99,
+          "description": "A smart speaker with voice assistant and Wi-Fi connectivity.",
+          "specifications": {
+            "Color": "Black",
+            "Material": "Plastic"
+          },
+          "inStock": true,
+          "tags": [
+            "speaker",
+            "smart home"
+          ],
+          "reviews": [
+            {
+              "userId": "U-004",
+              "rating": 5,
+              "comment": "Excellent speaker, great sound quality.",
+              "helpful": 2,
+              "date": "2022-01-15T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "HG-002",
+            "HG-003"
+          ]
+        },
+        {
+          "id": "HG-002",
+          "name": "Gardening Tool Set",
+          "price": 29.99,
+          "description": "A set of gardening tools with high-quality materials and ergonomic design.",
+          "specifications": {
+            "Material": "Stainless Steel",
+            "Weight": 1.5
+          },
+          "inStock": true,
+          "tags": [
+            "garden",
+            "tools"
+          ],
+          "reviews": [
+            {
+              "userId": "U-005",
+              "rating": 4,
+              "comment": "Good tool set, but could be more durable.",
+              "helpful": 1,
+              "date": "2022-01-20T10:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "HG-001",
+            "HG-003"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Sports",
+      "products": [
+        {
+          "id": "SP-001",
+          "name": "Running Shoes",
+          "price": 79.99,
+          "description": "A pair of running shoes with advanced cushioning and support.",
+          "specifications": {
+            "Color": "Blue",
+            "Size": 10
+          },
+          "inStock": true,
+          "tags": [
+            "shoes",
+            "running"
+          ],
+          "reviews": [
+            {
+              "userId": "U-006",
+              "rating": 5,
+              "comment": "Excellent shoes, great comfort and performance.",
+              "helpful": 2,
+              "date": "2022-01-25T12:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "SP-002",
+            "SP-003"
+          ]
+        },
+        {
+          "id": "SP-002",
+          "name": "Fitness Tracker",
+          "price": 49.99,
+          "description": "A fitness tracker with heart rate monitoring and GPS tracking.",
+          "specifications": {
+            "Color": "Black",
+            "Material": "Plastic"
+          },
+          "inStock": true,
+          "tags": [
+            "tracker",
+            "fitness"
+          ],
+          "reviews": [
+            {
+              "userId": "U-007",
+              "rating": 4,
+              "comment": "Good tracker, but could be more accurate.",
+              "helpful": 1,
+              "date": "2022-01-30T10:00:00.000Z"
+            }
+          ],
+          "relatedProducts": [
+            "SP-001",
+            "SP-003"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Generate Advanced Chess Game Analysis
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "moves": [
+    {
+      "moveNumber": 1,
+      "white": {
+        "san": "e4",
+        "uci": "e2e4",
+        "comment": "The King's Pawn Opening, one of the most popular choices for White.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "e4"
+      },
+      "black": {
+        "san": "e5",
+        "uci": "e7e5",
+        "comment": "The Open Game, a common response to e4.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "e5"
+      }
+    },
+    {
+      "moveNumber": 2,
+      "white": {
+        "san": "Nf3",
+        "uci": "g1f3",
+        "comment": "Developing the Knight to a good square, preparing to control the center.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "Nf3"
+      },
+      "black": {
+        "san": "Nc6",
+        "uci": "b8c6",
+        "comment": "Developing the Knight, supporting the pawn on e5.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "Nc6"
+      }
+    },
+    {
+      "moveNumber": 3,
+      "white": {
+        "san": "Bb5",
+        "uci": "f1b5",
+        "comment": "The Ruy Lopez, a popular choice for White.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "Bb5"
+      },
+      "black": {
+        "san": "a6",
+        "uci": "a7a6",
+        "comment": "Attacking the Bishop, gaining space on the queenside.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "a6"
+      }
+    },
+    {
+      "moveNumber": 4,
+      "white": {
+        "san": "Ba4",
+        "uci": "b5a4",
+        "comment": "Retreating the Bishop, maintaining the pressure on the queenside.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "Ba4"
+      },
+      "black": {
+        "san": "Nf6",
+        "uci": "g8f6",
+        "comment": "Developing the Knight, defending the pawn on e5.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "Nf6"
+      }
+    },
+    {
+      "moveNumber": 5,
+      "white": {
+        "san": "O-O",
+        "uci": "e1g1",
+        "comment": "Castling kingside, connecting the Rooks and safeguarding the King.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "O-O"
+      },
+      "black": {
+        "san": "Be7",
+        "uci": "f8e7",
+        "comment": "Developing the Bishop, putting pressure on the kingside.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "Be7"
+      }
+    },
+    {
+      "moveNumber": 6,
+      "white": {
+        "san": "Re1",
+        "uci": "f1e1",
+        "comment": "Developing the Rook, supporting the pawn on e4.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "Re1"
+      },
+      "black": {
+        "san": "b5",
+        "uci": "b7b5",
+        "comment": "Gaining space on the queenside, attacking the Bishop.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "b5"
+      }
+    },
+    {
+      "moveNumber": 7,
+      "white": {
+        "san": "Bb3",
+        "uci": "a4b3",
+        "comment": "Retreating the Bishop, maintaining the pressure on the queenside.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "Bb3"
+      },
+      "black": {
+        "san": "d6",
+        "uci": "d7d6",
+        "comment": "Supporting the pawn on e5, preparing to develop the dark-squared Bishop.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "d6"
+      }
+    },
+    {
+      "moveNumber": 8,
+      "white": {
+        "san": "c3",
+        "uci": "c2c3",
+        "comment": "Supporting the pawn on d4, preparing to develop the queenside pieces.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "c3"
+      },
+      "black": {
+        "san": "O-O",
+        "uci": "e8g8",
+        "comment": "Castling kingside, connecting the Rooks and safeguarding the King.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "O-O"
+      }
+    },
+    {
+      "moveNumber": 9,
+      "white": {
+        "san": "h3",
+        "uci": "h2h3",
+        "comment": "Preventing the potential pin on the Knight, preparing to develop the kingside pieces.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "h3"
+      },
+      "black": {
+        "san": "Nb8",
+        "uci": "c6b8",
+        "comment": "Retreating the Knight, preparing to develop the queenside pieces.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "Nb8"
+      }
+    },
+    {
+      "moveNumber": 10,
+      "white": {
+        "san": "d4",
+        "uci": "d2d4",
+        "comment": "Gaining space in the center, attacking the pawn on e5.",
+        "nag": [],
+        "evaluation": 0.2,
+        "bestMove": "d4"
+      },
+      "black": {
+        "san": "Nbd7",
+        "uci": "b8d7",
+        "comment": "Developing the Knight, supporting the pawn on e5.",
+        "nag": [],
+        "evaluation": 0,
+        "bestMove": "Nbd7"
+      }
+    }
+  ],
+  "analysis": {
+    "openingName": "Ruy Lopez",
+    "openingEco": "C60",
+    "middlegameAnalysis": "The position is complex, with both sides having chances to attack and defend. White has a slight advantage due to their control of the center and better development.",
+    "endgameAnalysis": "The endgame is likely to be a pawn structure with White having a slight advantage. Black will need to be careful to defend their pawns and create counterplay.",
+    "keyPositions": [
+      {
+        "fen": "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R",
+        "evaluation": 0.2,
+        "bestMove": "d4",
+        "comment": "This position is critical, as White gains space in the center and attacks the pawn on e5."
+      }
+    ],
+    "tacticalMotifs": [
+      {
+        "type": "fork",
+        "moveNumber": 5,
+        "description": "The Knight on f3 attacks the Queen on e7 and the pawn on e5."
+      }
+    ],
+    "strategicThemes": [
+      "Control of the center",
+      "Development of the pieces",
+      "Pawn structure"
+    ],
+    "blunders": [
+      {
+        "moveNumber": 3,
+        "move": "Bb5",
+        "evaluationBefore": 0.2,
+        "evaluationAfter": 0,
+        "bestMove": "Bc4",
+        "explanation": "The Bishop on b5 is not well-supported and can be attacked by Black."
+      }
+    ]
+  },
+  "engineAnalysis": {
+    "engineName": "Stockfish",
+    "depth": 20,
+    "totalPositionsEvaluated": 100000,
+    "averageDepth": 15,
+    "timeSpent": 10,
+    "nodesPerSecond": 10000
+  }
+}
+```
+
+### Analyze Stock Market Data
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "stockAnalysis": {
+    "symbol": "AAPL",
+    "currentPrice": 193.6,
+    "yearlyPerformance": 48.59,
+    "volatility": 35.41,
+    "beta": 1.33,
+    "movingAverages": {
+      "SMA": 173.31,
+      "EMA": 174.21
+    },
+    "technicalIndicators": {
+      "RSI": 57.35,
+      "MACD": {
+        "value": 0.41,
+        "signal": 0.28,
+        "histogram": 0.13
+      }
+    }
+  },
+  "marketComparison": {
+    "correlationWithSP500": 0.85,
+    "correlationWithNASDAQ": 0.92,
+    "relativeStrength": 1.23
+  },
+  "fundamentalAnalysis": {
+    "peRatio": 27.12,
+    "pbRatio": 14.51,
+    "dividendYield": 0.85,
+    "earningsGrowth": 10.23
+  },
+  "economicImpact": {
+    "interestRateSensitivity": 0.21,
+    "inflationImpact": 0.15
+  },
+  "prediction": {
+    "nextQuarterEstimate": 205.12,
+    "confidenceInterval": [
+      198.21,
+      212.03
+    ],
+    "potentialRisks": [
+      "Global economic downturn",
+      "Increased competition in the tech industry"
+    ],
+    "potentialOpportunities": [
+      "Growing demand for Apple products in emerging markets",
+      "Expansion into new product categories"
+    ]
+  }
+}
+```
+
+### Analyze Social Media Campaign
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "overallPerformance": {
+    "totalReach": 215000,
+    "totalEngagement": 9850,
+    "engagementRate": 0.046,
+    "clickThroughRate": 0.036,
+    "conversionRate": 0.078,
+    "ROI": 2
+  },
+  "platformBreakdown": [
+    {
+      "platform": "Facebook",
+      "reach": 110000,
+      "engagement": 4600,
+      "engagementRate": 0.042,
+      "clicks": 4500,
+      "CTR": 0.041
+    },
+    {
+      "platform": "Instagram",
+      "reach": 75000,
+      "engagement": 3150,
+      "engagementRate": 0.042,
+      "clicks": 3500,
+      "CTR": 0.047
+    },
+    {
+      "platform": "Twitter",
+      "reach": 30000,
+      "engagement": 750,
+      "engagementRate": 0.025,
+      "clicks": 1500,
+      "CTR": 0.05
+    }
+  ],
+  "contentAnalysis": {
+    "topPerformingPost": {
+      "platform": "Instagram",
+      "content": "Summer vibes with our new collection!",
+      "engagement": 3150
+    },
+    "contentSentiment": {
+      "positive": 0.8,
+      "neutral": 0.15,
+      "negative": 0.05
+    }
+  },
+  "audienceInsights": {
+    "mostEngagedAgeGroup": "25-34",
+    "topInterests": [
+      "Fashion",
+      "Technology"
+    ],
+    "peakEngagementTimes": [
+      "12:00-15:00",
+      "18:00-21:00"
+    ]
+  },
+  "recommendations": [
+    {
+      "category": "Content",
+      "suggestion": "Create more visually appealing content for Instagram",
+      "expectedImpact": "Increase engagement by 20%"
+    },
+    {
+      "category": "Targeting",
+      "suggestion": "Target users who have shown interest in fashion and technology",
+      "expectedImpact": "Increase conversion rate by 15%"
+    },
+    {
+      "category": "Budget",
+      "suggestion": "Allocate more budget to Instagram and Facebook",
+      "expectedImpact": "Increase ROI by 10%"
+    },
+    {
+      "category": "Platform",
+      "suggestion": "Consider adding TikTok to the campaign",
+      "expectedImpact": "Increase reach by 30%"
+    }
+  ]
+}
+```
+
+
+## claude-3-haiku-20240307
+
+### Complex calculation
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "chain_of_thought": "1. Evaluate the expression 15 * 87 = 1305\n2. Evaluate the expression 129 / (48 * 0.5) = 129 / 24 = 5.375\n3. Add the results from steps 1 and 2: 1305 + 5.375 = 1310.375\n4. Add 12 to the result from step 3: 1310.375 + 12 = 1322.375\n",
+  "result": 1322.375
+}
+```
+
+### Generate fake people
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "peoples": [
+    {
+      "name": "Emily Johnson",
+      "age": 28
+    },
+    {
+      "name": "Michael Davis",
+      "age": 42
+    },
+    {
+      "name": "Sophia Hernandez",
+      "age": 19
+    }
+  ]
+}
+```
+
+### Calculate the nth prime number
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "primeNumber": 29
+}
+```
+
+### Find capital cities
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "Rome"
+}
+```
+
+### Grammar Correction
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "He is a good person."
 }
 ```
 
@@ -141,24 +2311,25 @@ Status: ✅ Success
 
 ```json
 {
-  "name": "Chicken Florentine",
+  "name": "Chicken with Spinach and Feta",
   "ingredients": [
-    "4 boneless, skinless chicken breasts",
-    "2 cups fresh spinach, chopped",
+    "1 lb boneless, skinless chicken breasts",
+    "2 cups fresh spinach, washed and chopped",
     "1/2 cup crumbled feta cheese",
-    "2 tablespoons olive oil"
+    "2 tbsp olive oil"
   ],
   "instructions": [
-    "Preheat oven to 375°F (190°C).",
+    "Preheat oven to 375°F.",
     "Season the chicken breasts with salt and pepper.",
     "Heat the olive oil in a large oven-safe skillet over medium-high heat.",
-    "Add the chicken breasts and cook for 3-4 minutes per side until lightly browned.",
-    "Remove the skillet from the heat and top the chicken with the chopped spinach and crumbled feta cheese.",
-    "Transfer the skillet to the preheated oven and bake for 20-25 minutes, or until the chicken is cooked through and the cheese is melted.",
-    "Serve hot."
+    "Add the chicken and cook for 3-4 minutes per side until lightly browned.",
+    "Add the chopped spinach to the skillet and stir to combine.",
+    "Sprinkle the feta cheese over the top.",
+    "Transfer the skillet to the preheated oven and bake for 20-25 minutes, or until the chicken is cooked through.",
+    "Remove from oven and let rest for 5 minutes before serving."
   ],
   "prep_time": "10 minutes",
-  "cook_time": "25 minutes",
+  "cook_time": "30 minutes",
   "servings": 4
 }
 ```
@@ -179,18 +2350,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "9:00 AM",
-          "activity": "Visit the Akihabara Electronics District",
-          "description": "Explore the latest technology and gadgets in this vibrant electronics hub."
+          "activity": "Visit the Tsukiji Outer Market",
+          "description": "Explore the bustling seafood market and try fresh sushi and other local delicacies."
         },
         {
-          "time": "12:00 PM",
-          "activity": "Lunch at a traditional Japanese restaurant",
-          "description": "Savor authentic Japanese cuisine in a serene setting."
-        },
-        {
-          "time": "2:00 PM",
+          "time": "1:00 PM",
           "activity": "Tour the Imperial Palace",
-          "description": "Learn about the history and significance of the Imperial Palace."
+          "description": "Learn about the history and architecture of the Imperial Palace, the primary residence of the Emperor of Japan."
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Attend a technology demonstration at the Miraikan Museum",
+          "description": "Witness the latest advancements in robotics, AI, and other cutting-edge technologies."
         }
       ]
     },
@@ -199,18 +2370,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "10:00 AM",
-          "activity": "Visit the Tsukiji Outer Market",
-          "description": "Discover the freshest seafood and explore the bustling atmosphere of this iconic market."
+          "activity": "Visit the Sensoji Temple",
+          "description": "Explore the oldest temple in Tokyo and learn about its rich history and cultural significance."
         },
         {
-          "time": "1:00 PM",
-          "activity": "Lunch at a Michelin-starred restaurant",
-          "description": "Indulge in a culinary masterpiece crafted by renowned chefs."
+          "time": "2:00 PM",
+          "activity": "Explore the Akihabara Electronics District",
+          "description": "Browse the latest gadgets, anime merchandise, and technology-related shops in the heart of Tokyo's electronics hub."
         },
         {
-          "time": "3:00 PM",
-          "activity": "Explore the Sensoji Temple",
-          "description": "Immerse yourself in the rich history and cultural significance of this ancient Buddhist temple."
+          "time": "6:00 PM",
+          "activity": "Dinner at a Michelin-starred restaurant",
+          "description": "Indulge in a multi-course, high-end Japanese culinary experience."
         }
       ]
     },
@@ -219,18 +2390,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "9:00 AM",
-          "activity": "Visit the Miraikan National Museum of Emerging Science and Innovation",
-          "description": "Discover the latest advancements in science and technology through interactive exhibits."
+          "activity": "Visit the Edo-Tokyo Museum",
+          "description": "Discover the history and culture of Tokyo (formerly known as Edo) through interactive exhibits and displays."
         },
         {
-          "time": "12:00 PM",
-          "activity": "Lunch at a modern fusion restaurant",
-          "description": "Experience a blend of traditional Japanese flavors with contemporary culinary techniques."
+          "time": "1:00 PM",
+          "activity": "Explore the Shibuya Crossing",
+          "description": "Experience the world-famous pedestrian crossing and observe the bustling energy of one of Tokyo's most iconic neighborhoods."
         },
         {
-          "time": "2:00 PM",
-          "activity": "Explore the Edo-Tokyo Museum",
-          "description": "Delve into the rich history of Tokyo and learn about the city's transformation over time."
+          "time": "5:00 PM",
+          "activity": "Attend a technology-focused event or workshop",
+          "description": "Participate in a hands-on activity or discussion related to the latest technological advancements."
         }
       ]
     },
@@ -239,18 +2410,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "10:00 AM",
-          "activity": "Visit the Teamlab Borderless digital art museum",
-          "description": "Immerse yourself in a captivating and innovative digital art experience."
+          "activity": "Visit the Meiji Shrine",
+          "description": "Explore the serene Shinto shrine and learn about its historical significance."
         },
         {
-          "time": "1:00 PM",
-          "activity": "Lunch at a traditional sushi restaurant",
-          "description": "Savor the freshest and most expertly prepared sushi in Tokyo."
+          "time": "2:00 PM",
+          "activity": "Take a food tour of the Shinjuku district",
+          "description": "Discover a variety of traditional and contemporary Japanese cuisine in one of Tokyo's most vibrant neighborhoods."
         },
         {
-          "time": "3:00 PM",
-          "activity": "Explore the Meiji Shrine",
-          "description": "Discover the historical and cultural significance of this important Shinto shrine."
+          "time": "6:00 PM",
+          "activity": "Attend a traditional Japanese cultural performance",
+          "description": "Experience the beauty and artistry of a Kabuki, Noh, or Sumo performance."
         }
       ]
     },
@@ -259,18 +2430,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "9:00 AM",
-          "activity": "Visit the Ghibli Museum",
-          "description": "Immerse yourself in the whimsical world of the renowned Studio Ghibli animation studio."
+          "activity": "Visit the Teamlab Borderless digital art museum",
+          "description": "Immerse yourself in a captivating and innovative digital art experience."
         },
         {
-          "time": "12:00 PM",
-          "activity": "Lunch at a modern Japanese fusion restaurant",
-          "description": "Enjoy a creative and delicious blend of traditional and contemporary Japanese cuisine."
+          "time": "1:00 PM",
+          "activity": "Explore the Odaiba waterfront district",
+          "description": "Enjoy the scenic views, futuristic architecture, and various entertainment options in this modern, artificial island."
         },
         {
-          "time": "2:00 PM",
-          "activity": "Explore the Shibuya Crossing",
-          "description": "Experience the vibrant energy and bustling atmosphere of one of the world's busiest pedestrian crossings."
+          "time": "5:00 PM",
+          "activity": "Farewell dinner at a rooftop restaurant",
+          "description": "Savor a final meal with panoramic views of the Tokyo skyline."
         }
       ]
     }
@@ -325,7 +2496,7 @@ Status: ✅ Success
 ```json
 {
   "title": "The Arrival",
-  "story": "The night sky shimmered with an otherworldly glow as the massive spacecraft descended upon the small town. Panic gripped the residents, but a young scientist named Emily knew this was a moment of profound significance. She raced to the landing site, her heart pounding with a mixture of fear and excitement. As the hatch opened, a being of pure light emerged, its movements graceful and its gaze penetrating. Emily approached cautiously, her mind racing with questions. What did this visitor seek? Could they coexist peacefully? In that moment, the future of humanity hung in the balance, and Emily knew she held the key to unlocking the mysteries of the cosmos.",
+  "story": "The night sky lit up with a brilliant flash, drawing the attention of the small town's residents. As they gathered outside, a massive craft descended, its sleek, otherworldly design captivating the awestruck onlookers. The hatch opened, and a being unlike any they had ever seen emerged, its movements graceful and its eyes filled with a curious intelligence. The townspeople, initially paralyzed by fear, slowly approached the alien, their hearts racing. A tentative exchange of gestures and sounds began, a tentative first step towards understanding. The alien's presence sparked a whirlwind of emotions - wonder, trepidation, and the realization that the world would never be the same. This was the beginning of a journey, one that would forever change the course of humanity's future.",
   "wordCount": 150
 }
 ```
@@ -350,19 +2521,19 @@ Status: ✅ Success
           "rest": "90 seconds"
         },
         {
-          "name": "Dumbbell Chest Fly",
+          "name": "Dumbbell Flyes",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
         },
         {
-          "name": "Triceps Pushdown",
+          "name": "Triceps Pushdowns",
           "sets": 3,
           "reps": "12-15",
           "rest": "60 seconds"
         },
         {
-          "name": "Skull Crushers",
+          "name": "Triceps Dips",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
@@ -380,9 +2551,9 @@ Status: ✅ Success
           "rest": "90 seconds"
         },
         {
-          "name": "Lat Pulldowns",
+          "name": "Pull-ups",
           "sets": 3,
-          "reps": "10-12",
+          "reps": "8-10",
           "rest": "60 seconds"
         },
         {
@@ -495,79 +2666,79 @@ Status: ✅ Success
       "category": "Electronics",
       "products": [
         {
-          "id": "e1",
-          "name": "Smartphone",
-          "price": 799.99,
-          "description": "A high-performance smartphone with a large display, advanced camera, and long-lasting battery.",
+          "id": "e001",
+          "name": "Wireless Headphones",
+          "price": 79.99,
+          "description": "High-quality wireless headphones with noise cancellation and long battery life.",
           "specifications": {
-            "display": "6.5-inch OLED",
-            "camera": "48MP triple camera",
-            "battery": "5000mAh"
+            "bluetooth_version": "5.0",
+            "battery_life": 20,
+            "weight": 0.5
           },
           "inStock": true,
           "tags": [
-            "smartphone",
-            "mobile",
-            "android"
+            "headphones",
+            "wireless",
+            "noise-cancelling"
           ],
           "reviews": [
             {
-              "userId": "u1",
+              "userId": "user123",
               "rating": 4,
-              "comment": "Great phone with excellent camera and battery life.",
-              "helpful": 15,
-              "date": "2023-06-01T12:00:00Z"
+              "comment": "Great sound quality and comfortable to wear. Battery life could be better.",
+              "helpful": 12,
+              "date": "2023-05-15T12:34:56.789Z"
             },
             {
-              "userId": "u2",
+              "userId": "user456",
               "rating": 5,
-              "comment": "Highly recommended! Smooth performance and beautiful display.",
+              "comment": "Excellent headphones, exceeded my expectations!",
               "helpful": 20,
-              "date": "2023-05-15T09:30:00Z"
+              "date": "2023-06-20T09:15:30.000Z"
             }
           ],
           "relatedProducts": [
-            "e2",
-            "e3",
-            "e4"
+            "e002",
+            "e003",
+            "h001"
           ]
         },
         {
-          "id": "e2",
-          "name": "Laptop",
-          "price": 1199.99,
-          "description": "A powerful and versatile laptop for work, entertainment, and gaming.",
+          "id": "e002",
+          "name": "4K Smart TV",
+          "price": 599.99,
+          "description": "Stunning 55-inch 4K smart TV with HDR and built-in streaming apps.",
           "specifications": {
-            "processor": "Intel Core i7",
-            "memory": "16GB RAM",
-            "storage": "512GB SSD"
+            "screen_size": 55,
+            "resolution": "3840x2160",
+            "refresh_rate": 120
           },
           "inStock": true,
           "tags": [
-            "laptop",
-            "computer",
-            "windows"
+            "tv",
+            "4k",
+            "smart"
           ],
           "reviews": [
             {
-              "userId": "u3",
+              "userId": "user789",
               "rating": 4,
-              "comment": "Great performance and build quality. Highly recommended for students and professionals.",
-              "helpful": 18,
-              "date": "2023-04-20T15:45:00Z"
+              "comment": "Great picture quality, but the smart features could be improved.",
+              "helpful": 15,
+              "date": "2023-07-01T18:22:00.000Z"
             },
             {
-              "userId": "u4",
+              "userId": "user321",
               "rating": 5,
-              "comment": "Excellent laptop for gaming and creative work. Exceeded my expectations.",
-              "helpful": 22,
-              "date": "2023-03-10T11:20:00Z"
+              "comment": "Absolutely love this TV! Highly recommended.",
+              "helpful": 25,
+              "date": "2023-06-28T11:45:00.000Z"
             }
           ],
           "relatedProducts": [
-            "e1",
-            "e3",
-            "e5"
+            "e001",
+            "e003",
+            "h002"
           ]
         }
       ]
@@ -576,79 +2747,79 @@ Status: ✅ Success
       "category": "Home & Garden",
       "products": [
         {
-          "id": "h1",
+          "id": "h001",
           "name": "Robotic Vacuum Cleaner",
-          "price": 399.99,
-          "description": "A smart and efficient robotic vacuum cleaner that automatically cleans your floors.",
+          "price": 299.99,
+          "description": "Intelligent robotic vacuum cleaner with advanced navigation and powerful suction.",
           "specifications": {
-            "battery": "2500mAh",
-            "runtime": "120 minutes",
-            "navigation": "Laser-guided"
+            "battery_life": 90,
+            "noise_level": 55,
+            "dust_capacity": 0.6
           },
           "inStock": true,
           "tags": [
             "vacuum",
             "robot",
-            "cleaning"
+            "smart"
           ],
           "reviews": [
             {
-              "userId": "u5",
+              "userId": "user654",
               "rating": 4,
-              "comment": "Excellent cleaning performance and easy to use. Highly recommended for busy households.",
-              "helpful": 12,
-              "date": "2023-02-28T18:00:00Z"
+              "comment": "Works great, but the navigation could be improved.",
+              "helpful": 18,
+              "date": "2023-04-10T14:20:00.000Z"
             },
             {
-              "userId": "u6",
+              "userId": "user987",
               "rating": 5,
-              "comment": "This robotic vacuum has made my life so much easier. Highly impressed with its capabilities.",
-              "helpful": 16,
-              "date": "2023-01-15T14:30:00Z"
+              "comment": "Excellent vacuum cleaner, saves me a lot of time!",
+              "helpful": 22,
+              "date": "2023-05-25T08:30:00.000Z"
             }
           ],
           "relatedProducts": [
-            "h2",
-            "h3",
-            "h4"
+            "e001",
+            "h002",
+            "s001"
           ]
         },
         {
-          "id": "h2",
-          "name": "Smart Thermostat",
-          "price": 149.99,
-          "description": "A smart thermostat that learns your preferences and automatically adjusts the temperature for maximum comfort and energy efficiency.",
+          "id": "h002",
+          "name": "Outdoor Patio Set",
+          "price": 799.99,
+          "description": "Stylish 5-piece patio set with weather-resistant furniture and a fire pit table.",
           "specifications": {
-            "connectivity": "Wi-Fi",
-            "sensors": "Temperature, humidity, motion",
-            "programming": "Automated scheduling"
+            "material": "Aluminum",
+            "table_size": "48 inch diameter",
+            "chairs": 4
           },
           "inStock": true,
           "tags": [
-            "thermostat",
-            "smart home",
-            "energy efficiency"
+            "patio",
+            "furniture",
+            "outdoor"
           ],
           "reviews": [
             {
-              "userId": "u7",
+              "userId": "user159",
               "rating": 4,
-              "comment": "Easy to install and use. Helps me save on my energy bills while keeping my home comfortable.",
+              "comment": "Great quality, but the assembly was a bit challenging.",
               "helpful": 14,
-              "date": "2023-03-05T10:00:00Z"
+              "date": "2023-06-05T16:45:00.000Z"
             },
             {
-              "userId": "u8",
+              "userId": "user753",
               "rating": 5,
-              "comment": "Highly recommended for anyone looking to upgrade their home's temperature control system.",
-              "helpful": 18,
-              "date": "2023-02-12T16:45:00Z"
+              "comment": "Looks amazing on my patio, very happy with the purchase.",
+              "helpful": 19,
+              "date": "2023-07-01T10:00:00.000Z"
             }
           ],
           "relatedProducts": [
-            "h1",
-            "h3",
-            "h5"
+            "e002",
+            "h001",
+            "s002"
           ]
         }
       ]
@@ -657,14 +2828,14 @@ Status: ✅ Success
       "category": "Sports",
       "products": [
         {
-          "id": "s1",
+          "id": "s001",
           "name": "Treadmill",
           "price": 899.99,
-          "description": "A high-quality treadmill with advanced features for an immersive home workout experience.",
+          "description": "High-performance treadmill with a large LCD display and advanced workout programs.",
           "specifications": {
-            "motor": "3.0 HP",
-            "speed": "0-12 mph",
-            "incline": "0-15%"
+            "max_speed": 12,
+            "incline_range": 15,
+            "motor_power": 3.5
           },
           "inStock": true,
           "tags": [
@@ -674,62 +2845,62 @@ Status: ✅ Success
           ],
           "reviews": [
             {
-              "userId": "u9",
+              "userId": "user246",
               "rating": 4,
-              "comment": "Excellent treadmill for home use. Sturdy, quiet, and provides a great workout.",
-              "helpful": 10,
-              "date": "2023-04-18T13:00:00Z"
+              "comment": "Great treadmill, but the console could be more user-friendly.",
+              "helpful": 16,
+              "date": "2023-03-20T13:00:00.000Z"
             },
             {
-              "userId": "u10",
+              "userId": "user369",
               "rating": 5,
-              "comment": "Highly recommended for anyone looking to improve their cardiovascular fitness at home.",
-              "helpful": 14,
-              "date": "2023-03-25T08:30:00Z"
+              "comment": "Excellent treadmill, helped me achieve my fitness goals.",
+              "helpful": 21,
+              "date": "2023-05-15T09:45:00.000Z"
             }
           ],
           "relatedProducts": [
-            "s2",
-            "s3",
-            "s4"
+            "h001",
+            "s002",
+            "e001"
           ]
         },
         {
-          "id": "s2",
-          "name": "Elliptical Trainer",
-          "price": 699.99,
-          "description": "A versatile elliptical trainer that provides a low-impact, full-body workout.",
+          "id": "s002",
+          "name": "Folding Exercise Bike",
+          "price": 249.99,
+          "description": "Compact folding exercise bike with 8 resistance levels and LCD display.",
           "specifications": {
-            "stride": "20 inches",
-            "resistance": "24 levels",
-            "display": "7-inch LCD"
+            "max_weight": 300,
+            "resistance_levels": 8,
+            "folded_dimensions": "24 x 18 x 55 inches"
           },
           "inStock": true,
           "tags": [
-            "elliptical",
+            "exercise bike",
             "fitness",
-            "cardio"
+            "indoor"
           ],
           "reviews": [
             {
-              "userId": "u11",
+              "userId": "user468",
               "rating": 4,
-              "comment": "Excellent elliptical for home use. Smooth and quiet operation, with a wide range of resistance levels.",
-              "helpful": 12,
-              "date": "2023-05-01T11:15:00Z"
+              "comment": "Good value for the price, but the seat could be more comfortable.",
+              "helpful": 13,
+              "date": "2023-04-30T11:30:00.000Z"
             },
             {
-              "userId": "u12",
+              "userId": "user951",
               "rating": 5,
-              "comment": "This elliptical has been a game-changer for my home workouts. Highly recommended!",
-              "helpful": 16,
-              "date": "2023-04-08T14:45:00Z"
+              "comment": "Excellent exercise bike, perfect for my home gym.",
+              "helpful": 17,
+              "date": "2023-06-15T15:00:00.000Z"
             }
           ],
           "relatedProducts": [
-            "s1",
-            "s3",
-            "s5"
+            "h002",
+            "s001",
+            "e002"
           ]
         }
       ]
@@ -740,123 +2911,209 @@ Status: ✅ Success
 
 ### Generate Advanced Chess Game Analysis
 
-Status: ❌ Failure
+Status: ✅ Success
 
-#### Error:
+#### Response:
 
-```
-Return data validation error: [
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      1,
-      "white"
+```json
+{
+  "moves": [
+    {
+      "moveNumber": 1,
+      "white": {
+        "san": "e4",
+        "uci": "e2e4",
+        "evaluation": 0.2
+      },
+      "black": {
+        "san": "e5",
+        "uci": "e7e5",
+        "evaluation": -0.2
+      }
+    },
+    {
+      "moveNumber": 2,
+      "white": {
+        "san": "Nf3",
+        "uci": "g1f3",
+        "evaluation": 0.3
+      },
+      "black": {
+        "san": "Nc6",
+        "uci": "b8c6",
+        "evaluation": -0.3
+      }
+    },
+    {
+      "moveNumber": 3,
+      "white": {
+        "san": "Bb5",
+        "uci": "f1b5",
+        "evaluation": 0.4
+      },
+      "black": {
+        "san": "a6",
+        "uci": "a7a6",
+        "evaluation": -0.4
+      }
+    },
+    {
+      "moveNumber": 4,
+      "white": {
+        "san": "Ba4",
+        "uci": "b5a4",
+        "evaluation": 0.5
+      },
+      "black": {
+        "san": "Nf6",
+        "uci": "g8f6",
+        "evaluation": -0.5
+      }
+    },
+    {
+      "moveNumber": 5,
+      "white": {
+        "san": "O-O",
+        "uci": "e1g1",
+        "evaluation": 0.6
+      },
+      "black": {
+        "san": "Be7",
+        "uci": "f8e7",
+        "evaluation": -0.6
+      }
+    },
+    {
+      "moveNumber": 6,
+      "white": {
+        "san": "Re1",
+        "uci": "e1e1",
+        "evaluation": 0.7
+      },
+      "black": {
+        "san": "b5",
+        "uci": "b7b5",
+        "evaluation": -0.7
+      }
+    },
+    {
+      "moveNumber": 7,
+      "white": {
+        "san": "Bb3",
+        "uci": "a4b3",
+        "evaluation": 0.8
+      },
+      "black": {
+        "san": "d6",
+        "uci": "d7d6",
+        "evaluation": -0.8
+      }
+    },
+    {
+      "moveNumber": 8,
+      "white": {
+        "san": "c3",
+        "uci": "c2c3",
+        "evaluation": 0.9
+      },
+      "black": {
+        "san": "O-O",
+        "uci": "e8g8",
+        "evaluation": -0.9
+      }
+    },
+    {
+      "moveNumber": 9,
+      "white": {
+        "san": "h3",
+        "uci": "h2h3",
+        "evaluation": 1
+      },
+      "black": {
+        "san": "Nb8",
+        "uci": "c6b8",
+        "evaluation": -1
+      }
+    },
+    {
+      "moveNumber": 10,
+      "white": {
+        "san": "d4",
+        "uci": "d2d4",
+        "evaluation": 1.1
+      },
+      "black": {
+        "san": "Nbd7",
+        "uci": "b8d7",
+        "evaluation": -1.1
+      }
+    }
+  ],
+  "analysis": {
+    "openingName": "Ruy Lopez",
+    "openingEco": "C78",
+    "middlegameAnalysis": "The position is currently balanced, with both sides having reasonable development and control of the center. White has a slight space advantage, but Black's position is solid. The key will be for both sides to continue developing their pieces and look for opportunities to create weaknesses in the opponent's position.",
+    "endgameAnalysis": "Given the current position, the endgame is likely to be complex and hard-fought. Both sides have good pawn structures and active pieces, so the outcome will depend on the players' ability to maneuver and create weaknesses. Accurate play and good endgame technique will be crucial.",
+    "keyPositions": [
+      {
+        "fen": "r1bq1rk1/1pp1bppp/p1n2n2/1B2p3/4P3/1BP2N2/PP3PPP/RN1R2K1 w - - 0 9",
+        "evaluation": 0.8,
+        "bestMove": "Nc3",
+        "comment": "This position represents a critical moment in the game. White has a slight space advantage and can consider playing Nc3 to further solidify the center and prepare to launch an attack."
+      },
+      {
+        "fen": "r1bq1rk1/1pp1bppp/p1n2n2/1B2p3/4P3/1BP2N2/PP3PPP/RN1R2K1 b - - 0 9",
+        "evaluation": -0.8,
+        "bestMove": "Nd5",
+        "comment": "Black needs to find a way to counteract White's space advantage. Playing Nd5 is a good option, as it challenges the center and prepares to activate the knight."
+      }
     ],
-    "message": "Required"
+    "tacticalMotifs": [
+      {
+        "type": "fork",
+        "moveNumber": 12,
+        "description": "White has the opportunity to play Nc6, forking the black king and queen."
+      },
+      {
+        "type": "pin",
+        "moveNumber": 15,
+        "description": "Black can play Bb4, pinning the white knight on c3 and creating a tactical threat."
+      }
+    ],
+    "strategicThemes": [
+      "Control of the center",
+      "Piece activity",
+      "Pawn structure",
+      "King safety"
+    ],
+    "blunders": [
+      {
+        "moveNumber": 8,
+        "move": "c3",
+        "evaluationBefore": 0.8,
+        "evaluationAfter": 0.4,
+        "bestMove": "d5",
+        "explanation": "The move c3 is a bit passive and allows Black to challenge the center more effectively. The better move would have been d5, which would have maintained White's space advantage and put more pressure on Black's position."
+      },
+      {
+        "moveNumber": 14,
+        "move": "Qc2",
+        "evaluationBefore": 0.6,
+        "evaluationAfter": 0.1,
+        "bestMove": "Nc6",
+        "explanation": "The move Qc2 is a bit of a blunder, as it weakens the white king's position. The better move would have been Nc6, which would have maintained the pressure on the center and prevented Black from counterattacking on the kingside."
+      }
+    ]
   },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      3,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      5,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      7,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      9,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      11,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      13,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      15,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      17,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      19,
-      "white"
-    ],
-    "message": "Required"
+  "engineAnalysis": {
+    "engineName": "Stockfish",
+    "depth": 20,
+    "totalPositionsEvaluated": 1234567,
+    "averageDepth": 18.5,
+    "timeSpent": 45.2,
+    "nodesPerSecond": 27345
   }
-]
+}
 ```
 
 ### Analyze Stock Market Data
@@ -874,11 +3131,11 @@ Status: ✅ Success
     "volatility": 0.25,
     "beta": 1.23,
     "movingAverages": {
-      "SMA": 178.04,
+      "SMA": 178.42,
       "EMA": 182.15
     },
     "technicalIndicators": {
-      "RSI": 65.8,
+      "RSI": 65,
       "MACD": {
         "value": 5.2,
         "signal": 3.8,
@@ -887,35 +3144,35 @@ Status: ✅ Success
     }
   },
   "marketComparison": {
-    "correlationWithSP500": 0.87,
+    "correlationWithSP500": 0.85,
     "correlationWithNASDAQ": 0.92,
-    "relativeStrength": 1.15
+    "relativeStrength": 1.1
   },
   "fundamentalAnalysis": {
-    "peRatio": 24.8,
-    "pbRatio": 35.2,
+    "peRatio": 25.4,
+    "pbRatio": 6.8,
     "dividendYield": 0.6,
-    "earningsGrowth": 0.18
+    "earningsGrowth": 0.15
   },
   "economicImpact": {
-    "interestRateSensitivity": 0.7,
-    "inflationImpact": 0.4
+    "interestRateSensitivity": 0.8,
+    "inflationImpact": 0.6
   },
   "prediction": {
     "nextQuarterEstimate": 197.5,
     "confidenceInterval": [
-      192.8,
-      202.2
+      192.5,
+      202.5
     ],
     "potentialRisks": [
-      "Slowing global economic growth",
+      "Slowing economic growth",
       "Increased competition in the tech industry",
       "Supply chain disruptions"
     ],
     "potentialOpportunities": [
-      "Strong demand for Apple products",
-      "Expansion into new markets",
-      "Successful launch of new products"
+      "Continued growth in the smartphone and wearables market",
+      "Expansion into new product categories",
+      "Increased adoption of services and subscription offerings"
     ]
   }
 }
@@ -932,10 +3189,10 @@ Status: ✅ Success
   "overallPerformance": {
     "totalReach": 215000,
     "totalEngagement": 8225,
-    "engagementRate": 0.0382,
-    "clickThroughRate": 0.0419,
+    "engagementRate": 0.0383,
+    "clickThroughRate": 0.0465,
     "conversionRate": 0.0133,
-    "ROI": 3
+    "ROI": 2
   },
   "platformBreakdown": [
     {
@@ -976,36 +3233,37 @@ Status: ✅ Success
     }
   },
   "audienceInsights": {
-    "mostEngagedAgeGroup": "18-35",
+    "mostEngagedAgeGroup": "25-34",
     "topInterests": [
       "Fashion",
       "Technology"
     ],
     "peakEngagementTimes": [
-      "6pm-9pm",
-      "12pm-3pm"
+      "6:00 PM",
+      "8:00 PM",
+      "10:00 AM"
     ]
   },
   "recommendations": [
     {
       "category": "Content",
-      "suggestion": "Increase the use of visuals and video content to further engage the audience.",
-      "expectedImpact": "Improved engagement and click-through rates"
+      "suggestion": "Increase the frequency of engaging and visually appealing content to drive higher engagement.",
+      "expectedImpact": "Improved engagement and reach across platforms."
     },
     {
       "category": "Targeting",
-      "suggestion": "Expand the target audience to include users interested in lifestyle and travel.",
-      "expectedImpact": "Increased reach and potential for new customers"
+      "suggestion": "Refine the target audience to focus more on the 25-34 age group and their interests in fashion and technology.",
+      "expectedImpact": "Better-targeted ads and higher conversion rates."
     },
     {
       "category": "Budget",
-      "suggestion": "Allocate more budget to the top-performing platforms and content.",
-      "expectedImpact": "Improved overall campaign performance and ROI"
+      "suggestion": "Allocate more budget to the top-performing platforms (Instagram and Facebook) to capitalize on the higher engagement and click-through rates.",
+      "expectedImpact": "Increased overall campaign performance and ROI."
     },
     {
       "category": "Platform",
-      "suggestion": "Consider adding TikTok to the platform mix to reach a younger audience.",
-      "expectedImpact": "Potential for increased engagement and brand awareness"
+      "suggestion": "Explore expanding the campaign to TikTok, as the platform is gaining popularity among the target audience and could potentially drive additional engagement.",
+      "expectedImpact": "Increased reach and diversification of the campaign's presence."
     }
   ]
 }
@@ -1016,31 +3274,15 @@ Status: ✅ Success
 
 ### Complex calculation
 
-Status: ❌ Failure
+Status: ✅ Success
 
-#### Error:
+#### Response:
 
-```
-Return data validation error: [
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "undefined",
-    "path": [
-      "chain_of_thought"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "undefined",
-    "path": [
-      "result"
-    ],
-    "message": "Required"
-  }
-]
+```json
+{
+  "chain_of_thought": "1. Multiply 15 by 87: 15 * 87 = 1305\n2. Multiply 48 by 0.5: 48 * 0.5 = 24\n3. Divide 129 by 24: 129 / 24 = 5.375\n4. Add the results together: 1305 + 5.375 + 12 = 1322.375",
+  "result": 1322.375
+}
 ```
 
 ### Generate fake people
@@ -1178,13 +3420,13 @@ Status: ✅ Success
   ],
   "instructions": [
     "Preheat the oven to 375°F (190°C).",
-    "In a bowl, mix together spinach and feta cheese.",
-    "Cut a pocket into each chicken breast.",
-    "Stuff each chicken breast with the spinach and feta mixture.",
-    "Brush the stuffed chicken breasts with olive oil.",
-    "Place the chicken breasts on a baking sheet.",
-    "Bake in the preheated oven for about 20-25 minutes or until chicken is cooked through.",
-    "Serve hot and enjoy!"
+    "Pound the chicken breasts to flatten them.",
+    "In a bowl, mix spinach and feta cheese.",
+    "Place a portion of the spinach and feta mixture on each chicken breast.",
+    "Roll up the chicken breasts and secure with toothpicks.",
+    "Brush the chicken with olive oil and season with salt and pepper.",
+    "Bake for 25-30 minutes until chicken is cooked through.",
+    "Remove toothpicks before serving."
   ],
   "prep_time": "15 minutes",
   "cook_time": "25 minutes",
@@ -1209,22 +3451,17 @@ Status: ✅ Success
         {
           "time": "09:00",
           "activity": "Visit Akihabara",
-          "description": "Explore the technology district, visit electronic shops and anime stores"
+          "description": "Explore the technology and anime district, visit electronic shops and themed cafes."
         },
         {
-          "time": "12:00",
-          "activity": "Lunch at a Ramen restaurant",
-          "description": "Enjoy authentic Japanese ramen noodles"
+          "time": "13:00",
+          "activity": "Lunch at Tsukiji Fish Market",
+          "description": "Enjoy fresh seafood and local delicacies at one of the world's largest fish markets."
         },
         {
-          "time": "15:00",
-          "activity": "Visit Tokyo Skytree",
-          "description": "Enjoy panoramic views of Tokyo from the observation decks"
-        },
-        {
-          "time": "18:00",
-          "activity": "Dinner at a Robot Restaurant",
-          "description": "Experience a futuristic dining show with robots and lights"
+          "time": "16:00",
+          "activity": "Tokyo National Museum",
+          "description": "Discover Japan's history and culture through a vast collection of art and artifacts."
         }
       ]
     },
@@ -1233,23 +3470,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "10:00",
-          "activity": "Visit Tsukiji Outer Market",
-          "description": "Explore the bustling market and try fresh seafood"
+          "activity": "TeamLab Borderless",
+          "description": "Immerse yourself in digital art and interactive exhibits at this futuristic museum."
         },
         {
           "time": "13:00",
-          "activity": "Lunch at a Sushi restaurant",
-          "description": "Savor delicious sushi made with fresh ingredients"
+          "activity": "Lunch at Robot Restaurant",
+          "description": "Experience a unique dining show with robots and vibrant performances."
         },
         {
-          "time": "15:00",
-          "activity": "Explore Edo-Tokyo Museum",
-          "description": "Learn about Tokyo's history and culture"
-        },
-        {
-          "time": "18:00",
-          "activity": "Dinner at a traditional Izakaya",
-          "description": "Enjoy Japanese tapas and drinks in a cozy atmosphere"
+          "time": "17:00",
+          "activity": "Shibuya Crossing",
+          "description": "Witness the iconic scramble crossing and vibrant nightlife of Shibuya."
         }
       ]
     },
@@ -1258,23 +3490,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "09:00",
-          "activity": "Visit Meiji Shrine",
-          "description": "Experience a peaceful oasis in the heart of the city"
+          "activity": "Edo-Tokyo Museum",
+          "description": "Learn about Tokyo's history from the Edo period to modern times in a fascinating museum."
         },
         {
           "time": "12:00",
-          "activity": "Lunch at Harajuku for crepes",
-          "description": "Indulge in delicious crepes from the famous street stalls"
+          "activity": "Lunch at Ramen Street",
+          "description": "Savor authentic Japanese ramen at the famous Ramen Street in Tokyo Station."
         },
         {
           "time": "15:00",
-          "activity": "Explore Shibuya Crossing",
-          "description": "Witness the iconic scramble crossing and vibrant city life"
-        },
-        {
-          "time": "18:00",
-          "activity": "Dinner at a Yakitori restaurant",
-          "description": "Try a variety of grilled skewers in a lively setting"
+          "activity": "Asakusa Senso-ji Temple",
+          "description": "Explore the oldest temple in Tokyo, soak in the traditional atmosphere, and shop at Nakamise Street."
         }
       ]
     },
@@ -1283,23 +3510,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "10:00",
-          "activity": "Visit Ueno Park and museums",
-          "description": "Stroll through the park, visit museums, and enjoy cherry blossoms"
+          "activity": "Ghibli Museum",
+          "description": "Step into the world of Studio Ghibli animation, enjoy unique exhibits and animation artwork."
         },
         {
           "time": "13:00",
-          "activity": "Lunch at a Tempura restaurant",
-          "description": "Taste crispy tempura with dipping sauce"
+          "activity": "Lunch at Harajuku Takeshita Street",
+          "description": "Indulge in trendy street food and fashion in the vibrant district of Harajuku."
         },
         {
-          "time": "15:00",
-          "activity": "Explore Asakusa Senso-ji Temple",
-          "description": "Discover Tokyo's oldest temple and shopping street"
-        },
-        {
-          "time": "18:00",
-          "activity": "Dinner at a Teppanyaki restaurant",
-          "description": "Enjoy sizzling grilled dishes cooked in front of you"
+          "time": "16:00",
+          "activity": "Meiji Shrine",
+          "description": "Experience tranquility in the heart of Tokyo at this historic Shinto shrine surrounded by a forest."
         }
       ]
     },
@@ -1307,24 +3529,19 @@ Status: ✅ Success
       "day": 5,
       "activities": [
         {
-          "time": "09:00",
-          "activity": "Visit Odaiba",
-          "description": "Explore the futuristic island with shopping malls and attractions"
+          "time": "08:00",
+          "activity": "Tsukiji Outer Market",
+          "description": "Explore the bustling market for fresh seafood, snacks, and culinary delights."
         },
         {
           "time": "12:00",
-          "activity": "Lunch at a themed cafe",
-          "description": "Dine in a unique themed cafe for a memorable experience"
+          "activity": "Lunch at Odaiba",
+          "description": "Enjoy a variety of dining options with a view of Tokyo Bay in the futuristic Odaiba area."
         },
         {
           "time": "15:00",
-          "activity": "Relax at Odaiba Seaside Park",
-          "description": "Enjoy the waterfront park with views of Rainbow Bridge"
-        },
-        {
-          "time": "18:00",
-          "activity": "Farewell dinner at a traditional Kaiseki restaurant",
-          "description": "Indulge in a multi-course Japanese haute cuisine meal"
+          "activity": "Tokyo Skytree",
+          "description": "Ascend the iconic tower for panoramic views of Tokyo and shopping at the base."
         }
       ]
     }
@@ -1344,12 +3561,12 @@ Status: ✅ Success
     {
       "review": "The product exceeded my expectations. Great value for money!",
       "sentiment": "positive",
-      "score": 0.95
+      "score": 0.9
     },
     {
       "review": "Disappointed with the quality. Wouldn't recommend.",
       "sentiment": "negative",
-      "score": 0.15
+      "score": 0.2
     },
     {
       "review": "Average product, nothing special but does the job.",
@@ -1359,7 +3576,7 @@ Status: ✅ Success
     {
       "review": "Absolutely love it! Will buy again.",
       "sentiment": "positive",
-      "score": 0.85
+      "score": 0.8
     },
     {
       "review": "mf didnt show up",
@@ -1379,7 +3596,7 @@ Status: ✅ Success
 ```json
 {
   "title": "The Encounter",
-  "story": "In the year 2050, humanity received its first signal from outer space. It was a message in a language unknown to us, but the intent was clear - a peaceful invitation to meet. The world held its breath as a team of scientists prepared to make history. The spacecraft landed in a remote desert, and as the door slowly opened, we saw them for the first time. Tall, slender beings with shimmering skin and eyes that seemed to hold the secrets of the universe. There was a moment of silence, then one of them extended a hand in a gesture of friendship. It was the beginning of a new chapter for humanity, a journey into the unknown filled with hope and wonder.",
+  "story": "In the year 2247, humanity received a mysterious signal from deep space. Scientists deciphered it as a set of coordinates leading to a distant star system. A spaceship was sent to investigate. As they approached the alien planet, they were greeted by a massive, shimmering spacecraft. Tentatively, they made contact. To their amazement, the beings aboard were unlike anything seen before - tall, slender creatures with iridescent skin and glowing eyes. Communication was challenging but through gestures and shared technology, a bond formed. The aliens, known as the Lumarians, shared their advanced knowledge with humanity, sparking a new era of cooperation and understanding. The encounter marked a pivotal moment in history, proving that the universe held more wonders than humanity had ever imagined.",
   "wordCount": 150
 }
 ```
@@ -1476,7 +3693,7 @@ Status: ✅ Success
           "rest": "60 seconds"
         },
         {
-          "name": "Dumbbell Lateral Raises",
+          "name": "Dumbbell Side Lateral Raises",
           "sets": 3,
           "reps": "12",
           "rest": "45 seconds"
@@ -1484,7 +3701,7 @@ Status: ✅ Success
         {
           "name": "Plank",
           "sets": 3,
-          "reps": "60 seconds",
+          "reps": "1 minute",
           "rest": "30 seconds"
         }
       ]
@@ -1508,427 +3725,131 @@ Status: ✅ Success
 
 ### Generate Complex Product Catalog
 
-Status: ✅ Success
+Status: ❌ Failure
 
-#### Response:
+#### Error:
 
-```json
-{
-  "catalog": [
-    {
-      "category": "Electronics",
-      "products": [
-        {
-          "id": "ELEC001",
-          "name": "Smartphone X",
-          "price": 799.99,
-          "description": "A high-end smartphone with advanced features.",
-          "specifications": {
-            "display": "6.5 inches",
-            "camera": "12 MP",
-            "storage": 128,
-            "RAM": 8,
-            "processor": "Octa-core"
-          },
-          "inStock": true,
-          "tags": [
-            "smartphone",
-            "electronics",
-            "tech"
-          ],
-          "reviews": [
-            {
-              "userId": "user123",
-              "rating": 4,
-              "comment": "Great phone, but battery life could be better.",
-              "helpful": 10,
-              "date": "2024-06-15T08:30:00.000Z"
-            },
-            {
-              "userId": "user456",
-              "rating": 5,
-              "comment": "Excellent performance and camera quality.",
-              "helpful": 15,
-              "date": "2024-06-20T14:45:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "ELEC002"
-          ]
-        },
-        {
-          "id": "ELEC002",
-          "name": "Wireless Earbuds",
-          "price": 129.99,
-          "description": "High-quality wireless earbuds for music and calls.",
-          "specifications": {
-            "batteryLife": 20,
-            "waterResistance": true,
-            "color": "Black"
-          },
-          "inStock": true,
-          "tags": [
-            "earbuds",
-            "electronics",
-            "music"
-          ],
-          "reviews": [
-            {
-              "userId": "user789",
-              "rating": 4,
-              "comment": "Good sound quality and comfortable to wear.",
-              "helpful": 8,
-              "date": "2024-06-25T10:20:00.000Z"
-            },
-            {
-              "userId": "user321",
-              "rating": 5,
-              "comment": "Impressive battery life and quick charging.",
-              "helpful": 12,
-              "date": "2024-06-30T16:55:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "ELEC001"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Home & Garden",
-      "products": [
-        {
-          "id": "HG001",
-          "name": "Robot Vacuum Cleaner",
-          "price": 299.99,
-          "description": "Smart robot vacuum cleaner for automated cleaning.",
-          "specifications": {
-            "suctionPower": 2000,
-            "batteryCapacity": 5000,
-            "smartMapping": true
-          },
-          "inStock": true,
-          "tags": [
-            "vacuum",
-            "home",
-            "cleaning"
-          ],
-          "reviews": [
-            {
-              "userId": "user555",
-              "rating": 5,
-              "comment": "Efficient and saves a lot of time!",
-              "helpful": 20,
-              "date": "2024-07-01T09:10:00.000Z"
-            },
-            {
-              "userId": "user777",
-              "rating": 4,
-              "comment": "Works well on different floor types.",
-              "helpful": 15,
-              "date": "2024-07-03T11:45:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "HG002"
-          ]
-        },
-        {
-          "id": "HG002",
-          "name": "Smart LED Bulb",
-          "price": 19.99,
-          "description": "Energy-efficient smart LED bulb with adjustable brightness.",
-          "specifications": {
-            "brightness": "800 lumens",
-            "colorTemperature": "2700K-6500K",
-            "voiceControl": true
-          },
-          "inStock": true,
-          "tags": [
-            "lighting",
-            "home",
-            "smart"
-          ],
-          "reviews": [
-            {
-              "userId": "user999",
-              "rating": 4,
-              "comment": "Love the different lighting options!",
-              "helpful": 10,
-              "date": "2024-07-04T14:30:00.000Z"
-            },
-            {
-              "userId": "user888",
-              "rating": 5,
-              "comment": "Easy to set up and great for creating ambiance.",
-              "helpful": 12,
-              "date": "2024-07-05T10:15:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "HG001"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Sports",
-      "products": [
-        {
-          "id": "SPORT001",
-          "name": "Yoga Mat",
-          "price": 29.99,
-          "description": "High-quality yoga mat for comfortable workouts.",
-          "specifications": {
-            "material": "TPE",
-            "thickness": 6,
-            "dimensions": "72\" x 24\"",
-            "nonSlip": true
-          },
-          "inStock": true,
-          "tags": [
-            "yoga",
-            "fitness",
-            "sports"
-          ],
-          "reviews": [
-            {
-              "userId": "user111",
-              "rating": 5,
-              "comment": "Very comfortable and durable material.",
-              "helpful": 8,
-              "date": "2024-06-28T12:40:00.000Z"
-            },
-            {
-              "userId": "user222",
-              "rating": 4,
-              "comment": "Good grip and easy to clean.",
-              "helpful": 6,
-              "date": "2024-07-02T15:25:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "SPORT002"
-          ]
-        },
-        {
-          "id": "SPORT002",
-          "name": "Adjustable Dumbbells",
-          "price": 149.99,
-          "description": "Set of adjustable dumbbells for versatile strength training.",
-          "specifications": {
-            "weightRange": "5-52.5 lbs",
-            "increments": 2.5,
-            "material": "Steel"
-          },
-          "inStock": true,
-          "tags": [
-            "dumbbells",
-            "fitness",
-            "sports"
-          ],
-          "reviews": [
-            {
-              "userId": "user333",
-              "rating": 5,
-              "comment": "Great for home workouts and easy to adjust.",
-              "helpful": 10,
-              "date": "2024-06-29T08:50:00.000Z"
-            },
-            {
-              "userId": "user444",
-              "rating": 4,
-              "comment": "Solid construction and space-saving design.",
-              "helpful": 7,
-              "date": "2024-07-04T09:35:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "SPORT001"
-          ]
-        }
-      ]
-    }
-  ]
-}
+```
+Return data validation error: [
+  {
+    "code": "invalid_union",
+    "unionErrors": [
+      {
+        "issues": [
+          {
+            "code": "invalid_type",
+            "expected": "string",
+            "received": "array",
+            "path": [
+              "catalog",
+              1,
+              "products",
+              0,
+              "specifications",
+              "cleaningModes"
+            ],
+            "message": "Expected string, received array"
+          }
+        ],
+        "name": "ZodError"
+      },
+      {
+        "issues": [
+          {
+            "code": "invalid_type",
+            "expected": "number",
+            "received": "array",
+            "path": [
+              "catalog",
+              1,
+              "products",
+              0,
+              "specifications",
+              "cleaningModes"
+            ],
+            "message": "Expected number, received array"
+          }
+        ],
+        "name": "ZodError"
+      },
+      {
+        "issues": [
+          {
+            "code": "invalid_type",
+            "expected": "boolean",
+            "received": "array",
+            "path": [
+              "catalog",
+              1,
+              "products",
+              0,
+              "specifications",
+              "cleaningModes"
+            ],
+            "message": "Expected boolean, received array"
+          }
+        ],
+        "name": "ZodError"
+      }
+    ],
+    "path": [
+      "catalog",
+      1,
+      "products",
+      0,
+      "specifications",
+      "cleaningModes"
+    ],
+    "message": "Invalid input"
+  }
+]
 ```
 
 ### Generate Advanced Chess Game Analysis
 
-Status: ✅ Success
+Status: ❌ Failure
 
-#### Response:
+#### Error:
 
-```json
-{
-  "gameInfo": {
-    "event": "Casual Game",
-    "site": "Unknown",
-    "date": "2024.07.05",
-    "round": "1",
-    "white": "Player 1",
-    "black": "Player 2",
-    "result": "*"
+```
+Return data validation error: [
+  {
+    "code": "too_small",
+    "minimum": 0,
+    "type": "number",
+    "inclusive": false,
+    "exact": false,
+    "message": "Number must be greater than 0",
+    "path": [
+      "engineAnalysis",
+      "totalPositionsEvaluated"
+    ]
   },
-  "moves": [
-    {
-      "moveNumber": 1,
-      "white": {
-        "san": "e4",
-        "uci": "e2e4"
-      },
-      "black": {
-        "san": "e5",
-        "uci": "e7e5"
-      }
-    },
-    {
-      "moveNumber": 2,
-      "white": {
-        "san": "Nf3",
-        "uci": "g1f3"
-      },
-      "black": {
-        "san": "Nc6",
-        "uci": "b8c6"
-      }
-    },
-    {
-      "moveNumber": 3,
-      "white": {
-        "san": "Bb5",
-        "uci": "f1b5"
-      },
-      "black": {
-        "san": "a6",
-        "uci": "a7a6"
-      }
-    },
-    {
-      "moveNumber": 4,
-      "white": {
-        "san": "Ba4",
-        "uci": "b5a4"
-      },
-      "black": {
-        "san": "Nf6",
-        "uci": "g8f6"
-      }
-    },
-    {
-      "moveNumber": 5,
-      "white": {
-        "san": "O-O",
-        "uci": "e1g1"
-      },
-      "black": {
-        "san": "Be7",
-        "uci": "f8e7"
-      }
-    },
-    {
-      "moveNumber": 6,
-      "white": {
-        "san": "Re1",
-        "uci": "f1e1"
-      },
-      "black": {
-        "san": "b5",
-        "uci": "b5b4"
-      }
-    },
-    {
-      "moveNumber": 7,
-      "white": {
-        "san": "Bb3",
-        "uci": "c1b3"
-      },
-      "black": {
-        "san": "d6",
-        "uci": "d7d6"
-      }
-    },
-    {
-      "moveNumber": 8,
-      "white": {
-        "san": "c3",
-        "uci": "c2c3"
-      },
-      "black": {
-        "san": "O-O",
-        "uci": "e8g8"
-      }
-    },
-    {
-      "moveNumber": 9,
-      "white": {
-        "san": "h3",
-        "uci": "h2h3"
-      },
-      "black": {
-        "san": "Nb8",
-        "uci": "c6b8"
-      }
-    },
-    {
-      "moveNumber": 10,
-      "white": {
-        "san": "d4",
-        "uci": "d2d4"
-      },
-      "black": {
-        "san": "Nbd7",
-        "uci": "c3d7"
-      }
-    }
-  ],
-  "analysis": {
-    "openingName": "Ruy Lopez",
-    "openingEco": "C60",
-    "middlegameAnalysis": "Both players have developed their pieces actively, preparing for the middlegame.",
-    "endgameAnalysis": "The game is still in the opening phase.",
-    "keyPositions": [
-      {
-        "fen": "r1bqk2r/1pp2ppp/p1n5/4P3/3Pn3/8/PPP2PPP/RNBQKBNR w KQkq - 0 6",
-        "evaluation": 0.5,
-        "bestMove": "Re1",
-        "comment": "White has a slight advantage due to better piece coordination."
-      },
-      {
-        "fen": "r1bqk2r/1pp2ppp/p1n5/4P3/3P4/8/PPP2PPP/RNBQKBNR b KQkq - 0 6",
-        "evaluation": -0.5,
-        "bestMove": "b4",
-        "comment": "Black equalizes the position by challenging the center."
-      }
-    ],
-    "tacticalMotifs": [
-      {
-        "type": "pin",
-        "moveNumber": 3,
-        "description": "White pins the knight on c6 with the bishop on b5."
-      },
-      {
-        "type": "fork",
-        "moveNumber": 10,
-        "description": "White forks the black knight on d7 and the pawn on f6 with the pawn on d4."
-      }
-    ],
-    "strategicThemes": [
-      "Control of the center",
-      "Piece development",
-      "King safety"
-    ],
-    "blunders": []
+  {
+    "code": "too_small",
+    "minimum": 0,
+    "type": "number",
+    "inclusive": false,
+    "exact": false,
+    "message": "Number must be greater than 0",
+    "path": [
+      "engineAnalysis",
+      "timeSpent"
+    ]
   },
-  "engineAnalysis": {
-    "engineName": "Stockfish 14",
-    "depth": 20,
-    "totalPositionsEvaluated": 1500000,
-    "averageDepth": 18.5,
-    "timeSpent": 2.5,
-    "nodesPerSecond": 600000
+  {
+    "code": "too_small",
+    "minimum": 0,
+    "type": "number",
+    "inclusive": false,
+    "exact": false,
+    "message": "Number must be greater than 0",
+    "path": [
+      "engineAnalysis",
+      "nodesPerSecond"
+    ]
   }
-}
+]
 ```
 
 ### Analyze Stock Market Data
@@ -1943,35 +3864,35 @@ Status: ✅ Success
     "symbol": "AAPL",
     "currentPrice": 193.6,
     "yearlyPerformance": 48.7,
-    "volatility": 0.187,
-    "beta": 1.15,
+    "volatility": 0.15,
+    "beta": 1.25,
     "movingAverages": {
       "SMA": 172.24,
-      "EMA": 170.94
+      "EMA": 172.24
     },
     "technicalIndicators": {
-      "RSI": 67.82,
+      "RSI": 65.43,
       "MACD": {
-        "value": 5.66,
-        "signal": 4.12,
-        "histogram": 1.54
+        "value": 5.12,
+        "signal": 3.98,
+        "histogram": 1.14
       }
     }
   },
   "marketComparison": {
-    "correlationWithSP500": 0.91,
-    "correlationWithNASDAQ": 0.89,
-    "relativeStrength": 1.02
+    "correlationWithSP500": 0.92,
+    "correlationWithNASDAQ": 0.88,
+    "relativeStrength": 1.05
   },
   "fundamentalAnalysis": {
-    "peRatio": 28.45,
-    "pbRatio": 8.21,
-    "dividendYield": 1.23,
-    "earningsGrowth": 0.12
+    "peRatio": 28.5,
+    "pbRatio": 8.1,
+    "dividendYield": 1.2,
+    "earningsGrowth": 0.15
   },
   "economicImpact": {
-    "interestRateSensitivity": -0.85,
-    "inflationImpact": 0.67
+    "interestRateSensitivity": -0.9,
+    "inflationImpact": 0.6
   },
   "prediction": {
     "nextQuarterEstimate": 200.5,
@@ -1981,7 +3902,7 @@ Status: ✅ Success
     ],
     "potentialRisks": [
       "Supply chain disruptions",
-      "Regulatory challenges"
+      "Regulatory changes"
     ],
     "potentialOpportunities": [
       "Expansion into new markets",
@@ -2001,36 +3922,36 @@ Status: ✅ Success
 {
   "overallPerformance": {
     "totalReach": 185000,
-    "totalEngagement": 12275,
-    "engagementRate": 0.06635135135135135,
-    "clickThroughRate": 0.02702702702702703,
-    "conversionRate": 0.013333333333333334,
+    "totalEngagement": 13775,
+    "engagementRate": 7.44,
+    "clickThroughRate": 3.24,
+    "conversionRate": 4,
     "ROI": 3
   },
   "platformBreakdown": [
     {
       "platform": "Facebook",
       "reach": 110000,
-      "engagement": 3875,
-      "engagementRate": 0.03522727272727273,
+      "engagement": 4075,
+      "engagementRate": 3.71,
       "clicks": 4500,
-      "CTR": 0.04090909090909091
+      "CTR": 4.09
     },
     {
       "platform": "Instagram",
       "reach": 75000,
       "engagement": 3150,
-      "engagementRate": 0.042,
+      "engagementRate": 4.2,
       "clicks": 3500,
-      "CTR": 0.04666666666666667
+      "CTR": 4.67
     },
     {
       "platform": "Twitter",
       "reach": 30000,
-      "engagement": 3250,
-      "engagementRate": 0.10833333333333334,
-      "clicks": 2750,
-      "CTR": 0.09166666666666666
+      "engagement": 2550,
+      "engagementRate": 8.5,
+      "clicks": 1500,
+      "CTR": 5
     }
   ],
   "contentAnalysis": {
@@ -2040,7 +3961,7 @@ Status: ✅ Success
       "engagement": 3150
     },
     "contentSentiment": {
-      "positive": 4,
+      "positive": 3,
       "neutral": 0,
       "negative": 0
     }
@@ -2059,30 +3980,30 @@ Status: ✅ Success
   "recommendations": [
     {
       "category": "Content",
-      "suggestion": "Create more interactive content like polls and quizzes to boost engagement.",
-      "expectedImpact": "Increased engagement and brand interaction."
+      "suggestion": "Increase video content for higher engagement",
+      "expectedImpact": "Improved engagement rates"
     },
     {
       "category": "Targeting",
-      "suggestion": "Expand target audience to include older age groups for wider reach.",
-      "expectedImpact": "Increased reach and potential new customers."
+      "suggestion": "Refine audience targeting based on top interests",
+      "expectedImpact": "Better conversion rates"
     },
     {
       "category": "Budget",
-      "suggestion": "Allocate more budget towards Instagram ads for higher engagement.",
-      "expectedImpact": "Improved engagement and click-through rates on Instagram."
+      "suggestion": "Allocate more budget to Instagram for increased reach",
+      "expectedImpact": "Higher overall engagement"
     },
     {
       "category": "Platform",
-      "suggestion": "Utilize video content on Twitter for better engagement.",
-      "expectedImpact": "Higher engagement and increased reach on Twitter."
+      "suggestion": "Explore influencer partnerships on Instagram",
+      "expectedImpact": "Broader reach and engagement"
     }
   ]
 }
 ```
 
 
-## gpt-4o
+## gpt-4o-mini
 
 ### Complex calculation
 
@@ -2092,7 +4013,7 @@ Status: ✅ Success
 
 ```json
 {
-  "chain_of_thought": "1. Calculate 48 * 0.5 = 24\n2. Calculate 129 / 24 = 5.375\n3. Calculate 15 * 87 = 1305\n4. Add 1305 + 5.375 = 1310.375\n5. Add 1310.375 + 12 = 1322.375",
+  "chain_of_thought": "1. Calculate 15 * 87 = 1305  \n2. Calculate 48 * 0.5 = 24  \n3. Calculate 129 / 24 = 5.375  \n4. Add the results: 1305 + 5.375 = 1310.375  \n5. Finally, add 12: 1310.375 + 12 = 1322.375",
   "result": 1322.375
 }
 ```
@@ -2115,7 +4036,7 @@ Status: ✅ Success
       "age": 34
     },
     {
-      "name": "Emma Davis",
+      "name": "Emma Brown",
       "age": 22
     }
   ]
@@ -2154,7 +4075,1157 @@ Status: ✅ Success
 
 ```json
 {
-  "result": "He is a good person"
+  "result": "He is a good person."
+}
+```
+
+### Detect language in a text
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "es"
+}
+```
+
+### Calculate area of triangle (with mathjs expression)
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "calculation": "0.5 * 179.74 * 177.76"
+}
+```
+
+### Generate Quiz
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "questions": [
+    {
+      "question": "What was the first human-made object to reach the Moon?",
+      "options": [
+        "Apollo 11",
+        "Luna 2",
+        "Voyager 1",
+        "Mars Rover"
+      ],
+      "correct_answer": "Luna 2"
+    },
+    {
+      "question": "Which planet is known as the Red Planet?",
+      "options": [
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Venus"
+      ],
+      "correct_answer": "Mars"
+    }
+  ]
+}
+```
+
+### Create Recipe
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "name": "Mediterranean Chicken with Spinach and Feta",
+  "ingredients": [
+    "2 chicken breasts",
+    "2 cups fresh spinach",
+    "1/2 cup feta cheese, crumbled",
+    "2 tablespoons olive oil",
+    "1 teaspoon garlic powder",
+    "Salt and pepper to taste"
+  ],
+  "instructions": [
+    "Preheat the oven to 375°F (190°C).",
+    "In a skillet, heat olive oil over medium heat.",
+    "Season the chicken breasts with garlic powder, salt, and pepper.",
+    "Sear the chicken in the skillet for 3-4 minutes on each side until golden brown.",
+    "Transfer the chicken to a baking dish.",
+    "In the same skillet, add spinach and cook until wilted.",
+    "Top the chicken with the wilted spinach and crumbled feta cheese.",
+    "Bake in the preheated oven for 20-25 minutes, or until the chicken is cooked through.",
+    "Serve warm."
+  ],
+  "prep_time": "10 minutes",
+  "cook_time": "30 minutes",
+  "servings": 2
+}
+```
+
+### Generate Travel Itinerary
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "destination": "Tokyo",
+  "duration": 5,
+  "daily_plans": [
+    {
+      "day": 1,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit Akihabara",
+          "description": "Explore the electronics district known for its tech shops and anime culture."
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch at a Maid Cafe",
+          "description": "Experience a unique dining experience with themed waitresses."
+        },
+        {
+          "time": "15:00",
+          "activity": "Explore Ueno Park",
+          "description": "Visit museums and enjoy the natural beauty of the park."
+        },
+        {
+          "time": "18:00",
+          "activity": "Dinner at Ameyoko Market",
+          "description": "Taste various street foods and local delicacies."
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit the Tokyo National Museum",
+          "description": "Discover Japan's rich history and culture through its extensive collection."
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch at a traditional Izakaya",
+          "description": "Enjoy a variety of Japanese dishes in a casual setting."
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Asakusa and Senso-ji Temple",
+          "description": "Visit Tokyo's oldest temple and shop for souvenirs."
+        },
+        {
+          "time": "18:00",
+          "activity": "Dinner at a Sushi Restaurant",
+          "description": "Indulge in fresh sushi at a renowned local restaurant."
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit the Tokyo Skytree",
+          "description": "Enjoy panoramic views of the city from the observation deck."
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch at Solamachi",
+          "description": "Explore the shopping complex and enjoy a meal with a view."
+        },
+        {
+          "time": "15:00",
+          "activity": "Explore Odaiba",
+          "description": "Visit the futuristic island with shopping, entertainment, and attractions."
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner at a Themed Restaurant",
+          "description": "Experience a unique dining atmosphere with a fun theme."
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit the Imperial Palace",
+          "description": "Explore the beautiful gardens and learn about Japan's imperial history."
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch in Marunouchi",
+          "description": "Enjoy a meal in the business district with various dining options."
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Ginza",
+          "description": "Shop in Tokyo's upscale shopping district known for luxury brands."
+        },
+        {
+          "time": "18:00",
+          "activity": "Dinner at a Ramen Shop",
+          "description": "Savor a bowl of authentic ramen at a popular local spot."
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "activities": [
+        {
+          "time": "09:00",
+          "activity": "Visit Meiji Shrine",
+          "description": "Experience the tranquility of this Shinto shrine surrounded by forest."
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch in Harajuku",
+          "description": "Try trendy cafes and unique food options in this vibrant area."
+        },
+        {
+          "time": "15:00",
+          "activity": "Explore Shibuya",
+          "description": "Visit the famous Shibuya Crossing and shop in the area."
+        },
+        {
+          "time": "18:00",
+          "activity": "Farewell Dinner at a Teppanyaki Restaurant",
+          "description": "Enjoy a final meal with a live cooking performance."
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Analyze Sentiment of Customer Reviews
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "analyze": [
+    {
+      "review": "The product exceeded my expectations. Great value for money!",
+      "sentiment": "positive",
+      "score": 0.9
+    },
+    {
+      "review": "Disappointed with the quality. Wouldn't recommend.",
+      "sentiment": "negative",
+      "score": 0.2
+    },
+    {
+      "review": "Average product, nothing special but does the job.",
+      "sentiment": "neutral",
+      "score": 0.5
+    },
+    {
+      "review": "Absolutely love it! Will buy again.",
+      "sentiment": "positive",
+      "score": 0.95
+    },
+    {
+      "review": "mf didnt show up",
+      "sentiment": "negative",
+      "score": 0.1
+    }
+  ]
+}
+```
+
+### Generate Short Story
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "title": "The Signal from Aeloria",
+  "story": "In the year 2147, humanity had reached the stars, but the stars had yet to reach back. That was until the day the signal came. It was a simple series of pulses, rhythmic and deliberate, echoing through the vastness of space. Dr. Elara Voss, a leading astrobiologist, was the first to decode it. The message was not just noise; it was a greeting from Aeloria, a planet orbiting a distant sun.\n\nElara gathered her team, their hearts racing with excitement and fear. They had long speculated about life beyond Earth, but now they had proof. The Aelorians were curious beings, eager to learn about humanity. They proposed a meeting, a chance to bridge the gap between worlds.\n\nAs the spacecraft prepared for launch, Elara looked out at the stars, wondering what awaited them. Would they find friends or foes? With a deep breath, she stepped aboard, ready to make history. The journey to Aeloria was not just a leap into the unknown; it was the dawn of a new era for humankind.",
+  "wordCount": 150
+}
+```
+
+### Create Workout Plan
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "weeklyPlan": [
+    {
+      "day": 1,
+      "focus": "Chest and Triceps",
+      "exercises": [
+        {
+          "name": "Barbell Bench Press",
+          "sets": 4,
+          "reps": "8-10",
+          "rest": "90 seconds"
+        },
+        {
+          "name": "Dumbbell Flyes",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Tricep Dips",
+          "sets": 3,
+          "reps": "8-10",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Overhead Dumbbell Tricep Extension",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "focus": "Back and Biceps",
+      "exercises": [
+        {
+          "name": "Pull-Ups",
+          "sets": 4,
+          "reps": "6-8",
+          "rest": "90 seconds"
+        },
+        {
+          "name": "Bent Over Barbell Rows",
+          "sets": 4,
+          "reps": "8-10",
+          "rest": "90 seconds"
+        },
+        {
+          "name": "Dumbbell Bicep Curls",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Hammer Curls",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "focus": "Legs",
+      "exercises": [
+        {
+          "name": "Barbell Squats",
+          "sets": 4,
+          "reps": "8-10",
+          "rest": "90 seconds"
+        },
+        {
+          "name": "Dumbbell Lunges",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Leg Curls (using dumbbells)",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Calf Raises",
+          "sets": 4,
+          "reps": "12-15",
+          "rest": "60 seconds"
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "focus": "Shoulders and Core",
+      "exercises": [
+        {
+          "name": "Dumbbell Shoulder Press",
+          "sets": 4,
+          "reps": "8-10",
+          "rest": "90 seconds"
+        },
+        {
+          "name": "Lateral Raises",
+          "sets": 3,
+          "reps": "10-12",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Plank",
+          "sets": 3,
+          "reps": "30 seconds",
+          "rest": "60 seconds"
+        },
+        {
+          "name": "Russian Twists",
+          "sets": 3,
+          "reps": "15-20",
+          "rest": "60 seconds"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Summarize Long Text
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+  "wordCount": 50
+}
+```
+
+### Generate Complex Product Catalog
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "catalog": [
+    {
+      "category": "Electronics",
+      "products": [
+        {
+          "id": "E001",
+          "name": "Wireless Headphones",
+          "price": 89.99,
+          "description": "High-quality wireless headphones with noise cancellation.",
+          "specifications": {
+            "batteryLife": "20 hours",
+            "bluetoothVersion": "5.0",
+            "weight": 0.25
+          },
+          "inStock": true,
+          "tags": [
+            "audio",
+            "wireless",
+            "headphones"
+          ],
+          "reviews": [
+            {
+              "userId": "user123",
+              "rating": 5,
+              "comment": "Amazing sound quality!",
+              "helpful": 10,
+              "date": "2024-07-01T10:00:00Z"
+            },
+            {
+              "userId": "user456",
+              "rating": 4,
+              "comment": "Very comfortable for long use.",
+              "helpful": 5,
+              "date": "2024-07-05T12:30:00Z"
+            }
+          ],
+          "relatedProducts": [
+            "E002",
+            "E003",
+            "E004"
+          ]
+        },
+        {
+          "id": "E002",
+          "name": "Smartphone",
+          "price": 699.99,
+          "description": "Latest model smartphone with advanced features.",
+          "specifications": {
+            "storage": "128GB",
+            "camera": "12MP",
+            "battery": "4000mAh"
+          },
+          "inStock": true,
+          "tags": [
+            "smartphone",
+            "electronics",
+            "mobile"
+          ],
+          "reviews": [
+            {
+              "userId": "user789",
+              "rating": 5,
+              "comment": "Best phone I've ever owned!",
+              "helpful": 8,
+              "date": "2024-07-10T14:00:00Z"
+            },
+            {
+              "userId": "user101",
+              "rating": 3,
+              "comment": "Good but a bit overpriced.",
+              "helpful": 2,
+              "date": "2024-07-15T09:15:00Z"
+            }
+          ],
+          "relatedProducts": [
+            "E001",
+            "E003",
+            "E004"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Home & Garden",
+      "products": [
+        {
+          "id": "H001",
+          "name": "Garden Hose",
+          "price": 29.99,
+          "description": "Durable garden hose with a length of 50 feet.",
+          "specifications": {
+            "material": "rubber",
+            "length": "50 feet",
+            "diameter": "5/8 inch"
+          },
+          "inStock": true,
+          "tags": [
+            "garden",
+            "outdoor",
+            "tools"
+          ],
+          "reviews": [
+            {
+              "userId": "user202",
+              "rating": 4,
+              "comment": "Very flexible and easy to use.",
+              "helpful": 3,
+              "date": "2024-07-20T11:00:00Z"
+            },
+            {
+              "userId": "user303",
+              "rating": 5,
+              "comment": "Great quality for the price.",
+              "helpful": 7,
+              "date": "2024-07-22T15:45:00Z"
+            }
+          ],
+          "relatedProducts": [
+            "H002",
+            "H003",
+            "H004"
+          ]
+        },
+        {
+          "id": "H002",
+          "name": "Indoor Plant Pot",
+          "price": 19.99,
+          "description": "Stylish ceramic pot for indoor plants.",
+          "specifications": {
+            "size": "6 inches",
+            "color": "white",
+            "material": "ceramic"
+          },
+          "inStock": true,
+          "tags": [
+            "home",
+            "decor",
+            "plants"
+          ],
+          "reviews": [
+            {
+              "userId": "user404",
+              "rating": 5,
+              "comment": "Looks great in my living room!",
+              "helpful": 4,
+              "date": "2024-07-25T08:30:00Z"
+            },
+            {
+              "userId": "user505",
+              "rating": 4,
+              "comment": "Good quality but a bit heavy.",
+              "helpful": 1,
+              "date": "2024-07-26T10:00:00Z"
+            }
+          ],
+          "relatedProducts": [
+            "H001",
+            "H003",
+            "H004"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Sports",
+      "products": [
+        {
+          "id": "S001",
+          "name": "Tennis Racket",
+          "price": 59.99,
+          "description": "Lightweight tennis racket for beginners.",
+          "specifications": {
+            "weight": "300g",
+            "material": "graphite",
+            "stringPattern": "16x19"
+          },
+          "inStock": true,
+          "tags": [
+            "sports",
+            "tennis",
+            "equipment"
+          ],
+          "reviews": [
+            {
+              "userId": "user606",
+              "rating": 5,
+              "comment": "Perfect for my first tennis lessons!",
+              "helpful": 6,
+              "date": "2024-07-15T13:00:00Z"
+            },
+            {
+              "userId": "user707",
+              "rating": 4,
+              "comment": "Good balance and feel.",
+              "helpful": 3,
+              "date": "2024-07-18T16:00:00Z"
+            }
+          ],
+          "relatedProducts": [
+            "S002",
+            "S003",
+            "S004"
+          ]
+        },
+        {
+          "id": "S002",
+          "name": "Soccer Ball",
+          "price": 29.99,
+          "description": "Official size soccer ball for practice.",
+          "specifications": {
+            "material": "synthetic",
+            "size": "5",
+            "weight": "410g"
+          },
+          "inStock": true,
+          "tags": [
+            "sports",
+            "soccer",
+            "ball"
+          ],
+          "reviews": [
+            {
+              "userId": "user808",
+              "rating": 5,
+              "comment": "Great ball for training!",
+              "helpful": 10,
+              "date": "2024-07-20T09:00:00Z"
+            },
+            {
+              "userId": "user909",
+              "rating": 4,
+              "comment": "Good grip and durability.",
+              "helpful": 5,
+              "date": "2024-07-21T14:30:00Z"
+            }
+          ],
+          "relatedProducts": [
+            "S001",
+            "S003",
+            "S004"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Generate Advanced Chess Game Analysis
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "moves": [
+    {
+      "moveNumber": 1,
+      "white": {
+        "san": "e4",
+        "uci": "e2e4",
+        "comment": "The King's Pawn Opening, controlling the center.",
+        "nag": [],
+        "evaluation": 0.3,
+        "bestMove": "e4"
+      },
+      "black": {
+        "san": "e5",
+        "uci": "e7e5",
+        "comment": "Responding symmetrically, also controlling the center.",
+        "nag": [],
+        "evaluation": 0.3,
+        "bestMove": "e5"
+      }
+    },
+    {
+      "moveNumber": 2,
+      "white": {
+        "san": "Nf3",
+        "uci": "g1f3",
+        "comment": "Developing the knight and attacking the e5 pawn.",
+        "nag": [],
+        "evaluation": 0.4,
+        "bestMove": "Nf3"
+      },
+      "black": {
+        "san": "Nc6",
+        "uci": "b8c6",
+        "comment": "Developing the knight and defending the e5 pawn.",
+        "nag": [],
+        "evaluation": 0.4,
+        "bestMove": "Nc6"
+      }
+    },
+    {
+      "moveNumber": 3,
+      "white": {
+        "san": "Bb5",
+        "uci": "f1b5",
+        "comment": "The Ruy Lopez, pinning the knight on c6.",
+        "nag": [],
+        "evaluation": 0.5,
+        "bestMove": "Bb5"
+      },
+      "black": {
+        "san": "a6",
+        "uci": "a7a6",
+        "comment": "Challenging the bishop on b5.",
+        "nag": [],
+        "evaluation": 0.5,
+        "bestMove": "a6"
+      }
+    },
+    {
+      "moveNumber": 4,
+      "white": {
+        "san": "Ba4",
+        "uci": "b5a4",
+        "comment": "Retreating the bishop to maintain the pin.",
+        "nag": [],
+        "evaluation": 0.5,
+        "bestMove": "Ba4"
+      },
+      "black": {
+        "san": "Nf6",
+        "uci": "g8f6",
+        "comment": "Developing the knight and preparing to castle.",
+        "nag": [],
+        "evaluation": 0.5,
+        "bestMove": "Nf6"
+      }
+    },
+    {
+      "moveNumber": 5,
+      "white": {
+        "san": "O-O",
+        "uci": "e1g1",
+        "comment": "Castling for king safety and connecting the rooks.",
+        "nag": [],
+        "evaluation": 0.6,
+        "bestMove": "O-O"
+      },
+      "black": {
+        "san": "Be7",
+        "uci": "f8e7",
+        "comment": "Preparing to castle and developing the bishop.",
+        "nag": [],
+        "evaluation": 0.6,
+        "bestMove": "Be7"
+      }
+    },
+    {
+      "moveNumber": 6,
+      "white": {
+        "san": "Re1",
+        "uci": "e1e1",
+        "comment": "Centralizing the rook and supporting the e4 pawn.",
+        "nag": [],
+        "evaluation": 0.7,
+        "bestMove": "Re1"
+      },
+      "black": {
+        "san": "b5",
+        "uci": "b7b5",
+        "comment": "Expanding on the queenside.",
+        "nag": [],
+        "evaluation": 0.7,
+        "bestMove": "b5"
+      }
+    },
+    {
+      "moveNumber": 7,
+      "white": {
+        "san": "Bb3",
+        "uci": "a4b3",
+        "comment": "Retreating the bishop to a safer square.",
+        "nag": [],
+        "evaluation": 0.6,
+        "bestMove": "Bb3"
+      },
+      "black": {
+        "san": "d6",
+        "uci": "d7d6",
+        "comment": "Solidifying the center.",
+        "nag": [],
+        "evaluation": 0.6,
+        "bestMove": "d6"
+      }
+    },
+    {
+      "moveNumber": 8,
+      "white": {
+        "san": "c3",
+        "uci": "c2c3",
+        "comment": "Preparing to support the center with d4.",
+        "nag": [],
+        "evaluation": 0.7,
+        "bestMove": "c3"
+      },
+      "black": {
+        "san": "O-O",
+        "uci": "e8g8",
+        "comment": "Castling for king safety.",
+        "nag": [],
+        "evaluation": 0.7,
+        "bestMove": "O-O"
+      }
+    },
+    {
+      "moveNumber": 9,
+      "white": {
+        "san": "h3",
+        "uci": "h2h3",
+        "comment": "Creating a luft for the king and preventing Bg4.",
+        "nag": [],
+        "evaluation": 0.6,
+        "bestMove": "h3"
+      },
+      "black": {
+        "san": "Nb8",
+        "uci": "b8c6",
+        "comment": "Retreating the knight to reroute it.",
+        "nag": [],
+        "evaluation": 0.6,
+        "bestMove": "Nb8"
+      }
+    },
+    {
+      "moveNumber": 10,
+      "white": {
+        "san": "d4",
+        "uci": "d2d4",
+        "comment": "Striking in the center.",
+        "nag": [],
+        "evaluation": 0.8,
+        "bestMove": "d4"
+      },
+      "black": {
+        "san": "Nbd7",
+        "uci": "b8d7",
+        "comment": "Developing the knight and supporting the e5 pawn.",
+        "nag": [],
+        "evaluation": 0.8,
+        "bestMove": "Nbd7"
+      }
+    }
+  ],
+  "analysis": {
+    "openingName": "Ruy Lopez",
+    "openingEco": "C60",
+    "middlegameAnalysis": "The position is balanced with both sides having developed pieces. White has a slight initiative due to better control of the center.",
+    "endgameAnalysis": "The endgame prospects depend on the pawn structure and piece activity. Both sides have potential for creating weaknesses.",
+    "keyPositions": [
+      {
+        "fen": "r1bq1rk1/ppp2ppp/2n1p3/3p4/1P1P4/P1N2N1P/R1BQ1PP1/2K2R2 w - - 0 1",
+        "evaluation": 0.5,
+        "bestMove": "d5",
+        "comment": "A critical moment where White can push d5 to gain space."
+      }
+    ],
+    "tacticalMotifs": [
+      {
+        "type": "fork",
+        "moveNumber": 6,
+        "description": "White can create a fork with the knight on e5 after d4."
+      }
+    ],
+    "strategicThemes": [
+      "Control of the center",
+      "Piece development",
+      "King safety"
+    ],
+    "blunders": []
+  },
+  "engineAnalysis": {
+    "engineName": "Stockfish",
+    "depth": 20,
+    "totalPositionsEvaluated": 150000,
+    "averageDepth": 15.5,
+    "timeSpent": 2.5,
+    "nodesPerSecond": 6000
+  }
+}
+```
+
+### Analyze Stock Market Data
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "stockAnalysis": {
+    "symbol": "AAPL",
+    "currentPrice": 193.6,
+    "yearlyPerformance": 48.4,
+    "volatility": 0.25,
+    "beta": 1.2,
+    "movingAverages": {
+      "SMA": 174.4,
+      "EMA": 180.5
+    },
+    "technicalIndicators": {
+      "RSI": 65.2,
+      "MACD": {
+        "value": 2.5,
+        "signal": 1.8,
+        "histogram": 0.7
+      }
+    }
+  },
+  "marketComparison": {
+    "correlationWithSP500": 0.85,
+    "correlationWithNASDAQ": 0.9,
+    "relativeStrength": 1.05
+  },
+  "fundamentalAnalysis": {
+    "peRatio": 28.5,
+    "pbRatio": 35.2,
+    "dividendYield": 0.55,
+    "earningsGrowth": 12.3
+  },
+  "economicImpact": {
+    "interestRateSensitivity": 1.5,
+    "inflationImpact": 0.8
+  },
+  "prediction": {
+    "nextQuarterEstimate": 200,
+    "confidenceInterval": [
+      195,
+      205
+    ],
+    "potentialRisks": [
+      "Rising interest rates",
+      "Supply chain disruptions"
+    ],
+    "potentialOpportunities": [
+      "New product launches",
+      "Expansion into emerging markets"
+    ]
+  }
+}
+```
+
+### Analyze Social Media Campaign
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "overallPerformance": {
+    "totalReach": 215000,
+    "totalEngagement": 6750,
+    "engagementRate": 3.14,
+    "clickThroughRate": 3.14,
+    "conversionRate": 1.33,
+    "ROI": 200
+  },
+  "platformBreakdown": [
+    {
+      "platform": "Facebook",
+      "reach": 110000,
+      "engagement": 4575,
+      "engagementRate": 4.16,
+      "clicks": 4500,
+      "CTR": 4.09
+    },
+    {
+      "platform": "Instagram",
+      "reach": 75000,
+      "engagement": 3150,
+      "engagementRate": 4.2,
+      "clicks": 3500,
+      "CTR": 4.67
+    },
+    {
+      "platform": "Twitter",
+      "reach": 30000,
+      "engagement": 750,
+      "engagementRate": 2.5,
+      "clicks": 1500,
+      "CTR": 5
+    }
+  ],
+  "contentAnalysis": {
+    "topPerformingPost": {
+      "platform": "Instagram",
+      "content": "Summer vibes with our new collection!",
+      "engagement": 3150
+    },
+    "contentSentiment": {
+      "positive": 80,
+      "neutral": 15,
+      "negative": 5
+    }
+  },
+  "audienceInsights": {
+    "mostEngagedAgeGroup": "18-24",
+    "topInterests": [
+      "Fashion",
+      "Technology"
+    ],
+    "peakEngagementTimes": [
+      "12:00 PM",
+      "6:00 PM"
+    ]
+  },
+  "recommendations": [
+    {
+      "category": "Content",
+      "suggestion": "Increase video content to boost engagement.",
+      "expectedImpact": "Higher engagement rates and reach."
+    },
+    {
+      "category": "Targeting",
+      "suggestion": "Expand targeting to include 25-40 age group.",
+      "expectedImpact": "Increased reach and potential sales."
+    },
+    {
+      "category": "Budget",
+      "suggestion": "Allocate more budget to Instagram ads.",
+      "expectedImpact": "Higher ROI based on performance."
+    },
+    {
+      "category": "Platform",
+      "suggestion": "Consider using TikTok for younger audiences.",
+      "expectedImpact": "Access to a broader audience and increased engagement."
+    }
+  ]
+}
+```
+
+
+## gpt-4o
+
+### Complex calculation
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "chain_of_thought": "- First, calculate the multiplication inside the parentheses: 48 * 0.5 = 24\n- Next, perform the division inside the parentheses: 129 / 24 ≈ 5.375\n- Now, calculate the first multiplication: 15 * 87 = 1305\n- Add the results together: 1305 + 5.375 = 1310.375\n- Finally, add the remaining number: 1310.375 + 12 = 1322.375",
+  "result": 1322.375
+}
+```
+
+### Generate fake people
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "peoples": [
+    {
+      "name": "Alice Johnson",
+      "age": 28
+    },
+    {
+      "name": "Michael Smith",
+      "age": 34
+    },
+    {
+      "name": "Sophia Martinez",
+      "age": 22
+    }
+  ]
+}
+```
+
+### Calculate the nth prime number
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "primeNumber": 29
+}
+```
+
+### Find capital cities
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "Rome"
+}
+```
+
+### Grammar Correction
+
+Status: ✅ Success
+
+#### Response:
+
+```json
+{
+  "result": "He is a good person."
 }
 ```
 
@@ -2223,20 +5294,20 @@ Status: ✅ Success
 
 ```json
 {
-  "name": "Mediterranean Stuffed Chicken",
+  "name": "Mediterranean Stuffed Chicken Breast",
   "ingredients": [
     "4 boneless, skinless chicken breasts",
     "2 cups fresh spinach, chopped",
-    "1 cup feta cheese, crumbled",
+    "1 cup crumbled feta cheese",
     "2 tablespoons olive oil",
-    "Salt and pepper to taste",
     "1 teaspoon dried oregano",
-    "1 teaspoon garlic powder"
+    "1 teaspoon garlic powder",
+    "Salt and pepper to taste"
   ],
   "instructions": [
     "Preheat your oven to 375°F (190°C).",
     "Using a sharp knife, cut a pocket into each chicken breast by slicing horizontally, being careful not to cut all the way through.",
-    "In a bowl, mix together the chopped spinach, crumbled feta cheese, salt, pepper, oregano, and garlic powder.",
+    "In a bowl, mix together the chopped spinach, crumbled feta cheese, dried oregano, garlic powder, salt, and pepper.",
     "Stuff each chicken breast with the spinach and feta mixture, securing with toothpicks if necessary.",
     "Heat the olive oil in a large oven-safe skillet over medium-high heat.",
     "Sear the stuffed chicken breasts for 2-3 minutes on each side until golden brown.",
@@ -2265,23 +5336,23 @@ Status: ✅ Success
       "activities": [
         {
           "time": "09:00",
-          "activity": "Visit Akihabara",
-          "description": "Explore the famous electronics district, known for its many shops selling the latest gadgets and anime merchandise."
+          "activity": "Visit to Akihabara",
+          "description": "Explore the famous electronics district, known for its technology shops and anime culture."
         },
         {
           "time": "12:00",
           "activity": "Lunch at a Ramen Shop",
-          "description": "Enjoy a delicious bowl of ramen at one of the many renowned ramen shops in Akihabara."
+          "description": "Enjoy authentic Japanese ramen at a popular local shop."
         },
         {
           "time": "14:00",
-          "activity": "TeamLab Borderless",
-          "description": "Experience the immersive digital art museum that combines technology and art in a unique way."
+          "activity": "Visit to the Tokyo National Museum",
+          "description": "Discover Japan's rich history and culture through its extensive collection of art and artifacts."
         },
         {
           "time": "18:00",
-          "activity": "Dinner at a Sushi Restaurant",
-          "description": "Savor fresh sushi at a traditional sushi restaurant."
+          "activity": "Dinner at an Izakaya",
+          "description": "Experience traditional Japanese pub food and drinks."
         }
       ]
     },
@@ -2289,24 +5360,19 @@ Status: ✅ Success
       "day": 2,
       "activities": [
         {
-          "time": "09:00",
-          "activity": "Visit the Tokyo National Museum",
-          "description": "Explore Japan's largest museum, which houses a vast collection of art and historical artifacts."
+          "time": "10:00",
+          "activity": "Tour of the Tsukiji Outer Market",
+          "description": "Explore the bustling market known for its fresh seafood and street food stalls."
         },
         {
-          "time": "12:00",
-          "activity": "Lunch at Ueno Park",
-          "description": "Have a picnic lunch in the beautiful Ueno Park, which is located near the Tokyo National Museum."
+          "time": "13:00",
+          "activity": "Visit to the teamLab Borderless Museum",
+          "description": "Immerse yourself in the digital art installations at this interactive museum."
         },
         {
-          "time": "14:00",
-          "activity": "Asakusa and Senso-ji Temple",
-          "description": "Visit the historic Senso-ji Temple and explore the traditional Nakamise shopping street."
-        },
-        {
-          "time": "18:00",
-          "activity": "Dinner at a Tempura Restaurant",
-          "description": "Enjoy a meal of crispy tempura at a well-known tempura restaurant."
+          "time": "17:00",
+          "activity": "Dinner at a Sushi Restaurant",
+          "description": "Savor high-quality sushi prepared by skilled chefs."
         }
       ]
     },
@@ -2315,23 +5381,23 @@ Status: ✅ Success
       "activities": [
         {
           "time": "09:00",
-          "activity": "Visit the Meiji Shrine",
-          "description": "Explore the tranquil Meiji Shrine, dedicated to Emperor Meiji and Empress Shoken."
+          "activity": "Visit to the Meiji Shrine",
+          "description": "Explore the serene Shinto shrine surrounded by a lush forest."
         },
         {
           "time": "12:00",
           "activity": "Lunch in Harajuku",
-          "description": "Try some trendy street food in the vibrant Harajuku district."
+          "description": "Try trendy and unique food options in the vibrant Harajuku district."
         },
         {
           "time": "14:00",
-          "activity": "Explore Shibuya",
-          "description": "Visit the famous Shibuya Crossing and explore the bustling Shibuya district."
+          "activity": "Shopping in Shibuya",
+          "description": "Experience the bustling shopping district and the famous Shibuya Crossing."
         },
         {
-          "time": "18:00",
-          "activity": "Dinner at an Izakaya",
-          "description": "Experience a traditional Japanese pub with a variety of small dishes and drinks."
+          "time": "19:00",
+          "activity": "Dinner at a Themed Restaurant",
+          "description": "Enjoy a unique dining experience at one of Tokyo's themed restaurants."
         }
       ]
     },
@@ -2339,24 +5405,24 @@ Status: ✅ Success
       "day": 4,
       "activities": [
         {
-          "time": "09:00",
-          "activity": "Visit the Edo-Tokyo Museum",
-          "description": "Learn about Tokyo's history from the Edo period to modern times at this fascinating museum."
+          "time": "10:00",
+          "activity": "Visit to the Edo-Tokyo Museum",
+          "description": "Learn about Tokyo's history from the Edo period to modern times."
         },
         {
-          "time": "12:00",
-          "activity": "Lunch at Tsukiji Outer Market",
-          "description": "Enjoy fresh seafood and other local delicacies at the Tsukiji Outer Market."
+          "time": "13:00",
+          "activity": "Lunch at a Tempura Restaurant",
+          "description": "Enjoy crispy and delicious tempura at a renowned restaurant."
         },
         {
-          "time": "14:00",
-          "activity": "Odaiba",
-          "description": "Explore the futuristic Odaiba district, known for its shopping, entertainment, and technology attractions."
+          "time": "15:00",
+          "activity": "Walk through Asakusa and Senso-ji Temple",
+          "description": "Explore the historic Asakusa district and visit Tokyo's oldest temple."
         },
         {
           "time": "18:00",
           "activity": "Dinner at a Yakiniku Restaurant",
-          "description": "Savor grilled meat at a popular yakiniku restaurant."
+          "description": "Grill your own meat at a popular Japanese BBQ restaurant."
         }
       ]
     },
@@ -2365,23 +5431,23 @@ Status: ✅ Success
       "activities": [
         {
           "time": "09:00",
-          "activity": "Visit the Imperial Palace",
-          "description": "Take a tour of the Imperial Palace and its beautiful gardens."
+          "activity": "Visit to the Odaiba District",
+          "description": "Explore the futuristic waterfront area with shopping, entertainment, and technology exhibits."
         },
         {
           "time": "12:00",
-          "activity": "Lunch in Ginza",
-          "description": "Dine at a high-end restaurant in the upscale Ginza district."
+          "activity": "Lunch at a Food Court",
+          "description": "Sample a variety of Japanese and international dishes at a large food court."
         },
         {
           "time": "14:00",
-          "activity": "Shopping in Ginza",
-          "description": "Spend the afternoon shopping in Ginza, known for its luxury boutiques and department stores."
+          "activity": "Visit to the Miraikan Museum",
+          "description": "Discover the latest advancements in science and technology at the National Museum of Emerging Science and Innovation."
         },
         {
           "time": "18:00",
           "activity": "Farewell Dinner at a Kaiseki Restaurant",
-          "description": "Enjoy a traditional multi-course Japanese meal at a renowned kaiseki restaurant."
+          "description": "Enjoy a traditional multi-course Japanese meal to end your trip."
         }
       ]
     }
@@ -2436,8 +5502,8 @@ Status: ✅ Success
 ```json
 {
   "title": "Echoes of the Unknown",
-  "story": "In the year 2147, humanity's first contact with extraterrestrial life occurred. A sleek, silver craft descended silently into the Nevada desert, its surface reflecting the stars. Dr. Elena Ramirez, a leading xenobiologist, approached cautiously. The craft's door opened, revealing a being of light and energy. It communicated through harmonious tones, resonating in Elena's mind. 'We come in peace,' it conveyed. Elena extended her hand, bridging the gap between worlds. As they touched, a flood of knowledge and understanding flowed between them. Humanity was no longer alone in the universe.",
-  "wordCount": 100
+  "story": "In the year 2147, humanity's search for extraterrestrial life finally bore fruit. Dr. Elena Vasquez, a renowned astrophysicist, detected a signal from Proxima Centauri. The signal was a series of mathematical sequences, unmistakably intelligent. A team was assembled, and a message was sent back. Days turned into weeks, and then, a reply. The aliens, calling themselves the Zorath, expressed a desire for peaceful contact. A holographic meeting was arranged. As the Zorath's image flickered to life, their appearance was both awe-inspiring and terrifying. They had elongated limbs, shimmering skin, and eyes that seemed to hold the secrets of the universe. Dr. Vasquez took a deep breath and stepped forward, extending a hand in greeting. The Zorath mirrored the gesture. In that moment, two civilizations, separated by light-years, began a journey of understanding and cooperation.",
+  "wordCount": 150
 }
 ```
 
@@ -2470,10 +5536,10 @@ Status: ✅ Success
           "name": "Tricep Dips",
           "sets": 3,
           "reps": "8-10",
-          "rest": "60 seconds"
+          "rest": "90 seconds"
         },
         {
-          "name": "Overhead Tricep Extension (Dumbbell)",
+          "name": "Tricep Overhead Extension",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
@@ -2491,7 +5557,7 @@ Status: ✅ Success
           "rest": "90 seconds"
         },
         {
-          "name": "Bent Over Barbell Rows",
+          "name": "Barbell Rows",
           "sets": 4,
           "reps": "8-10",
           "rest": "90 seconds"
@@ -2503,7 +5569,7 @@ Status: ✅ Success
           "rest": "60 seconds"
         },
         {
-          "name": "Hammer Curls (Dumbbell)",
+          "name": "Hammer Curls",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
@@ -2527,13 +5593,13 @@ Status: ✅ Success
           "rest": "60 seconds"
         },
         {
-          "name": "Romanian Deadlifts (Dumbbell)",
+          "name": "Leg Curls",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
         },
         {
-          "name": "Calf Raises (Dumbbell)",
+          "name": "Calf Raises",
           "sets": 4,
           "reps": "12-15",
           "rest": "60 seconds"
@@ -2545,19 +5611,19 @@ Status: ✅ Success
       "focus": "Shoulders and Abs",
       "exercises": [
         {
-          "name": "Overhead Press (Barbell)",
+          "name": "Dumbbell Shoulder Press",
           "sets": 4,
           "reps": "8-10",
           "rest": "90 seconds"
         },
         {
-          "name": "Lateral Raises (Dumbbell)",
+          "name": "Lateral Raises",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
         },
         {
-          "name": "Front Raises (Dumbbell)",
+          "name": "Front Raises",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
@@ -2569,9 +5635,9 @@ Status: ✅ Success
           "rest": "60 seconds"
         },
         {
-          "name": "Russian Twists (Dumbbell)",
+          "name": "Russian Twists",
           "sets": 3,
-          "reps": "15-20",
+          "reps": "20",
           "rest": "60 seconds"
         }
       ]
@@ -2588,8 +5654,8 @@ Status: ✅ Success
 
 ```json
 {
-  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  "wordCount": 44
+  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "wordCount": 22
 }
 ```
 
@@ -2611,12 +5677,13 @@ Status: ✅ Success
           "price": 799.99,
           "description": "A high-end smartphone with a sleek design and powerful features.",
           "specifications": {
-            "brand": "TechBrand",
+            "brand": "TechCorp",
             "model": "X200",
             "storage": "128GB",
             "color": "Black",
-            "screenSize": "6.5 inches",
-            "batteryLife": "24 hours"
+            "screenSize": 6.5,
+            "batteryLife": "24 hours",
+            "waterResistant": true
           },
           "inStock": true,
           "tags": [
@@ -2630,14 +5697,14 @@ Status: ✅ Success
               "rating": 5,
               "comment": "Amazing phone with great battery life!",
               "helpful": 10,
-              "date": "2024-06-15T10:00:00Z"
+              "date": "2024-07-15T10:30:00Z"
             },
             {
               "userId": "user456",
               "rating": 4,
               "comment": "Good value for money.",
               "helpful": 5,
-              "date": "2024-06-20T12:30:00Z"
+              "date": "2024-07-20T14:45:00Z"
             }
           ],
           "relatedProducts": [
@@ -2649,34 +5716,35 @@ Status: ✅ Success
           "id": "E1002",
           "name": "Wireless Headphones",
           "price": 199.99,
-          "description": "Comfortable wireless headphones with excellent sound quality.",
+          "description": "Noise-cancelling wireless headphones with superior sound quality.",
           "specifications": {
-            "brand": "SoundBrand",
-            "model": "WH500",
-            "batteryLife": "20 hours",
-            "color": "White",
-            "connectivity": "Bluetooth 5.0"
+            "brand": "SoundMax",
+            "model": "WH-500",
+            "batteryLife": "30 hours",
+            "color": "Silver",
+            "bluetooth": true,
+            "weight": "250g"
           },
           "inStock": true,
           "tags": [
             "headphones",
-            "electronics",
-            "audio"
+            "audio",
+            "wireless"
           ],
           "reviews": [
             {
               "userId": "user789",
-              "rating": 4,
-              "comment": "Great sound but a bit pricey.",
-              "helpful": 3,
-              "date": "2024-06-18T14:45:00Z"
+              "rating": 5,
+              "comment": "Best headphones I've ever used!",
+              "helpful": 8,
+              "date": "2024-07-18T09:20:00Z"
             },
             {
               "userId": "user101",
-              "rating": 5,
-              "comment": "Best headphones I've ever owned!",
-              "helpful": 8,
-              "date": "2024-06-22T09:15:00Z"
+              "rating": 4,
+              "comment": "Great sound but a bit pricey.",
+              "helpful": 3,
+              "date": "2024-07-22T11:00:00Z"
             }
           ],
           "relatedProducts": [
@@ -2693,13 +5761,14 @@ Status: ✅ Success
           "id": "HG2001",
           "name": "Cordless Vacuum Cleaner",
           "price": 299.99,
-          "description": "A powerful and lightweight cordless vacuum cleaner for all floor types.",
+          "description": "A lightweight and powerful cordless vacuum cleaner for all floor types.",
           "specifications": {
             "brand": "CleanHome",
-            "model": "CV300",
-            "batteryLife": "40 minutes",
-            "weight": "2.5 kg",
-            "color": "Red"
+            "model": "V300",
+            "batteryLife": "60 minutes",
+            "weight": "2.5kg",
+            "color": "Red",
+            "bagless": true
           },
           "inStock": true,
           "tags": [
@@ -2712,15 +5781,15 @@ Status: ✅ Success
               "userId": "user202",
               "rating": 5,
               "comment": "Makes cleaning so much easier!",
-              "helpful": 7,
-              "date": "2024-06-25T11:00:00Z"
+              "helpful": 12,
+              "date": "2024-07-10T08:15:00Z"
             },
             {
               "userId": "user303",
               "rating": 4,
-              "comment": "Good suction power but battery could last longer.",
+              "comment": "Good suction power but a bit noisy.",
               "helpful": 4,
-              "date": "2024-06-28T16:30:00Z"
+              "date": "2024-07-25T13:30:00Z"
             }
           ],
           "relatedProducts": [
@@ -2732,13 +5801,14 @@ Status: ✅ Success
           "id": "HG2002",
           "name": "Smart Thermostat",
           "price": 149.99,
-          "description": "A smart thermostat that helps you save energy and stay comfortable.",
+          "description": "A smart thermostat that learns your schedule and helps save energy.",
           "specifications": {
             "brand": "EcoTech",
-            "model": "ST100",
+            "model": "T100",
+            "color": "White",
             "connectivity": "Wi-Fi",
-            "color": "Silver",
-            "compatibility": "Alexa, Google Home"
+            "compatibility": "Alexa, Google Home",
+            "energySaving": true
           },
           "inStock": true,
           "tags": [
@@ -2750,16 +5820,16 @@ Status: ✅ Success
             {
               "userId": "user404",
               "rating": 5,
-              "comment": "Easy to install and use.",
-              "helpful": 6,
-              "date": "2024-06-30T08:00:00Z"
+              "comment": "Very convenient and easy to use.",
+              "helpful": 7,
+              "date": "2024-07-12T07:45:00Z"
             },
             {
               "userId": "user505",
               "rating": 4,
-              "comment": "Works well but a bit expensive.",
-              "helpful": 2,
-              "date": "2024-07-02T13:45:00Z"
+              "comment": "Helps save on energy bills.",
+              "helpful": 5,
+              "date": "2024-07-23T16:00:00Z"
             }
           ],
           "relatedProducts": [
@@ -2778,10 +5848,11 @@ Status: ✅ Success
           "price": 499.99,
           "description": "A durable mountain bike suitable for all terrains.",
           "specifications": {
-            "brand": "BikePro",
-            "model": "MTB500",
+            "brand": "TrailBlazer",
+            "model": "MTB-X",
             "frameMaterial": "Aluminum",
             "wheelSize": "27.5 inches",
+            "gears": 21,
             "color": "Blue"
           },
           "inStock": true,
@@ -2796,14 +5867,14 @@ Status: ✅ Success
               "rating": 5,
               "comment": "Great bike for the price!",
               "helpful": 9,
-              "date": "2024-06-10T07:30:00Z"
+              "date": "2024-07-14T12:00:00Z"
             },
             {
               "userId": "user707",
               "rating": 4,
               "comment": "Solid build but a bit heavy.",
-              "helpful": 3,
-              "date": "2024-06-12T10:15:00Z"
+              "helpful": 2,
+              "date": "2024-07-21T15:30:00Z"
             }
           ],
           "relatedProducts": [
@@ -2813,36 +5884,37 @@ Status: ✅ Success
         },
         {
           "id": "S3002",
-          "name": "Yoga Mat",
-          "price": 29.99,
-          "description": "A comfortable and non-slip yoga mat for all your yoga sessions.",
+          "name": "Running Shoes",
+          "price": 129.99,
+          "description": "Lightweight running shoes with excellent cushioning.",
           "specifications": {
-            "brand": "YogaFlex",
-            "model": "YM200",
-            "material": "PVC",
-            "thickness": "6mm",
-            "color": "Purple"
+            "brand": "RunFast",
+            "model": "RF-200",
+            "size": "10",
+            "color": "Black",
+            "material": "Mesh",
+            "weight": "250g"
           },
           "inStock": true,
           "tags": [
-            "yoga",
+            "shoes",
             "sports",
-            "fitness"
+            "running"
           ],
           "reviews": [
             {
               "userId": "user808",
               "rating": 5,
-              "comment": "Perfect for my yoga practice.",
-              "helpful": 5,
-              "date": "2024-06-15T09:00:00Z"
+              "comment": "Very comfortable and light.",
+              "helpful": 6,
+              "date": "2024-07-17T10:00:00Z"
             },
             {
               "userId": "user909",
               "rating": 4,
-              "comment": "Good mat but could be thicker.",
-              "helpful": 2,
-              "date": "2024-06-18T11:45:00Z"
+              "comment": "Good for long runs.",
+              "helpful": 3,
+              "date": "2024-07-24T14:20:00Z"
             }
           ],
           "relatedProducts": [
@@ -2864,144 +5936,256 @@ Status: ✅ Success
 
 ```json
 {
-  "gameInfo": {
-    "event": "Unknown",
-    "site": "Unknown",
-    "date": "Unknown",
-    "round": "Unknown",
-    "white": "Unknown",
-    "black": "Unknown",
-    "result": "*"
-  },
   "moves": [
     {
       "moveNumber": 1,
       "white": {
         "san": "e4",
-        "uci": "e2e4"
+        "uci": "e2e4",
+        "comment": "White opens with the King's Pawn, aiming for central control.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.2,
+        "bestMove": "e4"
       },
       "black": {
         "san": "e5",
-        "uci": "e7e5"
+        "uci": "e7e5",
+        "comment": "Black responds symmetrically, also aiming for central control.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0,
+        "bestMove": "e5"
       }
     },
     {
       "moveNumber": 2,
       "white": {
         "san": "Nf3",
-        "uci": "g1f3"
+        "uci": "g1f3",
+        "comment": "White develops the knight, attacking the e5 pawn.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.3,
+        "bestMove": "Nf3"
       },
       "black": {
         "san": "Nc6",
-        "uci": "b8c6"
+        "uci": "b8c6",
+        "comment": "Black develops the knight, defending the e5 pawn.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.1,
+        "bestMove": "Nc6"
       }
     },
     {
       "moveNumber": 3,
       "white": {
         "san": "Bb5",
-        "uci": "f1b5"
+        "uci": "f1b5",
+        "comment": "White pins the knight on c6, entering the Ruy Lopez opening.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.4,
+        "bestMove": "Bb5"
       },
       "black": {
         "san": "a6",
-        "uci": "a7a6"
+        "uci": "a7a6",
+        "comment": "Black challenges the bishop, forcing it to decide.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.2,
+        "bestMove": "a6"
       }
     },
     {
       "moveNumber": 4,
       "white": {
         "san": "Ba4",
-        "uci": "b5a4"
+        "uci": "b5a4",
+        "comment": "White retreats the bishop, maintaining the pin.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.3,
+        "bestMove": "Ba4"
       },
       "black": {
         "san": "Nf6",
-        "uci": "g8f6"
+        "uci": "g8f6",
+        "comment": "Black develops the knight, attacking the e4 pawn.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.1,
+        "bestMove": "Nf6"
       }
     },
     {
       "moveNumber": 5,
       "white": {
         "san": "O-O",
-        "uci": "e1g1"
+        "uci": "e1g1",
+        "comment": "White castles kingside, ensuring king safety.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.4,
+        "bestMove": "O-O"
       },
       "black": {
         "san": "Be7",
-        "uci": "f8e7"
+        "uci": "f8e7",
+        "comment": "Black prepares to castle kingside.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.2,
+        "bestMove": "Be7"
       }
     },
     {
       "moveNumber": 6,
       "white": {
         "san": "Re1",
-        "uci": "f1e1"
+        "uci": "f1e1",
+        "comment": "White places the rook on the open file, preparing for central control.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.5,
+        "bestMove": "Re1"
       },
       "black": {
         "san": "b5",
-        "uci": "b7b5"
+        "uci": "b7b5",
+        "comment": "Black pushes the pawn, gaining space on the queenside.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.3,
+        "bestMove": "b5"
       }
     },
     {
       "moveNumber": 7,
       "white": {
         "san": "Bb3",
-        "uci": "a4b3"
+        "uci": "a4b3",
+        "comment": "White retreats the bishop to a safe square.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.4,
+        "bestMove": "Bb3"
       },
       "black": {
         "san": "d6",
-        "uci": "d7d6"
+        "uci": "d7d6",
+        "comment": "Black solidifies the center, preparing to develop the light-squared bishop.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.2,
+        "bestMove": "d6"
       }
     },
     {
       "moveNumber": 8,
       "white": {
         "san": "c3",
-        "uci": "c2c3"
+        "uci": "c2c3",
+        "comment": "White prepares to push d4, aiming for central control.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.5,
+        "bestMove": "c3"
       },
       "black": {
         "san": "O-O",
-        "uci": "e8g8"
+        "uci": "e8g8",
+        "comment": "Black castles kingside, ensuring king safety.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.3,
+        "bestMove": "O-O"
       }
     },
     {
       "moveNumber": 9,
       "white": {
         "san": "h3",
-        "uci": "h2h3"
+        "uci": "h2h3",
+        "comment": "White prevents any potential Bg4 pin.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.6,
+        "bestMove": "h3"
       },
       "black": {
         "san": "Nb8",
-        "uci": "b8b8"
+        "uci": "c6b8",
+        "comment": "Black reroutes the knight, aiming for better squares.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.4,
+        "bestMove": "Nb8"
       }
     },
     {
       "moveNumber": 10,
       "white": {
         "san": "d4",
-        "uci": "d2d4"
+        "uci": "d2d4",
+        "comment": "White strikes in the center, aiming for central control.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.7,
+        "bestMove": "d4"
       },
       "black": {
         "san": "Nbd7",
-        "uci": "b8d7"
+        "uci": "b8d7",
+        "comment": "Black develops the knight, supporting the center.",
+        "nag": [
+          1
+        ],
+        "evaluation": 0.5,
+        "bestMove": "Nbd7"
       }
     }
   ],
   "analysis": {
-    "openingName": "Ruy Lopez: Morphy Defense",
-    "openingEco": "C78",
-    "middlegameAnalysis": "The game has transitioned into a typical Ruy Lopez middlegame with both sides having solid pawn structures and piece development. White has a slight spatial advantage in the center.",
-    "endgameAnalysis": "Not applicable as the game has not reached the endgame phase.",
+    "openingName": "Ruy Lopez",
+    "openingEco": "C65",
+    "middlegameAnalysis": "The game has transitioned into a typical Ruy Lopez middlegame with both sides having solid development and central control. White has a slight edge due to better piece activity and central presence.",
+    "endgameAnalysis": "The endgame has not been reached in this analysis.",
     "keyPositions": [
       {
-        "fen": "r1bq1rk1/1ppn1pbp/p2ppnp1/4p3/B2PP3/1BP2N1P/PP3PP1/R1BQR1K1 w - - 0 10",
-        "evaluation": 0.2,
+        "fen": "r1bq1rk1/ppp1bppp/3p1n2/1B2p3/3PP3/1BP2N1P/PP3PP1/R1BQ1RK1 w - - 0 10",
+        "evaluation": 0.7,
         "bestMove": "d4",
-        "comment": "White has a slight advantage due to better central control."
+        "comment": "White's central control and piece activity provide a slight edge."
       }
     ],
     "tacticalMotifs": [],
     "strategicThemes": [
       "central control",
-      "piece development"
+      "piece activity",
+      "king safety"
     ],
     "blunders": []
   },
@@ -3009,9 +6193,9 @@ Status: ✅ Success
     "engineName": "Stockfish 15",
     "depth": 20,
     "totalPositionsEvaluated": 5000000,
-    "averageDepth": 19.5,
-    "timeSpent": 30,
-    "nodesPerSecond": 166666
+    "averageDepth": 18.5,
+    "timeSpent": 120,
+    "nodesPerSecond": 41666
   }
 }
 ```
@@ -3028,18 +6212,18 @@ Status: ✅ Success
     "symbol": "AAPL",
     "currentPrice": 193.6,
     "yearlyPerformance": 48.6,
-    "volatility": 0.15,
+    "volatility": 1.25,
     "beta": 1.2,
     "movingAverages": {
-      "SMA": 178.86,
-      "EMA": 182.45
+      "SMA": 180.5,
+      "EMA": 185.3
     },
     "technicalIndicators": {
-      "RSI": 65,
+      "RSI": 55.4,
       "MACD": {
-        "value": 1.5,
-        "signal": 1.2,
-        "histogram": 0.3
+        "value": 1.2,
+        "signal": 1,
+        "histogram": 0.2
       }
     }
   },
@@ -3051,11 +6235,12 @@ Status: ✅ Success
   "fundamentalAnalysis": {
     "peRatio": 28.5,
     "pbRatio": 10.2,
+    "dividendYield": 0.6,
     "earningsGrowth": 12.5
   },
   "economicImpact": {
-    "interestRateSensitivity": -0.4,
-    "inflationImpact": -0.3
+    "interestRateSensitivity": 0.7,
+    "inflationImpact": 0.5
   },
   "prediction": {
     "nextQuarterEstimate": 200,
@@ -3064,12 +6249,14 @@ Status: ✅ Success
       210
     ],
     "potentialRisks": [
-      "High interest rates",
-      "Market volatility"
+      "Increased competition",
+      "Regulatory challenges",
+      "Supply chain disruptions"
     ],
     "potentialOpportunities": [
-      "Strong earnings growth",
-      "New product launches"
+      "New product launches",
+      "Expansion into new markets",
+      "Technological advancements"
     ]
   }
 }
@@ -3085,8 +6272,8 @@ Status: ✅ Success
 {
   "overallPerformance": {
     "totalReach": 215000,
-    "totalEngagement": 10425,
-    "engagementRate": 4.85,
+    "totalEngagement": 12225,
+    "engagementRate": 5.68,
     "clickThroughRate": 4.65,
     "conversionRate": 1.86,
     "ROI": 2
@@ -3111,8 +6298,8 @@ Status: ✅ Success
     {
       "platform": "Twitter",
       "reach": 30000,
-      "engagement": 900,
-      "engagementRate": 3,
+      "engagement": 700,
+      "engagementRate": 2.33,
       "clicks": 1500,
       "CTR": 5
     }
@@ -3130,14 +6317,14 @@ Status: ✅ Success
     }
   },
   "audienceInsights": {
-    "mostEngagedAgeGroup": "18-24",
+    "mostEngagedAgeGroup": "25-34",
     "topInterests": [
       "Fashion",
       "Technology"
     ],
     "peakEngagementTimes": [
-      "12:00 PM - 2:00 PM",
-      "6:00 PM - 8:00 PM"
+      "12:00 PM - 1:00 PM",
+      "6:00 PM - 7:00 PM"
     ]
   },
   "recommendations": [
@@ -3148,23 +6335,22 @@ Status: ✅ Success
     },
     {
       "category": "Targeting",
-      "suggestion": "Focus more on the 18-24 age group as they show the highest engagement.",
-      "expectedImpact": "Improved engagement and conversion rates."
+      "suggestion": "Focus more on the 25-34 age group.",
+      "expectedImpact": "Better engagement and conversion rates."
     },
     {
       "category": "Budget",
-      "suggestion": "Allocate more budget to Instagram as it has the highest engagement rate.",
-      "expectedImpact": "Better ROI and increased conversions."
+      "suggestion": "Allocate more budget to Instagram ads.",
+      "expectedImpact": "Higher ROI and reach."
     },
     {
       "category": "Platform",
-      "suggestion": "Explore additional platforms like TikTok to reach a younger audience.",
-      "expectedImpact": "Expanded reach and potential new customer acquisition."
+      "suggestion": "Explore additional platforms like TikTok.",
+      "expectedImpact": "Expand reach to a younger audience."
     }
   ]
 }
 ```
-
 
 ## claude-3-5-sonnet-20240620
 
@@ -3176,7 +6362,7 @@ Status: ✅ Success
 
 ```json
 {
-  "chain_of_thought": "1. First, let's break down the expression and solve it step by step:\n\n   - 15 * 87\n   - 129 / (48 * 0.5)\n   - Add the results and 12\n\n2. Let's start with 15 * 87:\n   - 15 * 87 = 1,305\n\n3. Now, let's solve the fraction 129 / (48 * 0.5):\n   - 48 * 0.5 = 24\n   - 129 / 24 = 5.375\n\n4. Now we have simplified the expression to:\n   1,305 + 5.375 + 12\n\n5. Let's add these numbers:\n   - 1,305 + 5.375 = 1,310.375\n   - 1,310.375 + 12 = 1,322.375\n\n6. Therefore, the final result is 1,322.375",
+  "chain_of_thought": "1. Let's break down the expression and calculate step by step:\n\n   - 15 * 87 = 1,305\n   - 48 * 0.5 = 24\n   - 129 / 24 ≈ 5.375\n   - 1,305 + 5.375 = 1,310.375\n   - 1,310.375 + 12 = 1,322.375\n\n2. Now, let's solve the expression in the correct order of operations:\n\n   - First, calculate the parentheses: (129 / (48 * 0.5))\n     48 * 0.5 = 24\n     129 / 24 ≈ 5.375\n\n   - Next, multiply: 15 * 87 = 1,305\n\n   - Then, add the results:\n     1,305 + 5.375 + 12 = 1,322.375\n\n3. Therefore, the final result is 1,322.375",
   "result": 1322.375
 }
 ```
@@ -3262,7 +6448,7 @@ Status: ✅ Success
 
 ```json
 {
-  "calculation": "0.5 * 179.74 * 177.76"
+  "calculation": "(179.74 * 177.76) / 2"
 }
 ```
 
@@ -3276,7 +6462,7 @@ Status: ✅ Success
 {
   "questions": [
     {
-      "question": "Which space agency successfully landed the Perseverance rover on Mars in 2021?",
+      "question": "Which space agency launched the Curiosity rover to explore Mars in 2011?",
       "options": [
         "NASA",
         "ESA",
@@ -3286,14 +6472,14 @@ Status: ✅ Success
       "correct_answer": "NASA"
     },
     {
-      "question": "What is the name of the first privately-funded spacecraft to reach orbit around Earth?",
+      "question": "What was the name of the first artificial satellite launched into Earth's orbit in 1957?",
       "options": [
-        "SpaceShipOne",
-        "Dragon",
-        "Cygnus",
-        "Falcon 1"
+        "Explorer 1",
+        "Sputnik 1",
+        "Vanguard 1",
+        "Telstar 1"
       ],
-      "correct_answer": "Falcon 1"
+      "correct_answer": "Sputnik 1"
     }
   ]
 }
@@ -3311,22 +6497,23 @@ Status: ✅ Success
   "ingredients": [
     "4 boneless, skinless chicken breasts",
     "2 tablespoons olive oil",
-    "4 cups fresh spinach",
+    "4 cups fresh spinach, roughly chopped",
     "1 cup crumbled feta cheese",
+    "2 cloves garlic, minced",
+    "1 lemon, juiced",
     "1 teaspoon dried oregano",
-    "1/2 teaspoon garlic powder",
-    "Salt and pepper to taste",
-    "1 lemon, sliced"
+    "Salt and pepper to taste"
   ],
   "instructions": [
-    "Season chicken breasts with salt, pepper, oregano, and garlic powder.",
+    "Season the chicken breasts with salt, pepper, and dried oregano.",
     "Heat olive oil in a large skillet over medium-high heat.",
-    "Add chicken breasts to the skillet and cook for 6-7 minutes on each side until golden brown and cooked through.",
-    "Remove chicken from the skillet and set aside.",
-    "In the same skillet, add spinach and cook until wilted, about 2-3 minutes.",
-    "Return chicken to the skillet and top each breast with crumbled feta cheese.",
-    "Cover the skillet and let the cheese melt slightly, about 2 minutes.",
-    "Garnish with lemon slices and serve hot."
+    "Add the chicken breasts to the skillet and cook for 6-7 minutes on each side, until golden brown and cooked through.",
+    "Remove the chicken from the skillet and set aside.",
+    "In the same skillet, add minced garlic and sauté for 30 seconds.",
+    "Add the chopped spinach to the skillet and cook until wilted, about 2-3 minutes.",
+    "Return the chicken to the skillet and top each piece with crumbled feta cheese.",
+    "Cover the skillet and cook for an additional 2 minutes, until the cheese starts to melt.",
+    "Squeeze fresh lemon juice over the dish before serving."
   ],
   "prep_time": "10 minutes",
   "cook_time": "20 minutes",
@@ -3351,22 +6538,22 @@ Status: ✅ Success
         {
           "time": "09:00",
           "activity": "Visit Senso-ji Temple",
-          "description": "Explore Tokyo's oldest Buddhist temple and its surrounding traditional shopping street, Nakamise"
+          "description": "Explore Tokyo's oldest Buddhist temple and its surrounding traditional shopping street, Nakamise."
         },
         {
           "time": "13:00",
           "activity": "Lunch at Tsukiji Outer Market",
-          "description": "Sample fresh sushi and seafood at the famous fish market area"
+          "description": "Sample fresh sushi and other Japanese delicacies at the famous fish market area."
         },
         {
           "time": "15:00",
           "activity": "Explore Akihabara",
-          "description": "Discover the latest gadgets and anime culture in Tokyo's electronics district"
+          "description": "Discover the latest in electronics and anime culture in this tech-focused district."
         },
         {
           "time": "19:00",
           "activity": "Dinner at Robot Restaurant",
-          "description": "Experience a unique blend of technology and entertainment while enjoying dinner"
+          "description": "Experience a unique blend of technology and entertainment while enjoying dinner."
         }
       ]
     },
@@ -3375,18 +6562,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "10:00",
-          "activity": "Visit teamLab Borderless",
-          "description": "Immerse yourself in a digital art museum showcasing cutting-edge technology and art"
+          "activity": "Visit the Edo-Tokyo Museum",
+          "description": "Learn about the history and culture of Tokyo from the Edo period to the present."
         },
         {
           "time": "14:00",
-          "activity": "Explore Odaiba",
-          "description": "Visit the futuristic artificial island, including a stop at the Miraikan science museum"
+          "activity": "Explore TeamLab Borderless",
+          "description": "Immerse yourself in a digital art museum showcasing cutting-edge technology and art."
         },
         {
           "time": "18:00",
           "activity": "Dinner at Gonpachi Nishi-Azabu",
-          "description": "Enjoy traditional Japanese cuisine at the restaurant that inspired Kill Bill's famous fight scene"
+          "description": "Enjoy traditional Japanese cuisine at the restaurant that inspired the movie Kill Bill."
         }
       ]
     },
@@ -3396,22 +6583,22 @@ Status: ✅ Success
         {
           "time": "09:00",
           "activity": "Visit the Imperial Palace",
-          "description": "Explore the grounds of Japan's imperial family residence and learn about its history"
+          "description": "Explore the grounds of Japan's Imperial Family residence and learn about its history."
         },
         {
           "time": "13:00",
-          "activity": "Lunch at Kanda Matsuya",
-          "description": "Try traditional soba noodles at this historic restaurant established in 1884"
+          "activity": "Lunch at Kappabashi Street",
+          "description": "Visit the 'Kitchen Town' and try various food samples while shopping for unique kitchenware."
         },
         {
-          "time": "15:00",
-          "activity": "Tour the Edo-Tokyo Museum",
-          "description": "Discover the history of Tokyo from the Edo period to modern times through interactive exhibits"
+          "time": "16:00",
+          "activity": "Tour the Miraikan",
+          "description": "Explore the National Museum of Emerging Science and Innovation to see the latest in Japanese technology."
         },
         {
-          "time": "19:00",
-          "activity": "Izakaya hopping in Shinjuku",
-          "description": "Experience Tokyo's nightlife and try various Japanese dishes at local izakayas"
+          "time": "20:00",
+          "activity": "Dinner at Uobei Shibuya Dogenzaka",
+          "description": "Experience high-tech sushi ordering and delivery via touch screens and conveyor belts."
         }
       ]
     },
@@ -3420,23 +6607,18 @@ Status: ✅ Success
       "activities": [
         {
           "time": "10:00",
-          "activity": "Visit Tokyo National Museum",
-          "description": "Explore Japan's largest art museum, featuring a vast collection of Japanese artifacts"
+          "activity": "Visit the Ghibli Museum",
+          "description": "Explore the world of Studio Ghibli's animated films and their innovative storytelling techniques."
         },
         {
           "time": "14:00",
-          "activity": "Tea Ceremony at Happo-en Garden",
-          "description": "Participate in a traditional Japanese tea ceremony in a beautiful garden setting"
+          "activity": "Tour the Yebisu Beer Museum",
+          "description": "Learn about the history of beer in Japan and the brewing process, with a tasting session."
         },
         {
-          "time": "17:00",
-          "activity": "Explore Shibuya",
-          "description": "Experience the bustling Shibuya Crossing and visit technology-focused department stores"
-        },
-        {
-          "time": "20:00",
-          "activity": "Dinner at Narisawa",
-          "description": "Indulge in innovative Japanese cuisine at this world-renowned, two-Michelin-starred restaurant"
+          "time": "18:00",
+          "activity": "Dinner at Ichiran Ramen",
+          "description": "Experience the unique flavors of tonkotsu ramen in a high-tech, individual booth setting."
         }
       ]
     },
@@ -3445,23 +6627,23 @@ Status: ✅ Success
       "activities": [
         {
           "time": "09:00",
-          "activity": "Visit Tsukiji Hongan-ji Temple",
-          "description": "Explore this unique Buddhist temple that combines traditional and modern architectural styles"
+          "activity": "Visit Tokyo National Museum",
+          "description": "Explore Japan's largest art museum, showcasing ancient and medieval Japanese art and artifacts."
         },
         {
-          "time": "11:00",
-          "activity": "Sushi-making class",
-          "description": "Learn to make sushi from professional chefs in a hands-on cooking class"
+          "time": "13:00",
+          "activity": "Lunch at Kawaii Monster Cafe",
+          "description": "Indulge in a colorful and tech-enhanced dining experience in Harajuku."
         },
         {
           "time": "15:00",
-          "activity": "Visit the Ghibli Museum",
-          "description": "Explore the world of Studio Ghibli's animated films and their technological innovations"
+          "activity": "Shop in Ginza",
+          "description": "Visit high-end tech stores and experience cutting-edge product demonstrations."
         },
         {
           "time": "19:00",
           "activity": "Farewell dinner at Tokyo Skytree",
-          "description": "Enjoy a meal with panoramic views of Tokyo from the world's tallest tower"
+          "description": "Enjoy a meal with a panoramic view of Tokyo from the tallest tower in Japan."
         }
       ]
     }
@@ -3515,8 +6697,8 @@ Status: ✅ Success
 
 ```json
 {
-  "title": "The Silent Arrival",
-  "story": "Dr. Elena Reeves peered through her telescope, scanning the night sky as she had done countless times before. Suddenly, a faint glimmer caught her eye. It wasn't a star or a satellite; it was something entirely new.\n\nWithin hours, the world's observatories confirmed her discovery. An alien spacecraft had entered Earth's orbit, silent and motionless.\n\nAs humanity held its breath, governments scrambled to formulate a response. But before they could act, a message appeared on every screen worldwide:\n\n'We come in peace. We have watched and waited. Now, we are ready to meet.'\n\nIn that moment, everything changed. Humanity stood on the precipice of a new era, facing the unknown with a mixture of fear and hope. The first contact had begun, and the future of both species hung in the balance.",
+  "title": "The Whisper from the Stars",
+  "story": "Dr. Elena Reeves peered through the massive radio telescope, her heart racing. For years, she had searched the cosmos for signs of extraterrestrial life. Tonight, something was different.\n\nA pattern emerged from the static—too regular to be natural, too complex to be coincidence. Elena's fingers flew across the keyboard, analyzing the signal.\n\nSuddenly, the lab erupted in a cacophony of beeps and alarms. The signal intensified, filling their instruments with an otherworldly symphony.\n\n'We're receiving a message,' Elena whispered, her voice trembling.\n\nAs the team huddled around the monitor, alien symbols cascaded across the screen. In that moment, humanity stood on the precipice of a new era. The stars had spoken, and Earth would never be the same.\n\nElena took a deep breath. First contact had begun.",
   "wordCount": 121
 }
 ```
@@ -3577,7 +6759,7 @@ Status: ✅ Success
           "rest": "60 seconds"
         },
         {
-          "name": "Dumbbell Rows",
+          "name": "Dumbbell Single-Arm Rows",
           "sets": 3,
           "reps": "10-12",
           "rest": "60 seconds"
@@ -3625,7 +6807,7 @@ Status: ✅ Success
       "focus": "Full Body",
       "exercises": [
         {
-          "name": "Deadlifts",
+          "name": "Barbell Deadlifts",
           "sets": 4,
           "reps": "6-8",
           "rest": "120 seconds"
@@ -3637,7 +6819,7 @@ Status: ✅ Success
           "rest": "60 seconds"
         },
         {
-          "name": "Pull-ups",
+          "name": "Chin-ups",
           "sets": 3,
           "reps": "8-10",
           "rest": "60 seconds"
@@ -3662,8 +6844,8 @@ Status: ✅ Success
 
 ```json
 {
-  "summary": "Lorem ipsum text discusses labor, pain, and pleasure. It mentions working hard, exercising, and facing consequences. The text also touches on blame, duty, and abandonment in relation to work and pleasure.",
-  "wordCount": 30
+  "summary": "Lorem ipsum text discusses labor, pain, and pleasure. It mentions working hard, seeking minimal gains, and facing consequences. The text also touches on responsibilities and blame for those neglecting duties.",
+  "wordCount": 28
 }
 ```
 
@@ -3683,10 +6865,10 @@ Status: ✅ Success
           "id": "E001",
           "name": "Smart 4K TV",
           "price": 799.99,
-          "description": "Experience stunning visuals with this 55-inch 4K Ultra HD Smart TV. Featuring HDR technology and built-in streaming apps for endless entertainment.",
+          "description": "Experience stunning visuals with this 55-inch 4K Ultra HD Smart TV. Featuring HDR technology, built-in streaming apps, and voice control compatibility.",
           "specifications": {
-            "screenSize": "55 inches",
-            "resolution": "3840 x 2160",
+            "screenSize": 55,
+            "resolution": "3840x2160",
             "refreshRate": 60,
             "smartFeatures": true,
             "hdmiPorts": 4
@@ -3696,7 +6878,7 @@ Status: ✅ Success
             "4K",
             "Smart TV",
             "HDR",
-            "Streaming"
+            "Voice Control"
           ],
           "reviews": [
             {
@@ -3704,14 +6886,14 @@ Status: ✅ Success
               "rating": 5,
               "comment": "Amazing picture quality and easy to set up!",
               "helpful": 15,
-              "date": "2024-06-20T14:30:00Z"
+              "date": "2024-07-15T09:30:00Z"
             },
             {
               "userId": "user456",
               "rating": 4,
-              "comment": "Great TV, but the remote could be more user-friendly.",
+              "comment": "Great TV, but the smart features could be more intuitive.",
               "helpful": 7,
-              "date": "2024-06-25T09:15:00Z"
+              "date": "2024-07-10T14:45:00Z"
             }
           ],
           "relatedProducts": [
@@ -3723,35 +6905,34 @@ Status: ✅ Success
           "id": "E002",
           "name": "Wireless Noise-Cancelling Headphones",
           "price": 249.99,
-          "description": "Immerse yourself in your favorite music with these premium wireless noise-cancelling headphones. Featuring long battery life and comfortable over-ear design.",
+          "description": "Immerse yourself in your music with these premium wireless headphones. Featuring active noise cancellation, 30-hour battery life, and comfortable over-ear design.",
           "specifications": {
-            "batteryLife": "30 hours",
-            "bluetooth": "5.0",
+            "type": "Over-ear",
+            "wireless": true,
             "noiseCancelling": true,
-            "weight": "250g",
-            "foldable": true
+            "batteryLife": 30,
+            "weight": 250
           },
           "inStock": true,
           "tags": [
             "Wireless",
             "Noise-Cancelling",
-            "Bluetooth",
-            "Over-Ear"
+            "Long Battery Life"
           ],
           "reviews": [
             {
               "userId": "user789",
               "rating": 5,
-              "comment": "Best headphones I've ever owned. The sound quality is superb!",
+              "comment": "Best headphones I've ever owned. The noise cancellation is incredible!",
               "helpful": 22,
-              "date": "2024-07-01T16:45:00Z"
+              "date": "2024-07-20T11:15:00Z"
             },
             {
               "userId": "user101",
               "rating": 4,
-              "comment": "Great noise-cancelling, but a bit pricey.",
+              "comment": "Great sound quality, but they're a bit heavy for long listening sessions.",
               "helpful": 9,
-              "date": "2024-07-03T11:20:00Z"
+              "date": "2024-07-18T16:30:00Z"
             }
           ],
           "relatedProducts": [
@@ -3766,82 +6947,80 @@ Status: ✅ Success
       "products": [
         {
           "id": "HG001",
-          "name": "Robot Vacuum Cleaner",
-          "price": 299.99,
-          "description": "Keep your floors clean effortlessly with this smart robot vacuum. Features mapping technology and app control for convenient cleaning.",
+          "name": "Smart Thermostat",
+          "price": 179.99,
+          "description": "Save energy and maintain optimal comfort with this smart thermostat. Features include mobile app control, learning capabilities, and compatibility with major smart home systems.",
           "specifications": {
-            "batteryLife": "120 minutes",
-            "suction": "2000Pa",
-            "noiseLevel": "60dB",
-            "appControl": true,
-            "dustBinCapacity": "0.6L"
+            "color": "White",
+            "wifiEnabled": true,
+            "batteryBackup": true,
+            "touchscreen": true,
+            "energyStar": true
           },
           "inStock": true,
           "tags": [
-            "Robot Vacuum",
             "Smart Home",
-            "Cleaning",
-            "App-Controlled"
+            "Energy Saving",
+            "WiFi-enabled"
           ],
           "reviews": [
             {
               "userId": "user202",
               "rating": 5,
-              "comment": "This robot vacuum is a game-changer! My floors have never been cleaner.",
+              "comment": "Easy to install and has already reduced our energy bills!",
               "helpful": 18,
-              "date": "2024-06-28T13:10:00Z"
+              "date": "2024-07-12T10:00:00Z"
             },
             {
               "userId": "user303",
               "rating": 4,
-              "comment": "Works great on hard floors, but struggles a bit with thick carpets.",
-              "helpful": 11,
-              "date": "2024-07-02T10:05:00Z"
+              "comment": "Great features, but the app could use some improvements.",
+              "helpful": 6,
+              "date": "2024-07-08T15:20:00Z"
             }
           ],
           "relatedProducts": [
             "HG002",
-            "HG003"
+            "E001"
           ]
         },
         {
           "id": "HG002",
-          "name": "Smart Indoor Garden",
-          "price": 149.99,
-          "description": "Grow fresh herbs and vegetables year-round with this smart indoor garden. Includes LED grow lights and a self-watering system.",
+          "name": "Robot Vacuum Cleaner",
+          "price": 299.99,
+          "description": "Keep your floors clean effortlessly with this smart robot vacuum. Featuring mapping technology, app control, and compatibility with voice assistants.",
           "specifications": {
-            "capacity": "6 plants",
-            "ledWattage": "10W",
-            "waterTankCapacity": "1L",
-            "height": "12 inches",
-            "smartControls": true
+            "batteryLife": 120,
+            "noiseLevel": 65,
+            "dustBinCapacity": 0.6,
+            "height": 3.5,
+            "smartMapping": true
           },
           "inStock": true,
           "tags": [
-            "Indoor Garden",
+            "Robot Vacuum",
             "Smart Home",
-            "Hydroponics",
-            "LED Grow Lights"
+            "Automated Cleaning"
           ],
           "reviews": [
             {
               "userId": "user404",
               "rating": 5,
-              "comment": "Love having fresh herbs at my fingertips. Easy to use and maintain.",
-              "helpful": 14,
-              "date": "2024-07-04T09:30:00Z"
+              "comment": "This vacuum has changed my life! My floors have never been cleaner.",
+              "helpful": 25,
+              "date": "2024-07-22T09:45:00Z"
             },
             {
               "userId": "user505",
               "rating": 4,
-              "comment": "Great product, but wish it could accommodate larger plants.",
-              "helpful": 6,
-              "date": "2024-07-05T08:15:00Z"
+              "comment": "Works great on hard floors, but struggles a bit with thick carpets.",
+              "helpful": 12,
+              "date": "2024-07-19T14:10:00Z"
             }
           ],
           "relatedProducts": [
             "HG001",
-            "HG004"
+            "E002"
           ]
         }
       ]
@@ -3853,11 +7032,11 @@ Status: ✅ Success
           "id": "S001",
           "name": "Smart Fitness Watch",
           "price": 199.99,
-          "description": "Track your fitness goals with this advanced smartwatch. Features heart rate monitoring, GPS, and various sport modes.",
+          "description": "Track your fitness goals with this advanced smartwatch. Features include heart rate monitoring, GPS, sleep tracking, and water resistance up to 50 meters.",
           "specifications": {
+            "display": "AMOLED",
             "batteryLife": "7 days",
             "waterResistant": true,
-            "display": "AMOLED",
             "gps": true,
             "compatibility": "iOS and Android"
           },
@@ -3872,16 +7051,16 @@ Status: ✅ Success
             {
               "userId": "user606",
               "rating": 5,
-              "comment": "Accurate tracking and long battery life. Highly recommended!",
+              "comment": "Accurate tracking and the battery life is impressive!",
               "helpful": 20,
-              "date": "2024-06-30T15:20:00Z"
+              "date": "2024-07-25T11:30:00Z"
             },
             {
               "userId": "user707",
               "rating": 4,
-              "comment": "Great features, but the app could use some improvements.",
+              "comment": "Great watch, but the app could be more user-friendly.",
               "helpful": 8,
-              "date": "2024-07-03T14:45:00Z"
+              "date": "2024-07-21T16:45:00Z"
             }
           ],
           "relatedProducts": [
@@ -3891,42 +7070,42 @@ Status: ✅ Success
         },
         {
           "id": "S002",
-          "name": "Adjustable Dumbbell Set",
-          "price": 299.99,
-          "description": "Save space and customize your workout with this adjustable dumbbell set. Quickly change weights for different exercises.",
+          "name": "Carbon Fiber Road Bike",
+          "price": 1999.99,
+          "description": "Experience top-tier performance with this lightweight carbon fiber road bike. Featuring aerodynamic design, Shimano gears, and hydraulic disc brakes.",
           "specifications": {
-            "weightRange": "5-52.5 lbs",
-            "increments": "2.5 lbs",
-            "material": "Steel and plastic",
-            "adjustmentMechanism": "Dial",
-            "pairIncluded": true
+            "frame": "Carbon Fiber",
+            "weight": 7.5,
+            "gears": 22,
+            "wheelSize": 700,
+            "brakeType": "Hydraulic Disc"
           },
           "inStock": true,
           "tags": [
-            "Dumbbells",
-            "Weight Training",
-            "Home Gym",
-            "Adjustable Weights"
+            "Road Bike",
+            "Carbon Fiber",
+            "Lightweight",
+            "Performance"
           ],
           "reviews": [
             {
               "userId": "user808",
               "rating": 5,
-              "comment": "Perfect for home workouts. Easy to adjust and feels sturdy.",
-              "helpful": 16,
-              "date": "2024-07-01T11:30:00Z"
+              "comment": "This bike is a dream to ride. So fast and comfortable!",
+              "helpful": 30,
+              "date": "2024-07-23T10:15:00Z"
             },
             {
               "userId": "user909",
               "rating": 4,
-              "comment": "Great space-saver, but the adjustment can be a bit noisy.",
-              "helpful": 7,
-              "date": "2024-07-04T16:00:00Z"
+              "comment": "Excellent bike, but the saddle needed replacing for longer rides.",
+              "helpful": 15,
+              "date": "2024-07-17T13:20:00Z"
             }
           ],
           "relatedProducts": [
             "S001",
-            "S003"
+            "HG001"
           ]
         }
       ]
@@ -3943,141 +7122,176 @@ Status: ✅ Success
 
 ```json
 {
-  "gameInfo": {
-    "white": "Player 1",
-    "black": "Player 2",
-    "result": "*"
-  },
   "moves": [
     {
       "moveNumber": 1,
       "white": {
         "san": "e4",
-        "uci": "e2e4"
+        "uci": "e2e4",
+        "comment": "Standard opening move, controlling the center",
+        "evaluation": 0.3
       },
       "black": {
         "san": "e5",
-        "uci": "e7e5"
+        "uci": "e7e5",
+        "comment": "Symmetric response, contesting the center",
+        "evaluation": 0.1
       }
     },
     {
       "moveNumber": 2,
       "white": {
         "san": "Nf3",
-        "uci": "g1f3"
+        "uci": "g1f3",
+        "comment": "Developing the knight and preparing for kingside castling",
+        "evaluation": 0.2
       },
       "black": {
         "san": "Nc6",
-        "uci": "b8c6"
+        "uci": "b8c6",
+        "comment": "Developing the knight and supporting the e5 pawn",
+        "evaluation": 0
       }
     },
     {
       "moveNumber": 3,
       "white": {
         "san": "Bb5",
-        "uci": "f1b5"
+        "uci": "f1b5",
+        "comment": "Ruy Lopez opening, pinning the knight and preparing for potential exchanges",
+        "evaluation": 0.3
       },
       "black": {
         "san": "a6",
-        "uci": "a7a6"
+        "uci": "a7a6",
+        "comment": "Morphy Defense, challenging the bishop",
+        "evaluation": 0.1
       }
     },
     {
       "moveNumber": 4,
       "white": {
         "san": "Ba4",
-        "uci": "b5a4"
+        "uci": "b5a4",
+        "comment": "Maintaining the pin while avoiding exchange",
+        "evaluation": 0.2
       },
       "black": {
         "san": "Nf6",
-        "uci": "g8f6"
+        "uci": "g8f6",
+        "comment": "Developing the kingside knight and preparing for castling",
+        "evaluation": 0
       }
     },
     {
       "moveNumber": 5,
       "white": {
         "san": "O-O",
-        "uci": "e1g1"
+        "uci": "e1g1",
+        "comment": "Castling to safety and connecting the rooks",
+        "evaluation": 0.3
       },
       "black": {
         "san": "Be7",
-        "uci": "f8e7"
+        "uci": "f8e7",
+        "comment": "Developing the bishop and preparing for castling",
+        "evaluation": 0.1
       }
     },
     {
       "moveNumber": 6,
       "white": {
         "san": "Re1",
-        "uci": "f1e1"
+        "uci": "f1e1",
+        "comment": "Centralizing the rook and supporting the e4 pawn",
+        "evaluation": 0.2
       },
       "black": {
         "san": "b5",
-        "uci": "b7b5"
+        "uci": "b7b5",
+        "comment": "Challenging the bishop and gaining space on the queenside",
+        "evaluation": 0
       }
     },
     {
       "moveNumber": 7,
       "white": {
         "san": "Bb3",
-        "uci": "a4b3"
+        "uci": "a4b3",
+        "comment": "Retreating the bishop to a safe square",
+        "evaluation": 0.3
       },
       "black": {
         "san": "d6",
-        "uci": "d7d6"
+        "uci": "d7d6",
+        "comment": "Supporting the e5 pawn and preparing to develop the c8 bishop",
+        "evaluation": 0.1
       }
     },
     {
       "moveNumber": 8,
       "white": {
         "san": "c3",
-        "uci": "c2c3"
+        "uci": "c2c3",
+        "comment": "Preparing for d4 push and supporting the b3 bishop",
+        "evaluation": 0.2
       },
       "black": {
         "san": "O-O",
-        "uci": "e8g8"
+        "uci": "e8g8",
+        "comment": "Castling to safety and connecting the rooks",
+        "evaluation": 0
       }
     },
     {
       "moveNumber": 9,
       "white": {
         "san": "h3",
-        "uci": "h2h3"
+        "uci": "h2h3",
+        "comment": "Preventing Bg4 and creating a luft for the king",
+        "evaluation": 0.3
       },
       "black": {
         "san": "Nb8",
-        "uci": "c6b8"
+        "uci": "c6b8",
+        "comment": "Unusual retreat, preparing for Nbd7 to support c5 push",
+        "evaluation": -0.1
       }
     },
     {
       "moveNumber": 10,
       "white": {
         "san": "d4",
-        "uci": "d2d4"
+        "uci": "d2d4",
+        "comment": "Central break, challenging Black's pawn structure",
+        "evaluation": 0.4
       },
       "black": {
         "san": "Nbd7",
-        "uci": "b8d7"
+        "uci": "b8d7",
+        "comment": "Developing the knight to a more active square",
+        "evaluation": 0.2
       }
     }
   ],
   "analysis": {
-    "openingName": "Ruy Lopez, Closed Variation",
-    "openingEco": "C84",
-    "middlegameAnalysis": "The game has transitioned into a typical closed Ruy Lopez position. White has established a strong pawn center with e4 and d4, while Black has countered with a solid pawn structure. Both sides have completed their development and castled, setting the stage for a strategic middlegame.",
+    "openingName": "Ruy Lopez, Closed, Morphy Defense",
+    "openingEco": "C78",
+    "middlegameAnalysis": "The game has transitioned into a typical closed Ruy Lopez structure. White has a slight space advantage in the center, while Black is solid but somewhat cramped. The key battleground will be the center, with White looking to expand with c3-d4, and Black aiming for ...c5 to challenge White's center.",
     "keyPositions": [
       {
         "fen": "r1bq1rk1/2pnbppp/p2p1n2/1p2p3/3PP3/1BP2N1P/PP3PP1/RNBQR1K1 b - - 0 10",
-        "evaluation": 0.3,
+        "evaluation": 0.2,
         "bestMove": "c5",
-        "comment": "This is a critical position in the Ruy Lopez. Black should consider playing c5 to challenge White's central pawns and create counterplay."
+        "comment": "Critical position after White's d4 push. Black should consider ...c5 to challenge the center."
       }
     ],
     "tacticalMotifs": [],
     "strategicThemes": [
-      "Central pawn tension",
+      "Central control",
       "Piece development",
       "King safety",
-      "Control of the e5 square"
+      "Pawn structure"
     ],
     "blunders": []
   },
@@ -4086,8 +7300,8 @@ Status: ✅ Success
     "depth": 20,
     "totalPositionsEvaluated": 1000000,
     "averageDepth": 18.5,
-    "timeSpent": 30.5,
-    "nodesPerSecond": 32786
+    "timeSpent": 30,
+    "nodesPerSecond": 33333
   }
 }
 ```
@@ -4107,8 +7321,8 @@ Status: ✅ Success
     "volatility": 0.15,
     "beta": 1.2,
     "movingAverages": {
-      "SMA": 171.44,
-      "EMA": 182.76
+      "SMA": 181.44,
+      "EMA": 185.67
     },
     "technicalIndicators": {
       "RSI": 65.3,
@@ -4122,12 +7336,12 @@ Status: ✅ Success
   "marketComparison": {
     "correlationWithSP500": 0.85,
     "correlationWithNASDAQ": 0.92,
-    "relativeStrength": 1.18
+    "relativeStrength": 1.25
   },
   "fundamentalAnalysis": {
     "peRatio": 32.5,
     "pbRatio": 15.8,
-    "earningsGrowth": 0.09
+    "earningsGrowth": 0.08
   },
   "economicImpact": {
     "interestRateSensitivity": -0.3,
@@ -4140,14 +7354,14 @@ Status: ✅ Success
       206.8
     ],
     "potentialRisks": [
-      "Economic slowdown",
       "Supply chain disruptions",
-      "Increased competition in tech sector"
+      "Increased competition in smartphone market",
+      "Regulatory challenges in key markets"
     ],
     "potentialOpportunities": [
-      "AI integration in products",
-      "Expansion in emerging markets",
-      "New product launches"
+      "Expansion in services sector",
+      "Innovation in wearable technology",
+      "Growth in emerging markets"
     ]
   }
 }
@@ -4166,7 +7380,7 @@ Status: ✅ Success
     "totalEngagement": 8275,
     "engagementRate": 3.85,
     "clickThroughRate": 4.42,
-    "conversionRate": 4.19,
+    "conversionRate": 4.21,
     "ROI": 200
   },
   "platformBreakdown": [
@@ -4212,7 +7426,7 @@ Status: ✅ Success
     "topInterests": [
       "Fashion",
       "Technology",
-      "Summer Trends"
+      "Summer Sales"
     ],
     "peakEngagementTimes": [
       "12:00 PM",
@@ -4223,4640 +7437,23 @@ Status: ✅ Success
   "recommendations": [
     {
       "category": "Content",
-      "suggestion": "Create more visually appealing content for Instagram, as it showed the highest engagement rate",
-      "expectedImpact": "Increase in overall engagement and reach"
+      "suggestion": "Create more visually appealing content for Instagram",
+      "expectedImpact": "Increase engagement rate by 10%"
     },
     {
       "category": "Targeting",
-      "suggestion": "Focus on the 25-34 age group, as they seem to be the most engaged audience",
-      "expectedImpact": "Higher conversion rates and ROI"
+      "suggestion": "Focus on 25-34 age group with fashion-related interests",
+      "expectedImpact": "Improve conversion rate by 15%"
     },
     {
       "category": "Budget",
-      "suggestion": "Allocate more budget to Instagram and Facebook, as they showed better performance",
-      "expectedImpact": "Improved overall campaign efficiency"
+      "suggestion": "Allocate more budget to Instagram and Facebook",
+      "expectedImpact": "Increase ROI by 20%"
     },
     {
       "category": "Platform",
-      "suggestion": "Experiment with new content formats on Twitter to improve engagement",
-      "expectedImpact": "Increased reach and engagement on Twitter"
-    }
-  ]
-}
-```
-
-
-## gemini-1.5-flash
-
-### Complex calculation
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "chain_of_thought": "- First, calculate 48 * 0.5 = 24\n- Then, calculate 129 / 24 = 5.375\n- Next, calculate 15 * 87 = 1305\n- Finally, add 1305 + 5.375 + 12 = 1322.375",
-  "result": 1322.375
-}
-```
-
-### Generate fake people
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "peoples": [
-    {
-      "name": "John Smith",
-      "age": 32
-    },
-    {
-      "name": "Jane Doe",
-      "age": 28
-    },
-    {
-      "name": "David Lee",
-      "age": 45
-    }
-  ]
-}
-```
-
-### Calculate the nth prime number
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "primeNumber": 29
-}
-```
-
-### Find capital cities
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "Rome"
-}
-```
-
-### Grammar Correction
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "He is a good person."
-}
-```
-
-### Detect language in a text
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "es"
-}
-```
-
-### Calculate area of triangle (with mathjs expression)
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "calculation": "0.5 * 179.74 * 177.76"
-}
-```
-
-### Generate Quiz
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "questions": [
-    {
-      "question": "What was the name of the first artificial satellite to orbit Earth?",
-      "options": [
-        "Sputnik 1",
-        "Explorer 1",
-        "Vostok 1",
-        "Apollo 11"
-      ],
-      "correct_answer": "Sputnik 1"
-    },
-    {
-      "question": "Which country was the first to land a spacecraft on the Moon?",
-      "options": [
-        "United States",
-        "Soviet Union",
-        "China",
-        "Japan"
-      ],
-      "correct_answer": "Soviet Union"
-    }
-  ]
-}
-```
-
-### Create Recipe
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "name": "Mediterranean Chicken with Spinach and Feta",
-  "ingredients": [
-    "1 pound boneless, skinless chicken breasts, cut into 1-inch pieces",
-    "2 tablespoons olive oil",
-    "1/2 teaspoon salt",
-    "1/4 teaspoon black pepper",
-    "1/2 cup chopped onion",
-    "2 cloves garlic, minced",
-    "1 (10 ounce) package frozen chopped spinach, thawed and squeezed dry",
-    "1/2 cup crumbled feta cheese",
-    "1/4 cup chopped fresh parsley"
-  ],
-  "instructions": [
-    "Preheat oven to 375 degrees F (190 degrees C).",
-    "In a large bowl, combine chicken, olive oil, salt, and pepper.",
-    "Heat a large skillet over medium heat. Add chicken and cook until browned on all sides.",
-    "Add onion and garlic to the skillet and cook until softened, about 5 minutes.",
-    "Stir in spinach and cook until wilted.",
-    "Transfer chicken mixture to a 9x13 inch baking dish.",
-    "Sprinkle feta cheese over the chicken mixture.",
-    "Bake in the preheated oven for 15-20 minutes, or until chicken is cooked through.",
-    "Garnish with parsley before serving."
-  ],
-  "prep_time": "15 minutes",
-  "cook_time": "30 minutes",
-  "servings": 4
-}
-```
-
-### Generate Travel Itinerary
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "destination": "Tokyo",
-  "duration": 5,
-  "daily_plans": [
-    {
-      "day": 1,
-      "activities": [
-        {
-          "time": "10:00 AM",
-          "activity": "Visit the Tokyo National Museum",
-          "description": "Explore Japanese art and history through various exhibits."
-        },
-        {
-          "time": "1:00 PM",
-          "activity": "Lunch at Tsukiji Outer Market",
-          "description": "Enjoy fresh seafood and local delicacies."
-        },
-        {
-          "time": "3:00 PM",
-          "activity": "Explore the Imperial Palace East Garden",
-          "description": "Stroll through the serene gardens and learn about the Imperial Family."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner at a traditional Japanese restaurant",
-          "description": "Experience authentic Japanese cuisine."
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Akihabara district",
-          "description": "Explore the electronics and anime mecca."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Lunch at a ramen shop",
-          "description": "Indulge in a delicious bowl of ramen."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Visit the Ghibli Museum",
-          "description": "Immerse yourself in the world of Studio Ghibli animation."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner at a sushi restaurant",
-          "description": "Enjoy a traditional sushi experience."
-        }
-      ]
-    },
-    {
-      "day": 3,
-      "activities": [
-        {
-          "time": "10:00 AM",
-          "activity": "Visit the Sensō-ji Temple",
-          "description": "Explore Tokyo's oldest temple and experience traditional Japanese culture."
-        },
-        {
-          "time": "1:00 PM",
-          "activity": "Lunch at a traditional Japanese restaurant",
-          "description": "Enjoy a delicious and authentic Japanese meal."
-        },
-        {
-          "time": "3:00 PM",
-          "activity": "Visit the Tokyo Skytree",
-          "description": "Enjoy panoramic views of the city from the tallest structure in Japan."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner at a yakiniku restaurant",
-          "description": "Enjoy a delicious barbecue experience."
-        }
-      ]
-    },
-    {
-      "day": 4,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Meiji Jingu Shrine",
-          "description": "Explore the serene shrine dedicated to Emperor Meiji and Empress Shoken."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Lunch at a cafe in Harajuku",
-          "description": "Enjoy a casual lunch in the trendy district of Harajuku."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Explore the Shibuya district",
-          "description": "Experience the bustling atmosphere of Shibuya Crossing and explore the trendy shops and restaurants."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner at a izakaya",
-          "description": "Enjoy a casual and social dining experience at a Japanese pub."
-        }
-      ]
-    },
-    {
-      "day": 5,
-      "activities": [
-        {
-          "time": "10:00 AM",
-          "activity": "Visit the Tokyo National Science Museum",
-          "description": "Explore the wonders of science and technology."
-        },
-        {
-          "time": "1:00 PM",
-          "activity": "Lunch at a Japanese curry restaurant",
-          "description": "Enjoy a delicious and flavorful Japanese curry."
-        },
-        {
-          "time": "3:00 PM",
-          "activity": "Visit the Ueno Park",
-          "description": "Relax and enjoy the beautiful gardens and museums in Ueno Park."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner at a restaurant with a view",
-          "description": "Enjoy a final meal with stunning views of the city."
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Analyze Sentiment of Customer Reviews
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "analyze": [
-    {
-      "review": "The product exceeded my expectations. Great value for money!",
-      "sentiment": "positive",
-      "score": 0.8
-    },
-    {
-      "review": "Disappointed with the quality. Wouldn't recommend.",
-      "sentiment": "negative",
-      "score": 0.2
-    },
-    {
-      "review": "Average product, nothing special but does the job.",
-      "sentiment": "neutral",
-      "score": 0.5
-    },
-    {
-      "review": "Absolutely love it! Will buy again.",
-      "sentiment": "positive",
-      "score": 0.9
-    },
-    {
-      "review": "mf didnt show up",
-      "sentiment": "negative",
-      "score": 0.1
-    }
-  ]
-}
-```
-
-### Generate Short Story
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "title": "The Signal",
-  "story": "The static crackled, then a pure tone, unwavering, resonated through the speakers. Dr. Anya Petrova, her heart pounding, adjusted the dials. It wasn't random noise; it was a signal, a deliberate transmission from beyond Earth. The world held its breath.  For decades, humanity had searched for signs of intelligent life, and now, it seemed, the universe had answered. The signal, a complex pattern of frequencies, was unlike anything they'd ever encountered.  Anya, her fingers trembling, typed the code to decipher it.  The screen flickered, then displayed a single word: 'Hello.'",
-  "wordCount": 118
-}
-```
-
-### Create Workout Plan
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "weeklyPlan": [
-    {
-      "day": 1,
-      "focus": "Chest and Triceps",
-      "exercises": [
-        {
-          "name": "Barbell Bench Press",
-          "sets": 4,
-          "reps": "8-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Incline Dumbbell Press",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Dumbbell Flyes",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Close-Grip Barbell Bench Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Triceps Pushdowns",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Overhead Triceps Extensions",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "focus": "Back and Biceps",
-      "exercises": [
-        {
-          "name": "Pull-Ups",
-          "sets": 4,
-          "reps": "Max",
-          "rest": "90 seconds"
-        },
-        {
-          "name": "Barbell Rows",
-          "sets": 3,
-          "reps": "8-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Seated Cable Rows",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Dumbbell Bicep Curls",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Hammer Curls",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Concentration Curls",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "45 seconds"
-        }
-      ]
-    },
-    {
-      "day": 3,
-      "focus": "Legs and Shoulders",
-      "exercises": [
-        {
-          "name": "Squats",
-          "sets": 4,
-          "reps": "8-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Leg Press",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Hamstring Curls",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Calf Raises",
-          "sets": 3,
-          "reps": "15-20",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Overhead Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Lateral Raises",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Front Raises",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        }
-      ]
-    },
-    {
-      "day": 4,
-      "focus": "Core and Abs",
-      "exercises": [
-        {
-          "name": "Plank",
-          "sets": 3,
-          "reps": "30-60 seconds",
-          "rest": "30 seconds"
-        },
-        {
-          "name": "Crunches",
-          "sets": 3,
-          "reps": "15-20",
-          "rest": "30 seconds"
-        },
-        {
-          "name": "Leg Raises",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "30 seconds"
-        },
-        {
-          "name": "Russian Twists",
-          "sets": 3,
-          "reps": "15-20",
-          "rest": "30 seconds"
-        },
-        {
-          "name": "Bicycle Crunches",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "30 seconds"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Summarize Long Text
-
-Status: ❌ Failure
-
-#### Error:
-
-```
-500 list index out of range
-```
-
-### Generate Complex Product Catalog
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "catalog": [
-    {
-      "category": "Electronics",
-      "products": [
-        {
-          "id": "ELC001",
-          "name": "Smartwatch",
-          "price": 299.99,
-          "description": "A stylish and feature-rich smartwatch with GPS, heart rate monitoring, and fitness tracking.",
-          "specifications": {
-            "Display": "1.5 inches AMOLED",
-            "Battery Life": "Up to 7 days",
-            "Water Resistance": "5 ATM"
-          },
-          "inStock": true,
-          "tags": [
-            "Smartwatch",
-            "Fitness Tracker",
-            "GPS"
-          ],
-          "reviews": [
-            {
-              "userId": "user123",
-              "rating": 5,
-              "comment": "Excellent smartwatch! Love the features and battery life.",
-              "helpful": 10,
-              "date": "2024-06-15T10:00:00.000Z"
-            },
-            {
-              "userId": "user456",
-              "rating": 4,
-              "comment": "Great value for the price. Would recommend it.",
-              "helpful": 5,
-              "date": "2024-07-01T14:30:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "ELC002",
-            "ELC003"
-          ]
-        },
-        {
-          "id": "ELC002",
-          "name": "Wireless Headphones",
-          "price": 149.99,
-          "description": "High-quality wireless headphones with active noise cancellation and long battery life.",
-          "specifications": {
-            "Sound Quality": "Hi-Fi",
-            "Battery Life": "Up to 30 hours",
-            "Connectivity": "Bluetooth 5.0"
-          },
-          "inStock": true,
-          "tags": [
-            "Headphones",
-            "Wireless",
-            "Noise Cancellation"
-          ],
-          "reviews": [
-            {
-              "userId": "user789",
-              "rating": 4,
-              "comment": "Great sound quality and comfortable to wear.",
-              "helpful": 8,
-              "date": "2024-06-20T16:15:00.000Z"
-            },
-            {
-              "userId": "user012",
-              "rating": 5,
-              "comment": "Amazing noise cancellation! Highly recommend.",
-              "helpful": 12,
-              "date": "2024-06-28T11:45:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "ELC001",
-            "ELC003"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Home & Garden",
-      "products": [
-        {
-          "id": "HGD001",
-          "name": "Smart Garden",
-          "price": 199.99,
-          "description": "A self-watering smart garden that grows fresh herbs and vegetables indoors.",
-          "specifications": {
-            "Capacity": "12 plants",
-            "Lighting": "LED grow lights",
-            "Water Sensor": "Yes"
-          },
-          "inStock": true,
-          "tags": [
-            "Smart Garden",
-            "Indoor Gardening",
-            "Hydroponics"
-          ],
-          "reviews": [
-            {
-              "userId": "user345",
-              "rating": 5,
-              "comment": "Love this smart garden! So easy to use and the plants are thriving.",
-              "helpful": 15,
-              "date": "2024-06-25T09:30:00.000Z"
-            },
-            {
-              "userId": "user678",
-              "rating": 4,
-              "comment": "Great for growing herbs indoors. Would recommend it.",
-              "helpful": 7,
-              "date": "2024-07-02T17:00:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "HGD002",
-            "HGD003"
-          ]
-        },
-        {
-          "id": "HGD002",
-          "name": "Robot Vacuum Cleaner",
-          "price": 349.99,
-          "description": "A powerful robot vacuum cleaner with advanced navigation and mapping features.",
-          "specifications": {
-            "Suction Power": "2000 Pa",
-            "Battery Life": "Up to 120 minutes",
-            "Navigation": "Laser SLAM"
-          },
-          "inStock": true,
-          "tags": [
-            "Robot Vacuum",
-            "Smart Home",
-            "Cleaning"
-          ],
-          "reviews": [
-            {
-              "userId": "user901",
-              "rating": 4,
-              "comment": "Does a great job cleaning my floors. Highly recommend it.",
-              "helpful": 11,
-              "date": "2024-06-29T13:45:00.000Z"
-            },
-            {
-              "userId": "user234",
-              "rating": 5,
-              "comment": "Amazing robot vacuum! Cleans everything perfectly.",
-              "helpful": 18,
-              "date": "2024-07-03T10:15:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "HGD001",
-            "HGD003"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Sports",
-      "products": [
-        {
-          "id": "SPR001",
-          "name": "Fitness Tracker",
-          "price": 79.99,
-          "description": "A lightweight and comfortable fitness tracker that monitors your steps, heart rate, and sleep.",
-          "specifications": {
-            "Display": "Color OLED",
-            "Battery Life": "Up to 14 days",
-            "Water Resistance": "IP68"
-          },
-          "inStock": true,
-          "tags": [
-            "Fitness Tracker",
-            "Activity Tracker",
-            "Heart Rate Monitor"
-          ],
-          "reviews": [
-            {
-              "userId": "user567",
-              "rating": 4,
-              "comment": "Great for tracking my daily activity and sleep.",
-              "helpful": 9,
-              "date": "2024-06-22T15:20:00.000Z"
-            },
-            {
-              "userId": "user890",
-              "rating": 5,
-              "comment": "Love the design and features of this fitness tracker.",
-              "helpful": 13,
-              "date": "2024-06-30T12:00:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "SPR002",
-            "SPR003"
-          ]
-        },
-        {
-          "id": "SPR002",
-          "name": "Sports Camera",
-          "price": 129.99,
-          "description": "A compact and durable sports camera that captures high-quality videos and photos.",
-          "specifications": {
-            "Resolution": "4K video",
-            "Waterproof": "Up to 10 meters",
-            "Connectivity": "Wi-Fi and Bluetooth"
-          },
-          "inStock": true,
-          "tags": [
-            "Action Camera",
-            "Sports Camera",
-            "Waterproof"
-          ],
-          "reviews": [
-            {
-              "userId": "user101",
-              "rating": 5,
-              "comment": "Amazing camera for capturing my adventures.",
-              "helpful": 16,
-              "date": "2024-06-26T18:30:00.000Z"
-            },
-            {
-              "userId": "user246",
-              "rating": 4,
-              "comment": "Great quality for the price. Would recommend it.",
-              "helpful": 6,
-              "date": "2024-07-04T14:15:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "SPR001",
-            "SPR003"
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Generate Advanced Chess Game Analysis
-
-Status: ❌ Failure
-
-#### Error:
-
-```
-Return data validation error: [
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "gameInfo",
-      "event"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "gameInfo",
-      "site"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "gameInfo",
-      "date"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "gameInfo",
-      "round"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      0,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      0,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      0,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      1,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      1,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      1,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      1,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      2,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      2,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      2,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      3,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      3,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      3,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      3,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      4,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      4,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      4,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      5,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      5,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      5,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      5,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      6,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      6,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      6,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      7,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      7,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      7,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      7,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      8,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      8,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      8,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      9,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      9,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      9,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      9,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      10,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      10,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      10,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      11,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      11,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      11,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      11,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      12,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      12,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      12,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      13,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      13,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      13,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      13,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      14,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      14,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      14,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      15,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      15,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      15,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      15,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      16,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      16,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      16,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      17,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      17,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      17,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      17,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      18,
-      "white",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      18,
-      "white",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      18,
-      "white",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "moves",
-      19,
-      "white"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      19,
-      "black",
-      "comment"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "number",
-    "received": "null",
-    "path": [
-      "moves",
-      19,
-      "black",
-      "evaluation"
-    ],
-    "message": "Expected number, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "moves",
-      19,
-      "black",
-      "bestMove"
-    ],
-    "message": "Expected string, received null"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "string",
-    "received": "null",
-    "path": [
-      "analysis",
-      "endgameAnalysis"
-    ],
-    "message": "Expected string, received null"
-  }
-]
-```
-
-### Analyze Stock Market Data
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "stockAnalysis": {
-    "symbol": "AAPL",
-    "currentPrice": 193.6,
-    "yearlyPerformance": 47.87,
-    "volatility": 0.05,
-    "beta": 1.2,
-    "movingAverages": {
-      "SMA": 180.78,
-      "EMA": 185.42
-    },
-    "technicalIndicators": {
-      "RSI": 62.3,
-      "MACD": {
-        "value": 1.5,
-        "signal": 0.8,
-        "histogram": 0.7
-      }
-    }
-  },
-  "marketComparison": {
-    "correlationWithSP500": 0.92,
-    "correlationWithNASDAQ": 0.98,
-    "relativeStrength": 1.15
-  },
-  "fundamentalAnalysis": {
-    "peRatio": 28.5,
-    "pbRatio": 4.2,
-    "dividendYield": 0.015,
-    "earningsGrowth": 0.18
-  },
-  "economicImpact": {
-    "interestRateSensitivity": -0.8,
-    "inflationImpact": 0.5
-  },
-  "prediction": {
-    "nextQuarterEstimate": 205,
-    "confidenceInterval": [
-      198,
-      212
-    ],
-    "potentialRisks": [
-      "Global economic slowdown",
-      "Increased competition in the smartphone market",
-      "Supply chain disruptions"
-    ],
-    "potentialOpportunities": [
-      "Growth in the wearables market",
-      "Expansion into new markets",
-      "Continued innovation in services"
-    ]
-  }
-}
-```
-
-### Analyze Social Media Campaign
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "overallPerformance": {
-    "totalReach": 215000,
-    "totalEngagement": 7250,
-    "engagementRate": 0.0337,
-    "clickThroughRate": 0.0116,
-    "conversionRate": 0.0133,
-    "ROI": 3
-  },
-  "platformBreakdown": [
-    {
-      "platform": "Facebook",
-      "reach": 110000,
-      "engagement": 3500,
-      "engagementRate": 0.0318,
-      "clicks": 4500,
-      "CTR": 0.0409
-    },
-    {
-      "platform": "Instagram",
-      "reach": 75000,
-      "engagement": 3000,
-      "engagementRate": 0.04,
-      "clicks": 3500,
-      "CTR": 0.0467
-    },
-    {
-      "platform": "Twitter",
-      "reach": 30000,
-      "engagement": 750,
-      "engagementRate": 0.025,
-      "clicks": 1500,
-      "CTR": 0.05
-    }
-  ],
-  "contentAnalysis": {
-    "topPerformingPost": {
-      "platform": "Instagram",
-      "content": "Summer vibes with our new collection!",
-      "engagement": 3000
-    },
-    "contentSentiment": {
-      "positive": 90,
-      "neutral": 5,
-      "negative": 5
-    }
-  },
-  "audienceInsights": {
-    "mostEngagedAgeGroup": "18-24",
-    "topInterests": [
-      "Fashion",
-      "Technology",
-      "Summer",
-      "Shopping"
-    ],
-    "peakEngagementTimes": [
-      "12:00 PM",
-      "6:00 PM"
-    ]
-  },
-  "recommendations": [
-    {
-      "category": "Content",
-      "suggestion": "Continue creating engaging visual content on Instagram.",
-      "expectedImpact": "Increased reach and engagement."
-    },
-    {
-      "category": "Targeting",
-      "suggestion": "Expand targeting to include similar interests like travel and lifestyle.",
-      "expectedImpact": "Reach a wider audience."
-    },
-    {
-      "category": "Budget",
-      "suggestion": "Increase budget for Instagram ads.",
-      "expectedImpact": "Higher reach and conversion rates."
-    },
-    {
-      "category": "Platform",
-      "suggestion": "Explore TikTok for reaching a younger audience.",
-      "expectedImpact": "New customer acquisition."
-    }
-  ]
-}
-```
-
-
-## gemini-1.5-pro
-
-### Complex calculation
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "chain_of_thought": "* First, we calculate 48 * 0.5 = 24\n* Then, we calculate 129 / 24 = 5.375\n* Next, we calculate 15 * 87 = 1305\n* Finally, we add the results together: 1305 + 5.375 + 12 = 1322.375",
-  "result": 1322.375
-}
-```
-
-### Generate fake people
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "peoples": [
-    {
-      "name": "Evelyn Flores",
-      "age": 62
-    },
-    {
-      "name": "David Smith",
-      "age": 34
-    },
-    {
-      "name": "Maria Garcia",
-      "age": 27
-    }
-  ]
-}
-```
-
-### Calculate the nth prime number
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "primeNumber": 29
-}
-```
-
-### Find capital cities
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "Rome"
-}
-```
-
-### Grammar Correction
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "He is a good person."
-}
-```
-
-### Detect language in a text
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "es"
-}
-```
-
-### Calculate area of triangle (with mathjs expression)
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "calculation": "0.5 * 179.74 * 177.76"
-}
-```
-
-### Generate Quiz
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "questions": [
-    {
-      "question": "What is the name of the first artificial satellite to orbit Earth?",
-      "options": [
-        "Explorer 1",
-        "Sputnik 1",
-        "Vanguard 1",
-        "Luna 1"
-      ],
-      "correct_answer": "Sputnik 1"
-    },
-    {
-      "question": "Which space agency landed the first humans on the Moon?",
-      "options": [
-        "NASA",
-        "Roscosmos",
-        "ESA",
-        "CNSA"
-      ],
-      "correct_answer": "NASA"
-    }
-  ]
-}
-```
-
-### Create Recipe
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "name": "Mediterranean Chicken and Spinach Skillet",
-  "ingredients": [
-    "1 pound boneless, skinless chicken breasts, cut into bite-sized pieces",
-    "1 tablespoon olive oil",
-    "1 onion, chopped",
-    "2 cloves garlic, minced",
-    "5 ounces fresh spinach",
-    "1/2 cup crumbled feta cheese",
-    "Salt and pepper to taste"
-  ],
-  "instructions": [
-    "Heat the olive oil in a large skillet over medium heat.",
-    "Add the chicken pieces and cook until browned on all sides.",
-    "Add the onion and garlic to the skillet and cook until softened.",
-    "Stir in the spinach and cook until wilted.",
-    "Sprinkle with feta cheese, salt, and pepper.",
-    "Serve immediately over rice or with crusty bread."
-  ],
-  "prep_time": "15 minutes",
-  "cook_time": "20 minutes",
-  "servings": 2
-}
-```
-
-### Generate Travel Itinerary
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "destination": "Tokyo",
-  "duration": 5,
-  "daily_plans": [
-    {
-      "day": 1,
-      "activities": [
-        {
-          "time": "10:00 AM",
-          "activity": "Arrive at Narita International Airport (NRT)",
-          "description": "Check into your hotel in the Shinjuku area and leave your luggage."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Lunch at a Ramen Restaurant in Shinjuku",
-          "description": "Enjoy a delicious bowl of ramen at one of the many highly-rated restaurants in the area."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Explore Shinjuku Gyoen National Garden",
-          "description": "Wander through this tranquil oasis in the heart of Tokyo, experiencing a mix of traditional Japanese, English, and French gardens."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner at Robot Restaurant in Shinjuku",
-          "description": "Enjoy a unique and entertaining dining experience at the Robot Restaurant, featuring robots, lights, and music."
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Tsukiji Fish Market (Outer Market)",
-          "description": "Experience the bustling atmosphere of the outer market and enjoy fresh seafood and other local delicacies."
-        },
-        {
-          "time": "11:00 AM",
-          "activity": "Explore the Akihabara district",
-          "description": "Immerse yourself in the world of electronics, anime, and manga in Akihabara, also known as Electric Town."
-        },
-        {
-          "time": "1:00 PM",
-          "activity": "Lunch at a themed cafe in Akihabara",
-          "description": "Choose from a variety of themed cafes, such as maid cafes, robot cafes, or anime-themed cafes."
-        },
-        {
-          "time": "3:00 PM",
-          "activity": "Visit the Edo-Tokyo Museum",
-          "description": "Learn about the history and culture of Tokyo through interactive exhibits and displays."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner in Asakusa",
-          "description": "Explore the traditional side of Tokyo in Asakusa and enjoy dinner at a local restaurant."
-        }
-      ]
-    },
-    {
-      "day": 3,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Day trip to Hakone",
-          "description": "Take a scenic day trip to Hakone, a mountain resort town known for its hot springs, views of Mount Fuji, and art museums."
-        },
-        {
-          "time": "10:00 AM",
-          "activity": "Ride the Hakone Ropeway",
-          "description": "Enjoy breathtaking views of volcanic hot springs and Mount Fuji from the Hakone Ropeway."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Visit the Hakone Open-Air Museum",
-          "description": "Explore a unique outdoor museum featuring modern and contemporary sculptures set against the backdrop of Hakone's natural beauty."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Lunch at a restaurant overlooking Lake Ashi",
-          "description": "Savor a delicious meal while enjoying panoramic views of Lake Ashi."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Return to Tokyo",
-          "description": "Head back to Tokyo and enjoy a relaxing evening."
-        }
-      ]
-    },
-    {
-      "day": 4,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Sensō-ji Temple in Asakusa",
-          "description": "Explore Tokyo's oldest temple, Sensō-ji Temple, and immerse yourself in the spiritual heart of the city."
-        },
-        {
-          "time": "11:00 AM",
-          "activity": "Stroll along Nakamise-dori Street",
-          "description": "Browse through the traditional shops and stalls lining the street leading up to Sensō-ji Temple, offering souvenirs, snacks, and local crafts."
-        },
-        {
-          "time": "1:00 PM",
-          "activity": "Lunch at a traditional Japanese restaurant in Asakusa",
-          "description": "Experience authentic Japanese cuisine at one of the many restaurants in the area."
-        },
-        {
-          "time": "3:00 PM",
-          "activity": "Visit the Tokyo National Museum",
-          "description": "Explore the largest and oldest museum in Japan, housing a vast collection of Japanese art and artifacts."
-        },
-        {
-          "time": "6:00 PM",
-          "activity": "Dinner and drinks in Shibuya",
-          "description": "Experience the vibrant nightlife and culinary scene in Shibuya, known for its iconic scramble crossing and trendy restaurants."
-        }
-      ]
-    },
-    {
-      "day": 5,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Shibuya Crossing",
-          "description": "Witness the world-famous Shibuya Crossing, a mesmerizing intersection where pedestrians cross from all directions."
-        },
-        {
-          "time": "10:00 AM",
-          "activity": "Explore the Harajuku district",
-          "description": "Immerse yourself in the colorful and fashionable streets of Harajuku, known for its unique street style and youth culture."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Lunch at a trendy cafe in Harajuku",
-          "description": "Enjoy a stylish and delicious meal at one of the many cafes in Harajuku, known for their creative menus and Instagram-worthy presentations."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Visit the Meiji Jingu Shrine",
-          "description": "Find peace and tranquility at Meiji Jingu Shrine, a serene oasis dedicated to Emperor Meiji and Empress Shoken, surrounded by a peaceful forest."
-        },
-        {
-          "time": "4:00 PM",
-          "activity": "Depart from Narita International Airport (NRT)",
-          "description": "Head to the airport for your departure."
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Analyze Sentiment of Customer Reviews
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "analyze": [
-    {
-      "review": "The product exceeded my expectations. Great value for money!",
-      "sentiment": "positive",
-      "score": 0.9
-    },
-    {
-      "review": "Disappointed with the quality. Wouldn't recommend.",
-      "sentiment": "negative",
-      "score": 0.2
-    },
-    {
-      "review": "Average product, nothing special but does the job.",
-      "sentiment": "neutral",
-      "score": 0.5
-    },
-    {
-      "review": "Absolutely love it! Will buy again.",
-      "sentiment": "positive",
-      "score": 0.95
-    },
-    {
-      "review": "mf didnt show up",
-      "sentiment": "negative",
-      "score": 0.1
-    }
-  ]
-}
-```
-
-### Generate Short Story
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "title": "Echoes of Silence",
-  "story": "The signal arrived on a Tuesday, a rhythmic pulse from the Proxima Centauri system.  Humanity held its breath.  Years were spent deciphering the complex language, building a response.  Finally, a message, filled with hopes and dreams, was beamed back.  Silence.  Weeks turned into months, hope into despair.  Then, a faint reply.  No words, no images, just a reflection of our own signal, slightly distorted, echoing back to us.  Were they telling us we were alone? Or were they simply saying, \"We hear you\"?",
-  "wordCount": 68
-}
-```
-
-### Create Workout Plan
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "weeklyPlan": [
-    {
-      "day": 1,
-      "focus": "Back and Biceps",
-      "exercises": [
-        {
-          "name": "Pull-ups",
-          "sets": 3,
-          "reps": "8-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Barbell rows",
-          "sets": 4,
-          "reps": "6-8",
-          "rest": "75 seconds"
-        },
-        {
-          "name": "Dumbbell bicep curls",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Hammer curls",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Deadlifts",
-          "sets": 3,
-          "reps": "5",
-          "rest": "90 seconds"
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "focus": "Chest and Triceps",
-      "exercises": [
-        {
-          "name": "Barbell bench press",
-          "sets": 4,
-          "reps": "6-8",
-          "rest": "75 seconds"
-        },
-        {
-          "name": "Incline dumbbell press",
-          "sets": 3,
-          "reps": "8-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Dumbbell flyes",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Triceps pushdowns",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Overhead triceps extensions",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        }
-      ]
-    },
-    {
-      "day": 3,
-      "focus": "Legs and Shoulders",
-      "exercises": [
-        {
-          "name": "Barbell squats",
-          "sets": 4,
-          "reps": "6-8",
-          "rest": "75 seconds"
-        },
-        {
-          "name": "Leg press",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Hamstring curls",
-          "sets": 3,
-          "reps": "12-15",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Calf raises",
-          "sets": 3,
-          "reps": "15-20",
-          "rest": "45 seconds"
-        },
-        {
-          "name": "Military press",
-          "sets": 3,
-          "reps": "8-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Lateral raises",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        }
-      ]
-    },
-    {
-      "day": 4,
-      "focus": "Rest",
-      "exercises": []
-    }
-  ]
-}
-```
-
-### Summarize Long Text
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "summary": "This text is an example of Lorem ipsum, placeholder text commonly used in publishing and graphic design. It simulates the visual appearance of text without meaningful content.",
-  "wordCount": 19
-}
-```
-
-### Generate Complex Product Catalog
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "catalog": [
-    {
-      "category": "Electronics",
-      "products": [
-        {
-          "id": "elec001",
-          "name": "Noise-Canceling Headphones",
-          "price": 199.99,
-          "description": "Immerse yourself in sound with these premium noise-canceling headphones.",
-          "specifications": {
-            "Brand": "Audiophile",
-            "Connectivity": "Bluetooth 5.0",
-            "Battery Life": "Up to 30 hours"
-          },
-          "inStock": true,
-          "tags": [
-            "Headphones",
-            "Audio",
-            "Wireless",
-            "Noise-Canceling"
-          ],
-          "reviews": [
-            {
-              "userId": "user123",
-              "rating": 5,
-              "comment": "Amazing sound quality and noise cancellation! ",
-              "helpful": 12,
-              "date": "2023-12-05T08:00:00Z"
-            },
-            {
-              "userId": "musiclover456",
-              "rating": 4,
-              "comment": "Great headphones overall, but battery life could be better.",
-              "helpful": 5,
-              "date": "2024-02-14T10:30:00Z"
-            }
-          ],
-          "relatedProducts": [
-            "elec002",
-            "home001"
-          ]
-        },
-        {
-          "id": "elec002",
-          "name": "Smart TV 55-inch",
-          "price": 599.99,
-          "description": "Experience stunning 4K resolution with this feature-packed smart TV.",
-          "specifications": {
-            "Brand": "ViewSonic",
-            "Screen Size": "55 inches",
-            "Resolution": "4K Ultra HD",
-            "Smart TV": true
-          },
-          "inStock": false,
-          "tags": [
-            "TV",
-            "Smart TV",
-            "4K",
-            "Ultra HD",
-            "Electronics"
-          ],
-          "reviews": [
-            {
-              "userId": "techguru789",
-              "rating": 5,
-              "comment": "Incredible picture quality and a very user-friendly interface.",
-              "helpful": 28,
-              "date": "2024-01-10T16:45:00Z"
-            }
-          ],
-          "relatedProducts": [
-            "elec001"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Home & Garden",
-      "products": [
-        {
-          "id": "home001",
-          "name": "Robot Vacuum Cleaner",
-          "price": 299.99,
-          "description": "Keep your home clean with minimal effort using this intelligent robot vacuum.",
-          "specifications": {
-            "Brand": "RoboClean",
-            "Suction Power": "High",
-            "Battery Life": "Up to 120 minutes",
-            "Smart Home Compatibility": "Amazon Alexa, Google Assistant"
-          },
-          "inStock": true,
-          "tags": [
-            "Home",
-            "Garden",
-            "Cleaning",
-            "Robot Vacuum",
-            "Smart Home"
-          ],
-          "reviews": [
-            {
-              "userId": "cleanfreak101",
-              "rating": 5,
-              "comment": "This robot vacuum has been a lifesaver! My floors are spotless.",
-              "helpful": 42,
-              "date": "2023-11-22T09:15:00Z"
-            }
-          ],
-          "relatedProducts": [
-            "home002"
-          ]
-        },
-        {
-          "id": "home002",
-          "name": "Outdoor Gas Grill",
-          "price": 399.99,
-          "description": "Enjoy delicious grilled meals with this high-quality outdoor gas grill.",
-          "specifications": {
-            "Brand": "GrillMaster",
-            "Number of Burners": "4",
-            "Cooking Area": "500 sq. inches",
-            "Material": "Stainless Steel"
-          },
-          "inStock": true,
-          "tags": [
-            "Home",
-            "Garden",
-            "Outdoor",
-            "Grill",
-            "Gas Grill",
-            "Cooking"
-          ],
-          "reviews": [
-            {
-              "userId": "grillmaster55",
-              "rating": 4,
-              "comment": "Solid grill with plenty of cooking space. Heats up quickly and evenly.",
-              "helpful": 9,
-              "date": "2024-03-08T18:00:00Z"
-            }
-          ],
-          "relatedProducts": [
-            "home001"
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Generate Advanced Chess Game Analysis
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "gameInfo": {
-    "white": "Unknown",
-    "black": "Unknown",
-    "result": "*"
-  },
-  "moves": [
-    {
-      "moveNumber": 1,
-      "white": {
-        "san": "e4",
-        "uci": "e2e4"
-      },
-      "black": {
-        "san": "e5",
-        "uci": "e7e5"
-      }
-    },
-    {
-      "moveNumber": 2,
-      "white": {
-        "san": "Nf3",
-        "uci": "g1f3"
-      },
-      "black": {
-        "san": "Nc6",
-        "uci": "b8c6"
-      }
-    },
-    {
-      "moveNumber": 3,
-      "white": {
-        "san": "Bb5",
-        "uci": "f1b5"
-      },
-      "black": {
-        "san": "a6",
-        "uci": "a7a6"
-      }
-    },
-    {
-      "moveNumber": 4,
-      "white": {
-        "san": "Ba4",
-        "uci": "b5a4"
-      },
-      "black": {
-        "san": "Nf6",
-        "uci": "g8f6"
-      }
-    },
-    {
-      "moveNumber": 5,
-      "white": {
-        "san": "O-O",
-        "uci": "e1g1"
-      },
-      "black": {
-        "san": "Be7",
-        "uci": "f8e7"
-      }
-    },
-    {
-      "moveNumber": 6,
-      "white": {
-        "san": "Re1",
-        "uci": "f1e1"
-      },
-      "black": {
-        "san": "b5",
-        "uci": "b7b5"
-      }
-    },
-    {
-      "moveNumber": 7,
-      "white": {
-        "san": "Bb3",
-        "uci": "a4b3"
-      },
-      "black": {
-        "san": "d6",
-        "uci": "d7d6"
-      }
-    },
-    {
-      "moveNumber": 8,
-      "white": {
-        "san": "c3",
-        "uci": "c2c3"
-      },
-      "black": {
-        "san": "O-O",
-        "uci": "e8g8"
-      }
-    },
-    {
-      "moveNumber": 9,
-      "white": {
-        "san": "h3",
-        "uci": "h2h3"
-      },
-      "black": {
-        "san": "Nb8",
-        "uci": "c6b8"
-      }
-    },
-    {
-      "moveNumber": 10,
-      "white": {
-        "san": "d4",
-        "uci": "d2d4"
-      },
-      "black": {
-        "san": "Nbd7",
-        "uci": "b8d7"
-      }
-    }
-  ],
-  "analysis": {
-    "openingName": "Ruy Lopez: Morphy Defense, Deferred Steinitz Defense",
-    "openingEco": "C79",
-    "middlegameAnalysis": "The middlegame is about to begin. White has a space advantage and a solid pawn center. Black has a strong bishop on e7 and is looking to develop his pieces to active squares.",
-    "endgameAnalysis": "",
-    "keyPositions": [
-      {
-        "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
-        "evaluation": 0.25,
-        "bestMove": "d4",
-        "comment": "The starting position of the game."
-      },
-      {
-        "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
-        "evaluation": 0.15,
-        "bestMove": "Nc6",
-        "comment": "Black responds to e4 with e5, developing a pawn to control the center and opening up diagonals for his pieces."
-      },
-      {
-        "fen": "r1bqkb1r/ppppnppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 5",
-        "evaluation": 0.45,
-        "bestMove": "O-O",
-        "comment": "White castles to safety, a standard move in the opening."
-      }
-    ],
-    "tacticalMotifs": [],
-    "strategicThemes": [
-      "King safety",
-      "Development",
-      "Control of the center",
-      "Space advantage"
-    ],
-    "blunders": []
-  },
-  "engineAnalysis": {
-    "engineName": "Stockfish 15",
-    "depth": 20,
-    "totalPositionsEvaluated": 1000000,
-    "averageDepth": 15.5,
-    "timeSpent": 5.25,
-    "nodesPerSecond": 200000
-  }
-}
-```
-
-### Analyze Stock Market Data
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "stockAnalysis": {
-    "symbol": "AAPL",
-    "currentPrice": 193.6,
-    "yearlyPerformance": 0.47,
-    "volatility": 0.15,
-    "beta": 1.2,
-    "movingAverages": {
-      "SMA": 170.5,
-      "EMA": 175.8
-    },
-    "technicalIndicators": {
-      "RSI": 60.2,
-      "MACD": {
-        "value": 2.8,
-        "signal": 2.5,
-        "histogram": 0.3
-      }
-    }
-  },
-  "marketComparison": {
-    "correlationWithSP500": 0.85,
-    "correlationWithNASDAQ": 0.92,
-    "relativeStrength": 1.1
-  },
-  "fundamentalAnalysis": {
-    "peRatio": 28.5,
-    "pbRatio": 10.2,
-    "dividendYield": 0.01,
-    "earningsGrowth": 0.12
-  },
-  "economicImpact": {
-    "interestRateSensitivity": -0.8,
-    "inflationImpact": 0.5
-  },
-  "prediction": {
-    "nextQuarterEstimate": 205,
-    "confidenceInterval": [
-      195,
-      215
-    ],
-    "potentialRisks": [
-      "Increased competition in the smartphone market",
-      "Global economic slowdown",
-      "Supply chain disruptions"
-    ],
-    "potentialOpportunities": [
-      "Growth in services and wearables segments",
-      "Expansion into new markets",
-      "Continued innovation in product offerings"
-    ]
-  }
-}
-```
-
-### Analyze Social Media Campaign
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "overallPerformance": {
-    "totalReach": 165000,
-    "totalEngagement": 5675,
-    "engagementRate": 0.034,
-    "clickThroughRate": 0.047,
-    "conversionRate": 0.013,
-    "ROI": 3
-  },
-  "platformBreakdown": [
-    {
-      "platform": "Facebook",
-      "reach": 110000,
-      "engagement": 3675,
-      "engagementRate": 0.033,
-      "clicks": 4500,
-      "CTR": 0.041
-    },
-    {
-      "platform": "Instagram",
-      "reach": 75000,
-      "engagement": 3150,
-      "engagementRate": 0.042,
-      "clicks": 3500,
-      "CTR": 0.047
-    },
-    {
-      "platform": "Twitter",
-      "reach": 30000,
-      "engagement": 750,
-      "engagementRate": 0.025,
-      "clicks": 1500,
-      "CTR": 0.05
-    }
-  ],
-  "contentAnalysis": {
-    "topPerformingPost": {
-      "platform": "Instagram",
-      "content": "Summer vibes with our new collection!",
-      "engagement": 3150
-    },
-    "contentSentiment": {
-      "positive": 0.6,
-      "neutral": 0.3,
-      "negative": 0.1
-    }
-  },
-  "audienceInsights": {
-    "mostEngagedAgeGroup": "18-24",
-    "topInterests": [
-      "Summer Fashion",
-      "Mobile Technology"
-    ],
-    "peakEngagementTimes": [
-      "Weekdays 12:00-14:00",
-      "Weekends 18:00-20:00"
-    ]
-  },
-  "recommendations": [
-    {
-      "category": "Content",
-      "suggestion": "Create more video content featuring summer products.",
-      "expectedImpact": "Increased engagement and reach."
-    },
-    {
-      "category": "Targeting",
-      "suggestion": "Test targeting users interested in travel and outdoor activities.",
-      "expectedImpact": "Improved conversion rate."
-    },
-    {
-      "category": "Budget",
-      "suggestion": "Allocate more budget to Instagram advertising.",
-      "expectedImpact": "Higher engagement and ROI."
-    },
-    {
-      "category": "Platform",
-      "suggestion": "Explore running ads on Pinterest to reach a wider audience interested in fashion and lifestyle.",
-      "expectedImpact": "Increased brand visibility and potential sales."
-    }
-  ]
-}
-```
-
-
-## llama3:7b
-
-### Complex calculation
-
-Status: ❌ Failure
-
-#### Error:
-
-```
-Result '1332.375' is not equal to the expected value: 1322.375
-```
-
-### Generate fake people
-
-Status: ❌ Failure
-
-#### Error:
-
-```
-Return data validation error: [
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "array",
-    "path": [],
-    "message": "Expected object, received array"
-  }
-]
-```
-
-### Calculate the nth prime number
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "primeNumber": 29
-}
-```
-
-### Find capital cities
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "Rome"
-}
-```
-
-### Grammar Correction
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "He is a good person"
-}
-```
-
-### Detect language in a text
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "es"
-}
-```
-
-### Calculate area of triangle (with mathjs expression)
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "calculation": "0.5 * 179.74 * 177.76"
-}
-```
-
-### Generate Quiz
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "questions": [
-    {
-      "question": "What is the primary function of a spacecraft's propulsion system?",
-      "options": [
-        "To generate electricity for onboard systems",
-        "To provide artificial gravity for astronauts",
-        "To change the spacecraft's trajectory and velocity",
-        "To cool the spacecraft's electronics"
-      ],
-      "correct_answer": "To change the spacecraft's trajectory and velocity"
-    },
-    {
-      "question": "Which of the following planets in our solar system has the most moons?",
-      "options": [
-        "Jupiter",
-        "Saturn",
-        "Uranus",
-        "Neptune"
-      ],
-      "correct_answer": "Jupiter"
-    }
-  ]
-}
-```
-
-### Create Recipe
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "name": "Spinach and Feta Stuffed Chicken",
-  "ingredients": [
-    "1 lb boneless, skinless chicken breast",
-    "1 cup fresh spinach leaves",
-    "1/2 cup crumbled feta cheese",
-    "2 tbsp olive oil"
-  ],
-  "instructions": [
-    "Preheat oven to 375°F (190°C).",
-    "In a bowl, mix together spinach and feta cheese.",
-    "Butterfly the chicken breast and make a horizontal incision.",
-    "Stuff each chicken breast with the spinach-feta mixture.",
-    "Drizzle olive oil over the stuffed chicken breasts.",
-    "Bake for 25-30 minutes or until cooked through."
-  ],
-  "prep_time": "10 minutes",
-  "cook_time": "20-25 minutes",
-  "servings": 4
-}
-```
-
-### Generate Travel Itinerary
-
-Status: ❌ Failure
-
-#### Error:
-
-```
-Object key expected at position 1860
-```
-
-### Analyze Sentiment of Customer Reviews
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "analyze": [
-    {
-      "review": "The product exceeded my expectations. Great value for money!",
-      "sentiment": "positive",
-      "score": 0.9
-    },
-    {
-      "review": "Disappointed with the quality. Wouldn't recommend.",
-      "sentiment": "negative",
-      "score": 0.1
-    },
-    {
-      "review": "Average product, nothing special but does the job.",
-      "sentiment": "neutral",
-      "score": 0.5
-    },
-    {
-      "review": "Absolutely love it! Will buy again.",
-      "sentiment": "positive",
-      "score": 0.9
-    },
-    {
-      "review": "mf didnt show up",
-      "sentiment": "negative",
-      "score": 0.1
-    }
-  ]
-}
-```
-
-### Generate Short Story
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "title": "The Cosmic Connection",
-  "story": "As the stars aligned, Dr. Maria Hernandez's team detected a faint signal from the distant planet of Kepler-62f. The excitement was palpable as they worked tirelessly to decipher the message. It was a language unlike any known on Earth, but the implications were profound: humanity had finally made contact with an alien civilization. The world held its breath as the news spread like wildfire. As Maria and her team prepared for the historic encounter, she couldn't help but wonder what secrets these extraterrestrial beings would share with them. Would they bring peace or war? Only time would tell.",
-  "wordCount": 150
-}
-```
-
-### Create Workout Plan
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "weeklyPlan": [
-    {
-      "day": 1,
-      "focus": "Chest and Triceps",
-      "exercises": [
-        {
-          "name": "Barbell Bench Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Dumbbell Flyes",
-          "sets": 3,
-          "reps": "12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Tricep Pushdowns",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "focus": "Back and Biceps",
-      "exercises": [
-        {
-          "name": "Pull-ups",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Barbell Rows",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Dumbbell Bicep Curls",
-          "sets": 3,
-          "reps": "12",
-          "rest": "60 seconds"
-        }
-      ]
-    },
-    {
-      "day": 3,
-      "focus": "Legs and Shoulders",
-      "exercises": [
-        {
-          "name": "Squats",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Standing Military Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Lateral Raises",
-          "sets": 3,
-          "reps": "12",
-          "rest": "60 seconds"
-        }
-      ]
-    },
-    {
-      "day": 4,
-      "focus": "Core and Abs",
-      "exercises": [
-        {
-          "name": "Plank",
-          "sets": 3,
-          "reps": "30-60 seconds",
-          "rest": "0 seconds"
-        },
-        {
-          "name": "Russian Twists",
-          "sets": 3,
-          "reps": "12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Leg Raises",
-          "sets": 3,
-          "reps": "12",
-          "rest": "60 seconds"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Summarize Long Text
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  "wordCount": 36
-}
-```
-
-### Generate Complex Product Catalog
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "catalog": [
-    {
-      "category": "Electronics",
-      "products": [
-        {
-          "id": "1",
-          "name": "Smartphone X",
-          "price": 599.99,
-          "description": "Latest smartphone with advanced features.",
-          "specifications": {
-            "processor": "Octa-core",
-            "RAM": "8GB",
-            "storage": "128GB"
-          },
-          "inStock": true,
-          "tags": [
-            "smartphone",
-            "android"
-          ],
-          "reviews": [
-            {
-              "userId": "user1",
-              "rating": 4,
-              "comment": "Great phone, fast charging.",
-              "helpful": 2,
-              "date": "2023-06-01T14:30:00.000Z"
-            },
-            {
-              "userId": "user2",
-              "rating": 5,
-              "comment": "Love this phone, best I've ever had.",
-              "helpful": 4,
-              "date": "2023-07-15T10:45:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "1",
-            "2"
-          ]
-        },
-        {
-          "id": "2",
-          "name": "Smartwatch Y",
-          "price": 149.99,
-          "description": "Advanced smartwatch with fitness tracking.",
-          "specifications": {
-            "processor": "Dual-core",
-            "RAM": "1GB",
-            "storage": "16GB"
-          },
-          "inStock": true,
-          "tags": [
-            "smartwatch",
-            "fitness"
-          ],
-          "reviews": [
-            {
-              "userId": "user3",
-              "rating": 3,
-              "comment": "Good watch, but battery life could be better.",
-              "helpful": 1,
-              "date": "2022-11-20T12:00:00.000Z"
-            }
-          ],
-          "relatedProducts": [
-            "1",
-            "3"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Home & Garden",
-      "products": [
-        {
-          "id": "3",
-          "name": "Smart Speaker Z",
-          "price": 99.99,
-          "description": "Voice-controlled smart speaker with Wi-Fi connectivity.",
-          "specifications": {
-            "processor": "Single-core",
-            "RAM": "512MB",
-            "storage": "8GB"
-          },
-          "inStock": true,
-          "tags": [
-            "smart speaker",
-            "wi-fi"
-          ],
-          "reviews": [],
-          "relatedProducts": []
-        },
-        {
-          "id": "4",
-          "name": "Smart Thermostat W",
-          "price": 199.99,
-          "description": "Smart thermostat with temperature control and scheduling.",
-          "specifications": {
-            "processor": "Dual-core",
-            "RAM": "2GB",
-            "storage": "32GB"
-          },
-          "inStock": true,
-          "tags": [
-            "smart thermostat",
-            "temperature"
-          ],
-          "reviews": [],
-          "relatedProducts": []
-        }
-      ]
-    },
-    {
-      "category": "Sports",
-      "products": [
-        {
-          "id": "5",
-          "name": "Fitness Tracker V",
-          "price": 99.99,
-          "description": "Basic fitness tracker with step tracking and heart rate monitoring.",
-          "specifications": {
-            "processor": "Single-core",
-            "RAM": "256MB",
-            "storage": "4GB"
-          },
-          "inStock": true,
-          "tags": [
-            "fitness tracker",
-            "heart rate"
-          ],
-          "reviews": [],
-          "relatedProducts": []
-        },
-        {
-          "id": "6",
-          "name": "Smart Bike Helmet U",
-          "price": 249.99,
-          "description": "Smart bike helmet with crash detection and navigation.",
-          "specifications": {
-            "processor": "Dual-core",
-            "RAM": "4GB",
-            "storage": "64GB"
-          },
-          "inStock": true,
-          "tags": [
-            "smart helmet",
-            "bike"
-          ],
-          "reviews": [],
-          "relatedProducts": []
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Generate Advanced Chess Game Analysis
-
-Status: ❌ Failure
-
-#### Error:
-
-```
-Return data validation error: [
-  {
-    "code": "too_small",
-    "minimum": 0,
-    "type": "number",
-    "inclusive": false,
-    "exact": false,
-    "message": "Number must be greater than 0",
-    "path": [
-      "engineAnalysis",
-      "totalPositionsEvaluated"
-    ]
-  },
-  {
-    "code": "too_small",
-    "minimum": 0,
-    "type": "number",
-    "inclusive": false,
-    "exact": false,
-    "message": "Number must be greater than 0",
-    "path": [
-      "engineAnalysis",
-      "timeSpent"
-    ]
-  },
-  {
-    "code": "too_small",
-    "minimum": 0,
-    "type": "number",
-    "inclusive": false,
-    "exact": false,
-    "message": "Number must be greater than 0",
-    "path": [
-      "engineAnalysis",
-      "nodesPerSecond"
-    ]
-  }
-]
-```
-
-### Analyze Stock Market Data
-
-Status: ❌ Failure
-
-#### Error:
-
-```
-Return data validation error: [
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "number",
-    "path": [
-      "stockAnalysis",
-      "technicalIndicators",
-      "MACD"
-    ],
-    "message": "Expected object, received number"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "marketComparison"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "fundamentalAnalysis"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "economicImpact"
-    ],
-    "message": "Required"
-  },
-  {
-    "code": "invalid_type",
-    "expected": "object",
-    "received": "undefined",
-    "path": [
-      "prediction"
-    ],
-    "message": "Required"
-  }
-]
-```
-
-### Analyze Social Media Campaign
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "overallPerformance": {
-    "totalReach": 185500,
-    "totalEngagement": 6175,
-    "engagementRate": 3.33,
-    "clickThroughRate": 2.45,
-    "conversionRate": 0.81,
-    "ROI": 300
-  },
-  "platformBreakdown": [
-    {
-      "platform": "Facebook",
-      "reach": 125000,
-      "engagement": 2750,
-      "engagementRate": 2.2,
-      "clicks": 4500,
-      "CTR": 1.8
-    },
-    {
-      "platform": "Instagram",
-      "reach": 75000,
-      "engagement": 3450,
-      "engagementRate": 4.6,
-      "clicks": 3500,
-      "CTR": 4.67
-    },
-    {
-      "platform": "Twitter",
-      "reach": 30000,
-      "engagement": 250,
-      "engagementRate": 0.83,
-      "clicks": 1500,
-      "CTR": 5
-    }
-  ],
-  "contentAnalysis": {
-    "topPerformingPost": {
-      "platform": "Instagram",
-      "content": "Summer vibes with our new collection!",
-      "engagement": 3450
-    },
-    "contentSentiment": {
-      "positive": 80,
-      "neutral": 15,
-      "negative": 5
-    }
-  },
-  "audienceInsights": {
-    "mostEngagedAgeGroup": "18-35",
-    "topInterests": [
-      "Fashion",
-      "Technology"
-    ],
-    "peakEngagementTimes": [
-      "2023-07-01T00:00:00.000Z",
-      "2023-08-01T00:00:00.000Z"
-    ]
-  },
-  "recommendations": [
-    {
-      "category": "Content",
-      "suggestion": "Use more visually appealing images and videos",
-      "expectedImpact": "Increase engagement by 15%"
-    },
-    {
-      "category": "Targeting",
-      "suggestion": "Target users who have shown interest in fashion and technology",
-      "expectedImpact": "Increase reach by 20%"
-    }
-  ]
-}
-```
-
-
-## gemma2:9b
-
-### Complex calculation
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "chain_of_thought": "1. 15 * 87 = 1305\n2. 48 * 0.5 = 24\n3. 129 / 24 = 5.375\n4. 1305 + 5.375 = 1310.375\n5. 1310.375 + 12 = 1322.375",
-  "result": 1322.375
-}
-```
-
-### Generate fake people
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "peoples": [
-    {
-      "name": "Alice Johnson",
-      "age": 32
-    },
-    {
-      "name": "Bob Smith",
-      "age": 28
-    },
-    {
-      "name": "Charlie Brown",
-      "age": 45
-    }
-  ]
-}
-```
-
-### Calculate the nth prime number
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "primeNumber": 29
-}
-```
-
-### Find capital cities
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "Rome"
-}
-```
-
-### Grammar Correction
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "He is a good person"
-}
-```
-
-### Detect language in a text
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "result": "es"
-}
-```
-
-### Calculate area of triangle (with mathjs expression)
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "calculation": "1/2 * 179.74 * 177.76"
-}
-```
-
-### Generate Quiz
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "questions": [
-    {
-      "question": "What is the name of the first artificial satellite launched into Earth orbit?",
-      "options": [
-        "Explorer 1",
-        "Sputnik 1",
-        "Vanguard 1",
-        "Apollo 11"
-      ],
-      "correct_answer": "Sputnik 1"
-    },
-    {
-      "question": "Which planet in our solar system is known as the 'Red Planet'?",
-      "options": [
-        "Venus",
-        "Mars",
-        "Jupiter",
-        "Saturn"
-      ],
-      "correct_answer": "Mars"
-    }
-  ]
-}
-```
-
-### Create Recipe
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "name": "Mediterranean Chicken with Spinach and Feta",
-  "ingredients": [
-    "1.5 lbs boneless, skinless chicken breasts, cut into 1-inch pieces",
-    "1 bag (10 oz) fresh spinach",
-    "1/2 cup crumbled feta cheese",
-    "1/4 cup olive oil",
-    "1/4 cup lemon juice",
-    "2 cloves garlic, minced",
-    "1/2 teaspoon dried oregano",
-    "Salt and pepper to taste"
-  ],
-  "instructions": [
-    "Heat olive oil in a large skillet over medium heat.",
-    "Add chicken and cook until browned on all sides.",
-    "Stir in garlic, oregano, salt, and pepper. Cook for 1 minute.",
-    "Pour in lemon juice and bring to a simmer.",
-    "Add spinach and cook until wilted, about 2 minutes.",
-    "Stir in feta cheese and cook until melted.",
-    "Serve immediately over rice or quinoa."
-  ],
-  "prep_time": "10 minutes",
-  "cook_time": "20 minutes",
-  "servings": 4
-}
-```
-
-### Generate Travel Itinerary
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "destination": "Tokyo",
-  "duration": 5,
-  "daily_plans": [
-    {
-      "day": 1,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Ghibli Museum",
-          "description": "Explore the world of Studio Ghibli's animated films."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Lunch at a Ramen shop",
-          "description": "Enjoy a delicious bowl of authentic Japanese ramen."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Explore Shibuya Crossing",
-          "description": "Experience the world's busiest intersection."
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "activities": [
-        {
-          "time": "10:00 AM",
-          "activity": "Visit the Tokyo National Museum",
-          "description": "Discover Japanese art and history."
-        },
-        {
-          "time": "1:00 PM",
-          "activity": "Lunch at a traditional Izakaya",
-          "description": "Sample Japanese tapas and sake."
-        },
-        {
-          "time": "3:00 PM",
-          "activity": "Explore the Imperial Palace Gardens",
-          "description": "Stroll through the serene gardens."
-        }
-      ]
-    },
-    {
-      "day": 3,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Akihabara district",
-          "description": "Explore the electronics and anime hub."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Lunch at a themed cafe",
-          "description": "Enjoy a unique dining experience."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Visit the Robot Restaurant",
-          "description": "Witness a dazzling show of robots and performers."
-        }
-      ]
-    },
-    {
-      "day": 4,
-      "activities": [
-        {
-          "time": "10:00 AM",
-          "activity": "Take a day trip to Hakone",
-          "description": "Enjoy the natural beauty of hot springs and Mount Fuji views."
-        },
-        {
-          "time": "1:00 PM",
-          "activity": "Lunch at a local restaurant",
-          "description": "Sample Hakone specialties."
-        },
-        {
-          "time": "3:00 PM",
-          "activity": "Cruise on Lake Ashi",
-          "description": "Enjoy scenic views of the surrounding mountains."
-        }
-      ]
-    },
-    {
-      "day": 5,
-      "activities": [
-        {
-          "time": "9:00 AM",
-          "activity": "Visit the Tokyo Skytree",
-          "description": "Enjoy panoramic views of the city."
-        },
-        {
-          "time": "12:00 PM",
-          "activity": "Lunch at a restaurant with a view",
-          "description": "Savor your last meal in Tokyo with stunning cityscapes."
-        },
-        {
-          "time": "2:00 PM",
-          "activity": "Shopping at Ginza",
-          "description": "Browse luxury boutiques and department stores."
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Analyze Sentiment of Customer Reviews
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "analyze": [
-    {
-      "review": "The product exceeded my expectations. Great value for money!",
-      "sentiment": "positive",
-      "score": 0.9
-    },
-    {
-      "review": "Disappointed with the quality. Wouldn't recommend.",
-      "sentiment": "negative",
-      "score": 0.2
-    },
-    {
-      "review": "Average product, nothing special but does the job.",
-      "sentiment": "neutral",
-      "score": 0.5
-    },
-    {
-      "review": "Absolutely love it! Will buy again.",
-      "sentiment": "positive",
-      "score": 0.8
-    },
-    {
-      "review": "mf didnt show up",
-      "sentiment": "negative",
-      "score": 0.1
-    }
-  ]
-}
-```
-
-### Generate Short Story
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "title": "The Signal",
-  "story": "Static crackled on the receiver. Then, a voice, melodic and strange. 'Greetings,' it said. 'We come in peace.'  Dr. Anya Petrova, head of the SETI program, stared at the screen, heart pounding. After decades of searching, they'd finally found them.  'We are the Xylos,' the voice continued. 'We have been observing your planet.' Anya took a deep breath. 'We welcome you,' she replied, her voice trembling slightly. This was it. First contact.",
-  "wordCount": 100
-}
-```
-
-### Create Workout Plan
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "weeklyPlan": [
-    {
-      "day": 1,
-      "focus": "Chest and Triceps",
-      "exercises": [
-        {
-          "name": "Dumbbell Bench Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Incline Dumbbell Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Dumbbell Flyes",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Close-Grip Barbell Bench Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Overhead Triceps Extension",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        }
-      ]
-    },
-    {
-      "day": 2,
-      "focus": "Back and Biceps",
-      "exercises": [
-        {
-          "name": "Pull-Ups",
-          "sets": 3,
-          "reps": "As many as possible",
-          "rest": "90 seconds"
-        },
-        {
-          "name": "Barbell Rows",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Dumbbell Bicep Curls",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Hammer Curls",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        }
-      ]
-    },
-    {
-      "day": 3,
-      "focus": "Legs and Shoulders",
-      "exercises": [
-        {
-          "name": "Barbell Squats",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Leg Press",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Dumbbell Shoulder Press",
-          "sets": 3,
-          "reps": "8-10",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Lateral Raises",
-          "sets": 3,
-          "reps": "10-12",
-          "rest": "60 seconds"
-        }
-      ]
-    },
-    {
-      "day": 4,
-      "focus": "Core and Cardio",
-      "exercises": [
-        {
-          "name": "Plank",
-          "sets": 3,
-          "reps": "30-60 seconds",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Crunches",
-          "sets": 3,
-          "reps": "15-20",
-          "rest": "60 seconds"
-        },
-        {
-          "name": "Cardio (Running, Cycling, etc.)",
-          "sets": 1,
-          "reps": "30 minutes",
-          "rest": "None"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Summarize Long Text
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  "wordCount": 28
-}
-```
-
-### Generate Complex Product Catalog
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "catalog": [
-    {
-      "category": "Electronics",
-      "products": [
-        {
-          "id": "prod_1",
-          "name": "Smartphone X",
-          "price": 899.99,
-          "description": "High-performance smartphone with a stunning display and advanced camera system.",
-          "specifications": {
-            "screenSize": "6.7 inches",
-            "RAM": "12GB",
-            "storage": "256GB",
-            "camera": "50MP triple lens"
-          },
-          "inStock": true,
-          "tags": [
-            "smartphone",
-            "android",
-            "flagship"
-          ],
-          "reviews": [
-            {
-              "userId": "user_123",
-              "rating": 5,
-              "comment": "Amazing phone! Fast, beautiful, and takes great pictures.",
-              "helpful": 10,
-              "date": "2024-07-05T11:49:38.963Z"
-            },
-            {
-              "userId": "user_456",
-              "rating": 4,
-              "comment": "Good overall performance, but the battery life could be better.",
-              "helpful": 5,
-              "date": "2024-07-05T11:49:38.963Z"
-            }
-          ],
-          "relatedProducts": [
-            "prod_2",
-            "prod_3"
-          ]
-        },
-        {
-          "id": "prod_2",
-          "name": "Wireless Headphones",
-          "price": 199.99,
-          "description": "High-quality wireless headphones with noise cancellation and long battery life.",
-          "specifications": {
-            "BluetoothVersion": "5.0",
-            "batteryLife": "30 hours",
-            "soundQuality": "Excellent"
-          },
-          "inStock": true,
-          "tags": [
-            "headphones",
-            "wireless",
-            "noise cancellation"
-          ],
-          "reviews": [
-            {
-              "userId": "user_789",
-              "rating": 5,
-              "comment": "These headphones are amazing! The sound quality is incredible and the noise cancellation works perfectly.",
-              "helpful": 15,
-              "date": "2024-07-05T11:49:38.963Z"
-            }
-          ],
-          "relatedProducts": [
-            "prod_1",
-            "prod_4"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Home & Garden",
-      "products": [
-        {
-          "id": "prod_3",
-          "name": "Smart Garden",
-          "price": 249.99,
-          "description": "Automated indoor garden that grows fresh herbs and vegetables year-round.",
-          "specifications": {
-            "size": "24 inches x 12 inches",
-            "lighting": "LED grow lights",
-            "waterSystem": "Automatic watering"
-          },
-          "inStock": true,
-          "tags": [
-            "smart garden",
-            "indoor gardening",
-            "organic"
-          ],
-          "reviews": [
-            {
-              "userId": "user_101",
-              "rating": 4,
-              "comment": "Great for growing fresh herbs! Easy to use and maintain.",
-              "helpful": 8,
-              "date": "2024-07-05T11:49:38.963Z"
-            }
-          ],
-          "relatedProducts": [
-            "prod_5"
-          ]
-        },
-        {
-          "id": "prod_4",
-          "name": "Robot Vacuum",
-          "price": 399.99,
-          "description": "Smart robot vacuum cleaner that automatically navigates and cleans your floors.",
-          "specifications": {
-            "suctionPower": "2000 Pa",
-            "batteryLife": "60 minutes",
-            "mapping": "Smart mapping technology"
-          },
-          "inStock": true,
-          "tags": [
-            "robot vacuum",
-            "smart home",
-            "cleaning"
-          ],
-          "reviews": [
-            {
-              "userId": "user_202",
-              "rating": 5,
-              "comment": "This robot vacuum is a lifesaver! It cleans my floors perfectly and saves me so much time.",
-              "helpful": 12,
-              "date": "2024-07-05T11:49:38.963Z"
-            }
-          ],
-          "relatedProducts": [
-            "prod_2"
-          ]
-        }
-      ]
-    },
-    {
-      "category": "Sports",
-      "products": [
-        {
-          "id": "prod_5",
-          "name": "Running Shoes",
-          "price": 129.99,
-          "description": "Lightweight and breathable running shoes designed for comfort and performance.",
-          "specifications": {
-            "material": "Mesh and synthetic",
-            "cushioning": "EVA foam",
-            "support": "Arch support"
-          },
-          "inStock": true,
-          "tags": [
-            "running shoes",
-            "athletic",
-            "sneakers"
-          ],
-          "reviews": [
-            {
-              "userId": "user_303",
-              "rating": 4,
-              "comment": "These shoes are comfortable for long runs. The cushioning is great.",
-              "helpful": 6,
-              "date": "2024-07-05T11:49:38.963Z"
-            }
-          ],
-          "relatedProducts": [
-            "prod_3"
-          ]
-        },
-        {
-          "id": "prod_6",
-          "name": "Yoga Mat",
-          "price": 29.99,
-          "description": "Durable and non-slip yoga mat for comfortable practice.",
-          "specifications": {
-            "thickness": "6mm",
-            "material": "PVC",
-            "texture": "Textured surface"
-          },
-          "inStock": true,
-          "tags": [
-            "yoga mat",
-            "fitness",
-            "exercise"
-          ],
-          "reviews": [
-            {
-              "userId": "user_404",
-              "rating": 5,
-              "comment": "This yoga mat is perfect for my home practice. It's thick enough for cushioning and provides good grip.",
-              "helpful": 9,
-              "date": "2024-07-05T11:49:38.963Z"
-            }
-          ],
-          "relatedProducts": []
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Generate Advanced Chess Game Analysis
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "gameInfo": {
-    "event": "Online Tournament",
-    "site": "Chess.com",
-    "date": "2024-07-05",
-    "round": "1",
-    "white": "John Doe",
-    "black": "Jane Smith",
-    "result": "1-0"
-  },
-  "moves": [
-    {
-      "moveNumber": 1,
-      "white": {
-        "san": "e4",
-        "uci": "e2e4",
-        "comment": "King's Pawn Opening",
-        "nag": [],
-        "evaluation": 0,
-        "bestMove": "e4"
-      },
-      "black": {
-        "san": "e5",
-        "uci": "e7e5",
-        "comment": "Symmetrical Response",
-        "nag": [],
-        "evaluation": 0,
-        "bestMove": "e5"
-      }
-    },
-    {
-      "moveNumber": 2,
-      "white": {
-        "san": "Nf3",
-        "uci": "g1f3",
-        "comment": "Developing the Knight",
-        "nag": [],
-        "evaluation": 0.1,
-        "bestMove": "Nf3"
-      },
-      "black": {
-        "san": "Nc6",
-        "uci": "g8f6",
-        "comment": "Developing the Knight",
-        "nag": [],
-        "evaluation": -0.1,
-        "bestMove": "Nc6"
-      }
-    },
-    {
-      "moveNumber": 3,
-      "white": {
-        "san": "Bb5",
-        "uci": "d1c4",
-        "comment": "Attacking the Weak f7 Pawn",
-        "nag": [],
-        "evaluation": 0.2,
-        "bestMove": "Bb5"
-      },
-      "black": {
-        "san": "a6",
-        "uci": "a7a6",
-        "comment": "Protecting the f7 Pawn",
-        "nag": [],
-        "evaluation": -0.2,
-        "bestMove": "a6"
-      }
-    },
-    {
-      "moveNumber": 4,
-      "white": {
-        "san": "Ba4",
-        "uci": "c1a4",
-        "comment": "Further Pressure on Black's Kingside",
-        "nag": [],
-        "evaluation": 0.3,
-        "bestMove": "Ba4"
-      },
-      "black": {
-        "san": "Nf6",
-        "uci": "g8f6",
-        "comment": "Developing the Knight",
-        "nag": [],
-        "evaluation": -0.3,
-        "bestMove": "Nf6"
-      }
-    },
-    {
-      "moveNumber": 5,
-      "white": {
-        "san": "O-O",
-        "uci": "e1g1",
-        "comment": "Castling Kingside",
-        "nag": [],
-        "evaluation": 0.4,
-        "bestMove": "O-O"
-      },
-      "black": {
-        "san": "Be7",
-        "uci": "g8f6",
-        "comment": "Developing the Bishop",
-        "nag": [],
-        "evaluation": -0.4,
-        "bestMove": "Be7"
-      }
-    },
-    {
-      "moveNumber": 6,
-      "white": {
-        "san": "Re1",
-        "uci": "a1e1",
-        "comment": "Developing the Rook",
-        "nag": [],
-        "evaluation": 0.5,
-        "bestMove": "Re1"
-      },
-      "black": {
-        "san": "b5",
-        "uci": "b7b5",
-        "comment": "Challenging White's Center",
-        "nag": [],
-        "evaluation": -0.5,
-        "bestMove": "b5"
-      }
-    },
-    {
-      "moveNumber": 7,
-      "white": {
-        "san": "Bb3",
-        "uci": "c1b3",
-        "comment": "Protecting the d4 Square",
-        "nag": [],
-        "evaluation": 0.6,
-        "bestMove": "Bb3"
-      },
-      "black": {
-        "san": "d6",
-        "uci": "d7d6",
-        "comment": "Strengthening the Center",
-        "nag": [],
-        "evaluation": -0.6,
-        "bestMove": "d6"
-      }
-    },
-    {
-      "moveNumber": 8,
-      "white": {
-        "san": "c3",
-        "uci": "a2c3",
-        "comment": "Developing the Pawn",
-        "nag": [],
-        "evaluation": 0.7,
-        "bestMove": "c3"
-      },
-      "black": {
-        "san": "O-O",
-        "uci": "e8g8",
-        "comment": "Castling Kingside",
-        "nag": [],
-        "evaluation": -0.7,
-        "bestMove": "O-O"
-      }
-    },
-    {
-      "moveNumber": 9,
-      "white": {
-        "san": "h3",
-        "uci": "h1h3",
-        "comment": "Protecting the Kingside",
-        "nag": [],
-        "evaluation": 0.8,
-        "bestMove": "h3"
-      },
-      "black": {
-        "san": "Nb8",
-        "uci": "f8b8",
-        "comment": "Developing the Knight",
-        "nag": [],
-        "evaluation": -0.8,
-        "bestMove": "Nb8"
-      }
-    },
-    {
-      "moveNumber": 10,
-      "white": {
-        "san": "d4",
-        "uci": "d2d4",
-        "comment": "Attacking the Center",
-        "nag": [],
-        "evaluation": 0.9,
-        "bestMove": "d4"
-      },
-      "black": {
-        "san": "Nbd7",
-        "uci": "b8d7",
-        "comment": "Developing the Knight",
-        "nag": [],
-        "evaluation": -0.9,
-        "bestMove": "Nbd7"
-      }
-    }
-  ],
-  "analysis": {
-    "openingName": "Italian Game",
-    "openingEco": "C41",
-    "middlegameAnalysis": "White has a slight advantage due to their control of the center and development. Black needs to find a way to equalize the position.",
-    "endgameAnalysis": "The endgame is not yet reached. ",
-    "keyPositions": [
-      {
-        "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
-        "evaluation": 0,
-        "bestMove": "e4",
-        "comment": "Starting position"
-      }
-    ],
-    "tacticalMotifs": [],
-    "strategicThemes": [
-      "Center Control",
-      "Development",
-      "King Safety"
-    ],
-    "blunders": []
-  },
-  "engineAnalysis": {
-    "engineName": "Stockfish",
-    "depth": 20,
-    "totalPositionsEvaluated": 1234567,
-    "averageDepth": 15.2,
-    "timeSpent": 12.34,
-    "nodesPerSecond": 12345
-  }
-}
-```
-
-### Analyze Stock Market Data
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "stockAnalysis": {
-    "symbol": "AAPL",
-    "currentPrice": 193.6,
-    "yearlyPerformance": 0.35,
-    "volatility": 0.12,
-    "beta": 1.1,
-    "movingAverages": {
-      "SMA": 185.2,
-      "EMA": 187.5
-    },
-    "technicalIndicators": {
-      "RSI": 62.8,
-      "MACD": {
-        "value": 1.5,
-        "signal": 1.2,
-        "histogram": 0.3
-      }
-    }
-  },
-  "marketComparison": {
-    "correlationWithSP500": 0.85,
-    "correlationWithNASDAQ": 0.92,
-    "relativeStrength": 1.15
-  },
-  "fundamentalAnalysis": {
-    "peRatio": 28.5,
-    "pbRatio": 4.2,
-    "dividendYield": 0.05,
-    "earningsGrowth": 0.18
-  },
-  "economicImpact": {
-    "interestRateSensitivity": 0.7,
-    "inflationImpact": -0.2
-  },
-  "prediction": {
-    "nextQuarterEstimate": 205.1,
-    "confidenceInterval": [
-      198.7,
-      211.5
-    ],
-    "potentialRisks": [
-      "Rising interest rates",
-      "Increased competition"
-    ],
-    "potentialOpportunities": [
-      "Strong product pipeline",
-      "Growing international market"
-    ]
-  }
-}
-```
-
-### Analyze Social Media Campaign
-
-Status: ✅ Success
-
-#### Response:
-
-```json
-{
-  "overallPerformance": {
-    "totalReach": 235000,
-    "totalEngagement": 6750,
-    "engagementRate": 0.0286,
-    "clickThroughRate": 0.069,
-    "conversionRate": 0.03,
-    "ROI": 2
-  },
-  "platformBreakdown": [
-    {
-      "platform": "Facebook",
-      "reach": 170000,
-      "engagement": 4250,
-      "engagementRate": 0.025,
-      "clicks": 6500,
-      "CTR": 0.038
-    },
-    {
-      "platform": "Instagram",
-      "reach": 75000,
-      "engagement": 3500,
-      "engagementRate": 0.046,
-      "clicks": 3500,
-      "CTR": 0.046
-    },
-    {
-      "platform": "Twitter",
-      "reach": 30000,
-      "engagement": 750,
-      "engagementRate": 0.025,
-      "clicks": 1500,
-      "CTR": 0.05
-    }
-  ],
-  "contentAnalysis": {
-    "topPerformingPost": {
-      "platform": "Instagram",
-      "content": "Summer vibes with our new collection!",
-      "engagement": 3500
-    },
-    "contentSentiment": {
-      "positive": 0.7,
-      "neutral": 0.2,
-      "negative": 0.1
-    }
-  },
-  "audienceInsights": {
-    "mostEngagedAgeGroup": "25-34",
-    "topInterests": [
-      "Fashion",
-      "Travel",
-      "Technology"
-    ],
-    "peakEngagementTimes": [
-      "10am-12pm",
-      "7pm-9pm"
-    ]
-  },
-  "recommendations": [
-    {
-      "category": "Content",
-      "suggestion": "Create more visually appealing content for Instagram.",
-      "expectedImpact": "Increase engagement and reach"
-    },
-    {
-      "category": "Targeting",
-      "suggestion": "Refine target audience based on interests and demographics.",
-      "expectedImpact": "Improve campaign ROI"
-    },
-    {
-      "category": "Budget",
-      "suggestion": "Allocate more budget to high-performing platforms like Instagram.",
-      "expectedImpact": "Drive further growth in reach and engagement"
+      "suggestion": "Experiment with TikTok for younger audience reach",
+      "expectedImpact": "Expand reach by 25% in 18-24 age group"
     }
   ]
 }
