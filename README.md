@@ -24,10 +24,9 @@
 
 AI Function Helper is a powerful Node.js module that simplifies the integration of OpenAI's GPT models into your applications. It provides a structured way to interact with AI models, ensuring consistent and formatted responses.
 
-### Key Features
-
 
 ### Key Features
+
 - 🚀 Easy integration with OpenAI API
 - 📊 Structured input and output using JSON schemas
 - 🔄 Support for various AI models (GPT-3.5, GPT-4, etc.)
