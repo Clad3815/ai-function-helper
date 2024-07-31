@@ -8,11 +8,12 @@ const math = require('mathjs');
 const fs = require('fs');
 // List of models to test
 // const models = ['claude-3-haiku-20240307', 'gpt-3.5-turbo', 'gpt-4o', 'claude-3-5-sonnet-20240620', 'gemini-1.5-flash', 'gemini-1.5-pro', 'llama3', 'gemma2'];
-const models = ['gpt-3.5-turbo', 'gpt-4o'];
+const models = ['gpt-3.5-turbo', 'gpt-4o', 'gpt-4o-mini'];
 
 const globalOptions = {
     // showDebug: true,
     // debugLevel: 2,
+    includeThinking: true,
     temperature: 0,
     max_tokens: 4000
 };
@@ -27,9 +28,8 @@ const testCases = [
             args: {
                 expression: '15*87 + ( 129/ (48*0.5) ) +12'
             },
-            description: 'Calculate a complex mathematical expression. Include your chain of thought in the response to explain how you arrived at the result.',
+            description: 'Calculate a complex mathematical expression.',
             funcReturn: z.object({
-                chain_of_thought: z.string().describe('The chain of thought used to calculate the result. Explain step by step, operation by operation (Never more than 2 numbers together) with their result at each step to improve your answer. Put it in a nice markdown format point by point'),
                 result: z.number().describe('The result of the calculation.')
             })
         },
