@@ -18,13 +18,14 @@ const jsonModeModels = new Set([
 
 const defaultConfig = {
 	functionName: '',
-	model: 'gpt-4o-mini',
+	model: 'gpt-3.5-turbo',
 	description: '',
 	showDebug: false,
 	debugLevel: 0,
 	temperature: 0.7,
 	frequency_penalty: 0,
 	presence_penalty: 0,
+	largeModel: null,
 	top_p: null,
 	max_tokens: 1000,
 	strictReturn: true,
@@ -92,7 +93,18 @@ ${includeThinking ? `
 Your response should be structured as follows:
 1. Thinking process: Enclosed in <|start_of_thinking|> and <|end_of_thinking|> tags (Always before the output)
 2. Output: Enclosed in <|start_of_text_output|> and <|end_of_text_output|> tags
-IMPORTANT: Don't include the output inside the thinking tags, they should be separate. Only explanation should be inside the thinking tags.
+IMPORTANT: 
+- Don't include the output inside the thinking tags, they should be separate. Only explanation should be inside the thinking tags.
+- Don't include the markdown format like \`\`\`json etc ... in your response. Always use this following format:
+
+
+<|start_of_thinking|>
+[Your thinking process here]
+<|end_of_thinking|>
+<|start_of_text_output|>
+[Your text answer output here]
+<|end_of_text_output|>
+
 ` : ''}
 Do not include any JSON formatting or XML tags in your response unless explicitly asked from the user.
 </format>
@@ -117,7 +129,18 @@ ${includeThinking ? `
 Your response should be structured as follows:
 1. Thinking process: Enclosed in <|start_of_thinking|> and <|end_of_thinking|> tags (Always before the output)
 2. JSON output: As specified above, respecting the schema and constraints.
-IMPORTANT: Don't include the output inside the thinking tags, they should be separate. Only explanation should be inside the thinking tags.
+IMPORTANT: 
+- Don't include the output inside the thinking tags, they should be separate. Only explanation should be inside the thinking tags.
+- Don't include the markdown format like \`\`\`json etc ... in your response. Always use this following format:
+
+<|start_of_thinking|>
+[Your thinking process here]
+<|end_of_thinking|>
+<|start_of_json_output|>
+[Your JSON output here]
+<|end_of_json_output|>
+
+
 ` : ''}
 The schema (JsonSchema) below defines the structure and constraints for the JSON object, that's not the output format.
 Pay attention to the schema, for example a number should be a number, a string should be a string, etc. Don't put a string where a number should be as it's not valid.
@@ -341,6 +364,12 @@ function generateMessages(history, argsString, options) {
 	lastMessages = [argumentMessage];
 	messages.push(argumentMessage);
 
+	// if (!jsonMode && funcReturn && (!tools || tools.length === 0)) {
+	// 	messages.push({
+	// 		role: "assistant",
+	// 		content: "<|start_of_json_output|>"
+	// 	});
+	// }
 	return messages;
 }
 
@@ -388,6 +417,7 @@ function displayDebugInfo(config, messages, argsString) {
 async function getDataFromAPI(config, messages, zodSchema) {
 	const {
 		model,
+		largeModel,
 		showDebug,
 		debugLevel,
 		strictReturn,
@@ -407,7 +437,14 @@ async function getDataFromAPI(config, messages, zodSchema) {
 	try {
 		gptResponse = await callAPI(chatOptions, config);
 	} catch (error) {
-		throw error;
+		if (error.code === 'context_length_exceeded' && largeModel) {
+			if (showDebug) console.log(chalk.yellow("Context length exceeded, switching to the larger model"));
+			usedModel = largeModel;
+			chatOptions.model = largeModel;
+			gptResponse = await callAPI(chatOptions, config);
+		} else {
+			throw error;
+		}
 	}
 
 	let answer = await processResponse(gptResponse, stream, streamCallback, tools);
@@ -481,6 +518,7 @@ function generateChatOptions(config, messages) {
 		max_tokens: max_tokens,
 		top_p: top_p || undefined,
 		response_format: (jsonMode && realOutputSchema) ? { type: "json_object" } : undefined,
+		// stop: (!jsonMode && realOutputSchema) ? ["<|end_of_json_output|>"] : undefined,
 		tools: tools.length > 0 ? tools.map(tool => ({
 			type: "function",
 			function: {
@@ -564,6 +602,8 @@ function checkAndFixJson(json) {
 	if (jsonContent) {
 		return tryParse(jsonContent) ? jsonContent : jsonrepair(jsonContent);
 	}
+
+	// Si le JSON n'est pas enveloppé dans les balises, nous devons faire un traitement supplémentaire
 	json = json.trim();
 
 	const delimiters = [
