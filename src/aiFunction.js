@@ -4,6 +4,7 @@ const { jsonrepair } = require('jsonrepair');
 const { jsonSchemaToZod } = require("json-schema-to-zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
 const { z } = require('zod');
+const { zodResponseFormat } = require("openai/helpers/zod");
 
 let openai;
 let lastMessages = [];
@@ -16,33 +17,41 @@ const jsonModeModels = new Set([
 	"gpt-4o-mini", "gpt-4o-mini-2024-07-18"
 ]);
 
+const structuredOutputModels = new Set([
+    "gpt-4o-mini", "gpt-4o-2024-08-06", "gpt-4o"
+]);
+
+
 const defaultConfig = {
 	functionName: '',
-	model: 'gpt-3.5-turbo',
+	model: 'gpt-4o-mini',
 	description: '',
 	showDebug: false,
 	debugLevel: 0,
 	temperature: 0.7,
 	frequency_penalty: 0,
 	presence_penalty: 0,
-	largeModel: null,
 	top_p: null,
-	max_tokens: 1000,
+	max_tokens: null,
 	strictReturn: true,
 	timeout: 120 * 1000,
 	maxRetries: 0,
 	tools: [],
 	stream: false,
 	streamCallback: null,
+	thinkingCallback: null,
 	blockHijack: false,
 	blockHijackThrowError: false,
 	promptVars: {},
-	imagePrompt: null,
+	images: null,
 	imageQuality: 'low',
 	minifyJSON: false,
 	history: [],
 	forceJsonMode: false,
 	includeThinking: false,
+	prefill: true,
+	isTextOutput: false,
+	outputSchema: null,
 };
 
 
@@ -52,15 +61,14 @@ class PromptBuilder {
 	}
 
 	buildSystemPrompt() {
-		return `
-		<current_time>${new Date().toISOString()}</current_time>
-		${this.buildRoleDefinition()}
-		${this.buildFunctionDescription()}
-		${this.buildOutputInstructions()}
-		${this.buildResponseGuidelines()}
-		${this.buildErrorHandling()}
-		${this.buildBlockHijackString()}
-		${this.buildFinalVerification()}
+		return `<current_time>${new Date().toISOString()}</current_time>
+${this.buildRoleDefinition()}
+${this.buildFunctionDescription()}
+${this.buildOutputInstructions()}
+${this.buildResponseGuidelines()}
+${this.buildErrorHandling()}
+${this.buildBlockHijackString()}
+${this.buildFinalVerification()}
 	  `;
 	}
 
@@ -82,7 +90,7 @@ ${this.config.updatedDescription}
 	}
 
 	buildOutputInstructions() {
-		const { jsonMode, funcReturn, jsonOutput, minifyJSON, includeThinking, isTextOutput } = this.config;
+		const { jsonMode, outputSchema, jsonOutput, minifyJSON, includeThinking, isTextOutput } = this.config;
 
 		if (isTextOutput) {
 			return `
@@ -142,12 +150,14 @@ IMPORTANT:
 
 
 ` : ''}
+${(this.config.isStructuredOutputModel && !includeThinking) ? '' : `
 The schema (JsonSchema) below defines the structure and constraints for the JSON object, that's not the output format.
 Pay attention to the schema, for example a number should be a number, a string should be a string, etc. Don't put a string where a number should be as it's not valid.
 </format>
 <schema>
 ${jsonOutput}
 </schema>
+
 <important_notes>
 - Adhere strictly to the structure, types, and constraints defined in the schema.
 - Do not add extra properties not specified in the schema.
@@ -156,6 +166,7 @@ ${jsonOutput}
 ${minifyJSON ? "- Return minified JSON, not pretty-printed." : ""}
 - Your response should be the complete JSON object as specified in the schema, not wrapped in any additional structure.
 </important_notes>
+	`}
 </output_instructions>
 		`;
 		}
@@ -262,7 +273,6 @@ Before submitting your response, perform a final check to ensure:
 	}
 }
 
-
 function createAiFunctionInstance(apiKey, basePath = null) {
 	if (!apiKey) throw new Error("You must provide an OpenAI API key or an OpenAI instance");
 
@@ -288,16 +298,25 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			forceJsonMode,
 			includeThinking
 		} = config;
-		const realOutputSchema = config.outputSchema || config.funcReturn;
-		const realImagePrompt = config.images || config.imagePrompt;
+		const outputSchema = config.outputSchema;
+
+		// Throw an error if config.funcReturn is defined (Deprecated for config.outputSchema)
+		if (config.funcReturn) {
+			throw new Error("The 'funcReturn' option is deprecated. Please use 'outputSchema' instead.");
+		}
+
+		if (config.imagePrompt) {
+			throw new Error("The 'imagePrompt' option is deprecated. Please use 'images' instead.");
+		}
 
 		const argsString = typeof args === "string" ? args : JSON.stringify(args, null, 2);
-		const zodSchema = realOutputSchema ? generateZodSchema(realOutputSchema) : null;
+		const zodSchema = outputSchema ? generateZodSchema(outputSchema) : null;
 		const jsonSchema = zodSchema ? zodToJsonSchema(zodSchema) : null;
 		const jsonOutput = jsonSchema ? JSON.stringify(jsonSchema, null, 2) : null;
 		const updatedDescription = replaceDescriptionPlaceholders(description, promptVars);
 		const jsonMode = (modelHasJsonMode(model) || forceJsonMode) && !includeThinking;
-		const isTextOutput = !realOutputSchema;
+		const isStructuredOutputModel = structuredOutputModels.has(model);
+		const isTextOutput = !outputSchema;
 
 		const messages = generateMessages(history, argsString, {
 			current_date_time: new Date().toISOString(),
@@ -307,18 +326,37 @@ function createAiFunctionInstance(apiKey, basePath = null) {
 			jsonOutput,
 			blockHijack,
 			blockHijackThrowError,
-			imagePrompt: !!realImagePrompt,
-			funcReturn: !!realOutputSchema,
+			images: config.images,
+			outputSchema: config.outputSchema,
 			minifyJSON: config.minifyJSON,
 			imageQuality,
 			tools: config.tools,
 			includeThinking,
-			isTextOutput
+			isTextOutput,
+			prefill: config.prefill,
+			isStructuredOutputModel
 		});
 
 		if (config.showDebug) displayDebugInfo(config, messages, argsString);
 
-		return await getDataFromAPI(config, messages, zodSchema);
+		return await getDataFromAPI({
+			...config,
+			current_date_time: new Date().toISOString(),
+			functionName,
+			updatedDescription,
+			jsonMode,
+			jsonOutput,
+			blockHijack,
+			blockHijackThrowError,
+			images: config.images,
+			outputSchema: config.outputSchema,
+			minifyJSON: config.minifyJSON,
+			imageQuality,
+			tools: config.tools,
+			includeThinking,
+			isTextOutput,
+			prefill: config.prefill
+		}, messages, zodSchema);
 	};
 }
 
@@ -330,17 +368,18 @@ function replaceDescriptionPlaceholders(description, promptVars) {
 }
 
 function modelHasJsonMode(model) {
-	return jsonModeModels.has(model);
+	return jsonModeModels.has(model) || structuredOutputModels.has(model);
 }
 
 function generateMessages(history, argsString, options) {
 	const {
-		imagePrompt,
+		images,
 		imageQuality,
 	} = options;
 
     const promptBuilder = new PromptBuilder(options);
     const systemPrompt = promptBuilder.build();
+	// console.log(systemPrompt);
 	const systemMessage = {
 		role: "system",
 		content: systemPrompt
@@ -348,28 +387,36 @@ function generateMessages(history, argsString, options) {
 
 	const messages = [systemMessage, ...history];
 
-	const argumentMessage = imagePrompt ? {
+	const argumentMessage = images ? {
 		role: "user",
 		content: [
 			{ type: "text", text: argsString },
-			...(Array.isArray(imagePrompt)
-				? imagePrompt.map(image => ({ type: "image_url", image_url: { url: image, detail: imageQuality } }))
-				: [{ type: "image_url", image_url: { url: imagePrompt, detail: imageQuality } }])
+			...(Array.isArray(images)
+				? images.map(image => ({ type: "image_url", image_url: { url: image, detail: imageQuality } }))
+				: [{ type: "image_url", image_url: { url: images, detail: imageQuality } }])
 		]
 	} : {
 		role: "user",
 		content: argsString
 	};
-
 	lastMessages = [argumentMessage];
 	messages.push(argumentMessage);
 
-	// if (!jsonMode && funcReturn && (!tools || tools.length === 0)) {
-	// 	messages.push({
-	// 		role: "assistant",
-	// 		content: "<|start_of_json_output|>"
-	// 	});
-	// }
+	if(options.prefill) {
+		if (options.includeThinking) {
+			messages.push({
+				"role": "assistant",
+				"content": "<|start_of_thinking|>"
+			});
+		} else {
+			if (!options.jsonMode) {
+				messages.push({
+					"role": "assistant",
+					"content": options.outputSchema ? "<|start_of_json_output|>" : "<|start_of_text_output|>"
+				});
+			}
+		}
+	}
 	return messages;
 }
 
@@ -381,8 +428,9 @@ function displayDebugInfo(config, messages, argsString) {
 	console.log(chalk.blue(`Model: ${model}`));
 	console.log(chalk.blue(`Temperature: ${temperature}`));
 	console.log(chalk.blue(`Max Tokens: ${max_tokens}`));
-	console.log(chalk.blue(`Is Text Output: ${!config.outputSchema && !config.funcReturn}`));
+	console.log(chalk.blue(`Is Text Output: ${!config.outputSchema}`));
 	console.log(chalk.blue(`JSON Mode: ${(modelHasJsonMode(model) || config.forceJsonMode) && !config.includeThinking}`));
+	console.log(chalk.blue(`Structured Output Model: ${structuredOutputModels.has(model)}`));
 	console.log(chalk.blue(`Force JSON Mode: ${config.forceJsonMode}`));
 	console.log(chalk.blue(`Block Hijack: ${config.blockHijack}`));
 	console.log(chalk.blue(`Block Hijack Throw Error: ${config.blockHijackThrowError}`));
@@ -417,17 +465,18 @@ function displayDebugInfo(config, messages, argsString) {
 async function getDataFromAPI(config, messages, zodSchema) {
 	const {
 		model,
-		largeModel,
 		showDebug,
 		debugLevel,
 		strictReturn,
 		stream,
 		streamCallback,
 		tools,
-		includeThinking
+		includeThinking,
+		thinkingCallback
 	} = config;
-	const realOutputSchema = config.outputSchema || config.funcReturn;
-	const isTextOutput = !realOutputSchema;
+	const outputSchema = config.outputSchema;
+	const isTextOutput = !outputSchema;
+    const isStructuredOutputModel = structuredOutputModels.has(model);
 
 	const chatOptions = generateChatOptions(config, messages);
 
@@ -437,22 +486,29 @@ async function getDataFromAPI(config, messages, zodSchema) {
 	try {
 		gptResponse = await callAPI(chatOptions, config);
 	} catch (error) {
-		if (error.code === 'context_length_exceeded' && largeModel) {
-			if (showDebug) console.log(chalk.yellow("Context length exceeded, switching to the larger model"));
-			usedModel = largeModel;
-			chatOptions.model = largeModel;
-			gptResponse = await callAPI(chatOptions, config);
-		} else {
-			throw error;
-		}
+		throw error;
 	}
 
+
+	// console.log(JSON.stringify(gptResponse, null, 2));
 	let answer = await processResponse(gptResponse, stream, streamCallback, tools);
 
 	if (showDebug) {
 		displayApiResponse(answer, debugLevel);
 	}
+    if (isStructuredOutputModel && !isTextOutput && !includeThinking) {
+        return answer.choices[0].message.parsed;
+    }
 
+	if(config.prefill) {
+		if (config.includeThinking) {
+			answer.choices[0].message.content = "<|start_of_thinking|>" + answer.choices[0].message.content;
+		} else {
+			if (!config.jsonMode) {
+				answer.choices[0].message.content = config.outputSchema ? "<|start_of_json_output|>" + answer.choices[0].message.content : "<|start_of_text_output|>" + answer.choices[0].message.content;
+			}
+		}
+	}
 	lastMessages.push(answer);
 	answer = answer.choices[0].message;
 	messages.push(answer);
@@ -464,6 +520,7 @@ async function getDataFromAPI(config, messages, zodSchema) {
 		const extracted = extractThinkingAndOutput(answer.content);
 		thinking = extracted.thinking;
 		output = extracted.output;
+		if (thinkingCallback) thinkingCallback(thinking);
 
 		if (showDebug) {
 			console.log(chalk.magenta("\n--- Thinking Process ---"));
@@ -494,67 +551,77 @@ async function getDataFromAPI(config, messages, zodSchema) {
 }
 
 function generateChatOptions(config, messages) {
-	const {
-		model,
-		temperature,
-		frequency_penalty,
-		presence_penalty,
-		max_tokens,
-		top_p,
-		tools,
-		stream,
-		forceJsonMode
-	} = config;
+    const {
+        model,
+        temperature,
+        frequency_penalty,
+        presence_penalty,
+        max_tokens,
+        top_p,
+        tools,
+        stream,
+        forceJsonMode
+    } = config;
 
-	const realOutputSchema = config.outputSchema || config.funcReturn;
-	const jsonMode = (modelHasJsonMode(model) || forceJsonMode) && !config.includeThinking;
+    const outputSchema = config.outputSchema;
+    const jsonMode = (modelHasJsonMode(model) || forceJsonMode) && !config.includeThinking;
+    const useStructuredOutput = structuredOutputModels.has(model);
 
-	return {
-		model: model,
-		messages: messages,
-		temperature: temperature,
-		frequency_penalty: frequency_penalty > 0 ? frequency_penalty : undefined,
-		presence_penalty: presence_penalty > 0 ? presence_penalty : undefined,
-		max_tokens: max_tokens,
-		top_p: top_p || undefined,
-		response_format: (jsonMode && realOutputSchema) ? { type: "json_object" } : undefined,
-		// stop: (!jsonMode && realOutputSchema) ? ["<|end_of_json_output|>"] : undefined,
-		tools: tools.length > 0 ? tools.map(tool => ({
-			type: "function",
-			function: {
-				function: tool.function,
-				parse: JSON.parse,
-				name: tool.name,
-				description: tool.description,
-				parameters: tool.parameters
-			}
-		})) : undefined,
-		tool_choice: tools.length > 0 ? "auto" : undefined,
-		stream: stream
-	};
+    const options = {
+        model: model,
+        messages: messages,
+        temperature: temperature,
+        frequency_penalty: frequency_penalty > 0 ? frequency_penalty : undefined,
+        presence_penalty: presence_penalty > 0 ? presence_penalty : undefined,
+        max_tokens: max_tokens ? max_tokens : undefined,
+        top_p: top_p || undefined,
+        tools: tools.length > 0 ? tools.map(tool => ({
+            type: "function",
+            function: {
+                function: tool.function,
+                parse: JSON.parse,
+                name: tool.name,
+                description: tool.description,
+                parameters: tool.parameters
+            }
+        })) : undefined,
+        tool_choice: tools.length > 0 ? "auto" : undefined,
+        stream: stream
+    };
+
+    if (useStructuredOutput && jsonMode && outputSchema) {
+        options.response_format = zodResponseFormat(outputSchema, config.functionName || "custom_function");
+    } else if (jsonMode && outputSchema) {
+        options.response_format = { type: "json_object" };
+    }
+
+    return options;
 }
 
 async function callAPI(chatOptions, config) {
-	const { stream, tools, timeout, maxRetries } = config;
-	const apiOptions = { timeout: timeout, maxRetries: maxRetries };
+    const { stream, tools, timeout, maxRetries, model } = config;
+    const apiOptions = { timeout: timeout, maxRetries: maxRetries };
 
-	if (stream) {
-		return openai.beta.chat.completions.stream(chatOptions, apiOptions);
-	} else if (tools.length > 0) {
-		return openai.beta.chat.completions.runTools(chatOptions, apiOptions);
-	} else {
-		return openai.chat.completions.create(chatOptions, apiOptions);
-	}
+    if (stream) {
+        return openai.beta.chat.completions.stream(chatOptions, apiOptions);
+    } else if (tools.length > 0) {
+        return openai.beta.chat.completions.runTools(chatOptions, apiOptions);
+    } else if (structuredOutputModels.has(model)) {
+        return openai.beta.chat.completions.parse(chatOptions, apiOptions);
+    } else {
+        return openai.chat.completions.create(chatOptions, apiOptions);
+    }
 }
 
 async function processResponse(gptResponse, stream, streamCallback, tools) {
-	if (tools.length > 0) {
-		return await gptResponse.finalChatCompletion();
-	} else {
-		return stream ? await handleStreamResponse(gptResponse, streamCallback) : gptResponse;
-	}
+    if (tools.length > 0) {
+        return await gptResponse.finalChatCompletion();
+    } else if (stream) {
+        return await handleStreamResponse(gptResponse, streamCallback);
+    } else {
+        return gptResponse;
+    }
 }
-
 async function handleStreamResponse(gptResponse, streamCallback) {
 	const chunks = [];
 	for await (const chunk of gptResponse) {
@@ -602,21 +669,20 @@ function checkAndFixJson(json) {
 	if (jsonContent) {
 		return tryParse(jsonContent) ? jsonContent : jsonrepair(jsonContent);
 	}
-
-	// Si le JSON n'est pas enveloppé dans les balises, nous devons faire un traitement supplémentaire
 	json = json.trim();
 
 	const delimiters = [
 		{ start: "```json", end: "```" },
-		{ start: "<|start_of_json_output|>", end: "<|end_of_json_output|>" }
+		{ start: "<|start_of_json_output|>", end: "</|end_of_json_output|>" },
+		{ start: "<|start_of_json_output|>", end: "<|end_of_json_output|>" },
 	];
 
 	delimiters.forEach(({ start, end }) => {
-		if (json.startsWith(start)) {
+		if (start && json.startsWith(start)) {
 			json = json.slice(start.length);
-			if (end && json.endsWith(end)) {
-				json = json.slice(0, -end.length);
-			}
+		}
+		if (end && json.endsWith(end)) {
+			json = json.slice(0, -end.length);
 		}
 	});
 
@@ -651,9 +717,20 @@ function addJsonModeModels(models) {
 	}
 }
 
+function addStructuredOutputModels (models) {
+	if (Array.isArray(models)) {
+		models.forEach(model => structuredOutputModels.add(model));
+	} else if (typeof models === 'string') {
+		structuredOutputModels.add(models);
+	} else {
+		throw new Error('addStructuredOutputModels expects a string or an array of strings');
+	}
+}
+
 module.exports = {
 	createAiFunctionInstance,
 	getOpenAI: () => openai,
 	getLastMessages: () => lastMessages,
-	addJsonModeModels
+	addJsonModeModels,
+	addStructuredOutputModels
 };

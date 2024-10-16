@@ -1,6 +1,6 @@
 {
     "name": "ai-function-helper",
-    "version": "3.5.1",
+    "version": "3.5.2",
     "description": "A NodeJS utility to simplify interaction with OpenAI GPT models.",
     "main": "src/aiFunction.js",
     "scripts": {
@@ -19,9 +19,9 @@
     "dependencies": {
         "chalk": "^4.1.2",
         "dotenv": "^16.4.5",
-        "json-schema-to-zod": "^2.3.1",
+        "json-schema-to-zod": "^2.4.0",
         "jsonrepair": "^3.8.0",
-        "openai": "^4.53.2",
+        "openai": "^4.55.4",
         "sharp": "^0.33.4",
         "zod": "^3.23.8",
         "zod-to-json-schema": "^3.23.2"
